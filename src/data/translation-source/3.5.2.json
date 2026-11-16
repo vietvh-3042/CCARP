@@ -1,0 +1,459 @@
+{
+  "pageId": "3.5.2",
+  "title": "RAG query time: reranking, top-k and citable search results",
+  "titleVi": "Xử lý truy vấn RAG: xếp hạng lại, top-k và kết quả tìm kiếm có thể trích dẫn",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design a RAG pipeline with appropriate chunking and indexing strategies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Merge the BM25 and vector rankings into one candidate set, then rerank it down to a top-k"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose how many chunks to pass to Claude, and explain the latency and cost trade-off of reranking"
+    },
+    {
+      "id": "u0003",
+      "text": "Pass retrieved chunks as search_result blocks with citations enabled so answers can be traced to their sources"
+    },
+    {
+      "id": "u0004",
+      "text": "Place the cache breakpoint correctly when the same retrieved content goes into many requests"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Retrieve broadly, fuse, rerank and pass the top-k"
+    },
+    {
+      "id": "u0007",
+      "text": "Passing chunks to Claude as citable search results"
+    },
+    {
+      "id": "u0008",
+      "text": "Caching retrieved context that repeats across queries"
+    },
+    {
+      "id": "u0009",
+      "text": "Retrieve broadly, fuse, rerank and pass the top-k"
+    },
+    {
+      "id": "u0010",
+      "text": "At query time, the pipeline turns a user's question into a short, well-ordered list of chunks. Ingestion has already built a BM25 index and a vector index over chunks that each carry a short generated context; for why both indexes are needed, see "
+    },
+    {
+      "id": "u0011",
+      "text": "Semantic embeddings vs BM25, and hybrid search"
+    },
+    {
+      "id": "u0012",
+      "text": ". Each index returns its own ranking. BM25 ranks chunks by exact term matches, and the vector index ranks them by semantic similarity to the question, which is embedded with "
+    },
+    {
+      "id": "u0013",
+      "text": ". Rank fusion then merges the two lists and removes duplicates, leaving one set of candidates."
+    },
+    {
+      "id": "u0014",
+      "text": "Retrieve broadly, then rerank narrowly. In a large knowledge base, the first retrieval can return hundreds of chunks of mixed relevance. A reranking model takes the query and the candidate list, scores each chunk for relevance, and you keep only the top-k. Anthropic's tests sent 150 candidates in and kept 20, using the Cohere reranker. Voyage offers "
+    },
+    {
+      "id": "u0015",
+      "text": " for the highest accuracy and "
+    },
+    {
+      "id": "u0016",
+      "text": " when latency and cost matter more, both called with "
+    },
+    {
+      "id": "u0017",
+      "text": "Top-20 retrieval failure rate as each technique is added (average across knowledge domains)"
+    },
+    {
+      "id": "u0018",
+      "text": "Pipeline"
+    },
+    {
+      "id": "u0019",
+      "text": "Failure rate"
+    },
+    {
+      "id": "u0020",
+      "text": "Reduction vs. baseline"
+    },
+    {
+      "id": "u0021",
+      "text": "Standard embeddings"
+    },
+    {
+      "id": "u0022",
+      "text": "Contextual embeddings"
+    },
+    {
+      "id": "u0023",
+      "text": "Contextual embeddings + contextual BM25"
+    },
+    {
+      "id": "u0024",
+      "text": "Reranked contextual embeddings + contextual BM25"
+    },
+    {
+      "id": "u0025",
+      "text": "Reranking has a cost of its own. Claude gets fewer chunks, so generation is cheaper and faster, but the reranker adds a step to every request. It scores chunks in parallel, yet scoring more candidates still adds latency and cost. Choose the number of candidates against your latency budget: more candidates give better results, fewer give lower latency and cost."
+    },
+    {
+      "id": "u0026",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0027",
+      "text": "After reranking, the team tried passing Claude 5, 10 or 20 chunks. Which performed best?"
+    },
+    {
+      "id": "u0028",
+      "text": "10, as a balance between recall and distraction"
+    },
+    {
+      "id": "u0029",
+      "text": "20, the largest of the three"
+    },
+    {
+      "id": "u0030",
+      "text": "5, because extra chunks distract the model"
+    },
+    {
+      "id": "u0031",
+      "text": "Choosing k trades recall against distraction. More chunks make it more likely the answer is in the prompt, and more text also gives the model more to be distracted by. Twenty beat five and ten in Anthropic's tests, but that doesn't make 20 a constant. Measure it with Pass@k: for each test query, check whether its known relevant chunk appears in the first k results. On one codebase dataset, plain embeddings scored 81% at Pass@5 and 90% at Pass@20."
+    },
+    {
+      "id": "u0032",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0033",
+      "text": "Pass Claude as few chunks as possible, because every extra chunk only adds distraction."
+    },
+    {
+      "id": "u0034",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0039",
+      "text": "Checkpoint 1 of 5"
+    },
+    {
+      "id": "u0040",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0041",
+      "text": "A user's question arrives at a RAG pipeline that has a contextual BM25 index, a contextual vector index and a reranker. Put the query-time steps in order."
+    },
+    {
+      "id": "u0042",
+      "text": "Send the candidate chunks and the user's query to a reranking model, which scores each chunk for relevance"
+    },
+    {
+      "id": "u0043",
+      "text": "Merge the two rankings with rank fusion and remove duplicates to get one broad candidate set"
+    },
+    {
+      "id": "u0044",
+      "text": "Keep only the top-k highest-scoring chunks"
+    },
+    {
+      "id": "u0045",
+      "text": "Search both indexes: BM25 matches exact terms, and the vector index searches with the question embedded using input_type=\"query\""
+    },
+    {
+      "id": "u0046",
+      "text": "Add those top-k chunks to the prompt Claude uses to generate the answer"
+    },
+    {
+      "id": "u0047",
+      "text": "Check order"
+    },
+    {
+      "id": "u0048",
+      "text": "Checkpoint 2 of 5"
+    },
+    {
+      "id": "u0049",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0050",
+      "text": "A platform team is redesigning their RAG pipeline after an audit found a high rate of retrieval failures, where relevant chunks exist in the knowledge base but are not returned for matching queries. They can implement several changes before the next release. Which of the following changes are documented to measurably reduce retrieval failure rates? (Select all that apply.)"
+    },
+    {
+      "id": "u0051",
+      "text": "(Select "
+    },
+    {
+      "id": "u0052",
+      "text": "Prepend chunk-specific contextual summaries to chunks before generating their embeddings."
+    },
+    {
+      "id": "u0053",
+      "text": "Index the same contextualized chunk text lexically with BM25 alongside the embeddings."
+    },
+    {
+      "id": "u0054",
+      "text": "Add a reranking stage that rescores initial retrieval candidates before generation."
+    },
+    {
+      "id": "u0055",
+      "text": "Increase the generative model's sampling temperature during the final answer step."
+    },
+    {
+      "id": "u0056",
+      "text": "Store all embeddings using binary quantization to reduce vector index size."
+    },
+    {
+      "id": "u0057",
+      "text": "Disable overlap between adjacent chunks to speed up index building."
+    },
+    {
+      "id": "u0058",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0059",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0060",
+      "text": "Sources"
+    },
+    {
+      "id": "u0061",
+      "text": "Passing chunks to Claude as citable search results"
+    },
+    {
+      "id": "u0062",
+      "text": "Chunks pasted into the prompt as plain text lose the link to where they came from. Search result content blocks keep that link. Each retrieved chunk goes in as a "
+    },
+    {
+      "id": "u0063",
+      "text": " block with a source and a title. With citations enabled, Claude attributes its answer to those sources the same way it cites web search results. No special prompting is needed: the citations appear on the text blocks that draw on your content."
+    },
+    {
+      "id": "u0064",
+      "text": "The search_result block: source, title and content are required; citations is optional"
+    },
+    {
+      "id": "u0065",
+      "text": "json"
+    },
+    {
+      "id": "u0066",
+      "text": " accepts any stable string, such as a URL or an internal identifier like "
+    },
+    {
+      "id": "u0067",
+      "text": ", so point it at the chunk's document in your store. "
+    },
+    {
+      "id": "u0068",
+      "text": " is an array of text blocks only; images and other media aren't supported. Citations are off by default, so set "
+    },
+    {
+      "id": "u0069",
+      "text": " to true. Every search result in a request must use the same citations setting."
+    },
+    {
+      "id": "u0070",
+      "text": "There are two ways to deliver search results. In the first, a custom retrieval tool such as "
+    },
+    {
+      "id": "u0071",
+      "text": " returns "
+    },
+    {
+      "id": "u0072",
+      "text": " blocks inside its "
+    },
+    {
+      "id": "u0073",
+      "text": ". If retrieval must run on every request, force the call with "
+    },
+    {
+      "id": "u0074",
+      "text": ". In the second, you fetch the chunks yourself and put the search results directly in the user message. All active models support search results with citations except Claude Haiku 3."
+    },
+    {
+      "id": "u0075",
+      "text": "You also choose what text goes into each block. Responses may improve when Claude gets the contextualized chunk with the generated context clearly separated from the original chunk text. Run evals before settling on a format."
+    },
+    {
+      "id": "u0076",
+      "text": "An auditor asks which internal article a support answer came from. What in the pipeline makes that question answerable?"
+    },
+    {
+      "id": "u0077",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0078",
+      "text": "Sending chunks as search_result blocks is enough to make Claude cite them."
+    },
+    {
+      "id": "u0079",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0082",
+      "text": "Checkpoint 3 of 5"
+    },
+    {
+      "id": "u0083",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0084",
+      "text": "Your retrieval tool returns each chunk as a search_result block with a source of the form kb://article-1234 and a title. You leave out the optional citations field. Claude answers correctly, but no citations appear. What is the most likely cause?"
+    },
+    {
+      "id": "u0085",
+      "text": "Search results produce citations only when you put them in the user message, not when a tool returns them"
+    },
+    {
+      "id": "u0086",
+      "text": "The system prompt never tells Claude to cite its sources"
+    },
+    {
+      "id": "u0087",
+      "text": "Internal identifiers like kb://article-1234 can't be cited because source has to be a public URL"
+    },
+    {
+      "id": "u0088",
+      "text": "Citations are off by default, and none of the search results set citations.enabled to true"
+    },
+    {
+      "id": "u0089",
+      "text": "Sources"
+    },
+    {
+      "id": "u0090",
+      "text": "Caching retrieved context that repeats across queries"
+    },
+    {
+      "id": "u0091",
+      "text": "Some pipelines send the same retrieved content on every request. A support bot, for example, might add the same product documentation to the system prompt and then append each user's question. Prompt caching ("
+    },
+    {
+      "id": "u0092",
+      "text": "Prompt reuse and caching"
+    },
+    {
+      "id": "u0093",
+      "text": ") lets that repeated prefix be read from the cache instead of processed again, but only if the request is ordered and marked correctly."
+    },
+    {
+      "id": "u0094",
+      "text": "Put the static content first and mark where it ends. Cache prefixes are built in a fixed order: tools, then system, then messages. The documentation therefore comes before the question, and the "
+    },
+    {
+      "id": "u0095",
+      "text": " breakpoint goes on the last block of the documentation. The question that follows changes every time and stays outside the cached prefix. A breakpoint on the question would cache a prefix that no other request shares. A breakpoint on the first sentence of the system prompt would leave the documentation uncached."
+    },
+    {
+      "id": "u0096",
+      "text": "Requests don't need an identical final message to benefit. A single breakpoint at the end of the static content is enough, because the system finds the longest prefix that an earlier request already wrote to the cache. "
+    },
+    {
+      "id": "u0097",
+      "text": " blocks also accept "
+    },
+    {
+      "id": "u0098",
+      "text": ", so results passed in the messages can carry the breakpoint themselves."
+    },
+    {
+      "id": "u0099",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0100",
+      "text": "Caching can't help when every user asks a different question, because the final message is never the same."
+    },
+    {
+      "id": "u0101",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0105",
+      "text": "Checkpoint 4 of 5"
+    },
+    {
+      "id": "u0106",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0107",
+      "text": "A support bot sends the same five search_result blocks of product documentation in the user message on every request, followed by a text block with that user's question. The team wants those repeated blocks read from the cache. Where should the cache_control breakpoint go?"
+    },
+    {
+      "id": "u0108",
+      "text": "On the last search_result block, so the prefix ends with the static documentation and the question follows it"
+    },
+    {
+      "id": "u0109",
+      "text": "Nowhere: each user asks a different question, so the request never matches a cached prefix"
+    },
+    {
+      "id": "u0110",
+      "text": "On the question's text block, because the breakpoint has to be on the final block of the request"
+    },
+    {
+      "id": "u0111",
+      "text": "On the first sentence of the system prompt, so everything after it is cached"
+    },
+    {
+      "id": "u0112",
+      "text": "Checkpoint 5 of 5"
+    },
+    {
+      "id": "u0113",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0114",
+      "text": "A support-bot pipeline retrieves the same set of product documentation chunks for every user session and appends them to the system prompt, followed by whatever question the current user asks. The team wants to use prompt caching to cut latency and cost across the many queries that reuse this documentation. Where should they place the cache breakpoint?"
+    },
+    {
+      "id": "u0115",
+      "text": "On the last content block of the retrieved documentation, immediately before the user's question is added to the request."
+    },
+    {
+      "id": "u0116",
+      "text": "On the user's question itself, since that is the part of the request being sent most frequently."
+    },
+    {
+      "id": "u0117",
+      "text": "On the very first sentence of the system prompt only, leaving the retrieved documentation uncached."
+    },
+    {
+      "id": "u0118",
+      "text": "Nowhere, since caching only benefits requests that share an identical final message, and the questions here vary."
+    },
+    {
+      "id": "u0119",
+      "text": "Sources"
+    },
+    {
+      "id": "u0120",
+      "text": "Sources"
+    }
+  ]
+}

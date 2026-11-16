@@ -1,0 +1,14 @@
+{
+  "exam-trap-2": {
+    "en": "Server tools may perform several internal calls, making summed usage exceed the actual active context. Measure context through the token counting endpoint instead.",
+    "vi": "Công cụ phía máy chủ có thể tạo nhiều lần gọi nội bộ, khiến tổng sử dụng lớn hơn ngữ cảnh đang dùng thực tế. Hãy đo ngữ cảnh bằng điểm cuối đếm token."
+  },
+  "exam-trap-1": {
+    "en": "Removing thinking frees window space but breaks cache reuse from that position. Decide whether the recovered context is worth the resulting loss of cache hits.",
+    "vi": "Xóa phần tư duy giải phóng cửa sổ nhưng làm mất khả năng dùng lại bộ nhớ đệm từ vị trí đó. Cần cân nhắc phần ngữ cảnh thu hồi có đáng đổi lấy số lần trúng bộ nhớ đệm bị mất không."
+  },
+  "nudge-1": {
+    "en": "Increase clear_at_least when small clearing operations save too little against the cached prefix.",
+    "vi": "Tăng clear_at_least nếu mỗi lần dọn chỉ tiết kiệm được ít so với phần tiền tố đã lưu đệm."
+  }
+}

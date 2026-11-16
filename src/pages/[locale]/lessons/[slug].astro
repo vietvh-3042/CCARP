@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../../layouts/site-layout.astro";
+import CourseSidebar from "../../../components/course-sidebar.astro";
+import ReadingProgress from "../../../components/reading-progress.astro";
+import LessonPagination from "../../../components/lesson-pagination.astro";
+import CheckpointRuntime from "../../../components/checkpoint-runtime.astro";
+import { getLessonCheckpoints } from "../../../lib/lesson-checkpoints";
+import LessonHeader from "../../../components/lesson-header.astro";
+import { ui } from "../../../i18n";
+export async function getStaticPaths() {
+  return (await getCollection("lessons")).flatMap((lesson) => [
+    { params: { locale: lesson.data.locale, slug: lesson.data.sourceSlug }, props: { lesson } },
+    { params: { locale: lesson.data.locale, slug: lesson.data.lessonId }, props: { lesson } },
+  ]);
+}
+const { lesson } = Astro.props;
+const { locale, title, description, lessonId } = lesson.data;
+const t = ui[locale];
+const checkpoints = getLessonCheckpoints(lessonId);
+const { Content } = await render(lesson);
+const lessons = (await getCollection("lessons", (item) => item.data.locale === locale)).map((item) => ({
+  id: item.data.lessonId,
+  title: item.data.title,
+}));
+---
+
+<SiteLayout locale={locale} title={title} description={description} lessonId={lessonId}>
+  <div class="study-shell">
+    <CourseSidebar locale={locale} lessonId={lessonId} lessons={lessons} />
+    <main id="main" class="lesson-main">
+      <LessonHeader {...lesson.data} checkpointCount={checkpoints.questions.length} />
+      <span id="continue" class="sr-only" tabindex="-1"></span>
+      <article class="prose">
+        <Content />
+      </article>
+      <aside class="editor-note" aria-label={t.draft}>
+        <p>{t.note}</p>
+      </aside>
+      <ReadingProgress locale={locale} lessonId={lessonId} />
+      <CheckpointRuntime locale={locale} lessonId={lessonId} />
+      <LessonPagination locale={locale} lessonId={lessonId} />
+      <a class="back-link" href={`/${locale}/`}>
+        ← {t.back}
+      </a>
+    </main>
+  </div>
+</SiteLayout>

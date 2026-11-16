@@ -1,0 +1,10 @@
+---
+import pages from "../../../../data/course-pages.json";
+import { lessonUrl } from "../../../../lib/lesson-routes.mjs";
+import LessonRedirect from "../../../../components/lesson-redirect.astro";
+export function getStaticPaths() {
+  return pages.map((page) => ({ params: { slug: page.sourceSlug }, props: { id: page.lessonId } }));
+}
+---
+
+<LessonRedirect locale="en" destination={lessonUrl("en", Astro.props.id)} />

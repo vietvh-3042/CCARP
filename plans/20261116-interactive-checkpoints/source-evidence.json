@@ -1,0 +1,140 @@
+{
+  "guide": "https://www.certsafari.com/anthropic/claude-architect-professional/learn",
+  "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design",
+  "checkedAt": "2026-11-16T01:55:55.920Z",
+  "pageHash": "f6126f31e3718b01dd333ea414a4940b354aab807899920c9f5fa9ef35c68365",
+  "outlineCount": 53,
+  "outlineMismatches": [],
+  "checkpoints": [
+    {
+      "id": "checkpoint-1",
+      "sourceId": "e4a6a2912912",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 3,
+      "contentHash": "1d20dc039aca3583aae866a5f5461bde8244c453c9d62366ad22f47982c5a70f",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat"
+    },
+    {
+      "id": "checkpoint-2",
+      "sourceId": "49c28d645284",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 2,
+      "contentHash": "d0272ea617fbb8ed265745261cc45e5f55ff3da4ca60ae6ca6c3a34cf4a5b9b7",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/use-case-guides/ticket-routing"
+    },
+    {
+      "id": "checkpoint-3",
+      "sourceId": "fedcd9c7f719",
+      "type": "match",
+      "pairs": [1, 0, 2],
+      "contentHash": "a1598fe0be102a4b62b28bdb83be71aaa9140afcc59f369676df914c75a89cc8",
+      "sourceUrl": "https://www.anthropic.com/engineering/building-effective-agents"
+    },
+    {
+      "id": "checkpoint-4",
+      "sourceId": "c9620123aa5f",
+      "type": "match",
+      "pairs": [2, 0, 1],
+      "contentHash": "6249aa12e8d36d9b0a65cd6186c57cdf8a2aa46ace37da5dc9df9a86adcfc945",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/use-case-guides/overview"
+    },
+    {
+      "id": "checkpoint-5",
+      "sourceId": "a9fada22c500",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 1,
+      "contentHash": "53a9c485bdc6be853c0eb2b2cbb57c7022bc7e8069cc0988fec5d02947d19032",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/models/choosing-a-model"
+    },
+    {
+      "id": "checkpoint-6",
+      "sourceId": "56557",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 1,
+      "contentHash": "d29d2e2d58c70d539659855e48a41ca6d27a7300c8ad88c2a9146b4ed375947e",
+      "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design#checkpoint-question-56557"
+    },
+    {
+      "id": "checkpoint-7",
+      "sourceId": "56558",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 2,
+      "contentHash": "b3022ea2be383d0b65b94b76aa1417b3f76b48c5ecbf66feb485be037abe5b00",
+      "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design#checkpoint-question-56558"
+    },
+    {
+      "id": "checkpoint-8",
+      "sourceId": "56559",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 1,
+      "contentHash": "20b2bd6c8e6f1a3c28c8eb57f8a43b3cce19e8626ece22b41fceb421a3b9a689",
+      "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design#checkpoint-question-56559"
+    },
+    {
+      "id": "checkpoint-9",
+      "sourceId": "32270828a1a5",
+      "type": "choice",
+      "optionCount": 4,
+      "answerIndex": 2,
+      "contentHash": "a525482d32aa514715de353c4ba06fe16cedd2481132139ac52c88bb1dfc3c87",
+      "sourceUrl": "https://platform.claude.com/docs/en/about-claude/use-case-guides/ticket-routing"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat",
+      "title": "https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/use-case-guides/ticket-routing",
+      "title": "https://platform.claude.com/docs/en/about-claude/use-case-guides/ticket-routing"
+    },
+    {
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "title": "https://www.anthropic.com/engineering/building-effective-agents"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/use-case-guides/overview",
+      "title": "https://platform.claude.com/docs/en/about-claude/use-case-guides/overview"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/models/choosing-a-model",
+      "title": "https://platform.claude.com/docs/en/about-claude/models/choosing-a-model"
+    },
+    {
+      "url": "https://academy.claude.com/courses/ai-capabilities-and-limitations",
+      "title": "https://academy.claude.com/courses/ai-capabilities-and-limitations"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "title": "https://platform.claude.com/docs/en/managed-agents/overview"
+    },
+    {
+      "url": "https://claude.com/blog/build-artifacts",
+      "title": "https://claude.com/blog/build-artifacts"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests",
+      "title": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests"
+    }
+  ],
+  "behavior": {
+    "immediateChoiceFeedback": true,
+    "wrongChoiceDisabled": true,
+    "correctChoiceLocksOptions": true,
+    "wrongMatchRetainsTerm": true,
+    "matchedButtonsDisabled": true,
+    "finishLockedUntilAllCorrect": true
+  },
+  "prediction": {
+    "answerTextHash": "ee6219f0a35642522d9e7bb23db72d4ef869427ec4e22452142b814480785582",
+    "answerIndexInScreenshot": 2,
+    "sourceUrl": "https://www.anthropic.com/engineering/building-effective-agents"
+  }
+}

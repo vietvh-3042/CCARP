@@ -1,0 +1,527 @@
+{
+  "pageId": "3.4.2",
+  "title": "Choosing a Claude monitoring strategy: OpenTelemetry, usage reports or a gateway",
+  "titleVi": "Chọn chiến lược giám sát Claude: OpenTelemetry, báo cáo sử dụng hoặc cổng trung gian",
+  "units": [
+    {
+      "id": "description",
+      "text": "Analyze observability challenges and select monitoring strategies at scale"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide when a full OpenTelemetry pipeline is justified and when the Usage & Cost API, the analytics dashboard or session usage totals already answer the question"
+    },
+    {
+      "id": "u0002",
+      "text": "Use the Usage & Cost API's granularities and grouping to attribute spend by workspace"
+    },
+    {
+      "id": "u0003",
+      "text": "Get per-user spend attribution and caps for Claude Code on Amazon Bedrock, Google Cloud's Agent Platform or Microsoft Foundry"
+    },
+    {
+      "id": "u0004",
+      "text": "Size organization TPM and RPM allocations from the per-user figure for the right team-size tier"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "When OpenTelemetry is more than you need"
+    },
+    {
+      "id": "u0007",
+      "text": "Attributing spend with the Usage & Cost API"
+    },
+    {
+      "id": "u0008",
+      "text": "Per-user attribution on Bedrock, Agent Platform and Foundry"
+    },
+    {
+      "id": "u0009",
+      "text": "Sizing TPM and RPM allocations by organization size"
+    },
+    {
+      "id": "u0010",
+      "text": "When OpenTelemetry is more than you need"
+    },
+    {
+      "id": "u0011",
+      "text": "Choose a monitoring tool by starting from the question you need answered. An OpenTelemetry pipeline means running a collector and a backend and making content decisions. It is worth that cost when you need per-user token counts, costs and tool activity, or traces of individual runs. Many questions need far less. Spend per workspace, how many developers used Claude Code this week, or what one agent session cost can each be answered with no collector at all."
+    },
+    {
+      "id": "u0012",
+      "text": "The lightweight options are already built in. The Agent SDK message stream reports token and cost data your application can read directly. A Managed Agents session carries a "
+    },
+    {
+      "id": "u0013",
+      "text": " object with its token counts, active seconds and list cost. A "
+    },
+    {
+      "id": "u0014",
+      "text": " event delivers the same snapshot on the stream, so you don't need to poll. For an organization, the Usage & Cost API returns usage and cost by workspace, model and API key. For Claude Code on a Team or Enterprise plan, the analytics dashboard covers adoption."
+    },
+    {
+      "id": "u0015",
+      "text": "Matching the question to the cheapest tool that answers it"
+    },
+    {
+      "id": "u0016",
+      "text": "Question"
+    },
+    {
+      "id": "u0017",
+      "text": "Tool"
+    },
+    {
+      "id": "u0018",
+      "text": "Needs your own backend?"
+    },
+    {
+      "id": "u0019",
+      "text": "What did this one agent session cost?"
+    },
+    {
+      "id": "u0020",
+      "text": "Session usage field or session.usage event"
+    },
+    {
+      "id": "u0021",
+      "text": "No"
+    },
+    {
+      "id": "u0022",
+      "text": "What is each workspace spending, by model?"
+    },
+    {
+      "id": "u0023",
+      "text": "Usage & Cost API (cost_report, usage_report/messages)"
+    },
+    {
+      "id": "u0024",
+      "text": "No"
+    },
+    {
+      "id": "u0025",
+      "text": "How many developers are using Claude Code?"
+    },
+    {
+      "id": "u0026",
+      "text": "Analytics dashboard (daily active users, sessions)"
+    },
+    {
+      "id": "u0027",
+      "text": "No"
+    },
+    {
+      "id": "u0028",
+      "text": "Which user, team or tenant used which tools, and why did a run fail?"
+    },
+    {
+      "id": "u0029",
+      "text": "OpenTelemetry metrics, events and traces"
+    },
+    {
+      "id": "u0030",
+      "text": "Yes"
+    },
+    {
+      "id": "u0031",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0032",
+      "text": "Pick one monitoring question your organization asks every week. Which row of the table answers it, and would a collector add anything that row lacks?"
+    },
+    {
+      "id": "u0033",
+      "text": "Checkpoint 1 of 5"
+    },
+    {
+      "id": "u0034",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0035",
+      "text": "A platform team runs Claude Managed Agents. Finance wants to know what each individual agent session cost, updated as sessions finish. The team does not need per-user tool activity or traces. Which approach answers this with the least infrastructure?"
+    },
+    {
+      "id": "u0036",
+      "text": "Poll each session on a timer, because the API offers no way to push usage totals"
+    },
+    {
+      "id": "u0037",
+      "text": "Read the session's usage field, or listen for the session.usage event on the session stream, with no collector"
+    },
+    {
+      "id": "u0038",
+      "text": "Query the Usage & Cost API, because it breaks spend down by individual agent session"
+    },
+    {
+      "id": "u0039",
+      "text": "Deploy an OpenTelemetry collector and backend, set OTEL_METRICS_EXPORTER=otlp, and add up the cost metrics per session"
+    },
+    {
+      "id": "u0040",
+      "text": "Sources"
+    },
+    {
+      "id": "u0041",
+      "text": "Attributing spend with the Usage & Cost API"
+    },
+    {
+      "id": "u0042",
+      "text": "The Usage & Cost API answers organization-level questions with an Admin API key and no infrastructure. It has two endpoints. "
+    },
+    {
+      "id": "u0043",
+      "text": " returns token counts in 1-minute, 1-hour or 1-day buckets. "
+    },
+    {
+      "id": "u0044",
+      "text": " returns costs in USD and supports daily buckets only. To build workspace chargebacks, group costs by "
+    },
+    {
+      "id": "u0045",
+      "text": " and "
+    },
+    {
+      "id": "u0046",
+      "text": ". Usage attributed to the Default Workspace appears with a null "
+    },
+    {
+      "id": "u0047",
+      "text": "Cost report for January, grouped by workspace and description"
+    },
+    {
+      "id": "u0048",
+      "text": "bash"
+    },
+    {
+      "id": "u0049",
+      "text": "The API's limits show when it is the wrong tool. Data usually appears within about five minutes of a request, and the API supports polling once per minute over sustained use. That suits dashboards and budget alerts, but not debugging live. It also has no concept of an individual user. The Console's usage and cost pages cannot break spend down by user, and issuing one API key per developer to fake it runs into performance limits. For per-user Claude Code costs, use the Claude Code Analytics API instead."
+    },
+    {
+      "id": "u0050",
+      "text": "Checkpoint 2 of 5"
+    },
+    {
+      "id": "u0051",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0052",
+      "text": "An analyst wants hourly dollar figures per workspace from the cost endpoint to catch a spend spike within the day. What will they find?"
+    },
+    {
+      "id": "u0053",
+      "text": "The cost endpoint returns daily buckets only, so intraday detail has to come from token counts in the usage endpoint"
+    },
+    {
+      "id": "u0054",
+      "text": "The cost endpoint has no time buckets and returns a single total for the date range"
+    },
+    {
+      "id": "u0055",
+      "text": "The cost endpoint accepts 1m, 1h and 1d buckets, the same as the usage endpoint"
+    },
+    {
+      "id": "u0056",
+      "text": "The cost endpoint returns hourly buckets only when grouped by workspace_id"
+    },
+    {
+      "id": "u0057",
+      "text": "Sources"
+    },
+    {
+      "id": "u0058",
+      "text": "Per-user attribution on Bedrock, Agent Platform and Foundry"
+    },
+    {
+      "id": "u0059",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0060",
+      "text": "A team runs Claude Code through Google Cloud's Agent Platform and wants per-developer spend in an Anthropic-hosted view. Which one works?"
+    },
+    {
+      "id": "u0061",
+      "text": "Neither: the cloud provider's traffic needs OpenTelemetry or a gateway"
+    },
+    {
+      "id": "u0062",
+      "text": "A Console workspace spend limit on a linked workspace"
+    },
+    {
+      "id": "u0063",
+      "text": "The Claude for Enterprise analytics dashboard, once an admin enables it"
+    },
+    {
+      "id": "u0064",
+      "text": "Where Claude Code is billed decides which monitoring tools can see it. Each Anthropic-hosted view covers only its own billing channel. The org analytics spend report covers usage-credit spend on Team and Enterprise plans. Console workspace spend limits govern Console API usage. "
+    },
+    {
+      "id": "u0065",
+      "text": " opens claude.ai or organization usage settings, or sends a request to your admins. When requests go to Amazon Bedrock, Google Cloud's Agent Platform or Microsoft Foundry, none of these sees the traffic."
+    },
+    {
+      "id": "u0066",
+      "text": "Where to see spend, cap spend and report per user, by setup"
+    },
+    {
+      "id": "u0067",
+      "text": "Setup"
+    },
+    {
+      "id": "u0068",
+      "text": "See spend"
+    },
+    {
+      "id": "u0069",
+      "text": "Cap spend"
+    },
+    {
+      "id": "u0070",
+      "text": "Per-user reporting"
+    },
+    {
+      "id": "u0071",
+      "text": "Claude for Teams or Enterprise"
+    },
+    {
+      "id": "u0072",
+      "text": "Spend report in org analytics"
+    },
+    {
+      "id": "u0073",
+      "text": "Spend limits in admin settings"
+    },
+    {
+      "id": "u0074",
+      "text": "Spend report CSV; Enterprise Analytics API on Enterprise"
+    },
+    {
+      "id": "u0075",
+      "text": "Claude Console (API)"
+    },
+    {
+      "id": "u0076",
+      "text": "Console usage page"
+    },
+    {
+      "id": "u0077",
+      "text": "Workspace spend limits"
+    },
+    {
+      "id": "u0078",
+      "text": "Console dashboard, Claude Code Analytics API"
+    },
+    {
+      "id": "u0079",
+      "text": "Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry"
+    },
+    {
+      "id": "u0080",
+      "text": "Your cloud billing console"
+    },
+    {
+      "id": "u0081",
+      "text": "Your cloud's budget controls"
+    },
+    {
+      "id": "u0082",
+      "text": "OpenTelemetry or an LLM gateway"
+    },
+    {
+      "id": "u0083",
+      "text": "On these providers, the right tool depends on whether you need caps or only visibility. OpenTelemetry exported from each machine gives per-user token counts, costs and tool activity whatever the provider, but it can only report a cap, not enforce one. To split those figures by developer and team, set "
+    },
+    {
+      "id": "u0084",
+      "text": ", the variable that attaches your own key=value tags, such as "
+    },
+    {
+      "id": "u0085",
+      "text": ", to the metric datapoints Claude Code exports. The value is comma-separated pairs with no spaces. A self-hosted Claude apps gateway placed in front of the provider adds per-user usage attribution, OTLP token metrics and per-user spend limits it enforces. When a developer passes their cap, the gateway blocks their requests until the period resets. A generic LLM gateway such as LiteLLM tracks spend per key. It is unaffiliated with Anthropic and has not had a security audit."
+    },
+    {
+      "id": "u0086",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0087",
+      "text": "Once an admin enables it, the analytics dashboard or Console workspace limits also cover Claude Code traffic sent through Amazon Bedrock."
+    },
+    {
+      "id": "u0088",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0091",
+      "text": "Checkpoint 3 of 5"
+    },
+    {
+      "id": "u0092",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0093",
+      "text": "Your developers' Claude Code requests are billed through Amazon Bedrock. Finance wants token and cost figures broken down by developer and team. They don't need to block anyone yet. Which tool gives them this?"
+    },
+    {
+      "id": "u0094",
+      "text": "OpenTelemetry metrics exported from each developer machine, tagged with user and team keys in OTEL_RESOURCE_ATTRIBUTES"
+    },
+    {
+      "id": "u0095",
+      "text": "The analytics spend report for the Claude organization, once an admin links the Bedrock account"
+    },
+    {
+      "id": "u0096",
+      "text": "The AWS billing console, because it already shows all of the Bedrock spend for Claude"
+    },
+    {
+      "id": "u0097",
+      "text": "Console workspace spend limits, with one workspace for each team"
+    },
+    {
+      "id": "u0098",
+      "text": "Checkpoint 4 of 5"
+    },
+    {
+      "id": "u0099",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0100",
+      "text": "A company runs Claude Code through Amazon Bedrock and notices that, unlike their Claude Console workspace, no per-developer cost or token metrics appear in any Anthropic-hosted dashboard. Finance still wants per-user spend attribution and enforceable per-user caps. What should the platform team deploy to get this?"
+    },
+    {
+      "id": "u0101",
+      "text": "A self-hosted Claude apps gateway in front of Bedrock, which adds per-user usage attribution, OTLP token metrics, and per-user spend limits that Bedrock itself does not send to Anthropic"
+    },
+    {
+      "id": "u0102",
+      "text": "The Claude for Enterprise analytics dashboard at claude.ai/analytics/claude-code, which aggregates Bedrock spend the same way it aggregates Console spend once an admin enables it"
+    },
+    {
+      "id": "u0103",
+      "text": "The /usage-credits command run on each developer's machine, which sets an organization-wide monthly spend limit that automatically covers the entire Bedrock deployment"
+    },
+    {
+      "id": "u0104",
+      "text": "The workspace spend limit feature in the Claude Console, applied to the Bedrock-linked workspace, since Console workspace limits are documented to govern usage across all providers uniformly"
+    },
+    {
+      "id": "u0105",
+      "text": "Sources"
+    },
+    {
+      "id": "u0106",
+      "text": "Sizing TPM and RPM allocations by organization size"
+    },
+    {
+      "id": "u0107",
+      "text": "Rate limits are set at the organization level, so a Claude Code rollout needs one total allocation, not a set of individual ones. To size it, multiply the headcount by the per-user tokens-per-minute (TPM) and requests-per-minute (RPM) figures for your team-size tier. The per-user figure falls steeply as the team grows, so a figure taken from a small pilot overstates what a large organization needs per developer."
+    },
+    {
+      "id": "u0108",
+      "text": "Recommended per-user TPM and RPM by team size for Claude Code"
+    },
+    {
+      "id": "u0109",
+      "text": "Team size"
+    },
+    {
+      "id": "u0110",
+      "text": "TPM per user"
+    },
+    {
+      "id": "u0111",
+      "text": "RPM per user"
+    },
+    {
+      "id": "u0112",
+      "text": "1-5 users"
+    },
+    {
+      "id": "u0113",
+      "text": "5-20 users"
+    },
+    {
+      "id": "u0114",
+      "text": "20-50 users"
+    },
+    {
+      "id": "u0115",
+      "text": "50-100 users"
+    },
+    {
+      "id": "u0116",
+      "text": "100-500 users"
+    },
+    {
+      "id": "u0117",
+      "text": "500+ users"
+    },
+    {
+      "id": "u0118",
+      "text": "Here is a worked case. A 15-developer pilot sits in the 5–20 tier at 100k–150k TPM per user. Scaling to 300 developers with that figure gives 30M–45M TPM. The 100–500 row is the correct one for 300 developers: 15k–20k TPM and 0.37–0.47 RPM per user, or roughly 4.5M–6M TPM and 111–141 RPM in total. Once usage comes from Console accounts, Claude Code gets its own workspace with its own usage and rate limits, separate from your other workloads. Workspace limits can be set lower than the organization's limits, but not higher."
+    },
+    {
+      "id": "u0119",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0120",
+      "text": "The per-user TPM measured in a small pilot can be multiplied by the full headcount to size the organization's allocation."
+    },
+    {
+      "id": "u0121",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0123",
+      "text": "Checkpoint 5 of 5"
+    },
+    {
+      "id": "u0124",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0125",
+      "text": "An organization is scaling its Claude Code rollout from 15 developers to roughly 300 developers and wants to set organization-level Tokens-Per-Minute and Requests-Per-Minute allocations. A junior admin proposes simply multiplying the 15-user TPM-per-user figure by 300. Why is this the wrong approach, and what should the admin do instead?"
+    },
+    {
+      "id": "u0126",
+      "text": "Per-user TPM/RPM shrinks as org size grows since fewer users are concurrently active at scale, so the admin should multiply by the lower per-user figure for the 300-user tier, not the 15-user figure"
+    },
+    {
+      "id": "u0127",
+      "text": "Per-user TPM/RPM recommendations stay flat regardless of organization size, so the admin's multiplication using the 15-user figure is already correct and no further adjustment is needed before rollout"
+    },
+    {
+      "id": "u0128",
+      "text": "Rate limits are enforced per individual user rather than at the organization level, so aggregate TPM/RPM planning is unnecessary once each developer already has their own individual allocation set"
+    },
+    {
+      "id": "u0129",
+      "text": "TPM/RPM sizing only matters for Bedrock and Vertex deployments, so an organization authenticating through the Claude Console can safely ignore these per-user figures during its rollout planning"
+    },
+    {
+      "id": "u0130",
+      "text": "Sources"
+    },
+    {
+      "id": "u0131",
+      "text": "Sources"
+    }
+  ]
+}

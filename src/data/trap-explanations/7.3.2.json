@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Repeated compaction cannot fix input that immediately refills context. Reduce or chunk that input, compact selectively, or delegate the investigation to a subagent.",
+    "vi": "Nén liên tục không sửa được đầu vào lập tức lấp đầy lại ngữ cảnh. Hãy giảm hoặc chia nhỏ đầu vào, nén có trọng tâm hoặc giao phần tìm hiểu cho tác tử con."
+  },
+  "exam-trap-2": {
+    "en": "Retries address temporary rate throttling, not every 429 response. A spending limit continues blocking requests until the underlying access restriction is lifted.",
+    "vi": "Thử lại giải quyết hạn chế tốc độ tạm thời, không phải mọi phản hồi 429. Giới hạn chi tiêu tiếp tục chặn yêu cầu cho đến khi hạn chế truy cập tương ứng được gỡ bỏ."
+  }
+}

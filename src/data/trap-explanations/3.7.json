@@ -1,0 +1,26 @@
+{
+  "exam-trap-5": {
+    "en": "A delegated specialist cannot create another delegation layer. Keep expansion under the lead agent, which can distribute work across multiple direct helpers instead.",
+    "vi": "Tác tử chuyên trách được giao việc không thể tạo thêm tầng giao việc. Hãy để tác tử chính mở rộng bằng cách phân công cho nhiều tác tử trợ giúp trực tiếp."
+  },
+  "exam-trap-3": {
+    "en": "A missing transport type selects stdio by default, even with a URL present. Remote entries must declare an appropriate http, sse or ws type.",
+    "vi": "Thiếu kiểu truyền tải sẽ mặc định chọn stdio dù đã có URL. Mục máy chủ từ xa phải khai báo kiểu http, sse hoặc ws phù hợp."
+  },
+  "exam-trap-4": {
+    "en": "The Client SDK exposes API access, leaving tool orchestration to your code or its beta runner. Agent SDK provides the integrated loop and tools.",
+    "vi": "Client SDK cung cấp quyền gọi API, còn mã của bạn hoặc bộ chạy beta phải điều phối công cụ. Agent SDK mới cung cấp sẵn vòng lặp tích hợp cùng công cụ."
+  },
+  "exam-trap-1": {
+    "en": "The API connector reaches publicly accessible HTTPS MCP services, not local processes. Host a stdio service behind a supported remote transport before connecting it.",
+    "vi": "Trình kết nối API truy cập dịch vụ MCP HTTPS công khai, không khởi chạy tiến trình cục bộ. Cần đưa dịch vụ stdio lên phương thức truyền tải từ xa được hỗ trợ trước khi kết nối."
+  },
+  "exam-trap-2": {
+    "en": "The connector exposes MCP tool calls only. To consume MCP resources or prompts, use a client implementing those capabilities, such as Claude Code.",
+    "vi": "Trình kết nối chỉ cung cấp lời gọi công cụ MCP. Muốn dùng tài nguyên hoặc câu lệnh MCP, cần máy khách có các khả năng đó, chẳng hạn Claude Code."
+  },
+  "nudge-1": {
+    "en": "A remote MCP entry needs an explicit transport type; a URL alone can be interpreted as a stdio configuration.",
+    "vi": "Cấu hình MCP từ xa cần khai báo rõ loại truyền tải; chỉ có URL có thể khiến cấu hình bị hiểu là stdio."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Publishing a tool interface does not provide its execution environment. Your application executes bash, text_editor and computer operations and sends their results back.",
+    "vi": "Công bố giao diện công cụ không đồng nghĩa cung cấp nơi thực thi. Ứng dụng của bạn chạy các thao tác bash, text_editor và computer rồi gửi kết quả lại."
+  },
+  "exam-trap-2": {
+    "en": "A pause_turn response signals unfinished server work at an iteration boundary. Include that response in the conversation you resubmit to resume processing.",
+    "vi": "Phản hồi pause_turn báo công việc phía máy chủ chưa xong khi chạm giới hạn số vòng lặp. Gửi lại hội thoại có phản hồi đó để tiếp tục xử lý."
+  },
+  "exam-trap-3": {
+    "en": "Reliable change logging belongs in executable hooks triggered by tool activity. A prompt alone leaves compliance dependent on the model remembering the instruction.",
+    "vi": "Việc ghi nhật ký thay đổi đáng tin cậy cần hook thực thi theo hoạt động công cụ. Chỉ dùng câu lệnh thì còn phụ thuộc mô hình có nhớ làm theo hay không."
+  },
+  "exam-trap-4": {
+    "en": "Independent assessment requires a grader with separate context. Letting the implementation agent judge itself would mix its working assumptions with the evaluation.",
+    "vi": "Đánh giá độc lập cần bộ chấm có ngữ cảnh riêng. Để tác tử thực hiện tự chấm sẽ trộn các giả định lúc làm việc vào quá trình đánh giá."
+  }
+}

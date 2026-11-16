@@ -1,0 +1,14 @@
+{
+  "exam-trap-3": {
+    "en": "Proxy environment variables cannot enforce routing for tools that ignore them. Credential injection also requires TLS termination, so infrastructure controls must enforce the intended network path.",
+    "vi": "Biến môi trường proxy không ép được tuyến đi của công cụ bỏ qua chúng. Chèn thông tin xác thực còn cần chấm dứt TLS tại proxy, nên hạ tầng phải cưỡng chế đường mạng mong muốn."
+  },
+  "exam-trap-1": {
+    "en": "Earlier permission decisions can bypass canUseTool entirely. A mandatory inspection belongs in a hook, rather than a callback reached only when prior checks leave permission unresolved.",
+    "vi": "Các quyết định quyền ở bước trước có thể bỏ qua hẳn canUseTool. Việc kiểm tra bắt buộc cần đặt trong hook, thay vì hàm gọi lại chỉ chạy khi các bước trước chưa quyết định quyền."
+  },
+  "exam-trap-2": {
+    "en": "allowed_tools exempts listed calls from asking; it does not remove other tools. Enforce exclusions through disallowed_tools, including when bypassPermissions is active.",
+    "vi": "allowed_tools miễn hỏi cho các lời gọi được liệt kê, không loại bỏ công cụ khác. Muốn loại trừ phải dùng disallowed_tools, kể cả khi bypassPermissions đang bật."
+  }
+}

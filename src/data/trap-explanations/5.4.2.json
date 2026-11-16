@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Authorization attaches to the hosting service, not the model name. Using Claude meets that requirement only within an appropriately authorized cloud environment.",
+    "vi": "Chứng nhận áp dụng cho dịch vụ lưu trữ và vận hành, không phải tên mô hình. Dùng Claude chỉ đáp ứng yêu cầu đó khi chạy trong môi trường đám mây đã được chứng nhận phù hợp."
+  },
+  "exam-trap-2": {
+    "en": "Storage geography is chosen permanently at workspace creation. Adjustable inference geography does not relocate stored data; a different storage region requires another workspace.",
+    "vi": "Khu vực lưu trữ được ấn định vĩnh viễn khi tạo không gian làm việc. Điều chỉnh khu vực suy luận không chuyển dữ liệu đã lưu; muốn vùng lưu trữ khác phải tạo không gian làm việc mới."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Permission rules combine across scopes, and a matching denial wins. A more specific local allow cannot reopen a command prohibited by project policy.",
+    "vi": "Quy tắc quyền được kết hợp giữa các phạm vi và quy tắc từ chối khớp sẽ được ưu tiên. Quy tắc cho phép cục bộ cụ thể hơn không mở lại được lệnh bị chính sách dự án cấm."
+  },
+  "exam-trap-2": {
+    "en": "Repository conventions belong in version-controlled project settings. Organization-managed settings enforce centrally deployed security policy rather than serving as the team's editable shared configuration.",
+    "vi": "Quy ước của kho mã thuộc thiết lập dự án được quản lý phiên bản. Thiết lập do tổ chức quản lý dùng để áp đặt chính sách bảo mật tập trung, không phải cấu hình chung để nhóm tự chỉnh."
+  }
+}

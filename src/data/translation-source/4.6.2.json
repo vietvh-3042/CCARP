@@ -1,0 +1,487 @@
+{
+  "pageId": "4.6.2",
+  "title": "Organisation-wide monitoring: API traces, usage and cost reports, audit events",
+  "titleVi": "Giám sát toàn tổ chức: dấu vết API, báo cáo sử dụng và chi phí, sự kiện kiểm toán",
+  "units": [
+    {
+      "id": "description",
+      "text": "Monitor system performance using logging and observability tools"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Add a Claude API OpenTelemetry destination and nest its spans under your application's traces"
+    },
+    {
+      "id": "u0002",
+      "text": "Read a Managed Agents session's usage and list cost"
+    },
+    {
+      "id": "u0003",
+      "text": "Query the Usage & Cost Admin API at a granularity and polling rate that fit the monitoring need"
+    },
+    {
+      "id": "u0004",
+      "text": "Name what the Claude Code analytics dashboard and compliance activities record, and route Claude Code log events to a SIEM"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Tracing Messages API requests and Managed Agents sessions"
+    },
+    {
+      "id": "u0007",
+      "text": "Usage and cost of a Managed Agents session"
+    },
+    {
+      "id": "u0008",
+      "text": "Usage & Cost Admin API: organisation-wide trends"
+    },
+    {
+      "id": "u0009",
+      "text": "Adoption analytics, audit events and SIEM routing"
+    },
+    {
+      "id": "u0010",
+      "text": "Tracing Messages API requests and Managed Agents sessions"
+    },
+    {
+      "id": "u0011",
+      "text": "Claude Code and the Agent SDK export OpenTelemetry metrics, log events and traces from the process that runs them. That covers one client at a time. Watching a whole organisation takes four further streams, each answering a different question: spans emitted by the Claude API itself, the usage and cost of individual Managed Agents sessions, organisation-wide usage and cost reports, and adoption and audit records. This page covers each in turn. A Managed Agents session is a run of an agent on the Claude Platform, with its own threads, tools and usage totals, which you can inspect in the Claude Console."
+    },
+    {
+      "id": "u0012",
+      "text": "Client-side telemetry stops at your process boundary. The Claude API can emit its own spans, one for each model request and each tool use it runs on Messages API requests and Managed Agents sessions, without any code change. You receive them by adding a "
+    },
+    {
+      "id": "u0013",
+      "text": "destination"
+    },
+    {
+      "id": "u0014",
+      "text": ": an OTLP/HTTP endpoint that accepts protobuf over HTTPS on port 443, plus the headers that authenticate to it. Only organisation admins can add or change destinations. A destination covers All workspaces, Selected ones, or All except a list. Its content mode is either Metadata only or Full content. That is the same opt-in idea as in Claude Code, which redacts prompt, response and tool content by default and records it only when you switch it on."
+    },
+    {
+      "id": "u0015",
+      "text": "Creating a metadata-only destination for every workspace through the Admin API"
+    },
+    {
+      "id": "u0016",
+      "text": "python"
+    },
+    {
+      "id": "u0017",
+      "text": "Leave "
+    },
+    {
+      "id": "u0018",
+      "text": " off the endpoint URL, because the API appends it. After saving, run Test from the destination's menu and look for an "
+    },
+    {
+      "id": "u0019",
+      "text": " span. Real spans arrive under "
+    },
+    {
+      "id": "u0020",
+      "text": ". If you run your own Collector, note that its OTLP/HTTP receiver listens on port 4318 by default. Either reconfigure it for HTTPS on 443 or put a reverse proxy in front."
+    },
+    {
+      "id": "u0021",
+      "text": "On their own, API spans start their own traces. To nest them under your application's spans, call the SDK from inside one of your own spans. The SDK writes a W3C "
+    },
+    {
+      "id": "u0022",
+      "text": " header, and your sampler controls its sampled flag. When the flag is off, the API emits no spans for that request. The same propagation continues into MCP servers connected through the MCP connector, which receive a "
+    },
+    {
+      "id": "u0023",
+      "text": " in "
+    },
+    {
+      "id": "u0024",
+      "text": " and can attach their own spans."
+    },
+    {
+      "id": "u0025",
+      "text": "Delivery is at least once and best effort. Expect duplicate spans and deduplicate on trace ID plus span ID. A lost span is never resent. The Console's Delivery column shows Healthy, Failing, No data or Disabled. The API disables a destination that answers with a 3xx redirect, resolves to a non-public IP, or fails every delivery for 24 hours."
+    },
+    {
+      "id": "u0026",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0027",
+      "text": "Every Messages API request sent to a workspace covered by a destination produces spans."
+    },
+    {
+      "id": "u0028",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0030",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0031",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0032",
+      "text": "An admin is adding a destination so the Claude API sends spans to their observability platform's OTLP/HTTP gateway. Which endpoint URL goes in the blank?"
+    },
+    {
+      "id": "u0033",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0034",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0035",
+      "text": "An organisation has a destination covering all workspaces. Their application calls the SDK inside its own spans, and its sampler keeps only 10% of traces. What happens to the API spans for the other 90% of Messages API requests?"
+    },
+    {
+      "id": "u0036",
+      "text": "The API emits them anyway, because every request in a covered workspace produces spans"
+    },
+    {
+      "id": "u0037",
+      "text": "The API emits no request span and no spans under it, because the traceparent's sampled flag is off"
+    },
+    {
+      "id": "u0038",
+      "text": "The API emits them but marks them unsampled, so the destination's Delivery column shows No data"
+    },
+    {
+      "id": "u0039",
+      "text": "The API emits them as separate root traces, because API spans start their own traces by default"
+    },
+    {
+      "id": "u0040",
+      "text": "Sources"
+    },
+    {
+      "id": "u0041",
+      "text": "Usage and cost of a Managed Agents session"
+    },
+    {
+      "id": "u0042",
+      "text": "A single Managed Agents session reports its own consumption. The session object's "
+    },
+    {
+      "id": "u0043",
+      "text": " field holds cumulative token counts, cache reads and writes, server tool requests, "
+    },
+    {
+      "id": "u0044",
+      "text": " and "
+    },
+    {
+      "id": "u0045",
+      "text": ". A session can run several threads, for example one per agent in a multiagent session, and the Console's session viewer shows one timeline lane per thread, a transcript, and a Tools tab with failure counts and median duration. "
+    },
+    {
+      "id": "u0046",
+      "text": " is the time during which at least one thread was running, with overlapping threads counted once. The session's running-time cost is priced on that duration. Each thread also reports its own "
+    },
+    {
+      "id": "u0047",
+      "text": ", but per-thread costs are rounded independently and leave out the running-time cost, so the session figure is the authoritative one."
+    },
+    {
+      "id": "u0048",
+      "text": " event carries the same cumulative snapshot on the session stream, so you don't have to poll. It is emitted on idle transitions rather than on a timer: immediately before the session goes idle, and when a thread pauses at a session budget. During a long run you therefore see no new totals until one of those moments. That is why a spend cap built from watching usage and stopping the session yourself fails, since the stop arrives after the money is spent. A session budget is a dollar cap on list cost. The platform prices consumption continuously and pauses each thread before its next model request once the cap is reached, so enforcement doesn't depend on your code noticing in time."
+    },
+    {
+      "id": "u0049",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0050",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0051",
+      "text": "Your team runs long Managed Agents sessions and must make sure none of them goes past a fixed dollar amount at list price. Which approach should you build?"
+    },
+    {
+      "id": "u0052",
+      "text": "Subscribe to session.usage events and stop the session once list_cost passes the limit"
+    },
+    {
+      "id": "u0053",
+      "text": "Set a session budget on each session"
+    },
+    {
+      "id": "u0054",
+      "text": "Add up each thread's list_cost from the Threads tab and stop the session when the total hits the limit"
+    },
+    {
+      "id": "u0055",
+      "text": "Poll the session object every few seconds and stop the session when list_cost reaches the limit"
+    },
+    {
+      "id": "u0056",
+      "text": "Sources"
+    },
+    {
+      "id": "u0057",
+      "text": "Usage & Cost Admin API: organisation-wide trends"
+    },
+    {
+      "id": "u0058",
+      "text": "The Usage & Cost Admin API answers organisation-wide questions: tokens by model, workspace, API key or service tier over time, and spend by day. You call it with an Admin API key. The response is a series of time buckets, and "
+    },
+    {
+      "id": "u0059",
+      "text": " sets their granularity. Each width has its own default and maximum "
+    },
+    {
+      "id": "u0060",
+      "text": ", which is the number of buckets returned per request. The cost endpoint offers only daily buckets."
+    },
+    {
+      "id": "u0061",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0062",
+      "text": "During an incident you want to spot token spikes as fast as possible using the usage endpoint. What polling rate gives the freshest picture?"
+    },
+    {
+      "id": "u0063",
+      "text": "Every few seconds with 1m buckets, since faster polling surfaces spikes sooner"
+    },
+    {
+      "id": "u0064",
+      "text": "Once an hour with 1h buckets, since hourly buckets refresh every minute"
+    },
+    {
+      "id": "u0065",
+      "text": "About once a minute with 1m buckets, since data lands minutes after requests complete"
+    },
+    {
+      "id": "u0066",
+      "text": "bucket_width options for the messages usage report"
+    },
+    {
+      "id": "u0067",
+      "text": "bucket_width"
+    },
+    {
+      "id": "u0068",
+      "text": "Default limit"
+    },
+    {
+      "id": "u0069",
+      "text": "Maximum limit"
+    },
+    {
+      "id": "u0070",
+      "text": "Fits"
+    },
+    {
+      "id": "u0071",
+      "text": "60 buckets"
+    },
+    {
+      "id": "u0072",
+      "text": "1440 buckets"
+    },
+    {
+      "id": "u0073",
+      "text": "Incident watch and minute-level spikes"
+    },
+    {
+      "id": "u0074",
+      "text": "24 buckets"
+    },
+    {
+      "id": "u0075",
+      "text": "168 buckets"
+    },
+    {
+      "id": "u0076",
+      "text": "A week at hourly resolution"
+    },
+    {
+      "id": "u0077",
+      "text": "7 buckets"
+    },
+    {
+      "id": "u0078",
+      "text": "31 buckets"
+    },
+    {
+      "id": "u0079",
+      "text": "Monthly trends and chargebacks"
+    },
+    {
+      "id": "u0080",
+      "text": " sets granularity, not refresh rate. Usage and cost data typically shows up within 5 minutes of a request completing. So for incident monitoring, use "
+    },
+    {
+      "id": "u0081",
+      "text": " buckets, raise "
+    },
+    {
+      "id": "u0082",
+      "text": " past the default 60 when you need a longer window, and poll about once a minute. Short bursts of faster requests are fine for paging through results. For a dashboard that many people refresh, cache the responses instead of calling the API on every page load."
+    },
+    {
+      "id": "u0083",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0084",
+      "text": "Polling the Usage API every few seconds gives a fresher view of token spikes than polling once a minute."
+    },
+    {
+      "id": "u0085",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0089",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0090",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0091",
+      "text": "Finance wants a report of last month's token use broken down by model and workspace across the whole organisation, with spend per day. Where should this data come from?"
+    },
+    {
+      "id": "u0092",
+      "text": "The usage field of every Managed Agents session, added up across sessions"
+    },
+    {
+      "id": "u0093",
+      "text": "session.usage events collected from every session stream"
+    },
+    {
+      "id": "u0094",
+      "text": "The Threads tab of each session in the Console's session viewer"
+    },
+    {
+      "id": "u0095",
+      "text": "The Usage & Cost Admin API, called with an Admin API key and daily buckets"
+    },
+    {
+      "id": "u0096",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0097",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0098",
+      "text": "During an active incident, an on-call engineer needs a near real-time view of organization-wide token consumption spikes, checking for anomalies roughly once a minute. Which Usage API configuration fits this monitoring need within the documented granularity limits?"
+    },
+    {
+      "id": "u0099",
+      "text": "Request bucket_width=1m, raise the limit above the 60-bucket default up to the 1440-bucket maximum as needed, and poll about once per minute"
+    },
+    {
+      "id": "u0100",
+      "text": "Request bucket_width=1d with the default 7-bucket limit, since daily granularity is sufficient to detect minute-level spikes retroactively"
+    },
+    {
+      "id": "u0101",
+      "text": "Request bucket_width=1h with the 168-bucket maximum limit, since hourly buckets update automatically every 60 seconds"
+    },
+    {
+      "id": "u0102",
+      "text": "Request bucket_width=1m but poll every 5 seconds to catch spikes as soon as they occur, since finer polling improves data freshness"
+    },
+    {
+      "id": "u0103",
+      "text": "Sources"
+    },
+    {
+      "id": "u0104",
+      "text": "Adoption analytics, audit events and SIEM routing"
+    },
+    {
+      "id": "u0105",
+      "text": "Spend data shows what Claude Code costs. Adoption data shows whether people use it. The Claude Code analytics dashboard reports usage metrics: lines of code accepted, suggestion accept rate, and daily active users and sessions. Teams and Enterprise plans add contribution metrics from a GitHub integration, such as merged PRs that contain Claude Code lines, plus a leaderboard and CSV export. On API organisations the dashboard lives in the Claude Console and adds spend tracking and team insights."
+    },
+    {
+      "id": "u0106",
+      "text": "Administrative actions are a different stream again. The compliance activities endpoint lets you query actions such as workspaces being created or archived, members being added or removed, RBAC custom roles being created or assigned, spend limits being changed, and the zero data retention override being toggled. It also logs reads: viewing the Claude Code usage report or the messages usage report is itself an activity."
+    },
+    {
+      "id": "u0107",
+      "text": "Claude Code's per-user activity reaches a retention store such as a SIEM through the logs exporter. Managed settings are the policy settings an admin deploys and enforces across all Claude Code users, so they are the right place for this configuration. When managed settings set an endpoint or credential, Claude Code removes any per-signal endpoints a developer set, so a developer can't send logs to a different collector. Three switches matter here. "
+    },
+    {
+      "id": "u0108",
+      "text": " turns telemetry collection on, and nothing is exported without it. "
+    },
+    {
+      "id": "u0109",
+      "text": " sends log events to an OTLP endpoint, where "
+    },
+    {
+      "id": "u0110",
+      "text": " would disable them. "
+    },
+    {
+      "id": "u0111",
+      "text": " is an opt-in that is off by default: it makes tool events carry the Bash commands and MCP server and tool names that ran, where otherwise those arguments are not logged."
+    },
+    {
+      "id": "u0112",
+      "text": "Routing Claude Code log events, with tool details, to a SIEM's OTLP logs endpoint"
+    },
+    {
+      "id": "u0113",
+      "text": "json"
+    },
+    {
+      "id": "u0114",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0115",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0116",
+      "text": "Security wants its SIEM to keep a per-user record of the Bash commands and MCP tools each developer's Claude Code ran. Only log events are exported to the SIEM. Which variable belongs in the blank?"
+    },
+    {
+      "id": "u0117",
+      "text": "OTEL_LOG_USER_PROMPTS"
+    },
+    {
+      "id": "u0118",
+      "text": "OTEL_LOG_RAW_API_BODIES"
+    },
+    {
+      "id": "u0119",
+      "text": "OTEL_LOG_TOOL_DETAILS"
+    },
+    {
+      "id": "u0120",
+      "text": "OTEL_LOG_TOOL_CONTENT"
+    },
+    {
+      "id": "u0121",
+      "text": "Sources"
+    },
+    {
+      "id": "u0122",
+      "text": "Sources"
+    }
+  ]
+}

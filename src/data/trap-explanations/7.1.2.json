@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Managed policy sources use precedence, not automatic merging. Inspect /status for the selected source; combining policies requires explicitly choosing managedSourcesBehavior with merge.",
+    "vi": "Nguồn chính sách được quản lý tuân theo thứ tự ưu tiên, không tự hợp nhất. Xem /status để biết nguồn được chọn; muốn kết hợp chính sách phải đặt rõ managedSourcesBehavior thành merge."
+  },
+  "exam-trap-2": {
+    "en": "A managed model value chooses the starting model without locking selection. Use availableModels with enforceAvailableModels when model choice must remain constrained.",
+    "vi": "Giá trị model do tổ chức quản lý chọn mô hình ban đầu mà không khóa lựa chọn. Dùng availableModels cùng enforceAvailableModels khi cần giới hạn việc chọn mô hình."
+  },
+  "exam-trap-3": {
+    "en": "Disabling bypass mode does not exclude lower-scope permission rules. Use allowManagedPermissionRulesOnly when only centrally managed allow, ask, and deny rules should apply.",
+    "vi": "Tắt chế độ bỏ qua quyền không loại trừ quy tắc ở phạm vi thấp hơn. Dùng allowManagedPermissionRulesOnly khi chỉ muốn áp dụng quy tắc allow, ask và deny do trung tâm quản lý."
+  },
+  "exam-trap-4": {
+    "en": "Remote policy retrieval depends on authentication. Sessions using other providers skip that source and fall through to the next available managed-policy source.",
+    "vi": "Việc lấy chính sách từ xa phụ thuộc vào cách xác thực. Phiên dùng nhà cung cấp khác bỏ qua nguồn đó và chuyển sang nguồn chính sách được quản lý khả dụng tiếp theo."
+  },
+  "nudge-1": {
+    "en": "Check /status for a higher-priority organizational policy. Under first-wins precedence, that policy can override the file you edited.",
+    "vi": "Kiểm tra /status để tìm chính sách tổ chức có ưu tiên cao hơn. Với quy tắc lấy giá trị đầu tiên, chính sách đó có thể lấn át file vừa sửa."
+  }
+}

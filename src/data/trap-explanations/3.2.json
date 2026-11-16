@@ -1,0 +1,10 @@
+{
+  "exam-trap-2": {
+    "en": "A valid signature is insufficient: the token must target that MCP server's canonical resource URI. Backend access requires appropriate separate credentials, not token forwarding.",
+    "vi": "Chữ ký hợp lệ chưa đủ: token phải nhắm tới URI tài nguyên chuẩn của đúng máy chủ MCP. Truy cập hệ thống phía sau cần thông tin xác thực riêng phù hợp, không chuyển tiếp token đó."
+  },
+  "exam-trap-1": {
+    "en": "A scope challenge requires a broader grant, not repetition of an unchanged login. Reauthorize using both the existing scopes and the additional scopes requested.",
+    "vi": "Thách thức về phạm vi quyền đòi hỏi cấp quyền rộng hơn, không phải đăng nhập lại y như cũ. Cần cấp quyền lại với cả phạm vi hiện có lẫn phạm vi bổ sung được yêu cầu."
+  }
+}

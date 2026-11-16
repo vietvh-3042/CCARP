@@ -1,0 +1,25 @@
+---
+import { getGroupRequirements } from "../lib/lesson-checkpoints";
+import { lessonUrl } from "../lib/lesson-routes.mjs";
+import library from "../data/course-library.json";
+import type { Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+}
+const data = {
+  locale: Astro.props.locale,
+  groups: library.map((entry) => ({
+    id: entry.groupId,
+    pages: getGroupRequirements(entry.groupId).map((page) => ({
+      ...page,
+      url: lessonUrl(Astro.props.locale, page.lessonId),
+    })),
+  })),
+};
+---
+
+<script type="application/json" id="library-progress-data" set:html={JSON.stringify(data).replace(/</g, "\u003c")} />
+<script>
+  import { initLibraryProgress } from "../scripts/library-progress";
+  initLibraryProgress();
+</script>

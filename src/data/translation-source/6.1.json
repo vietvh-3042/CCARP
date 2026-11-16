@@ -1,0 +1,1007 @@
+{
+  "pageId": "6.1",
+  "title": "Structured discovery and requirement gathering for Claude solutions",
+  "titleVi": "Khảo sát và thu thập yêu cầu có hệ thống cho giải pháp dùng Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Conduct structured discovery and requirement gathering"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Run a discovery session that captures users, needs, experience and constraints, plus the capability, speed and budget facts a model choice depends on"
+    },
+    {
+      "id": "u0002",
+      "text": "Turn discovery findings into a justified starting model and an upgrade or optimisation path"
+    },
+    {
+      "id": "u0003",
+      "text": "Write success criteria that are specific, measurable, achievable and relevant across quality, latency, cost and safety"
+    },
+    {
+      "id": "u0004",
+      "text": "Choose a technique (blind spot pass, prototype, interview, reference, sample-data review) to expose unknown requirements before implementation"
+    },
+    {
+      "id": "u0005",
+      "text": "Write acceptance tests before code and trace a failing product back through the Description Chain"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Testable requirement"
+    },
+    {
+      "id": "u0008",
+      "text": "A requirement worded precisely enough that someone outside the project could look at the finished system and say whether it passes or fails. Each stage of discovery aims to turn a vague request into requirements of this kind."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "The discovery brief: users, needs, experience, constraints"
+    },
+    {
+      "id": "u0011",
+      "text": "From discovery findings to a starting model"
+    },
+    {
+      "id": "u0012",
+      "text": "Writing measurable success criteria"
+    },
+    {
+      "id": "u0013",
+      "text": "Surfacing unknown requirements before implementation"
+    },
+    {
+      "id": "u0014",
+      "text": "Acceptance tests defined before code"
+    },
+    {
+      "id": "u0015",
+      "text": "The Description Chain: from the user's words to Claude's instruction"
+    },
+    {
+      "id": "u0016",
+      "text": "The discovery brief: users, needs, experience, constraints"
+    },
+    {
+      "id": "u0017",
+      "text": "Structured discovery is the work you do before designing anything. You collect a fixed set of facts about who the system serves and what limits it, so every later decision can be checked against them. A request such as \"patients need to check wait times before coming in\" is where the conversation starts, not a requirement. To turn it into a brief, answer four questions in plain language:"
+    },
+    {
+      "id": "u0018",
+      "text": "Users."
+    },
+    {
+      "id": "u0019",
+      "text": " Be specific. Which patients? What about the staff? Who else touches the system?"
+    },
+    {
+      "id": "u0020",
+      "text": "Needs."
+    },
+    {
+      "id": "u0021",
+      "text": " What outcome are they hoping for? This is not the same as the feature they asked for."
+    },
+    {
+      "id": "u0022",
+      "text": "Experience."
+    },
+    {
+      "id": "u0023",
+      "text": " What does a great solution feel like to use? Describe the experience, not the features."
+    },
+    {
+      "id": "u0024",
+      "text": "Constraints."
+    },
+    {
+      "id": "u0025",
+      "text": " Budget, the technical skill of the people who will run it, users' access to devices, and privacy requirements."
+    },
+    {
+      "id": "u0026",
+      "text": "A process map is the discovery technique that keeps the brief honest. The idea that "
+    },
+    {
+      "id": "u0027",
+      "text": "you start from the business process, not the model"
+    },
+    {
+      "id": "u0028",
+      "text": " becomes a concrete step in discovery. Break the user's need into steps, name the stakeholder at each step, and only then decide what role AI plays in each one. There are three roles to choose from: "
+    },
+    {
+      "id": "u0029",
+      "text": "Automation"
+    },
+    {
+      "id": "u0030",
+      "text": " (AI does it and you check), "
+    },
+    {
+      "id": "u0031",
+      "text": "Augmentation"
+    },
+    {
+      "id": "u0032",
+      "text": " (you and AI work on it together) and "
+    },
+    {
+      "id": "u0033",
+      "text": "Agency"
+    },
+    {
+      "id": "u0034",
+      "text": " (AI acts with latitude inside boundaries you set). This produces a small table, one row per step, and the AI decision is made separately for each row. Asking \"should we use AI here?\" about the whole system skips that step-by-step choice."
+    },
+    {
+      "id": "u0035",
+      "text": "Three more questions belong in every first session, because no model can be recommended without the answers:"
+    },
+    {
+      "id": "u0036",
+      "text": "Capabilities."
+    },
+    {
+      "id": "u0037",
+      "text": " What specific features or capabilities must the model have to meet the customer's needs?"
+    },
+    {
+      "id": "u0038",
+      "text": "Speed."
+    },
+    {
+      "id": "u0039",
+      "text": " How quickly does the model need to respond inside the customer's application?"
+    },
+    {
+      "id": "u0040",
+      "text": "Cost."
+    },
+    {
+      "id": "u0041",
+      "text": " What is the budget, for development and for production usage?"
+    },
+    {
+      "id": "u0042",
+      "text": "Each answer comes from the customer's own workload. Facts such as how many people work in IT, which social platforms marketing uses, or the version number of an internal ticketing tool change none of the three. They tell you nothing about what the model must do, how fast it must answer, or what it may cost."
+    },
+    {
+      "id": "u0043",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0044",
+      "text": "When asked which factors to establish before recommending a model, choose capabilities, response speed, and budget for development and production. Answers about organisational trivia are distractors, even when they sound like due diligence."
+    },
+    {
+      "id": "u0045",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0046",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0047",
+      "text": "While mapping the clinic's wait-time process step by step, you pick an AI role for each row of the table. Match each role to how the work is shared at that step."
+    },
+    {
+      "id": "u0048",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0049",
+      "text": "Automation"
+    },
+    {
+      "id": "u0050",
+      "text": "Augmentation"
+    },
+    {
+      "id": "u0051",
+      "text": "Agency"
+    },
+    {
+      "id": "u0052",
+      "text": "You and AI work on the step together"
+    },
+    {
+      "id": "u0053",
+      "text": "AI acts with latitude, but only inside boundaries you have set"
+    },
+    {
+      "id": "u0054",
+      "text": "AI carries out the step on its own, and you check the result afterwards"
+    },
+    {
+      "id": "u0055",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0056",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0057",
+      "text": "A solutions architect is running the first discovery session with a new prospect before recommending any specific Claude model. According to Anthropic's model-selection guidance, which factors should the architect establish as key criteria during this session?"
+    },
+    {
+      "id": "u0058",
+      "text": "(Select "
+    },
+    {
+      "id": "u0059",
+      "text": "The specific capabilities the model must have to meet the prospect's needs"
+    },
+    {
+      "id": "u0060",
+      "text": "How quickly the model must respond within the prospect's application"
+    },
+    {
+      "id": "u0061",
+      "text": "The prospect's available budget for development and production usage"
+    },
+    {
+      "id": "u0062",
+      "text": "The exact number of employees currently working in the prospect's IT department"
+    },
+    {
+      "id": "u0063",
+      "text": "Which social media platforms the prospect uses for customer marketing"
+    },
+    {
+      "id": "u0064",
+      "text": "The version number of the prospect's internal ticketing software"
+    },
+    {
+      "id": "u0065",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0066",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0067",
+      "text": "Sources"
+    },
+    {
+      "id": "u0068",
+      "text": "From discovery findings to a starting model"
+    },
+    {
+      "id": "u0069",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0070",
+      "text": "A support team will send 50,000 short ticket-triage requests a day, needs sub-second responses, and has a limited pilot budget. Where should implementation start?"
+    },
+    {
+      "id": "u0071",
+      "text": "With the most capable model at its deepest reasoning setting, then downgrade once quality is proven"
+    },
+    {
+      "id": "u0072",
+      "text": "With whichever model has the largest context window, so fewer requests are needed per day"
+    },
+    {
+      "id": "u0073",
+      "text": "With a fast, cost-effective model, tested on real ticket samples, upgrading only if it misses the accuracy threshold"
+    },
+    {
+      "id": "u0074",
+      "text": "Discovery findings point to one of two starting paths. Model trade-offs in general are covered in "
+    },
+    {
+      "id": "u0075",
+      "text": "selecting Claude models on trade-offs"
+    },
+    {
+      "id": "u0076",
+      "text": ". The skill here is reading the brief and seeing which path it already implies."
+    },
+    {
+      "id": "u0077",
+      "text": "Both paths also use a second dial, "
+    },
+    {
+      "id": "u0078",
+      "text": "effort"
+    },
+    {
+      "id": "u0079",
+      "text": ". Effort is a per-request setting that controls how much reasoning the model does before it answers. A higher level buys more intelligence and costs latency and tokens; a lower level answers faster and cheaper but thinks less. That is why \"the deepest reasoning setting\" suits a hard problem and wastes money on simple triage."
+    },
+    {
+      "id": "u0080",
+      "text": "Two starting paths and the discovery findings that select each"
+    },
+    {
+      "id": "u0081",
+      "text": "Path"
+    },
+    {
+      "id": "u0082",
+      "text": "Discovery shows"
+    },
+    {
+      "id": "u0083",
+      "text": "How it proceeds"
+    },
+    {
+      "id": "u0084",
+      "text": "Fast and cost-effective first, e.g. Claude Haiku 4.5"
+    },
+    {
+      "id": "u0085",
+      "text": "Tight latency requirements, cost-sensitive budget, high-volume straightforward tasks, early prototyping"
+    },
+    {
+      "id": "u0086",
+      "text": "Begin with it, test the use case thoroughly, check it against requirements, upgrade only for specific capability gaps"
+    },
+    {
+      "id": "u0087",
+      "text": "Capability first, e.g. Claude Opus 4.8"
+    },
+    {
+      "id": "u0088",
+      "text": "Complex reasoning, scientific work, nuanced understanding, accuracy outweighs cost, advanced coding and high-autonomy agentic work"
+    },
+    {
+      "id": "u0089",
+      "text": "Implement with the strongest starting point, optimise prompts, evaluate, then gain efficiency by lowering effort or downgrading over time"
+    },
+    {
+      "id": "u0090",
+      "text": "Claude Haiku 4.5 suits the first path because it was built for interactive applications and high-volume processing. A support desk triaging 50,000 short tickets a day under a sub-second target is that workload. Starting there and testing on real ticket samples answers every finding at once. Starting with maximum reasoning on every request, or picking a model because of its context window, answers questions the customer never raised. Context window size is not one of the three criteria, and short triage prompts do not need a larger one."
+    },
+    {
+      "id": "u0091",
+      "text": "The second path fits the opposite brief. Take a research team that needs multi-step literature synthesis, says accuracy outweighs cost, and wants a long-running agent that plans its own steps. Here, any proposal whose main purpose is lowering cost misses the stated priority. That includes a cheaper model, lower effort, or a batch pipeline. Tuning effort is a real lever, but it comes later: you adjust it on a model you have already chosen, after evals show where you stand. Whichever path you take, the decision is confirmed the same way, by testing with the customer's actual prompts and data."
+    },
+    {
+      "id": "u0092",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0093",
+      "text": "Discovery should lead to the most capable model at maximum reasoning, so quality is never the bottleneck."
+    },
+    {
+      "id": "u0094",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0098",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0099",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0100",
+      "text": "A research team's brief calls for multi-step literature synthesis and says accuracy outweighs cost, so you take the capability-first path. What confirms that starting choice before you commit to it?"
+    },
+    {
+      "id": "u0101",
+      "text": "Asking the team's IT department which models the organisation already licenses"
+    },
+    {
+      "id": "u0102",
+      "text": "Evaluating the chosen model on the team's own prompts and data, against the success criteria set in discovery"
+    },
+    {
+      "id": "u0103",
+      "text": "Lowering the effort setting straight away and checking whether quality holds while costs drop"
+    },
+    {
+      "id": "u0104",
+      "text": "Comparing published benchmark scores for the candidate models"
+    },
+    {
+      "id": "u0105",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0106",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0107",
+      "text": "During a discovery call, a customer support team says they want to route 50,000 short ticket-triage requests per day, need sub-second responses to keep chat wait times low, and have a limited annual budget for the pilot. Which model selection approach best matches these discovery findings?"
+    },
+    {
+      "id": "u0108",
+      "text": "Begin implementation with Claude Haiku 4.5, test the triage prompts against production ticket samples, and upgrade only if it fails to reach the required accuracy threshold"
+    },
+    {
+      "id": "u0109",
+      "text": "Begin implementation with Claude Opus 4.8 at the xhigh effort setting, since ticket triage requires the deepest available reasoning for professional support quality"
+    },
+    {
+      "id": "u0110",
+      "text": "Begin implementation with Claude Sonnet 5 configured for extended thinking on every request, since frontier intelligence is needed even for short triage prompts"
+    },
+    {
+      "id": "u0111",
+      "text": "Begin implementation with Claude Fable 5 through Project Glasswing, since the 1M token context window will reduce the number of requests needed per day"
+    },
+    {
+      "id": "u0112",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0113",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0114",
+      "text": "A pharmaceutical research team describes a discovery requirement: multi-step literature synthesis across scientific papers where accuracy outweighs response cost, and the workflow will run as a long, high-autonomy agent that plans its own steps. Which model selection approach best fits these gathered requirements?"
+    },
+    {
+      "id": "u0115",
+      "text": "Start with Claude Opus 4.8, since complex reasoning and advanced agentic work are named as strengths for high-autonomy, accuracy-critical tasks"
+    },
+    {
+      "id": "u0116",
+      "text": "Start with Claude Haiku 4.5, since its low per-token cost lets the team run more synthesis passes within the same research budget"
+    },
+    {
+      "id": "u0117",
+      "text": "Start with Claude Sonnet 5 at a reduced effort level, since lowering effort is described as the preferred lever for reducing overall project cost"
+    },
+    {
+      "id": "u0118",
+      "text": "Start with the Batch API using any available model, since asynchronous processing is the primary way Anthropic recommends improving synthesis accuracy"
+    },
+    {
+      "id": "u0119",
+      "text": "Sources"
+    },
+    {
+      "id": "u0120",
+      "text": "Writing measurable success criteria"
+    },
+    {
+      "id": "u0121",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0122",
+      "text": "\"The model should classify sentiments well.\" Before reading on, rewrite this requirement so it could fail. What did you have to decide that the original left open?"
+    },
+    {
+      "id": "u0123",
+      "text": "Good success criteria are "
+    },
+    {
+      "id": "u0124",
+      "text": "specific, measurable, achievable and relevant"
+    },
+    {
+      "id": "u0125",
+      "text": ". Specific means naming the target: \"accurate sentiment classification\" instead of \"good performance\". Measurable means a quantitative metric, or a well-defined qualitative scale that is applied consistently. Achievable means the target comes from industry benchmarks, prior experiments, AI research or expert knowledge, and does not demand more than current frontier models can deliver. Relevant means the criterion matches the application's purpose. Strong citation accuracy might be critical for a medical app and matter much less for a casual chatbot."
+    },
+    {
+      "id": "u0126",
+      "text": "Safety is not exempt from measurement. \"Safe outputs\" cannot fail. \"Less than 0.1% of outputs out of 10,000 trials flagged for toxicity by the content filter\" can. The same applies to quality: \"classify sentiments well\" becomes an F1 score of at least 0.85 on a held-out set of 10,000 diverse Twitter posts, a 5% improvement over the current baseline."
+    },
+    {
+      "id": "u0127",
+      "text": "One metric is rarely enough. A triage model that hits its accuracy target but takes three seconds to answer, or blows the budget, has still failed the customer. Most use cases need criteria along several dimensions at once, each with its own threshold:"
+    },
+    {
+      "id": "u0128",
+      "text": "One vague requirement rewritten as multidimensional criteria"
+    },
+    {
+      "id": "u0129",
+      "text": "Dimension"
+    },
+    {
+      "id": "u0130",
+      "text": "Vague"
+    },
+    {
+      "id": "u0131",
+      "text": "Measurable"
+    },
+    {
+      "id": "u0132",
+      "text": "Quality"
+    },
+    {
+      "id": "u0133",
+      "text": "Classifies sentiment well"
+    },
+    {
+      "id": "u0134",
+      "text": "F1 of at least 0.85 on a held-out set of 10,000 diverse Twitter posts"
+    },
+    {
+      "id": "u0135",
+      "text": "Safety"
+    },
+    {
+      "id": "u0136",
+      "text": "Outputs are safe"
+    },
+    {
+      "id": "u0137",
+      "text": "99.5% of outputs are non-toxic"
+    },
+    {
+      "id": "u0138",
+      "text": "Error severity"
+    },
+    {
+      "id": "u0139",
+      "text": "Few bad mistakes"
+    },
+    {
+      "id": "u0140",
+      "text": "90% of errors would cause inconvenience, not egregious error, with both terms defined"
+    },
+    {
+      "id": "u0141",
+      "text": "Latency"
+    },
+    {
+      "id": "u0142",
+      "text": "Fast"
+    },
+    {
+      "id": "u0143",
+      "text": "95% response time < 200ms"
+    },
+    {
+      "id": "u0144",
+      "text": "Cost"
+    },
+    {
+      "id": "u0145",
+      "text": "Affordable"
+    },
+    {
+      "id": "u0146",
+      "text": "A budget that accounts for cost per API call, model size and frequency of usage"
+    },
+    {
+      "id": "u0147",
+      "text": "The latency threshold should come from discovery, not from instinct. Acceptable response time depends on the application's real-time requirements and on what its users expect. A chat widget and an overnight report have very different answers."
+    },
+    {
+      "id": "u0148",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0149",
+      "text": "A single accuracy target is a complete success criterion."
+    },
+    {
+      "id": "u0150",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0154",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0155",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0156",
+      "text": "Your team agreed on a single success criterion for a customer-facing chat widget: F1 of at least 0.85 on a held-out test set. The build scores 0.88, but 95th-percentile responses take three seconds and per-call costs exceed the pilot budget. What went wrong?"
+    },
+    {
+      "id": "u0157",
+      "text": "The criteria were incomplete. Latency and cost each needed their own measurable threshold, taken from discovery, alongside the quality target."
+    },
+    {
+      "id": "u0158",
+      "text": "Nothing in the criteria. Latency and cost are operational details to tune after launch, once quality has been proven."
+    },
+    {
+      "id": "u0159",
+      "text": "The criterion fails the 'achievable' test, because an F1 of 0.85 is beyond what current frontier models can deliver."
+    },
+    {
+      "id": "u0160",
+      "text": "The F1 target was set too low. Raising it to 0.95 would have caught this build before sign-off."
+    },
+    {
+      "id": "u0161",
+      "text": "Sources"
+    },
+    {
+      "id": "u0162",
+      "text": "Surfacing unknown requirements before implementation"
+    },
+    {
+      "id": "u0163",
+      "text": "The techniques in this section are run with Claude, acting as a coding agent that helps build the solution, before it writes any code. Claude can search a codebase and the internet quickly, so it finds your unknowns faster than you can alone. Some requirements cannot be collected by asking, because nobody knows to state them. "
+    },
+    {
+      "id": "u0164",
+      "text": "Unknown unknowns"
+    },
+    {
+      "id": "u0165",
+      "text": " are the questions you do not know to ask. In unfamiliar territory you may not know what good looks like, what has been tried before, or what potholes to avoid. "
+    },
+    {
+      "id": "u0166",
+      "text": "Unknown knowns"
+    },
+    {
+      "id": "u0167",
+      "text": " are criteria people only recognise when they see them, such as a layout or a visual style. Both are cheapest to find before implementation. Small changes in a feature or spec can produce drastically different code, and the coding agent finds earlier changes harder to revert."
+    },
+    {
+      "id": "u0168",
+      "text": "Techniques that expose unknowns, matched to what each one finds"
+    },
+    {
+      "id": "u0169",
+      "text": "Technique"
+    },
+    {
+      "id": "u0170",
+      "text": "What it exposes"
+    },
+    {
+      "id": "u0171",
+      "text": "Example request"
+    },
+    {
+      "id": "u0172",
+      "text": "Blind spot pass"
+    },
+    {
+      "id": "u0173",
+      "text": "Unknown unknowns in an unfamiliar area"
+    },
+    {
+      "id": "u0174",
+      "text": "Ask Claude to find and explain your unknown unknowns about the auth modules before you add a provider"
+    },
+    {
+      "id": "u0175",
+      "text": "Prototype or mock"
+    },
+    {
+      "id": "u0176",
+      "text": "Unknown knowns you will only recognise on sight"
+    },
+    {
+      "id": "u0177",
+      "text": "A single HTML file mocking a toolbar with fake data, before anything is wired up"
+    },
+    {
+      "id": "u0178",
+      "text": "Several directions at once"
+    },
+    {
+      "id": "u0179",
+      "text": "Preferences nobody can articulate"
+    },
+    {
+      "id": "u0180",
+      "text": "Four wildly different dashboard designs to react to"
+    },
+    {
+      "id": "u0181",
+      "text": "Interview"
+    },
+    {
+      "id": "u0182",
+      "text": "Ambiguities that change the design"
+    },
+    {
+      "id": "u0183",
+      "text": "One question at a time, prioritising answers that would change the architecture"
+    },
+    {
+      "id": "u0184",
+      "text": "Reference"
+    },
+    {
+      "id": "u0185",
+      "text": "Behaviour that is hard to describe"
+    },
+    {
+      "id": "u0186",
+      "text": "Point at source code that already implements the behaviour you want"
+    },
+    {
+      "id": "u0187",
+      "text": "Implementation plan review"
+    },
+    {
+      "id": "u0188",
+      "text": "Decisions most likely to change"
+    },
+    {
+      "id": "u0189",
+      "text": "A plan focused on data models, type interfaces and UX flows, reviewed before coding"
+    },
+    {
+      "id": "u0190",
+      "text": "Prototypes and mocks are spikes in practice. Each is a small throwaway build that answers one question, such as whether this layout works, without committing to a backend route or new state. An interview does the same for spoken requirements. It works best when you give Claude context about where you are and tell it to dig into the hard parts rather than the obvious ones."
+    },
+    {
+      "id": "u0191",
+      "text": "An interview prompt that turns discovery into a written spec"
+    },
+    {
+      "id": "u0192",
+      "text": "text"
+    },
+    {
+      "id": "u0193",
+      "text": "Reviewing sample data exposes what interviews miss. Real inputs come in shapes nobody mentions in a meeting: irrelevant or nonexistent data, overly long input, poor or harmful user input, and ambiguous cases where even humans would struggle to agree. Asking the customer for a sample of production inputs early lets those cases shape the requirements, instead of appearing first in production."
+    },
+    {
+      "id": "u0194",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0195",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0196",
+      "text": "This interview prompt is meant to turn discovery into a written spec by surfacing the ambiguities that change the design. Which word completes it?"
+    },
+    {
+      "id": "u0197",
+      "text": "obvious"
+    },
+    {
+      "id": "u0198",
+      "text": "technical"
+    },
+    {
+      "id": "u0199",
+      "text": "follow-up"
+    },
+    {
+      "id": "u0200",
+      "text": "open-ended"
+    },
+    {
+      "id": "u0201",
+      "text": "Sources"
+    },
+    {
+      "id": "u0202",
+      "text": "Acceptance tests defined before code"
+    },
+    {
+      "id": "u0203",
+      "text": "Acceptance tests written before implementation give you, the customer and Claude one shared definition of done. Five to seven statements are usually enough. Each one must be concrete enough that a stranger could judge pass or fail. \"The system is easy to use\" fails that check. \"A patient with a basic smartphone can find the current wait time in under 30 seconds without creating an account\" passes it. The second version contains a user, a device, a time limit and a constraint, each of which came out of the discovery brief."
+    },
+    {
+      "id": "u0204",
+      "text": "First drafts are usually written for humans to judge. Rewrite them so each one is something code could pass or fail, and add edge cases. For the clinic, those include the clinic being closed, having no data, and a wait time of zero."
+    },
+    {
+      "id": "u0205",
+      "text": "For agent-built systems, the same discipline scales up to a feature list. A long-running harness is a multi-agent build in which one agent writes the feature list and later agents implement it. An initializer agent starts first and expands the user's initial prompt into a comprehensive file of feature requirements. In the harness's claude.ai clone example that meant over 200 features, each marked failing at the start. Coding agents then work through the list one feature at a time, and may only flip the "
+    },
+    {
+      "id": "u0206",
+      "text": " field. Strongly worded instructions forbade removing or editing tests, which would hide missing or buggy functionality."
+    },
+    {
+      "id": "u0207",
+      "text": "One acceptance test from a feature-requirements file, failing until the feature is built"
+    },
+    {
+      "id": "u0208",
+      "text": "json"
+    },
+    {
+      "id": "u0209",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0210",
+      "text": "Pick a requirement from a recent project that nobody could have failed. What would a stranger need to see to fail it?"
+    },
+    {
+      "id": "u0211",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0212",
+      "text": "Acceptance tests are written once the first build exists, so they can reflect what was actually built."
+    },
+    {
+      "id": "u0213",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0215",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0216",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0217",
+      "text": "An initializer agent writes this feature requirement before any code for it exists. Later coding agents may only change one field, and only once the feature is built. Which value completes the entry as the initializer agent writes it?"
+    },
+    {
+      "id": "u0218",
+      "text": "true"
+    },
+    {
+      "id": "u0219",
+      "text": "\"pending\""
+    },
+    {
+      "id": "u0220",
+      "text": "null"
+    },
+    {
+      "id": "u0221",
+      "text": "false"
+    },
+    {
+      "id": "u0222",
+      "text": "Sources"
+    },
+    {
+      "id": "u0223",
+      "text": "The Description Chain: from the user's words to Claude's instruction"
+    },
+    {
+      "id": "u0224",
+      "text": "The Description Chain traces every requirement through four links: the user's own words, a product requirement, a technical spec, and finally the instruction Claude receives. Prompt engineering is only the last link. The builder translates at every step, and each step involves judgement calls the previous one did not make. The chain also has a hard limit: Claude cannot hear what the user did not say."
+    },
+    {
+      "id": "u0225",
+      "text": "Links of the Description Chain and the judgement each one adds"
+    },
+    {
+      "id": "u0226",
+      "text": "Link"
+    },
+    {
+      "id": "u0227",
+      "text": "What it holds"
+    },
+    {
+      "id": "u0228",
+      "text": "Judgement the builder makes"
+    },
+    {
+      "id": "u0229",
+      "text": "User voice"
+    },
+    {
+      "id": "u0230",
+      "text": "The need as users describe it"
+    },
+    {
+      "id": "u0231",
+      "text": "Which users, which outcome, what experience"
+    },
+    {
+      "id": "u0232",
+      "text": "Requirement"
+    },
+    {
+      "id": "u0233",
+      "text": "One measurable paragraph"
+    },
+    {
+      "id": "u0234",
+      "text": "Every adjective becomes a defensible decision: \"fast\" becomes how fast"
+    },
+    {
+      "id": "u0235",
+      "text": "Technical spec"
+    },
+    {
+      "id": "u0236",
+      "text": "The pieces and how they talk to each other"
+    },
+    {
+      "id": "u0237",
+      "text": "Push back on proposed approaches that break the constraints"
+    },
+    {
+      "id": "u0238",
+      "text": "AI instruction"
+    },
+    {
+      "id": "u0239",
+      "text": "Constraints, stack choices and tests"
+    },
+    {
+      "id": "u0240",
+      "text": "What Claude must be told so the spec becomes working code"
+    },
+    {
+      "id": "u0241",
+      "text": "The chain is a diagnostic tool as well as a writing order. If the code works but the product does not, that is a description failure, and the fix belongs at the link that broke, not in the prompt. Tests are the most precise form of description, which makes them a useful signal. A passing test with an unhappy user means the test described the wrong intent. The break is upstream, between the user's words and the requirement."
+    },
+    {
+      "id": "u0242",
+      "text": "Every acceptance test for the clinic tool passes. A tester playing a patient with a sick child and ten minutes to spare gives up before finding the wait time. Which link do you revisit first?"
+    },
+    {
+      "id": "u0243",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0244",
+      "text": "If all the tests pass, the requirement has been met."
+    },
+    {
+      "id": "u0245",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0247",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0248",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0249",
+      "text": "Put the links of the Description Chain for the clinic wait-time tool in order, starting from the patient's need and ending with the instruction Claude builds from."
+    },
+    {
+      "id": "u0250",
+      "text": "Requirement: scope that need into one measurable paragraph, so that \"fast\" states how fast"
+    },
+    {
+      "id": "u0251",
+      "text": "User voice: capture the need as patients describe it, such as a parent with a sick child checking from a phone in a parking lot"
+    },
+    {
+      "id": "u0252",
+      "text": "Technical spec: name the pieces and how they talk to each other, and push back on proposed approaches that break the constraints"
+    },
+    {
+      "id": "u0253",
+      "text": "AI instruction: give Claude the constraints, stack choices and tests that turn the spec into working code"
+    },
+    {
+      "id": "u0254",
+      "text": "Check order"
+    },
+    {
+      "id": "u0255",
+      "text": "Sources"
+    },
+    {
+      "id": "u0256",
+      "text": "Sources"
+    }
+  ]
+}

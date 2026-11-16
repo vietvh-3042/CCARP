@@ -1,0 +1,787 @@
+{
+  "pageId": "2.4",
+  "title": "Context window budgeting: what counts and how to measure it",
+  "titleVi": "Phân bổ dung lượng cửa sổ ngữ cảnh: những gì được tính và cách đo",
+  "units": [
+    {
+      "id": "description",
+      "text": "Optimize context windows and manage token usage"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "List every component of a request that counts toward Claude's context window and budget them as one total"
+    },
+    {
+      "id": "u0002",
+      "text": "Predict how the API responds when input alone, or input plus max_tokens, exceeds the window"
+    },
+    {
+      "id": "u0003",
+      "text": "Explain how thinking blocks from earlier turns affect later context and billing on different models"
+    },
+    {
+      "id": "u0004",
+      "text": "Measure context use before a request with the token counting endpoint and after it with the usage fields"
+    },
+    {
+      "id": "u0005",
+      "text": "Match a tool-heavy agent's context cost to the technique that reduces it"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Context window as one shared budget"
+    },
+    {
+      "id": "u0008",
+      "text": "The context window is a single token budget. The system prompt, tool definitions, the whole message history with its tool results, and the turn's output and thinking all draw on it. Caching changes what those tokens cost you, but they still take up space in the window."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "What fills the context window"
+    },
+    {
+      "id": "u0011",
+      "text": "What happens at the limit"
+    },
+    {
+      "id": "u0012",
+      "text": "Thinking tokens across turns"
+    },
+    {
+      "id": "u0013",
+      "text": "Measuring tokens before and after a request"
+    },
+    {
+      "id": "u0014",
+      "text": "Cutting what tools cost in context"
+    },
+    {
+      "id": "u0015",
+      "text": "What fills the context window"
+    },
+    {
+      "id": "u0016",
+      "text": "The context window is the model's working memory for a single request. Everything Claude can refer to while it answers sits inside it, and so does the answer it is writing. The request side holds the system prompt, every message in "
+    },
+    {
+      "id": "u0017",
+      "text": " (tool results, images and documents included) and your tool definitions. The output Claude generates for the turn counts as well, and that includes its extended thinking. Treat these as one budget: a 30,000-token tool catalogue leaves 30,000 fewer tokens for conversation, whether or not any tool gets called."
+    },
+    {
+      "id": "u0018",
+      "text": "Where a request's tokens come from"
+    },
+    {
+      "id": "u0019",
+      "text": "Component"
+    },
+    {
+      "id": "u0020",
+      "text": "Counts toward the window?"
+    },
+    {
+      "id": "u0021",
+      "text": "Note"
+    },
+    {
+      "id": "u0022",
+      "text": "System prompt"
+    },
+    {
+      "id": "u0023",
+      "text": "Yes"
+    },
+    {
+      "id": "u0024",
+      "text": "Sent on every request"
+    },
+    {
+      "id": "u0025",
+      "text": "Tool definitions"
+    },
+    {
+      "id": "u0026",
+      "text": "Yes"
+    },
+    {
+      "id": "u0027",
+      "text": "Present even on turns where no tool is called"
+    },
+    {
+      "id": "u0028",
+      "text": "Messages, including tool results, images and documents"
+    },
+    {
+      "id": "u0029",
+      "text": "Yes"
+    },
+    {
+      "id": "u0030",
+      "text": "Grow with every turn, because previous turns are kept in full"
+    },
+    {
+      "id": "u0031",
+      "text": "Output for the turn, including extended thinking"
+    },
+    {
+      "id": "u0032",
+      "text": "Yes"
+    },
+    {
+      "id": "u0033",
+      "text": "Capped by max_tokens, up to 128k on 1M-window models"
+    },
+    {
+      "id": "u0034",
+      "text": "Cached prefix (cache_read_input_tokens, cache_creation_input_tokens)"
+    },
+    {
+      "id": "u0035",
+      "text": "Yes"
+    },
+    {
+      "id": "u0036",
+      "text": "Caching changes the price of these tokens, not whether they count"
+    },
+    {
+      "id": "u0037",
+      "text": "Window sizes are large now. Claude Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.1 and several others have a 1M-token window and can produce up to 128k output tokens in one request. Older models, such as the deprecated Claude Sonnet 4.5, have 200k. On 1M-window models the full window is the default and is billed at standard pricing. The exception is Claude Haiku 5.5, where prompts over 100,000 tokens cost more."
+    },
+    {
+      "id": "u0038",
+      "text": "A bigger window doesn't mean you should fill it. Accuracy and recall get worse as the token count grows, so a sensible budget stays well under the ceiling. "
+    },
+    {
+      "id": "u0039",
+      "text": "Context limits and context rot"
+    },
+    {
+      "id": "u0040",
+      "text": " explains that degradation. In this lesson it matters because it is the reason to measure context and trim it long before the hard limit."
+    },
+    {
+      "id": "u0041",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0042",
+      "text": "Cached prompt prefixes don't count toward the context window, because they're read from cache."
+    },
+    {
+      "id": "u0043",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0046",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0047",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0048",
+      "text": "An agent caches its 40,000-token system prompt and tool catalogue. On the next turn, the response's usage field shows cache_read_input_tokens: 40,000 and input_tokens: 5,000, and no tool was called. How many tokens of the context window does that turn's input take up?"
+    },
+    {
+      "id": "u0049",
+      "text": "5,000, because tokens read from the cache don't take up window space"
+    },
+    {
+      "id": "u0050",
+      "text": "40,000, because only the cached prefix is kept in the model's working memory"
+    },
+    {
+      "id": "u0051",
+      "text": "5,000 plus the system prompt, but not the tool definitions, because no tool was called"
+    },
+    {
+      "id": "u0052",
+      "text": "45,000, because cached and uncached input tokens both count toward the window"
+    },
+    {
+      "id": "u0053",
+      "text": "Sources"
+    },
+    {
+      "id": "u0054",
+      "text": "What happens at the limit"
+    },
+    {
+      "id": "u0055",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0056",
+      "text": "A request to a recent Claude model has input that fits the window comfortably, but input plus the requested max_tokens is larger than the window. What does the API do?"
+    },
+    {
+      "id": "u0057",
+      "text": "Rejects it with a 400 before generation starts"
+    },
+    {
+      "id": "u0058",
+      "text": "Silently drops the oldest turns so the request fits"
+    },
+    {
+      "id": "u0059",
+      "text": "Accepts it, and stops generation early if output reaches the window limit"
+    },
+    {
+      "id": "u0060",
+      "text": "The API handles two overflow cases differently."
+    },
+    {
+      "id": "u0061",
+      "text": "Input alone is larger than the window."
+    },
+    {
+      "id": "u0062",
+      "text": " Every model rejects the request with a "
+    },
+    {
+      "id": "u0063",
+      "text": " (\"prompt is too long\"). Generation never begins."
+    },
+    {
+      "id": "u0064",
+      "text": "**Input fits, but input plus "
+    },
+    {
+      "id": "u0065",
+      "text": " doesn't.** On Claude 4.5 models and newer (Opus 4.8 included), the request is accepted. If generation then reaches the window limit, it stops with "
+    },
+    {
+      "id": "u0066",
+      "text": ". Earlier models return a validation error unless you opt in with the "
+    },
+    {
+      "id": "u0067",
+      "text": " beta header."
+    },
+    {
+      "id": "u0068",
+      "text": "In neither case does the API rescue the request for you. It doesn't drop old turns and it doesn't enlarge the window for one call. Some chat interfaces such as claude.ai manage the window on a rolling first-in, first-out basis, but a plain API request keeps every previous turn in full. If your code doesn't check "
+    },
+    {
+      "id": "u0069",
+      "text": ", it will treat a truncated answer as a finished one."
+    },
+    {
+      "id": "u0070",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0071",
+      "text": "If input plus max_tokens is larger than the window, the API rejects the request with a 400, just as it does when the input is too long."
+    },
+    {
+      "id": "u0072",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0074",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0075",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0076",
+      "text": "A team moves its long-running support chat from claude.ai to direct Messages API calls. The team assumes that, as on claude.ai, the oldest turns will fall out of the window on their own once the conversation gets long. On the plain API, what actually happens to earlier turns?"
+    },
+    {
+      "id": "u0077",
+      "text": "The API temporarily enlarges the window for that request so no turns have to be dropped"
+    },
+    {
+      "id": "u0078",
+      "text": "Every previous turn the client sends stays in the window in full, so the team's code has to manage context growth itself"
+    },
+    {
+      "id": "u0079",
+      "text": "The API drops the oldest turns first-in, first-out, so the most recent turns always fit"
+    },
+    {
+      "id": "u0080",
+      "text": "The API automatically summarizes older turns once input approaches the window size"
+    },
+    {
+      "id": "u0081",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0082",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0083",
+      "text": "A developer calling Claude Opus 4.8 sends a request where the input tokens alone fit comfortably within the model's context window, but input tokens plus the requested max_tokens together exceed it. What should they expect from the API?"
+    },
+    {
+      "id": "u0084",
+      "text": "The API accepts the request, and if generation reaches the context window limit it stops early with stop_reason set to model_context_window_exceeded"
+    },
+    {
+      "id": "u0085",
+      "text": "The API immediately returns a 400 invalid_request_error before any generation begins, the same way it would if the input alone exceeded the window"
+    },
+    {
+      "id": "u0086",
+      "text": "The API silently drops the oldest turns from the conversation history so the remaining request fits within the window"
+    },
+    {
+      "id": "u0087",
+      "text": "The API automatically raises the effective context window size for that single request to accommodate the requested max_tokens"
+    },
+    {
+      "id": "u0088",
+      "text": "Sources"
+    },
+    {
+      "id": "u0089",
+      "text": "Thinking tokens across turns"
+    },
+    {
+      "id": "u0090",
+      "text": "Thinking draws on two budgets at once. In the turn where it's generated, thinking is part of "
+    },
+    {
+      "id": "u0091",
+      "text": ", is billed as output and counts toward rate limits. With adaptive thinking, Claude decides how much to think, so thinking usage changes from request to request. What happens to those blocks on later turns depends on the model."
+    },
+    {
+      "id": "u0092",
+      "text": "How earlier thinking blocks are handled on later turns"
+    },
+    {
+      "id": "u0093",
+      "text": "Model family"
+    },
+    {
+      "id": "u0094",
+      "text": "Earlier thinking blocks on later turns"
+    },
+    {
+      "id": "u0095",
+      "text": "Effect on later requests"
+    },
+    {
+      "id": "u0096",
+      "text": "Opus 4.5 and later, Sonnet 4.6 and later, Haiku 5.5, Fable and Mythos models"
+    },
+    {
+      "id": "u0097",
+      "text": "Kept by default"
+    },
+    {
+      "id": "u0098",
+      "text": "Count toward the window and are billed as input tokens, like any other history"
+    },
+    {
+      "id": "u0099",
+      "text": "Earlier Opus and Sonnet models, all Haiku models through Haiku 4.5"
+    },
+    {
+      "id": "u0100",
+      "text": "Stripped automatically by the API when you pass them back"
+    },
+    {
+      "id": "u0101",
+      "text": "Don't count toward the window; you don't need to strip them yourself"
+    },
+    {
+      "id": "u0102",
+      "text": "So on a model that keeps thinking, a block is paid for twice in different ways. It is billed once as output when it's generated, and then billed as input on every later request that carries it. Over a 40-turn session that adds up. Thinking block clearing (taught in the context editing lesson) lets you override the default in either direction."
+    },
+    {
+      "id": "u0103",
+      "text": "Tool use adds one hard rule. When you send back a tool result, you must include the thinking block from that assistant turn, complete and unmodified, with its signature. This is the only case where returning thinking is required. The API checks the cryptographic signature and returns an error if the block has been changed. Once the tool cycle ends and a new user turn starts, that block no longer has to stay in context."
+    },
+    {
+      "id": "u0104",
+      "text": "Some models also see their own budget. Claude Sonnet 5, Sonnet 4.6, Sonnet 4.5 and Haiku 4.5 have context awareness. The API puts the total window in a "
+    },
+    {
+      "id": "u0105",
+      "text": " tag and sends a remaining-capacity warning after each tool call, so the model can pace a long task. Opus 4.7 and later, Sonnet 5.5, Haiku 5.5 and the Fable and Mythos models don't get these tags. On those models you can set an explicit budget with task budgets, which are in beta."
+    },
+    {
+      "id": "u0106",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0107",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0108",
+      "text": "A team moves a multi-turn agent from Claude Haiku 4.5 to Claude Haiku 5.5 and changes no code. The client has always sent earlier assistant turns back with their thinking blocks included. On later turns, input_tokens now grow much faster than before. What explains this?"
+    },
+    {
+      "id": "u0109",
+      "text": "Haiku 5.5 keeps earlier thinking blocks by default, so they count toward the window and are billed as input on each later request. Haiku 4.5 stripped them automatically."
+    },
+    {
+      "id": "u0110",
+      "text": "Haiku 5.5 bills each earlier thinking block as output tokens again on every later turn"
+    },
+    {
+      "id": "u0111",
+      "text": "Haiku 5.5 gets an injected <budget:token_budget> tag and a remaining-capacity warning on every request, and these add to the input"
+    },
+    {
+      "id": "u0112",
+      "text": "Haiku 5.5 uses adaptive thinking, and the current turn's thinking is counted in that same request's input_tokens"
+    },
+    {
+      "id": "u0113",
+      "text": "Sources"
+    },
+    {
+      "id": "u0114",
+      "text": "Measuring tokens before and after a request"
+    },
+    {
+      "id": "u0115",
+      "text": "Measure in two places. Before a call, the token counting endpoint takes the same structured input as a message request (system prompt, tools, images, PDFs) and returns the input token count. After a call, the response's "
+    },
+    {
+      "id": "u0116",
+      "text": " field reports what the request actually consumed. With prompt caching, the input is split across "
+    },
+    {
+      "id": "u0117",
+      "text": " and "
+    },
+    {
+      "id": "u0118",
+      "text": ", and all three count toward the window. A dashboard that adds up only "
+    },
+    {
+      "id": "u0119",
+      "text": " will underreport context use badly once caching is on."
+    },
+    {
+      "id": "u0120",
+      "text": "Counting input tokens before sending; the response is { \"input_tokens\": 14 }"
+    },
+    {
+      "id": "u0121",
+      "text": "python"
+    },
+    {
+      "id": "u0122",
+      "text": "Pre-counting has a few limits worth knowing."
+    },
+    {
+      "id": "u0123",
+      "text": "It returns "
+    },
+    {
+      "id": "u0124",
+      "text": " for server tools such as web search and code execution, for the MCP connector, and for image or document blocks given as a "
+    },
+    {
+      "id": "u0125",
+      "text": " or file source. Send images and PDFs as base64 to count them. For server-tool requests, use the "
+    },
+    {
+      "id": "u0126",
+      "text": " object on the real response."
+    },
+    {
+      "id": "u0127",
+      "text": "It gives an estimate without caching logic. "
+    },
+    {
+      "id": "u0128",
+      "text": " is accepted but has no effect."
+    },
+    {
+      "id": "u0129",
+      "text": "It counts with the tokenizer of the model you pass. The Fable and Mythos models use the tokenizer introduced with Opus 4.7, which counts roughly 30 percent more tokens than models before Opus 4.7. Before a migration, count the same request on both models and compare."
+    },
+    {
+      "id": "u0130",
+      "text": "The endpoint is free, but it has its own requests-per-minute limits by usage tier (5,000 at Start)."
+    },
+    {
+      "id": "u0131",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0132",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0133",
+      "text": "Which method on client.messages returns the input token count for this request without sending it to the model?"
+    },
+    {
+      "id": "u0134",
+      "text": "create"
+    },
+    {
+      "id": "u0135",
+      "text": "tokenize"
+    },
+    {
+      "id": "u0136",
+      "text": "count_tokens"
+    },
+    {
+      "id": "u0137",
+      "text": "estimate_usage"
+    },
+    {
+      "id": "u0138",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0139",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0140",
+      "text": "Your research agent sends every request with the web search server tool enabled. You want to log how many input tokens each request uses so you can track context growth. Which approach works?"
+    },
+    {
+      "id": "u0141",
+      "text": "Call the token counting endpoint with cache_control set, so the count reflects the cached prefix"
+    },
+    {
+      "id": "u0142",
+      "text": "Call the token counting endpoint with the same request before each call, since it accepts every input the Messages API accepts"
+    },
+    {
+      "id": "u0143",
+      "text": "Read only input_tokens from the real response, since cached tokens are not part of the context window"
+    },
+    {
+      "id": "u0144",
+      "text": "Read the usage object on the real response and add input_tokens, cache_read_input_tokens and cache_creation_input_tokens"
+    },
+    {
+      "id": "u0145",
+      "text": "Sources"
+    },
+    {
+      "id": "u0146",
+      "text": "Cutting what tools cost in context"
+    },
+    {
+      "id": "u0147",
+      "text": "In agents, most of the window goes to tools. Tool definitions are sent on every request, and each call leaves a "
+    },
+    {
+      "id": "u0148",
+      "text": " in the history. Each of the four techniques below targets a different source of that pressure, so start by finding out where your tokens are going."
+    },
+    {
+      "id": "u0149",
+      "text": "Which technique addresses which source of tool context pressure"
+    },
+    {
+      "id": "u0150",
+      "text": "Technique"
+    },
+    {
+      "id": "u0151",
+      "text": "What it reduces"
+    },
+    {
+      "id": "u0152",
+      "text": "When it fits"
+    },
+    {
+      "id": "u0153",
+      "text": "Tool search"
+    },
+    {
+      "id": "u0154",
+      "text": "Tool definitions loaded upfront"
+    },
+    {
+      "id": "u0155",
+      "text": "Large toolsets (20+ tools) where most tools aren't needed every turn"
+    },
+    {
+      "id": "u0156",
+      "text": "Programmatic tool calling"
+    },
+    {
+      "id": "u0157",
+      "text": "tool_result roundtrips"
+    },
+    {
+      "id": "u0158",
+      "text": "Chains of tool calls that can execute as a single script"
+    },
+    {
+      "id": "u0159",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0160",
+      "text": "Token cost of repeated tool definitions"
+    },
+    {
+      "id": "u0161",
+      "text": "Stable toolsets across many requests"
+    },
+    {
+      "id": "u0162",
+      "text": "Context editing"
+    },
+    {
+      "id": "u0163",
+      "text": "Old tool_result blocks in history"
+    },
+    {
+      "id": "u0164",
+      "text": "Long conversations where early results are no longer relevant"
+    },
+    {
+      "id": "u0165",
+      "text": "Take an agent with 45 tools. Instead of sending every schema upfront, tool search sends a single "
+    },
+    {
+      "id": "u0166",
+      "text": " tool and Claude finds the others when it needs them. That costs one extra turn of latency and removes most of the baseline definition load. A run of small sequential calls is better handled by programmatic tool calling: Claude writes the chain as one code block that runs in a sandbox, so the intermediate results never come back into the conversation. The definitions you still send can be cached, so repeat requests pay the cache-read rate. Caching only makes the definitions cheaper. They still take up window space."
+    },
+    {
+      "id": "u0167",
+      "text": "Some fixes sound good and miss these cost sources. Moving to a 1M-token model, raising "
+    },
+    {
+      "id": "u0168",
+      "text": ", or shortening tool names leaves the definition load, the roundtrips and the repeated pricing where they were, and a larger window filled with the same tools still suffers context rot. Another fix is structural: hand verbose exploration to a subagent with its own window, so only its condensed answer reaches the main thread. "
+    },
+    {
+      "id": "u0169",
+      "text": "Coordinator pattern and isolated subagent context"
+    },
+    {
+      "id": "u0170",
+      "text": " covers how that pattern works."
+    },
+    {
+      "id": "u0171",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0172",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0173",
+      "text": "Match each tool-context technique to the source of context pressure it actually reduces."
+    },
+    {
+      "id": "u0174",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0175",
+      "text": "Tool search"
+    },
+    {
+      "id": "u0176",
+      "text": "Programmatic tool calling"
+    },
+    {
+      "id": "u0177",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0178",
+      "text": "Context editing"
+    },
+    {
+      "id": "u0179",
+      "text": "Intermediate tool_result roundtrips from a chain of small sequential calls"
+    },
+    {
+      "id": "u0180",
+      "text": "The price of repeated tool definitions, while they still take up window space"
+    },
+    {
+      "id": "u0181",
+      "text": "The schemas of a large toolset that would otherwise be sent upfront on every request"
+    },
+    {
+      "id": "u0182",
+      "text": "Old tool_result blocks in the history that are no longer relevant"
+    },
+    {
+      "id": "u0183",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0184",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0185",
+      "text": "A production agent uses 45 different tools across long-running conversations. The team identifies three separate cost sources: tool schema definitions consuming context on every request even when most tools go unused that turn, many small sequential tool calls each leaving a tool_result in history, and the same stable tool definitions being resent and re-priced identically on every request. Which changes directly address these three sources?"
+    },
+    {
+      "id": "u0186",
+      "text": "(Select "
+    },
+    {
+      "id": "u0187",
+      "text": "Enable the tool search tool so schemas load on demand instead of being sent upfront"
+    },
+    {
+      "id": "u0188",
+      "text": "Use programmatic tool calling so chains of tool calls run as a single script instead of many roundtrips"
+    },
+    {
+      "id": "u0189",
+      "text": "Apply prompt caching to the stable tool definitions so repeated requests pay the discounted cache-read rate"
+    },
+    {
+      "id": "u0190",
+      "text": "Increase max_tokens on every request so more of the response budget is available for tool output"
+    },
+    {
+      "id": "u0191",
+      "text": "Switch to a model with a 1M-token context window without changing which tools are registered"
+    },
+    {
+      "id": "u0192",
+      "text": "Manually shorten tool names to save a few characters per schema across the toolset"
+    },
+    {
+      "id": "u0193",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0194",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0195",
+      "text": "Sources"
+    },
+    {
+      "id": "u0196",
+      "text": "Sources"
+    }
+  ]
+}

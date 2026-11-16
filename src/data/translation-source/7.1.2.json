@@ -1,0 +1,783 @@
+{
+  "pageId": "7.1.2",
+  "title": "Managed policy for Claude Code: delivery, locks and model pins",
+  "titleVi": "Chính sách quản lý tập trung cho Claude Code: phân phối, khóa cài đặt và cố định mô hình",
+  "units": [
+    {
+      "id": "description",
+      "text": "Configure Claude tools and environments for teams"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Choose a delivery mechanism for managed settings and know when each one is re-read"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain how first-wins and merge resolve competing managed sources, and use /status to see which source applied"
+    },
+    {
+      "id": "u0003",
+      "text": "Lock permission rules, MCP servers, plugins and hooks to centrally approved sets"
+    },
+    {
+      "id": "u0004",
+      "text": "Pin the provider, the models and the Claude Code version range a team may use"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Delivering managed settings to every machine"
+    },
+    {
+      "id": "u0007",
+      "text": "When several managed sources compete: first-wins, merge and /status"
+    },
+    {
+      "id": "u0008",
+      "text": "Locking permissions, MCP servers, plugins and hooks"
+    },
+    {
+      "id": "u0009",
+      "text": "Pinning provider, models and versions"
+    },
+    {
+      "id": "u0010",
+      "text": "Delivering managed settings to every machine"
+    },
+    {
+      "id": "u0011",
+      "text": "Managed settings are the top settings scope. Nothing a developer writes in their own files can override them, which makes them the only place to enforce organization policy. The policy is a JSON document with the same keys as any settings file. The hard part is getting it onto every machine and keeping it current."
+    },
+    {
+      "id": "u0012",
+      "text": "A managed-settings.json that denies secret reads, disables bypass mode and makes managed rules the only source of permissions"
+    },
+    {
+      "id": "u0013",
+      "text": "json"
+    },
+    {
+      "id": "u0014",
+      "text": "Delivery mechanisms ranked from highest to lowest priority, and when Claude Code re-reads each"
+    },
+    {
+      "id": "u0015",
+      "text": "Mechanism"
+    },
+    {
+      "id": "u0016",
+      "text": "How you deliver it"
+    },
+    {
+      "id": "u0017",
+      "text": "When Claude Code reads it"
+    },
+    {
+      "id": "u0018",
+      "text": "Priority"
+    },
+    {
+      "id": "u0019",
+      "text": "Server-managed"
+    },
+    {
+      "id": "u0020",
+      "text": "claude.ai admin console or a self-hosted Claude apps gateway"
+    },
+    {
+      "id": "u0021",
+      "text": "Fetched at startup and polled hourly"
+    },
+    {
+      "id": "u0022",
+      "text": "Highest"
+    },
+    {
+      "id": "u0023",
+      "text": "MDM or OS-level policy"
+    },
+    {
+      "id": "u0024",
+      "text": "macOS com.anthropic.claudecode profile, or HKLM\\SOFTWARE\\Policies\\ClaudeCode via Jamf, Intune or Group Policy"
+    },
+    {
+      "id": "u0025",
+      "text": "Read at startup and checked for changes every 30 minutes"
+    },
+    {
+      "id": "u0026",
+      "text": "High"
+    },
+    {
+      "id": "u0027",
+      "text": "File-based"
+    },
+    {
+      "id": "u0028",
+      "text": "managed-settings.json in /Library/Application Support/ClaudeCode/, /etc/claude-code/ or C:\\Program Files\\ClaudeCode\\"
+    },
+    {
+      "id": "u0029",
+      "text": "Read at startup and reloaded when a file changes"
+    },
+    {
+      "id": "u0030",
+      "text": "Medium"
+    },
+    {
+      "id": "u0031",
+      "text": "Windows user registry"
+    },
+    {
+      "id": "u0032",
+      "text": "HKCU\\SOFTWARE\\Policies\\ClaudeCode"
+    },
+    {
+      "id": "u0033",
+      "text": "Checked every 30 minutes, and used only when no admin document sits above it"
+    },
+    {
+      "id": "u0034",
+      "text": "Lowest"
+    },
+    {
+      "id": "u0035",
+      "text": "Choose by what you already run. Server-managed settings give a claude.ai organization one place to change policy without touching any device. MDM fits fleets you already manage with Jamf or Intune. The file is for Linux hosts, machines without MDM, and images you build yourself. On the developer's machine, the terminal, the IDE extensions and Agent SDK sessions all read these sources. The SDK reads them even when "
+    },
+    {
+      "id": "u0036",
+      "text": " excludes the user, project and local files."
+    },
+    {
+      "id": "u0037",
+      "text": "Two gaps catch teams out. First, a cloud session in an Anthropic-hosted environment cannot see a device's MDM profile or file, so its policy has to come from server-managed settings. Second, server-managed settings are fetched only when the session authenticates directly to Anthropic's API, or through a gateway login. A developer on another provider, or with "
+    },
+    {
+      "id": "u0038",
+      "text": " pointed elsewhere, never receives them. Those machines need MDM or the file."
+    },
+    {
+      "id": "u0039",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0040",
+      "text": "Server-managed settings from the claude.ai console reach every developer, whatever provider they use."
+    },
+    {
+      "id": "u0041",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0043",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0044",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0045",
+      "text": "This managed-settings.json is meant to make managed settings the only place allow, ask and deny rules can come from, so developers cannot add their own. Which key completes it?"
+    },
+    {
+      "id": "u0046",
+      "text": "enforceAvailableModels"
+    },
+    {
+      "id": "u0047",
+      "text": "forceRemoteSettingsRefresh"
+    },
+    {
+      "id": "u0048",
+      "text": "disableBypassPermissionsMode"
+    },
+    {
+      "id": "u0049",
+      "text": "allowManagedPermissionRulesOnly"
+    },
+    {
+      "id": "u0050",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0051",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0052",
+      "text": "An organization sets its Claude Code policy only in the claude.ai admin console, as server-managed settings. One team runs Claude Code through another provider, with ANTHROPIC_BASE_URL pointed away from Anthropic's API. What happens to that team's policy?"
+    },
+    {
+      "id": "u0053",
+      "text": "They receive the server-managed settings, but only on the hourly poll instead of at startup"
+    },
+    {
+      "id": "u0054",
+      "text": "Their sessions never fetch the server-managed settings, so their machines need the policy delivered through MDM or a managed-settings.json file"
+    },
+    {
+      "id": "u0055",
+      "text": "They receive the server-managed settings like everyone else, because server-managed settings have the highest priority"
+    },
+    {
+      "id": "u0056",
+      "text": "Claude Code refuses to start until it can reach the admin console"
+    },
+    {
+      "id": "u0057",
+      "text": "Sources"
+    },
+    {
+      "id": "u0058",
+      "text": "When several managed sources compete: first-wins, merge and /status"
+    },
+    {
+      "id": "u0059",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0060",
+      "text": "An organization delivers server-managed settings that deny "
+    },
+    {
+      "id": "u0061",
+      "text": ", and IT also ships a managed-settings.json that denies "
+    },
+    {
+      "id": "u0062",
+      "text": ". Under the default behaviour, which deny rules are in force?"
+    },
+    {
+      "id": "u0063",
+      "text": "Only the server-managed deny, because the file-based source is skipped"
+    },
+    {
+      "id": "u0064",
+      "text": "Both, because list keys always union"
+    },
+    {
+      "id": "u0065",
+      "text": "Only the file's deny, because local files are more specific"
+    },
+    {
+      "id": "u0066",
+      "text": "By default, managed sources do not combine. Under "
+    },
+    {
+      "id": "u0067",
+      "text": ", Claude Code walks down the ranking (remote, then MDM, then files, then HKCU) and uses the first source that carries a policy key. It ignores every source below that one, with no warning. A source that sets only the two control keys, "
+    },
+    {
+      "id": "u0068",
+      "text": " and "
+    },
+    {
+      "id": "u0069",
+      "text": ", does not count as delivering policy, so Claude Code moves on to the next source."
+    },
+    {
+      "id": "u0070",
+      "text": " is how you find a skipped source. It names the source Claude Code used and the ones it skipped. When a deny rule you shipped by MDM seems to have vanished, "
+    },
+    {
+      "id": "u0071",
+      "text": " usually shows that a server-managed policy took priority over it."
+    },
+    {
+      "id": "u0072",
+      "text": "Setting "
+    },
+    {
+      "id": "u0073",
+      "text": " to "
+    },
+    {
+      "id": "u0074",
+      "text": " (Claude Code v2.1.242 or later) applies every admin source that delivers a policy key. On most keys, the higher-ranked value wins. Lists union, and locks take the strictest value. Some keys are read from every admin source even under first-wins. For example, an entry in "
+    },
+    {
+      "id": "u0075",
+      "text": " from any admin source applies. Within the file-based source, "
+    },
+    {
+      "id": "u0076",
+      "text": " and "
+    },
+    {
+      "id": "u0077",
+      "text": " always merge: a later file replaces single values, lists combine with duplicates removed, and nested blocks such as "
+    },
+    {
+      "id": "u0078",
+      "text": " merge key by key."
+    },
+    {
+      "id": "u0079",
+      "text": "Timing matters during a rollout. Most changes reach running sessions on the schedule in the delivery table. A server-managed change to a setting that needs approval, such as a hook or an "
+    },
+    {
+      "id": "u0080",
+      "text": " variable, waits until the developer accepts a dialog. A few keys, including "
+    },
+    {
+      "id": "u0081",
+      "text": ", take effect only at the next session start."
+    },
+    {
+      "id": "u0082",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0083",
+      "text": "When an organization delivers both server-managed settings and a managed-settings.json file, Claude Code merges the two documents."
+    },
+    {
+      "id": "u0084",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0089",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0090",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0091",
+      "text": "After a rollout, developers say a deny rule that IT shipped in the macOS MDM profile is not being enforced. The organization also publishes a policy in the claude.ai admin console, and managedSourcesBehavior is not set. What is the most likely cause, and how should the admin fix it?"
+    },
+    {
+      "id": "u0092",
+      "text": "Developers' local allow rules are overriding the managed deny, so the admin should add allowManagedPermissionRulesOnly to the MDM profile"
+    },
+    {
+      "id": "u0093",
+      "text": "Deny lists from all managed sources always union, so the MDM profile must be malformed and needs to be redeployed"
+    },
+    {
+      "id": "u0094",
+      "text": "The server-managed policy ranks higher and carries a policy key, so first-wins silently skipped the MDM profile. Confirm this with /status, then set managedSourcesBehavior to merge so both sources apply"
+    },
+    {
+      "id": "u0095",
+      "text": "MDM changes are only checked every 30 minutes, so the deny will apply on its own once the next check runs"
+    },
+    {
+      "id": "u0096",
+      "text": "Sources"
+    },
+    {
+      "id": "u0097",
+      "text": "Locking permissions, MCP servers, plugins and hooks"
+    },
+    {
+      "id": "u0098",
+      "text": "A managed deny rule cannot be overridden, but by default developers can still add their own allow rules for anything the policy does not deny. Locks close that gap. Each lock tells Claude Code to ignore a whole category of configuration from user and project sources. The most important one for permissions is "
+    },
+    {
+      "id": "u0099",
+      "text": ", which makes managed settings the only source of permission rules. With it set, nothing a developer writes in their own files can loosen the policy."
+    },
+    {
+      "id": "u0100",
+      "text": "Managed lock keys and what each one controls"
+    },
+    {
+      "id": "u0101",
+      "text": "Key"
+    },
+    {
+      "id": "u0102",
+      "text": "What it locks"
+    },
+    {
+      "id": "u0103",
+      "text": "allowManagedPermissionRulesOnly"
+    },
+    {
+      "id": "u0104",
+      "text": "Makes managed settings the only source of allow, ask and deny rules"
+    },
+    {
+      "id": "u0105",
+      "text": "permissions.disableBypassPermissionsMode"
+    },
+    {
+      "id": "u0106",
+      "text": "Disables --dangerously-skip-permissions; touches no other rule"
+    },
+    {
+      "id": "u0107",
+      "text": "allowedMcpServers, deniedMcpServers, allowManagedMcpServersOnly"
+    },
+    {
+      "id": "u0108",
+      "text": "Which MCP servers users can add or connect to"
+    },
+    {
+      "id": "u0109",
+      "text": "managedMcpServers or a deployed managed-mcp.json"
+    },
+    {
+      "id": "u0110",
+      "text": "A fixed set of MCP servers deployed to every user"
+    },
+    {
+      "id": "u0111",
+      "text": "strictKnownMarketplaces, blockedMarketplaces, disableSideloadFlags"
+    },
+    {
+      "id": "u0112",
+      "text": "Which plugin marketplace sources users can add and install from, and the CLI flags that sideload plugins for a single run"
+    },
+    {
+      "id": "u0113",
+      "text": "strictPluginOnlyCustomization"
+    },
+    {
+      "id": "u0114",
+      "text": "Skills, agents, hooks and MCP servers can come only from plugins or managed settings"
+    },
+    {
+      "id": "u0115",
+      "text": "allowManagedHooksOnly, allowedHttpHookUrls"
+    },
+    {
+      "id": "u0116",
+      "text": "Which hooks run, and which URLs HTTP hooks may call"
+    },
+    {
+      "id": "u0117",
+      "text": "These keys sound alike but do not substitute for each other. "
+    },
+    {
+      "id": "u0118",
+      "text": " removes only the bypass mode. It leaves user allow rules untouched. "
+    },
+    {
+      "id": "u0119",
+      "text": " locks the MCP allowlist, not tool permissions. "
+    },
+    {
+      "id": "u0120",
+      "text": " limits where plugins come from. Pick the key that matches the risk you are closing. The same managed policy can also set which permission mode sessions start in through "
+    },
+    {
+      "id": "u0121",
+      "text": ", and can remove auto mode with "
+    },
+    {
+      "id": "u0122",
+      "text": ". For what each mode means for human review, see "
+    },
+    {
+      "id": "u0123",
+      "text": "Permission modes: how much the human reviews"
+    },
+    {
+      "id": "u0124",
+      "text": "The MCP lock behaves differently under first-wins. A "
+    },
+    {
+      "id": "u0125",
+      "text": " for "
+    },
+    {
+      "id": "u0126",
+      "text": " in any admin source turns the lock on. The allowlist then comes from the highest-ranked admin source that sets one. If no admin source sets a list, every server that passes the denylist loads. Locking without shipping a list is therefore weaker than it looks."
+    },
+    {
+      "id": "u0127",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0128",
+      "text": "Setting disableBypassPermissionsMode stops developers from loosening managed permission rules."
+    },
+    {
+      "id": "u0129",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0132",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0133",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0134",
+      "text": "Each managed lock closes a different gap, and none of them stands in for another. Match each key to what it locks."
+    },
+    {
+      "id": "u0135",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0136",
+      "text": "allowManagedPermissionRulesOnly"
+    },
+    {
+      "id": "u0137",
+      "text": "permissions.disableBypassPermissionsMode"
+    },
+    {
+      "id": "u0138",
+      "text": "allowManagedMcpServersOnly"
+    },
+    {
+      "id": "u0139",
+      "text": "strictKnownMarketplaces"
+    },
+    {
+      "id": "u0140",
+      "text": "allowManagedHooksOnly"
+    },
+    {
+      "id": "u0141",
+      "text": "Restricts which hooks run"
+    },
+    {
+      "id": "u0142",
+      "text": "Allow, ask and deny rules can come only from managed settings, so developers cannot add their own allow rules"
+    },
+    {
+      "id": "u0143",
+      "text": "Turns off --dangerously-skip-permissions and leaves developers' own allow rules in place"
+    },
+    {
+      "id": "u0144",
+      "text": "Locks the allowlist of MCP servers users can connect to, not tool permissions"
+    },
+    {
+      "id": "u0145",
+      "text": "Limits which plugin marketplace sources users can add and install from"
+    },
+    {
+      "id": "u0146",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0147",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0148",
+      "text": "An organization's Owner wants to guarantee that only permission rules defined centrally by the security team take effect for every developer, so that even a well-intentioned engineer cannot loosen a restriction by editing their own settings. Which managed setting accomplishes this?"
+    },
+    {
+      "id": "u0149",
+      "text": "Set allowManagedMcpServersOnly to true, since that key controls the MCP server allowlist rather than general permission rules"
+    },
+    {
+      "id": "u0150",
+      "text": "Set allowManagedPermissionRulesOnly to true, so user and project settings can no longer define any allow, ask, or deny rules"
+    },
+    {
+      "id": "u0151",
+      "text": "Set disableBypassPermissionsMode to disable, which only blocks the bypassPermissions mode from being invoked"
+    },
+    {
+      "id": "u0152",
+      "text": "Set strictKnownMarketplaces to a fixed list, which restricts plugin installation sources rather than tool permissions"
+    },
+    {
+      "id": "u0153",
+      "text": "Sources"
+    },
+    {
+      "id": "u0154",
+      "text": "Pinning provider, models and versions"
+    },
+    {
+      "id": "u0155",
+      "text": "Provider comes first, because it decides how developers authenticate and how usage is billed. Claude for Teams or Enterprise is the default recommendation. Console suits API-first, pay-as-you-go teams. Bedrock, Google Cloud's Agent Platform and Foundry let a team inherit existing cloud compliance controls and billing. Once you have chosen, "
+    },
+    {
+      "id": "u0156",
+      "text": " (v2.1.285 or later) refuses any session on a provider that is not on the list, checking at startup, at login and on the next API call."
+    },
+    {
+      "id": "u0157",
+      "text": "Setting "
+    },
+    {
+      "id": "u0158",
+      "text": " in managed settings only chooses where sessions start. A managed model is a starting default, not a lock. To restrict models, use "
+    },
+    {
+      "id": "u0159",
+      "text": ", which filters the picker. Add "
+    },
+    {
+      "id": "u0160",
+      "text": " to make the auto-selected default obey the list as well. Across managed sources, "
+    },
+    {
+      "id": "u0161",
+      "text": " never merges, so the list from the source that applies is the whole list. "
+    },
+    {
+      "id": "u0162",
+      "text": " caps effort, and the lowest cap across admin sources wins."
+    },
+    {
+      "id": "u0163",
+      "text": "Version pins come in two strengths. "
+    },
+    {
+      "id": "u0164",
+      "text": " stops auto-update from installing anything below an org-wide floor, so it only blocks downgrades. "
+    },
+    {
+      "id": "u0165",
+      "text": " and "
+    },
+    {
+      "id": "u0166",
+      "text": " refuse to start Claude Code outside an approved range. Even these do not end a session that is already running, so a terminal left open for weeks can lag behind a rollout."
+    },
+    {
+      "id": "u0167",
+      "text": "Spend sits alongside these pins. The general mechanics are in "
+    },
+    {
+      "id": "u0168",
+      "text": "Rate limits and spend caps"
+    },
+    {
+      "id": "u0169",
+      "text": ". For a Claude Code team, spend and rate limits are set in organization settings on Teams or Enterprise, as workspace limits on Console, or through cloud budget controls or a gateway with per-user limits on third-party clouds. To see usage, use OpenTelemetry export, which works on every provider, or the analytics dashboard."
+    },
+    {
+      "id": "u0170",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0171",
+      "text": "Setting model in managed settings locks every developer to that model."
+    },
+    {
+      "id": "u0172",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0175",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0176",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0177",
+      "text": "A platform lead puts a model value in managed settings so the whole team uses one model. A week later, developers are still switching to other models. What should the lead have configured?"
+    },
+    {
+      "id": "u0178",
+      "text": "availableModels to filter the models developers can pick, plus enforceAvailableModels so the auto-selected default also follows that list"
+    },
+    {
+      "id": "u0179",
+      "text": "allowManagedPermissionRulesOnly, so developers' own settings can no longer override the managed model"
+    },
+    {
+      "id": "u0180",
+      "text": "managedSourcesBehavior set to merge, so the managed model value is combined with every developer's settings"
+    },
+    {
+      "id": "u0181",
+      "text": "The same model value in the committed .claude/settings.json, so it goes through code review and reaches every clone"
+    },
+    {
+      "id": "u0182",
+      "text": "Sources"
+    },
+    {
+      "id": "u0183",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0184",
+      "text": "Deploy a file-based managed policy on a Linux machine and confirm that Claude Code enforces it"
+    },
+    {
+      "id": "u0185",
+      "text": "Write the managed-settings.json from this page to /etc/claude-code/managed-settings.json"
+    },
+    {
+      "id": "u0186",
+      "text": "Why: "
+    },
+    {
+      "id": "u0187",
+      "text": "This is the file-based managed source on Linux and WSL, which you can use on hosts without MDM"
+    },
+    {
+      "id": "u0188",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0189",
+      "text": "The file sits at the system path, which developers do not edit"
+    },
+    {
+      "id": "u0190",
+      "text": "Start claude in any project and run /status"
+    },
+    {
+      "id": "u0191",
+      "text": "Why: "
+    },
+    {
+      "id": "u0192",
+      "text": "/status names the managed source Claude Code applied and any it skipped"
+    },
+    {
+      "id": "u0193",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0194",
+      "text": "The managed settings file is listed as the source in use, unless a higher-ranked source such as server-managed settings took priority"
+    },
+    {
+      "id": "u0195",
+      "text": "Ask Claude to read ./.env in that project"
+    },
+    {
+      "id": "u0196",
+      "text": "Why: "
+    },
+    {
+      "id": "u0197",
+      "text": "The managed deny rule should block the read regardless of any rule in the user or project files"
+    },
+    {
+      "id": "u0198",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0199",
+      "text": "The read is refused"
+    },
+    {
+      "id": "u0200",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0202",
+      "text": "Sources"
+    }
+  ]
+}

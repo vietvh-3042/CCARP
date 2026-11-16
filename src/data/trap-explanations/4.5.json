@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Longer cache retention has a higher write price. Choose it when avoiding expiry between requests outweighs that premium; rapid reuse usually favors the default.",
+    "vi": "Giữ bộ nhớ đệm lâu hơn có giá ghi cao hơn. Chọn khi lợi ích tránh hết hạn giữa các yêu cầu bù được phần phí tăng; tái sử dụng liên tục thường có lợi hơn với mặc định."
+  },
+  "exam-trap-2": {
+    "en": "Lower effort can reduce reasoning and tool-call tokens, but does not clear existing messages or tool results. Control accumulated history with context management.",
+    "vi": "Giảm effort có thể giảm token suy luận và gọi công cụ, nhưng không xóa tin nhắn hay kết quả công cụ đã có. Cần quản lý ngữ cảnh để kiểm soát lịch sử tích lũy."
+  },
+  "exam-trap-3": {
+    "en": "Editing context can incur costs that exceed the tokens saved. Compare actual task costs with the feature enabled and disabled before adopting it.",
+    "vi": "Chỉnh sửa ngữ cảnh có thể phát sinh chi phí lớn hơn lượng token tiết kiệm được. Hãy so chi phí nhiệm vụ thực tế khi bật và tắt tính năng trước khi áp dụng."
+  },
+  "exam-trap-4": {
+    "en": "The output ceiling does not determine actual token consumption. A higher max_tokens limit can prevent truncation without increasing the cost of already-short answers.",
+    "vi": "Trần đầu ra không quyết định lượng token thực dùng. Tăng max_tokens có thể tránh cắt cụt mà không tăng chi phí của những câu trả lời vốn đã ngắn."
+  },
+  "exam-trap-5": {
+    "en": "Batching lowers price by accepting delayed, non-streaming results. It is suitable for work that can wait, rather than workloads requiring faster responses.",
+    "vi": "Xử lý theo lô giảm giá để đổi lấy kết quả trả chậm và không truyền trực tiếp. Cách này phù hợp với công việc có thể chờ, thay vì công việc cần phản hồi nhanh hơn."
+  }
+}

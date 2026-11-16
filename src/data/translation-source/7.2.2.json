@@ -1,0 +1,823 @@
+{
+  "pageId": "7.2.2",
+  "title": "Claude Code hooks, shared skills and CI automation",
+  "titleVi": "Hook, kỹ năng dùng chung và tự động hóa CI trong Claude Code",
+  "units": [
+    {
+      "id": "description",
+      "text": "Improve developer workflows using AI-assisted tooling"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Choose the hook event and decision that enforce a rule deterministically, instead of relying on the model to follow it"
+    },
+    {
+      "id": "u0002",
+      "text": "Check hooks, Skills and CLAUDE.md into a repository so every developer's session starts with the same tooling"
+    },
+    {
+      "id": "u0003",
+      "text": "Connect Claude to an external system such as a database through an MCP server instead of custom glue code"
+    },
+    {
+      "id": "u0004",
+      "text": "Run Claude Code without a person at the keyboard, through claude -p, GitHub Actions and the Agent SDK"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Hooks: actions that run every time"
+    },
+    {
+      "id": "u0007",
+      "text": "Skills and MCP servers as shared team tooling"
+    },
+    {
+      "id": "u0008",
+      "text": "Running Claude Code in scripts and CI"
+    },
+    {
+      "id": "u0009",
+      "text": "Hooks: actions that run every time"
+    },
+    {
+      "id": "u0010",
+      "text": "Anything you write in a prompt or in CLAUDE.md is guidance. The model reads it and usually follows it, but it decides each time. A hook is not up to the model. It is a shell command that Claude Code runs whenever a particular event fires, whatever the model has decided. Use a hook when a rule must hold every single time: formatting after every edit, a lint before a turn can end, or a destructive command that must never run."
+    },
+    {
+      "id": "u0011",
+      "text": "A hook has three parts. The "
+    },
+    {
+      "id": "u0012",
+      "text": "event"
+    },
+    {
+      "id": "u0013",
+      "text": " says when it fires. The "
+    },
+    {
+      "id": "u0014",
+      "text": "matcher"
+    },
+    {
+      "id": "u0015",
+      "text": " narrows it to particular tools, for example "
+    },
+    {
+      "id": "u0016",
+      "text": " or "
+    },
+    {
+      "id": "u0017",
+      "text": ". The "
+    },
+    {
+      "id": "u0018",
+      "text": "handler"
+    },
+    {
+      "id": "u0019",
+      "text": " is the command that runs. The event matters most, because it decides what the hook is able to do:"
+    },
+    {
+      "id": "u0020",
+      "text": "Commonly used hook events and what each one can do"
+    },
+    {
+      "id": "u0021",
+      "text": "Event"
+    },
+    {
+      "id": "u0022",
+      "text": "When it fires"
+    },
+    {
+      "id": "u0023",
+      "text": "Typical use"
+    },
+    {
+      "id": "u0024",
+      "text": "PreToolUse"
+    },
+    {
+      "id": "u0025",
+      "text": "Before a tool call executes; can block it"
+    },
+    {
+      "id": "u0026",
+      "text": "Deny a dangerous Bash command or an edit to a protected file"
+    },
+    {
+      "id": "u0027",
+      "text": "PostToolUse"
+    },
+    {
+      "id": "u0028",
+      "text": "After a tool call succeeds"
+    },
+    {
+      "id": "u0029",
+      "text": "Run a formatter on the file Claude just edited"
+    },
+    {
+      "id": "u0030",
+      "text": "Stop"
+    },
+    {
+      "id": "u0031",
+      "text": "When Claude finishes responding"
+    },
+    {
+      "id": "u0032",
+      "text": "Block the turn from ending until a check passes"
+    },
+    {
+      "id": "u0033",
+      "text": "SessionStart"
+    },
+    {
+      "id": "u0034",
+      "text": "When a session begins or resumes"
+    },
+    {
+      "id": "u0035",
+      "text": "Re-inject reminders, for example after compaction"
+    },
+    {
+      "id": "u0036",
+      "text": "Notification"
+    },
+    {
+      "id": "u0037",
+      "text": "When Claude Code sends a notification"
+    },
+    {
+      "id": "u0038",
+      "text": "Show a desktop alert when Claude needs your attention"
+    },
+    {
+      "id": "u0039",
+      "text": "Setup"
+    },
+    {
+      "id": "u0040",
+      "text": "On --init-only, or --init or --maintenance in -p mode"
+    },
+    {
+      "id": "u0041",
+      "text": "One-time preparation in CI or scripts"
+    },
+    {
+      "id": "u0042",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0043",
+      "text": "A PostToolUse hook with matcher "
+    },
+    {
+      "id": "u0044",
+      "text": " spots "
+    },
+    {
+      "id": "u0045",
+      "text": " in a command and returns an error. Did the hook stop the deletion?"
+    },
+    {
+      "id": "u0046",
+      "text": "No, PostToolUse fires after the tool call has already succeeded, so the files are gone"
+    },
+    {
+      "id": "u0047",
+      "text": "Only if CLAUDE.md also forbids the command"
+    },
+    {
+      "id": "u0048",
+      "text": "Yes, any hook that returns an error stops the tool call"
+    },
+    {
+      "id": "u0049",
+      "text": "To stop a command before it runs, use PreToolUse with matcher "
+    },
+    {
+      "id": "u0050",
+      "text": ". The hook receives the call as JSON, for example "
+    },
+    {
+      "id": "u0051",
+      "text": ". Your script inspects the command and, if it is not allowed, returns a deny decision:"
+    },
+    {
+      "id": "u0052",
+      "text": "A PreToolUse hook's output that stops a Bash call before it executes"
+    },
+    {
+      "id": "u0053",
+      "text": "json"
+    },
+    {
+      "id": "u0054",
+      "text": "Compare the alternatives for a rule like \"never "
+    },
+    {
+      "id": "u0055",
+      "text": " outside the working directory\". A CLAUDE.md instruction still depends on the model choosing to obey it. Plan mode blocks edits to every source file, which shuts down normal work instead of targeting the one dangerous command. Sending Bash calls to a restricted subagent still leaves a model in charge of the decision. Only the PreToolUse hook enforces the rule the same way every time."
+    },
+    {
+      "id": "u0056",
+      "text": "Hooks become team-wide when they live in "
+    },
+    {
+      "id": "u0057",
+      "text": ". That file applies to a single project and can be committed to the repo, so every developer who clones it gets the same hooks. A PostToolUse hook with matcher "
+    },
+    {
+      "id": "u0058",
+      "text": " that runs "
+    },
+    {
+      "id": "u0059",
+      "text": " formats every file Claude touches. A SessionStart hook with matcher "
+    },
+    {
+      "id": "u0060",
+      "text": " puts key reminders back into context after compaction has summarized the session:"
+    },
+    {
+      "id": "u0061",
+      "text": "A SessionStart hook that re-injects team reminders after context compaction"
+    },
+    {
+      "id": "u0062",
+      "text": "json"
+    },
+    {
+      "id": "u0063",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0064",
+      "text": "A clear instruction in CLAUDE.md is enough to guarantee that Claude never runs a destructive command."
+    },
+    {
+      "id": "u0065",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0067",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0068",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0069",
+      "text": "Your team wants every file Claude edits or writes to be run through Prettier straight away. Which hook event completes this settings sample?"
+    },
+    {
+      "id": "u0070",
+      "text": "PreToolUse"
+    },
+    {
+      "id": "u0071",
+      "text": "PostToolUse"
+    },
+    {
+      "id": "u0072",
+      "text": "SessionStart"
+    },
+    {
+      "id": "u0073",
+      "text": "Stop"
+    },
+    {
+      "id": "u0074",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0075",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0076",
+      "text": "A team lead needs a guarantee that Claude never runs "
+    },
+    {
+      "id": "u0077",
+      "text": " outside the working directory, and wants normal editing to keep working. Which approach enforces this every time?"
+    },
+    {
+      "id": "u0078",
+      "text": "Send all Bash calls to a subagent whose instructions forbid destructive commands"
+    },
+    {
+      "id": "u0079",
+      "text": "Run every session in plan mode so Claude cannot change anything"
+    },
+    {
+      "id": "u0080",
+      "text": "Add a clear rule to the project's CLAUDE.md telling Claude never to run rm -rf outside the working directory"
+    },
+    {
+      "id": "u0081",
+      "text": "Add a PreToolUse hook with matcher Bash that inspects the command and returns a deny decision"
+    },
+    {
+      "id": "u0082",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0083",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0084",
+      "text": "A platform team wants Claude Code to automatically block any Bash tool call that includes rm -rf targeting a path outside the working directory, without relying on the model choosing to avoid it on its own. Which mechanism should they configure?"
+    },
+    {
+      "id": "u0085",
+      "text": "Configure a PreToolUse hook that inspects the Bash tool input and returns a deny decision before the command runs"
+    },
+    {
+      "id": "u0086",
+      "text": "Set the default permission mode to plan mode so Claude proposes changes without executing any commands"
+    },
+    {
+      "id": "u0087",
+      "text": "Add a CLAUDE.md instruction telling Claude never to run destructive delete commands outside the project directory"
+    },
+    {
+      "id": "u0088",
+      "text": "Create a subagent with restricted tool access and instruct the main agent to delegate all Bash calls to it"
+    },
+    {
+      "id": "u0089",
+      "text": "Sources"
+    },
+    {
+      "id": "u0090",
+      "text": "Skills and MCP servers as shared team tooling"
+    },
+    {
+      "id": "u0091",
+      "text": "Every developer's session starts from the same checked-in files. "
+    },
+    {
+      "id": "u0092",
+      "text": "CLAUDE.md as implementation guidance"
+    },
+    {
+      "id": "u0093",
+      "text": " holds the project's conventions. Next to it, hooks enforce rules and Skills package repeatable procedures. Together these three put the whole team on the same workflow without anyone having to configure it locally."
+    },
+    {
+      "id": "u0094",
+      "text": "Agent Skills (SKILL.md)"
+    },
+    {
+      "id": "u0095",
+      "text": " are reusable prompt packages. Checked into the repo, they become a team prompt library. A developer runs a procedure like the one below as "
+    },
+    {
+      "id": "u0096",
+      "text": ", and every teammate's run follows the same eight steps: read the issue, fix it, test, lint, commit and open a PR."
+    },
+    {
+      "id": "u0097",
+      "text": "A repo-level skill that turns the issue-fixing procedure into one command"
+    },
+    {
+      "id": "u0098",
+      "text": "markdown"
+    },
+    {
+      "id": "u0099",
+      "text": "MCP servers are how Claude reaches external systems. When a team wants Claude to query its PostgreSQL database during a session, the fitting approach is to configure an MCP server for that database. The server exposes tools, Claude discovers them through the protocol, and the team writes no tool-execution code of its own. The other options each fail in a specific way. A PreToolUse hook reacts to tool calls that are already happening but gives Claude no new tool. Unrestricted Bash access goes against the practice of permitting only specific tools you know are safe. A subagent whose prompt contains the schema knows about the database but has no way to query it."
+    },
+    {
+      "id": "u0100",
+      "text": "Agent SDK query that connects a Postgres MCP server and allows only its read-only SQL tool"
+    },
+    {
+      "id": "u0101",
+      "text": "typescript"
+    },
+    {
+      "id": "u0102",
+      "text": "Two settings in that example limit what Claude can do. "
+    },
+    {
+      "id": "u0103",
+      "text": " lists the one tool the run may call, "
+    },
+    {
+      "id": "u0104",
+      "text": ". The server's own config sets "
+    },
+    {
+      "id": "u0105",
+      "text": ", so a write is rejected even if Claude produces one. Here access control sits in the integration, not in the prompt."
+    },
+    {
+      "id": "u0106",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0107",
+      "text": "To let Claude query a database, write a hook that runs SQL whenever Claude asks for data."
+    },
+    {
+      "id": "u0108",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0112",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0113",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0114",
+      "text": "During sessions, developers want to ask Claude questions that need live answers from the team's PostgreSQL database. What should the team set up so Claude can run those queries?"
+    },
+    {
+      "id": "u0115",
+      "text": "A PreToolUse hook that runs the SQL whenever Claude asks for data"
+    },
+    {
+      "id": "u0116",
+      "text": "A subagent whose prompt includes the full database schema"
+    },
+    {
+      "id": "u0117",
+      "text": "An MCP server for the database, which exposes query tools that Claude discovers and calls"
+    },
+    {
+      "id": "u0118",
+      "text": "Unrestricted Bash access so Claude can call psql directly"
+    },
+    {
+      "id": "u0119",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0120",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0121",
+      "text": "A team wants Claude Code to query their internal PostgreSQL database directly during a session, without the team writing custom tool-execution code themselves. Which approach fits the Model Context Protocol integration model?"
+    },
+    {
+      "id": "u0122",
+      "text": "Configure an MCP server for the database and let Claude discover its tools through the protocol"
+    },
+    {
+      "id": "u0123",
+      "text": "Write a PreToolUse hook that executes SQL queries whenever Claude requests database access"
+    },
+    {
+      "id": "u0124",
+      "text": "Grant the Bash tool unrestricted access so Claude can invoke the database's command-line client directly"
+    },
+    {
+      "id": "u0125",
+      "text": "Create a subagent whose system prompt contains the database schema and query examples"
+    },
+    {
+      "id": "u0126",
+      "text": "Sources"
+    },
+    {
+      "id": "u0127",
+      "text": "Running Claude Code in scripts and CI"
+    },
+    {
+      "id": "u0128",
+      "text": "Claude Code does not need someone at the keyboard. With "
+    },
+    {
+      "id": "u0129",
+      "text": " you pass a prompt, get the result on standard output, and can pipe data in, as in "
+    },
+    {
+      "id": "u0130",
+      "text": ". Any shell script, cron job or CI step can use it this way. The Setup hook event covers one-time preparation for these runs: it fires on "
+    },
+    {
+      "id": "u0131",
+      "text": " or "
+    },
+    {
+      "id": "u0132",
+      "text": " in "
+    },
+    {
+      "id": "u0133",
+      "text": " mode."
+    },
+    {
+      "id": "u0134",
+      "text": "In GitHub, the Claude Code GitHub Action runs Claude in your CI pipeline. Running "
+    },
+    {
+      "id": "u0135",
+      "text": " from Claude Code installs the GitHub App, adds the authentication secret and opens a pull request with the workflow file. A workflow can run in one of two modes. With no "
+    },
+    {
+      "id": "u0136",
+      "text": " input, it waits for an "
+    },
+    {
+      "id": "u0137",
+      "text": " mention in an issue or PR and posts its progress as a comment. With a "
+    },
+    {
+      "id": "u0138",
+      "text": " input, Claude runs on the trigger alone, and its results go to the workflow run log unless the prompt tells it to post them."
+    },
+    {
+      "id": "u0139",
+      "text": "The job portion of a mention-triggered workflow: permissions, checkout, then the action"
+    },
+    {
+      "id": "u0140",
+      "text": "yaml"
+    },
+    {
+      "id": "u0141",
+      "text": "The team's skill library carries over to CI. Put "
+    },
+    {
+      "id": "u0142",
+      "text": " before the Claude step so the files in "
+    },
+    {
+      "id": "u0143",
+      "text": " exist on the runner, then pass "
+    },
+    {
+      "id": "u0144",
+      "text": " as the prompt. Locally and in CI, the same skill runs the same procedure. To restrict tools in CI, pass flags through "
+    },
+    {
+      "id": "u0145",
+      "text": ", for example "
+    },
+    {
+      "id": "u0146",
+      "text": " naming the only tool the job may call."
+    },
+    {
+      "id": "u0147",
+      "text": "Unattended runs have guardrails of their own. On issue and pull request events, the user who triggers a run must have write access to the repository. Bot actors are rejected unless they are listed in "
+    },
+    {
+      "id": "u0148",
+      "text": ", which stops bots from triggering Claude in a loop. For automation outside GitHub Actions, the Claude Agent SDK is the building block; the GitHub Action itself is built on it. If you only want reviews, Code Review gives every PR an automatic review without you writing a workflow."
+    },
+    {
+      "id": "u0149",
+      "text": "Where scheduled or event-driven Claude work can run"
+    },
+    {
+      "id": "u0150",
+      "text": "Option"
+    },
+    {
+      "id": "u0151",
+      "text": "Where it runs"
+    },
+    {
+      "id": "u0152",
+      "text": "Best for"
+    },
+    {
+      "id": "u0153",
+      "text": "Routines"
+    },
+    {
+      "id": "u0154",
+      "text": "Cloud, Anthropic-managed by default"
+    },
+    {
+      "id": "u0155",
+      "text": "Tasks that must run while your computer is off, or on API calls and GitHub events"
+    },
+    {
+      "id": "u0156",
+      "text": "Desktop scheduled tasks"
+    },
+    {
+      "id": "u0157",
+      "text": "Your machine, via the desktop app"
+    },
+    {
+      "id": "u0158",
+      "text": "Tasks that need local files, tools or uncommitted changes"
+    },
+    {
+      "id": "u0159",
+      "text": "GitHub Actions"
+    },
+    {
+      "id": "u0160",
+      "text": "Your CI pipeline"
+    },
+    {
+      "id": "u0161",
+      "text": "Repo events like opened PRs, or cron schedules kept alongside your workflow config"
+    },
+    {
+      "id": "u0162",
+      "text": "/loop"
+    },
+    {
+      "id": "u0163",
+      "text": "The current CLI session"
+    },
+    {
+      "id": "u0164",
+      "text": "Quick polling while a session is open"
+    },
+    {
+      "id": "u0165",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0166",
+      "text": "A workflow with a prompt input still waits for someone to comment @claude before Claude does anything."
+    },
+    {
+      "id": "u0167",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0174",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0175",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0176",
+      "text": "This review job runs on pull request events and should review every pull request as soon as it is opened or updated, without anyone commenting @claude. Which action input fills the blank?"
+    },
+    {
+      "id": "u0177",
+      "text": "trigger_phrase"
+    },
+    {
+      "id": "u0178",
+      "text": "skill"
+    },
+    {
+      "id": "u0179",
+      "text": "prompt"
+    },
+    {
+      "id": "u0180",
+      "text": "allowed_bots"
+    },
+    {
+      "id": "u0181",
+      "text": "Sources"
+    },
+    {
+      "id": "u0182",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0183",
+      "text": "Add one formatting hook and one blocking hook to a project, then run Claude Code headless."
+    },
+    {
+      "id": "u0184",
+      "text": "In "
+    },
+    {
+      "id": "u0185",
+      "text": ", add a PostToolUse hook with matcher "
+    },
+    {
+      "id": "u0186",
+      "text": " and the command "
+    },
+    {
+      "id": "u0187",
+      "text": "Why: "
+    },
+    {
+      "id": "u0188",
+      "text": "Formatting becomes something that happens after every edit, not something you have to remember to ask for, and committing the file shares it with the team."
+    },
+    {
+      "id": "u0189",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0190",
+      "text": "After Claude edits a badly formatted file, the file on disk is in Prettier's style."
+    },
+    {
+      "id": "u0191",
+      "text": "Add a PreToolUse hook with matcher "
+    },
+    {
+      "id": "u0192",
+      "text": " that runs a script which, for a command containing "
+    },
+    {
+      "id": "u0193",
+      "text": ", prints the deny JSON with "
+    },
+    {
+      "id": "u0194",
+      "text": " set to "
+    },
+    {
+      "id": "u0195",
+      "text": "Why: "
+    },
+    {
+      "id": "u0196",
+      "text": "PreToolUse fires before the tool executes, so it is the event that can block the call."
+    },
+    {
+      "id": "u0197",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0198",
+      "text": "When you ask Claude to run "
+    },
+    {
+      "id": "u0199",
+      "text": ", the call is denied with the reason \"Destructive command blocked by hook\" and nothing is deleted."
+    },
+    {
+      "id": "u0200",
+      "text": "Ask Claude to delete the same path again, this time phrasing it as a direct order."
+    },
+    {
+      "id": "u0201",
+      "text": "Why: "
+    },
+    {
+      "id": "u0202",
+      "text": "This shows the hook overrides the model's choice, however the request is worded."
+    },
+    {
+      "id": "u0203",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0204",
+      "text": "The command is denied again."
+    },
+    {
+      "id": "u0205",
+      "text": "Run "
+    },
+    {
+      "id": "u0206",
+      "text": " in the repository."
+    },
+    {
+      "id": "u0207",
+      "text": "Why: "
+    },
+    {
+      "id": "u0208",
+      "text": "This is the same non-interactive form that scripts and CI jobs use."
+    },
+    {
+      "id": "u0209",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0210",
+      "text": "A summary is printed to standard output and no interactive session opens."
+    },
+    {
+      "id": "u0211",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0213",
+      "text": "Sources"
+    }
+  ]
+}

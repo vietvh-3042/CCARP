@@ -1,0 +1,105 @@
+
+> ccarpp-study@0.1.0 test
+> playwright test tests/checkpoint-interactions.spec.ts
+
+
+Running 3 tests using 2 workers
+
+  ✘  1 [chromium] › tests/checkpoint-interactions.spec.ts:5:1 › single choice grades immediately, permits correction and survives language/reload (1.6s)
+  ✘  2 [chromium] › tests/checkpoint-interactions.spec.ts:25:1 › matching retains selected term after an error, locks correct pairs, counts only a solved panel (1.6s)
+  ✘  3 [chromium] › tests/checkpoint-interactions.spec.ts:47:1 › finishing requires all nine correct checkpoints and ignores old reading completion (1.6s)
+
+
+  1) [chromium] › tests/checkpoint-interactions.spec.ts:5:1 › single choice grades immediately, permits correction and survives language/reload 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.question:has(#checkpoint-1)').locator('[data-option]')
+    Expected: 4
+    Received: 0
+    Timeout:  1500ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.question:has(#checkpoint-1)').locator('[data-option]') with timeout 1500ms
+      - waiting for locator('.question:has(#checkpoint-1)').locator('[data-option]')
+        16 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+       6 |   await page.goto(lesson);
+       7 |   const question=panel(page,1);
+    >  8 |   await expect(question.locator('[data-option]')).toHaveCount(4,{timeout:1500});
+         |                                                   ^
+       9 |   await question.locator('[data-option="0"]').click();
+      10 |   await expect(question.locator('[data-feedback]')).toContainText('Not quite');
+      11 |   await expect(question.locator('[data-option="0"]')).toBeDisabled();
+        at /home/Workspaces/CCARPP/tests/checkpoint-interactions.spec.ts:8:51
+
+    Error Context: test-results/checkpoint-interactions-si-346d4-nd-survives-language-reload-chromium/error-context.md
+
+  2) [chromium] › tests/checkpoint-interactions.spec.ts:25:1 › matching retains selected term after an error, locks correct pairs, counts only a solved panel 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.question:has(#checkpoint-3)').locator('[data-term]')
+    Expected: 3
+    Received: 0
+    Timeout:  1500ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.question:has(#checkpoint-3)').locator('[data-term]') with timeout 1500ms
+      - waiting for locator('.question:has(#checkpoint-3)').locator('[data-term]')
+        16 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      26 |   await page.goto(lesson);
+      27 |   const question=panel(page,3);
+    > 28 |   await expect(question.locator('[data-term]')).toHaveCount(3,{timeout:1500});
+         |                                                 ^
+      29 |   await question.locator('[data-term="0"]').click();
+      30 |   await question.locator('[data-definition="0"]').click();
+      31 |   await expect(question.locator('[data-feedback]')).toContainText('Not quite');
+        at /home/Workspaces/CCARPP/tests/checkpoint-interactions.spec.ts:28:49
+
+    Error Context: test-results/checkpoint-interactions-ma-475ff--counts-only-a-solved-panel-chromium/error-context.md
+
+  3) [chromium] › tests/checkpoint-interactions.spec.ts:47:1 › finishing requires all nine correct checkpoints and ignores old reading completion 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  locator('[data-complete]')
+    Expected: disabled
+    Received: enabled
+    Timeout:  1500ms
+
+    Call log:
+      - Expect "toBeDisabled" locator('[data-complete]') with timeout 1500ms
+      - waiting for locator('[data-complete]')
+        16 × locator resolved to <button type="button" data-complete="" aria-pressed="true" class="primary-button">Read — click to undo</button>
+           - unexpected value "enabled"
+
+
+      49 |   await page.goto(lesson);
+      50 |   const finish=page.locator('[data-complete]');
+    > 51 |   await expect(finish).toBeDisabled({timeout:1500});
+         |                        ^
+      52 |   await solveAll(page);
+      53 |   await expect(page.locator('.lesson-header [data-checkpoint-summary]')).toHaveText('9/9');
+      54 |   await expect(finish).toBeEnabled();
+        at /home/Workspaces/CCARPP/tests/checkpoint-interactions.spec.ts:51:24
+
+    Error Context: test-results/checkpoint-interactions-fi-ea74c-ores-old-reading-completion-chromium/error-context.md
+
+  3 failed
+    [chromium] › tests/checkpoint-interactions.spec.ts:5:1 › single choice grades immediately, permits correction and survives language/reload 
+    [chromium] › tests/checkpoint-interactions.spec.ts:25:1 › matching retains selected term after an error, locks correct pairs, counts only a solved panel 
+    [chromium] › tests/checkpoint-interactions.spec.ts:47:1 › finishing requires all nine correct checkpoints and ignores old reading completion 
+[WebServer] (node:12192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:12235) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12234) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12426) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

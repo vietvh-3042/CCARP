@@ -1,0 +1,18 @@
+{
+  "exam-trap-3": {
+    "en": "Autonomy adds overhead and variability. Start with an optimized call or a predictable workflow, then add an agent only when the task needs that flexibility.",
+    "vi": "Tính tự chủ làm tăng chi phí xử lý và độ biến động. Bắt đầu bằng một lần gọi tối ưu hoặc luồng công việc dễ dự đoán, rồi chỉ thêm tác tử khi cần sự linh hoạt đó."
+  },
+  "exam-trap-2": {
+    "en": "A deterministic condition needs a code check. Use evaluator-optimizer when qualitative feedback can guide repeated improvements, rather than treating every validation as a critique loop.",
+    "vi": "Điều kiện xác định rõ cần được kiểm tra bằng mã. Dùng evaluator-optimizer khi phản hồi định tính có thể dẫn dắt các lần cải thiện, thay vì coi mọi kiểm tra là vòng phê bình."
+  },
+  "exam-trap-1": {
+    "en": "Known subtasks can be assigned directly through parallel sectioning. An orchestrator earns its overhead when it must discover the required subtasks from each input.",
+    "vi": "Có thể giao trực tiếp các tác vụ con đã biết để xử lý song song. Tác tử điều phối chỉ đáng thêm khi phải xác định tác vụ con từ từng đầu vào."
+  },
+  "exam-trap-4": {
+    "en": "Different simultaneous checks divide the work into sections. Voting instead compares multiple attempts at the same task to benefit from differing outputs.",
+    "vi": "Các kiểm tra khác nhau chạy đồng thời là chia việc thành từng phần. Biểu quyết so sánh nhiều lần thực hiện cùng một tác vụ để tận dụng sự khác biệt giữa các đầu ra."
+  }
+}

@@ -1,0 +1,40 @@
+---
+import type { Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<footer class="site-footer border-t border-border bg-card px-6 pt-12 pb-6 text-xs text-muted-foreground">
+  <div
+    class="footer-columns mx-auto grid max-w-[1368px] grid-cols-2 gap-6 pb-12 md:grid-cols-3 md:gap-10 [&_h2]:mb-5 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:text-foreground [&_a]:mb-3 [&_a]:block [&_span]:block [&_a:hover]:text-primary"
+  >
+    <div>
+      <h2>{locale === "en" ? "About" : "Giới thiệu"}</h2><a href={`/${locale}/`}
+        >{locale === "en" ? "Lessons" : "Bài học"}</a
+      ><a href="https://certsafari.com/" target="_blank" rel="noreferrer">CertSafari</a>
+    </div>
+    <div>
+      <h2>{locale === "en" ? "Legal" : "Pháp lý"}</h2><a
+        href="https://certsafari.com/privacy"
+        target="_blank"
+        rel="noreferrer">Privacy</a
+      ><a href="https://certsafari.com/disclaimer" target="_blank" rel="noreferrer">Disclaimer</a>
+    </div>
+    <div>
+      <h2>{locale === "en" ? "Source & project" : "Nguồn & dự án"}</h2><a
+        href="https://certsafari.com/"
+        target="_blank"
+        rel="noreferrer">↗ CertSafari</a
+      ><span>CCAR-P Study · English / Tiếng Việt</span>
+    </div>
+  </div>
+  <div class="footer-credit mx-auto max-w-[1368px] border-t border-border pt-7 text-center leading-6">
+    {
+      locale === "en"
+        ? "Recreated from supplied screenshots for bilingual study."
+        : "Dựng lại từ ảnh được cung cấp để học song ngữ."
+    }<br />CCAR-P Study · 2026
+  </div>
+</footer>

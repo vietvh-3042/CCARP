@@ -1,0 +1,10 @@
+{
+  "exam-trap-2": {
+    "en": "Explain what the restriction protects. Knowing the underlying purpose helps Claude apply it in related situations more effectively than capitalization alone can.",
+    "vi": "Hãy giải thích điều mà ràng buộc muốn bảo vệ. Hiểu mục đích giúp Claude áp dụng vào tình huống liên quan hiệu quả hơn việc chỉ viết hoa."
+  },
+  "exam-trap-1": {
+    "en": "Assistant prefilling is unavailable on newer specified models, including Claude 4.6 onward and Mythos Preview. Use explicit formatting instructions and representative examples instead.",
+    "vi": "Điền sẵn lượt Assistant không dùng được trên các mô hình mới được nêu, gồm Claude 4.6 trở đi và Mythos Preview. Hãy thay bằng hướng dẫn định dạng rõ ràng và ví dụ tiêu biểu."
+  }
+}

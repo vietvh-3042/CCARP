@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Manual grading limits repeatability and scale. Automated scoring over many representative cases provides broader evidence and makes frequent evaluations affordable.",
+    "vi": "Chấm thủ công hạn chế khả năng lặp lại và quy mô. Chấm tự động trên nhiều trường hợp đại diện cho bằng chứng rộng hơn và giúp đánh giá thường xuyên với chi phí hợp lý."
+  },
+  "exam-trap-2": {
+    "en": "Agreement between paraphrased answers does not establish truth. Check answers against a trusted reference rather than treating similarity as factual accuracy.",
+    "vi": "Các câu trả lời cho câu hỏi diễn đạt lại đồng nhất không có nghĩa chúng đúng. Hãy đối chiếu nguồn đáp án đáng tin cậy thay vì coi sự tương đồng là độ chính xác thực tế."
+  },
+  "exam-trap-3": {
+    "en": "An LLM grader can vary or judge systematically incorrectly. Human-scored examples remain necessary to calibrate and check its assessments.",
+    "vi": "Bộ chấm bằng LLM có thể cho kết quả dao động hoặc sai có hệ thống. Vẫn cần ví dụ do con người chấm để hiệu chỉnh và kiểm tra đánh giá của nó."
+  },
+  "exam-trap-4": {
+    "en": "Repeating familiar cases leaves coverage gaps intact. Match production input patterns and include difficult edge cases to improve predictive value.",
+    "vi": "Lặp lại trường hợp quen thuộc không lấp được khoảng trống bao quát. Hãy bám sát đầu vào thực tế và thêm trường hợp biên khó để tăng giá trị dự báo."
+  }
+}

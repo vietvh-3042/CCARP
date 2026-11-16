@@ -1,0 +1,795 @@
+{
+  "pageId": "2.1",
+  "title": "Choosing a Claude model: lineup, starting point and cost per task",
+  "titleVi": "Chọn mô hình Claude: các dòng mô hình, điểm khởi đầu và chi phí cho từng nhiệm vụ",
+  "units": [
+    {
+      "id": "description",
+      "text": "Select appropriate Claude models based on trade-offs"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Compare Claude Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5 on capability, latency, price, context and default effort"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose between a small-first and a capability-first starting model for a given workload"
+    },
+    {
+      "id": "u0003",
+      "text": "Compare candidate models by cost per solved task instead of price per token, and pick the right billing mode for bulk work"
+    },
+    {
+      "id": "u0004",
+      "text": "Design a multi-model system that spends frontier-model tokens only where they change the outcome"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Cost per solved task"
+    },
+    {
+      "id": "u0007",
+      "text": "The fair way to compare models is the total you pay to get a task done correctly. That total includes the tokens the model spends, the attempts that fail and the retries after them. A model with a higher price per token can still cost less per task if it needs less work to succeed."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "The current lineup and what separates the models"
+    },
+    {
+      "id": "u0010",
+      "text": "Picking a starting model: step down or step up"
+    },
+    {
+      "id": "u0011",
+      "text": "Comparing models by cost per solved task"
+    },
+    {
+      "id": "u0012",
+      "text": "Tiering models inside one system"
+    },
+    {
+      "id": "u0013",
+      "text": "The current lineup and what separates the models"
+    },
+    {
+      "id": "u0014",
+      "text": "Each Claude model makes a different trade between intelligence, speed and cost. Every model can do the same kinds of work, so you are not picking a specialist. You are deciding how hard a problem the model has to handle reliably, and how much you will pay in money and latency for that. All current models accept text and images, return text, and support vision, multilingual work and tool use. The real differences are in latency, price and how hard a problem each one can carry."
+    },
+    {
+      "id": "u0015",
+      "text": "Current Claude models side by side"
+    },
+    {
+      "id": "u0016",
+      "text": "Model (API ID)"
+    },
+    {
+      "id": "u0017",
+      "text": "Positioned for"
+    },
+    {
+      "id": "u0018",
+      "text": "Comparative latency"
+    },
+    {
+      "id": "u0019",
+      "text": "Price per MTok (input / output)"
+    },
+    {
+      "id": "u0020",
+      "text": "Thinking"
+    },
+    {
+      "id": "u0021",
+      "text": "Default effort"
+    },
+    {
+      "id": "u0022",
+      "text": "Context / max output"
+    },
+    {
+      "id": "u0023",
+      "text": "Claude Fable 5.1 (claude-fable-5-1)"
+    },
+    {
+      "id": "u0024",
+      "text": "Demanding reasoning and long-horizon agentic work"
+    },
+    {
+      "id": "u0025",
+      "text": "Slower"
+    },
+    {
+      "id": "u0026",
+      "text": "Adaptive (always on)"
+    },
+    {
+      "id": "u0027",
+      "text": "high"
+    },
+    {
+      "id": "u0028",
+      "text": "Claude Opus 5.5 (claude-opus-5-5)"
+    },
+    {
+      "id": "u0029",
+      "text": "Long-running agentic coding and knowledge work"
+    },
+    {
+      "id": "u0030",
+      "text": "Moderate"
+    },
+    {
+      "id": "u0031",
+      "text": "Adaptive (always on)"
+    },
+    {
+      "id": "u0032",
+      "text": "medium"
+    },
+    {
+      "id": "u0033",
+      "text": "Claude Sonnet 5.5 (claude-sonnet-5-5)"
+    },
+    {
+      "id": "u0034",
+      "text": "The best combination of speed and intelligence"
+    },
+    {
+      "id": "u0035",
+      "text": "Fast"
+    },
+    {
+      "id": "u0036",
+      "text": "Adaptive"
+    },
+    {
+      "id": "u0037",
+      "text": "high"
+    },
+    {
+      "id": "u0038",
+      "text": "Claude Haiku 5.5 (claude-haiku-5-5)"
+    },
+    {
+      "id": "u0039",
+      "text": "High-volume, latency-sensitive tasks such as classification, extraction, and routing"
+    },
+    {
+      "id": "u0040",
+      "text": "Fastest"
+    },
+    {
+      "id": "u0041",
+      "text": "From $0.10 / $0.50"
+    },
+    {
+      "id": "u0042",
+      "text": "Adaptive"
+    },
+    {
+      "id": "u0043",
+      "text": "medium"
+    },
+    {
+      "id": "u0044",
+      "text": "Context window size does not decide the choice."
+    },
+    {
+      "id": "u0045",
+      "text": " All four models have a 1M-token window and a 128K output limit. Long prompts change the "
+    },
+    {
+      "id": "u0046",
+      "text": "price"
+    },
+    {
+      "id": "u0047",
+      "text": ", though. Haiku 5.5 bills $0.10 per input MTok for prompts up to 100,000 tokens, and $0.50 input and $2.50 output per MTok above that. A Haiku workload that stuffs whole documents into every request therefore costs five times as much per token as one that keeps prompts short. Fable 5.1 and Opus 5.5 also leave you less control than the smaller models: their adaptive thinking is always on, so you control how much they reason through effort, not by switching thinking off."
+    },
+    {
+      "id": "u0048",
+      "text": "Speed is not only a matter of picking a smaller model."
+    },
+    {
+      "id": "u0049",
+      "text": " Claude Opus 5.5, Opus 5 and Opus 4.8 support fast mode, which is a research preview. It gives up to 2.5x higher output tokens per second at premium pricing: $8 input and $40 output per MTok on Opus 5.5. Fast mode runs the same model with the same weights, so its quality doesn't change. The gain is in output speed, not time to first token, so it is most noticeable when you stream."
+    },
+    {
+      "id": "u0050",
+      "text": "Opting in to fast mode on Claude Opus 5.5 with the beta header"
+    },
+    {
+      "id": "u0051",
+      "text": "python"
+    },
+    {
+      "id": "u0052",
+      "text": "A system that chooses a model at runtime should read model limits from the "
+    },
+    {
+      "id": "u0053",
+      "text": "Models API"
+    },
+    {
+      "id": "u0054",
+      "text": " rather than from a hardcoded table. For every available model, the response includes "
+    },
+    {
+      "id": "u0055",
+      "text": " and a "
+    },
+    {
+      "id": "u0056",
+      "text": " object. The capabilities object reports, for example, whether the model accepts "
+    },
+    {
+      "id": "u0057",
+      "text": " and whether it accepts the web search and code execution server tools. A "
+    },
+    {
+      "id": "u0058",
+      "text": " field names the model family, such as "
+    },
+    {
+      "id": "u0059",
+      "text": ". Read that field instead of parsing it out of the model ID."
+    },
+    {
+      "id": "u0060",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0061",
+      "text": "If a scenario asks how to get a model's context limits or capability flags before sending a request, the answer is the Models API. Latency probes, system-prompt contents and billing data cannot tell you these things."
+    },
+    {
+      "id": "u0062",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0063",
+      "text": "Fast mode swaps in a smaller, less capable model to get its speed."
+    },
+    {
+      "id": "u0064",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0066",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0067",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0068",
+      "text": "This request opts in to fast mode for higher output speed. Which model ID belongs in the blank?"
+    },
+    {
+      "id": "u0069",
+      "text": "claude-fable-5-1"
+    },
+    {
+      "id": "u0070",
+      "text": "claude-sonnet-5-5"
+    },
+    {
+      "id": "u0071",
+      "text": "claude-opus-5-5"
+    },
+    {
+      "id": "u0072",
+      "text": "claude-haiku-5-5"
+    },
+    {
+      "id": "u0073",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0074",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0075",
+      "text": "A developer relations team is building an internal tool that programmatically decides which model to route a request to based on declared capabilities rather than hardcoding a model name. They want to know, before sending a request, the maximum input tokens, maximum output tokens, and capability flags of each candidate model. Which platform mechanism should they use to retrieve this information programmatically?"
+    },
+    {
+      "id": "u0076",
+      "text": "Query the Models API, which returns max_input_tokens, max_tokens, and a capabilities object for every available model"
+    },
+    {
+      "id": "u0077",
+      "text": "Parse the model's system prompt at runtime, since capability metadata is embedded directly in every model's default system prompt"
+    },
+    {
+      "id": "u0078",
+      "text": "Send a test message with the effort parameter set to max and infer capabilities from the response latency"
+    },
+    {
+      "id": "u0079",
+      "text": "Subscribe to the Admin API's usage and cost webhook, which reports per-model context window sizes alongside billing events"
+    },
+    {
+      "id": "u0080",
+      "text": "Sources"
+    },
+    {
+      "id": "u0081",
+      "text": "Picking a starting model: step down or step up"
+    },
+    {
+      "id": "u0082",
+      "text": "You can start testing from either end of the lineup. Which end depends on how hard the task is and how much cost matters. If you have no strong reason either way, the default is Claude Opus 5.5. Use Claude Fable 5.1 for demanding reasoning and long-horizon agentic work, or when Opus 5.5 still falls short in your evals at higher effort."
+    },
+    {
+      "id": "u0083",
+      "text": "Small first, then step up."
+    },
+    {
+      "id": "u0084",
+      "text": " Build with a faster, cheaper model such as Claude Haiku 5.5. Test your use case thoroughly and check whether performance meets your requirements. Upgrade only where you find a specific capability gap. You can iterate quickly and development costs less, and for many common applications the small model turns out to be good enough. This path fits:"
+    },
+    {
+      "id": "u0085",
+      "text": "Initial prototyping and development"
+    },
+    {
+      "id": "u0086",
+      "text": "Applications with tight latency requirements"
+    },
+    {
+      "id": "u0087",
+      "text": "Cost-sensitive implementations"
+    },
+    {
+      "id": "u0088",
+      "text": "High-volume, straightforward tasks"
+    },
+    {
+      "id": "u0089",
+      "text": "Starting small does not mean the small model matches the large one on every task. It is a bet that your task may not need the extra capability, and your tests settle that bet. Nothing about the order is enforced either: every model is available from the first request."
+    },
+    {
+      "id": "u0090",
+      "text": "Capability first, then step down."
+    },
+    {
+      "id": "u0091",
+      "text": " Build with Claude Opus 5.5, optimize your prompts for it, and evaluate the results. Then make it more efficient over time by lowering effort or moving to a smaller model. If Opus 5.5 still falls short at xhigh or max effort on demanding reasoning or long-horizon agentic work, move up to Fable 5.1. This path fits complex reasoning, scientific and mathematical work, tasks that need nuanced understanding, applications where accuracy matters more than cost, and advanced coding and high-autonomy agentic work. Starting high has another benefit: if a small model fails, it can be hard to tell whether the model or your setup caused the failure."
+    },
+    {
+      "id": "u0092",
+      "text": "Before you switch models in either direction, adjust effort on the model you already use. "
+    },
+    {
+      "id": "u0093",
+      "text": "Effort: the accuracy-latency dial within one model"
+    },
+    {
+      "id": "u0094",
+      "text": " trades intelligence for latency and cost without changing models. If costs are too high and quality is fine, lower effort on the current model first. If quality is too low, first restore any effort you lowered. Only then try the next tier up at its default effort. Default effort differs by model, so carry no settings over. Opus 5.5 defaults to medium, while Opus 5 defaulted to high, so a request that omits effort runs one level lower than it did before."
+    },
+    {
+      "id": "u0095",
+      "text": "Whichever path you take, the deciding evidence comes from the same test. Build an evaluation set specific to your use case with your real prompts and data. Run every candidate through it and compare accuracy, response quality and handling of edge cases. The method for that comparison is in "
+    },
+    {
+      "id": "u0096",
+      "text": "Baselines, offline comparisons and live A/B tests"
+    },
+    {
+      "id": "u0097",
+      "text": ". Public benchmarks help less at the top of the lineup, because Opus and Fable solve nearly all of their questions."
+    },
+    {
+      "id": "u0098",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0099",
+      "text": "When costs are too high, the first move is to switch to a cheaper model."
+    },
+    {
+      "id": "u0100",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0102",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0103",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0104",
+      "text": "Your production app runs on Claude Opus 5.5. Your evals show output quality is fine, but monthly spend is over budget. What should you try first?"
+    },
+    {
+      "id": "u0105",
+      "text": "Turn on fast mode so each request finishes sooner and costs less"
+    },
+    {
+      "id": "u0106",
+      "text": "Move to Claude Sonnet 5.5 and copy over your Opus 5.5 effort setting"
+    },
+    {
+      "id": "u0107",
+      "text": "Lower the effort setting on Claude Opus 5.5 and re-run your evals"
+    },
+    {
+      "id": "u0108",
+      "text": "Switch the workload to Claude Haiku 5.5, because the cheapest price per token gives the lowest bill"
+    },
+    {
+      "id": "u0109",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0110",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0111",
+      "text": "A team is building a scientific analysis tool where accuracy matters more than cost. They also want to be sure that any early failures come from the model and not from their prompts or tooling. Which starting approach fits best?"
+    },
+    {
+      "id": "u0112",
+      "text": "Start with Claude Haiku 5.5 and upgrade only when a capability gap shows up"
+    },
+    {
+      "id": "u0113",
+      "text": "Start with Claude Sonnet 5.5, because a small model makes it easiest to isolate setup problems"
+    },
+    {
+      "id": "u0114",
+      "text": "Start with Claude Opus 5.5, optimize prompts for it, then lower effort or move to a smaller model over time"
+    },
+    {
+      "id": "u0115",
+      "text": "Start with Claude Fable 5.1, because public benchmarks separate the top models most clearly"
+    },
+    {
+      "id": "u0116",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0117",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0118",
+      "text": "A product manager asks an engineer to justify why the team began prototyping a new feature with Claude Haiku 4.5 instead of Claude Opus 4.8, even though Opus 4.8 has higher raw capability. Which of the following are valid justifications drawn from Anthropic's guidance on starting with a fast, cost-effective model? (Select all that apply)"
+    },
+    {
+      "id": "u0119",
+      "text": "(Select "
+    },
+    {
+      "id": "u0120",
+      "text": "Starting with a faster, more cost-effective model allows for quick iteration during initial prototyping and development"
+    },
+    {
+      "id": "u0121",
+      "text": "The approach is well suited to applications with tight latency requirements"
+    },
+    {
+      "id": "u0122",
+      "text": "The approach is well suited to cost-sensitive implementations and high-volume, straightforward tasks"
+    },
+    {
+      "id": "u0123",
+      "text": "Claude Haiku 4.5 must be used first because Claude Opus 4.8 cannot be accessed until a Haiku-based prototype has been benchmarked"
+    },
+    {
+      "id": "u0124",
+      "text": "Starting with Haiku 4.5 guarantees the same accuracy as Opus 4.8 on every task, making the choice of starting model irrelevant to quality"
+    },
+    {
+      "id": "u0125",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0126",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0127",
+      "text": "Sources"
+    },
+    {
+      "id": "u0128",
+      "text": "Comparing models by cost per solved task"
+    },
+    {
+      "id": "u0129",
+      "text": "The price per token describes a single request. A completed task is what you actually pay for. A more capable model often needs fewer turns and less thinking to get a task right, and that can cancel out much of its higher token price. The opposite also happens: a cheaper model that fails still bills every token it used, then bills the retry, and the failure may cause further costs downstream."
+    },
+    {
+      "id": "u0130",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0131",
+      "text": "Every token price for Claude Opus 5.5 is twice Sonnet 5.5's. On a coding benchmark, Opus 5.5 at low effort solved about the same share of tasks as Sonnet 5.5 at its default effort. How did their cost per solved task compare?"
+    },
+    {
+      "id": "u0132",
+      "text": "Opus 5.5 cost about 7% more per solved task"
+    },
+    {
+      "id": "u0133",
+      "text": "Opus 5.5 cost about half as much per solved task"
+    },
+    {
+      "id": "u0134",
+      "text": "Opus 5.5 cost about twice as much per solved task"
+    },
+    {
+      "id": "u0135",
+      "text": "Anthropic's measured cost per solved task on a SWE-bench Pro subset (directional, not guarantees)"
+    },
+    {
+      "id": "u0136",
+      "text": "Model"
+    },
+    {
+      "id": "u0137",
+      "text": "Effort"
+    },
+    {
+      "id": "u0138",
+      "text": "Tasks solved"
+    },
+    {
+      "id": "u0139",
+      "text": "Cost per solved task"
+    },
+    {
+      "id": "u0140",
+      "text": "Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0141",
+      "text": "high (default)"
+    },
+    {
+      "id": "u0142",
+      "text": "Claude Opus 5.5"
+    },
+    {
+      "id": "u0143",
+      "text": "low"
+    },
+    {
+      "id": "u0144",
+      "text": "Claude Opus 5.5"
+    },
+    {
+      "id": "u0145",
+      "text": "medium (default)"
+    },
+    {
+      "id": "u0146",
+      "text": "Claude Fable 5.1"
+    },
+    {
+      "id": "u0147",
+      "text": "high (default)"
+    },
+    {
+      "id": "u0148",
+      "text": "92.3% (a single run)"
+    },
+    {
+      "id": "u0149",
+      "text": "The table shows why Opus 5.5 is the usual starting point. At its default effort it matched Fable 5.1 within run-to-run noise, at about a fifth of the cost per solved task. Haiku 5.5 sits at the other end. On GPQA Diamond it scored 85%, against 91% for Opus 5.5 and Sonnet 5.5, at about a twentieth of Opus 5.5's cost per correct answer. That makes Haiku a strong fit for high-volume work where you can check the outputs and catch its misses."
+    },
+    {
+      "id": "u0150",
+      "text": "No price list tells you which model wins on your workload, and the ranking can reverse. On long research loops, Fable 5.1 can do more work rather than less and end up costing more per task. Measure the hardest tenth of your tasks, not the typical one. The bill is driven by the tasks a cheaper model fails, and even when nothing fails, a few hard problems can take most of the spend. In one 20-problem run, two problems accounted for 43% of it."
+    },
+    {
+      "id": "u0151",
+      "text": "Some savings involve no intelligence trade-off at all, and these come before any model decision. The "
+    },
+    {
+      "id": "u0152",
+      "text": "Message Batches API"
+    },
+    {
+      "id": "u0153",
+      "text": " processes large volumes of requests asynchronously at a 50% discount. In exchange, you give up latency: most batches finish within an hour, but you should plan for up to 24 hours. Every active model supports batching, so the discount does not depend on tier. Prompt caching is the other free lever. In Anthropic's runs it was usually the largest single saving. For an overnight job that classifies millions of records with no user waiting, use batch at a model your evals show is good enough. Don't use synchronous calls at max effort, and don't turn off caching to save on storage."
+    },
+    {
+      "id": "u0154",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0155",
+      "text": "The model with the lowest price per token is the cheapest way to run a workload."
+    },
+    {
+      "id": "u0156",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0158",
+      "text": "The batch discount only applies to particular models, so bulk jobs have to use a specific tier."
+    },
+    {
+      "id": "u0159",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0161",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0162",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0163",
+      "text": "An overnight job classifies millions of support tickets, and nobody waits on the results. Your evals show Claude Sonnet 5.5 at its default effort is accurate enough. What is the best way to cut the cost of this job?"
+    },
+    {
+      "id": "u0164",
+      "text": "Turn off prompt caching so you stop paying to store the shared classification instructions"
+    },
+    {
+      "id": "u0165",
+      "text": "Use synchronous calls at max effort so fewer records fail and need a retry"
+    },
+    {
+      "id": "u0166",
+      "text": "Send the requests to Claude Sonnet 5.5 through the Message Batches API at 50% off, and keep prompt caching on"
+    },
+    {
+      "id": "u0167",
+      "text": "Move the job to Claude Haiku 5.5, because only the smallest tier gets the batch discount"
+    },
+    {
+      "id": "u0168",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0169",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0170",
+      "text": "A data engineering team needs to classify and summarize 40 million historical support tickets overnight. There is no interactive user waiting on responses, and the team wants to minimize total API spend while keeping quality reasonably high. Which combination of choices best reflects the intended cost trade-off for this workload?"
+    },
+    {
+      "id": "u0171",
+      "text": "Submit the requests through the Message Batches API, which processes large asynchronous volumes at roughly half the cost of standard synchronous API calls"
+    },
+    {
+      "id": "u0172",
+      "text": "Submit the requests synchronously with prompt caching disabled, since disabling caching avoids unnecessary storage charges on a one-time overnight job"
+    },
+    {
+      "id": "u0173",
+      "text": "Submit the requests through the Message Batches API using Claude Opus 4.8 exclusively, since batch discounts only apply to the highest-tier model"
+    },
+    {
+      "id": "u0174",
+      "text": "Submit the requests synchronously at the max effort level, since overnight jobs have no latency constraints and should always maximize per-request intelligence"
+    },
+    {
+      "id": "u0175",
+      "text": "Sources"
+    },
+    {
+      "id": "u0176",
+      "text": "Tiering models inside one system"
+    },
+    {
+      "id": "u0177",
+      "text": "Using one model for every request means paying frontier prices on easy work or getting small-model quality on hard work. Multi-model designs avoid both by sending the expensive model only the decisions that need it. Most tokens are then billed at the lower rate, and frontier capability goes to the hard cases where cheaper models fail."
+    },
+    {
+      "id": "u0178",
+      "text": "There are two common patterns, and they suit different problems:"
+    },
+    {
+      "id": "u0179",
+      "text": "Executor with an advisor."
+    },
+    {
+      "id": "u0180",
+      "text": " A lower-cost model does the work and consults a frontier model to check its plan or review its output. This helps when the cheaper model stalls only on hard decisions. The advisor only helps when it is consulted, so first price the cheaper model at low effort on its own and measure how often it consults. In one measurement, Sonnet 5 with a Fable 5 advisor came within 10% of Fable 5's SWE-bench Pro score at 63% of the price of running Fable 5 alone. Advisor choice is restricted: the advisor tool rejects some models as advisors, including Claude Haiku 5.5."
+    },
+    {
+      "id": "u0181",
+      "text": "Orchestrator with workers."
+    },
+    {
+      "id": "u0182",
+      "text": " A capable model plans the work and hands the bulk of it to lower-cost workers. This fits work that is too large for one context window. Sonnet's balance of speed and cost makes it a common worker, and Haiku is aimed at sub-agent tasks."
+    },
+    {
+      "id": "u0183",
+      "text": "A third pattern is "
+    },
+    {
+      "id": "u0184",
+      "text": "Routing"
+    },
+    {
+      "id": "u0185",
+      "text": ". A classifier sorts incoming requests before any work starts, sends easy ones to a small model and hard ones to a large one. Routing is a cost pattern only if the classifier is reliable. A hard request sent to a small model becomes a failed task, and as the previous section showed, failed tasks drive the bill. Like every model choice, a tiered design proves its value through cost per solved task on your own eval set. Fewer frontier tokens alone do not show that it is cheaper."
+    },
+    {
+      "id": "u0186",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0187",
+      "text": "Think of a workload you know. Which steps genuinely need frontier judgement, and which could a smaller model do if something checked its output? Would an advisor, an orchestrator or a router fit best?"
+    },
+    {
+      "id": "u0188",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0189",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0190",
+      "text": "Three designs mix cheaper and frontier models in one system. Match each pattern to how it splits the work between the tiers."
+    },
+    {
+      "id": "u0191",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0192",
+      "text": "Executor with an advisor"
+    },
+    {
+      "id": "u0193",
+      "text": "Orchestrator with workers"
+    },
+    {
+      "id": "u0194",
+      "text": "Routing"
+    },
+    {
+      "id": "u0195",
+      "text": "A capable model plans a job too large for one context window and hands the bulk of it to lower-cost models"
+    },
+    {
+      "id": "u0196",
+      "text": "A classifier sends each incoming request to a small or a large model before any work starts"
+    },
+    {
+      "id": "u0197",
+      "text": "A lower-cost model does the work and asks a frontier model to check its plan or output only on hard decisions"
+    },
+    {
+      "id": "u0198",
+      "text": "Sources"
+    },
+    {
+      "id": "u0199",
+      "text": "Sources"
+    }
+  ]
+}

@@ -1,0 +1,935 @@
+{
+  "pageId": "1.2",
+  "title": "End-to-end agent architecture: the loop, tool execution and feedback",
+  "titleVi": "Kiến trúc tác tử từ đầu đến cuối: vòng lặp, thực thi công cụ và phản hồi",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design end-to-end architectures"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Trace a request through the agent loop from assembled input to final result, and name the stop condition that ends it"
+    },
+    {
+      "id": "u0002",
+      "text": "Decide for each tool whether your code or Anthropic executes it, and what that means for your loop"
+    },
+    {
+      "id": "u0003",
+      "text": "Judge when a tool, an MCP connection or a stronger model belongs in the processing stage"
+    },
+    {
+      "id": "u0004",
+      "text": "Design feedback into a run with tool results, hooks and graded outcomes so the system corrects itself"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "The agent loop"
+    },
+    {
+      "id": "u0007",
+      "text": "The cycle at the centre of every Claude-based system: the input is assembled, Claude answers with text or tool calls, the tools run, and their results go back to Claude. The cycle repeats until Claude gives a response with no tool calls, and that response is the output."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "The agent loop from input to output"
+    },
+    {
+      "id": "u0010",
+      "text": "Who executes tools: client tools versus server tools"
+    },
+    {
+      "id": "u0011",
+      "text": "When a tool belongs in the design at all"
+    },
+    {
+      "id": "u0012",
+      "text": "Sizing the processing stage"
+    },
+    {
+      "id": "u0013",
+      "text": "Feedback loops that correct the run"
+    },
+    {
+      "id": "u0014",
+      "text": "The agent loop from input to output"
+    },
+    {
+      "id": "u0015",
+      "text": "Every Claude-based architecture, from a single tool call to a multi-hour coding agent, runs the same cycle. Draw that cycle first and the rest of the design hangs off it: where the input comes from, what runs during processing, what counts as output, and where feedback comes back in."
+    },
+    {
+      "id": "u0016",
+      "text": "Input"
+    },
+    {
+      "id": "u0017",
+      "text": " is more than the user's message. Each time Claude is called it sees the prompt, the system prompt, the tool definitions and the conversation history so far. So the design decisions that shape every turn sit here: which tools to expose, what instructions to give, how much history to carry. The Agent SDK marks the start of a run with a "
+    },
+    {
+      "id": "u0018",
+      "text": " of subtype "
+    },
+    {
+      "id": "u0019",
+      "text": ", which carries the session metadata."
+    },
+    {
+      "id": "u0020",
+      "text": "Processing"
+    },
+    {
+      "id": "u0021",
+      "text": " happens in turns. Claude looks at the current state and replies with text, one or more tool calls, or both. The tools run, and each set of results goes back to Claude for its next decision. One full pass of evaluate-then-execute is a turn, and an agent may take many turns before it finishes."
+    },
+    {
+      "id": "u0022",
+      "text": "Output"
+    },
+    {
+      "id": "u0023",
+      "text": " comes when Claude gives a response that contains no tool calls. In the Agent SDK that final text arrives as an "
+    },
+    {
+      "id": "u0024",
+      "text": ", followed by a "
+    },
+    {
+      "id": "u0025",
+      "text": " that holds the final text, token usage, cost and session ID. Check the "
+    },
+    {
+      "id": "u0026",
+      "text": " subtype as well, because a run can end by hitting a limit rather than by succeeding."
+    },
+    {
+      "id": "u0027",
+      "text": "A worked case shows the shape. The task is to fix a failing auth test. In turn 1 Claude runs "
+    },
+    {
+      "id": "u0028",
+      "text": " through Bash and gets back three failures. In turn 2 it reads "
+    },
+    {
+      "id": "u0029",
+      "text": " and "
+    },
+    {
+      "id": "u0030",
+      "text": ". In turn 3 it edits "
+    },
+    {
+      "id": "u0031",
+      "text": " and runs the tests again, and all three pass. The final turn has no tool call, only the text \"Fixed the auth bug, all three tests pass now.\" Nobody coded those steps in advance. Claude chose each one based on the result of the step before."
+    },
+    {
+      "id": "u0032",
+      "text": "With the raw Messages API you write this loop yourself. It is a "
+    },
+    {
+      "id": "u0033",
+      "text": " loop keyed on "
+    },
+    {
+      "id": "u0034",
+      "text": ": if the reason is "
+    },
+    {
+      "id": "u0035",
+      "text": ", run the requested tools, add the "
+    },
+    {
+      "id": "u0036",
+      "text": " blocks to the conversation and send it again. Any other stop reason ends the loop, and your application has to handle each one."
+    },
+    {
+      "id": "u0037",
+      "text": "What the application does for each stop_reason"
+    },
+    {
+      "id": "u0038",
+      "text": "stop_reason"
+    },
+    {
+      "id": "u0039",
+      "text": "What it means"
+    },
+    {
+      "id": "u0040",
+      "text": "What your code does next"
+    },
+    {
+      "id": "u0041",
+      "text": "tool_use"
+    },
+    {
+      "id": "u0042",
+      "text": "Claude wants one or more tools run"
+    },
+    {
+      "id": "u0043",
+      "text": "Run them, send tool_result blocks, call again"
+    },
+    {
+      "id": "u0044",
+      "text": "end_turn"
+    },
+    {
+      "id": "u0045",
+      "text": "Claude produced its final answer"
+    },
+    {
+      "id": "u0046",
+      "text": "Leave the loop and deliver the output"
+    },
+    {
+      "id": "u0047",
+      "text": "max_tokens, stop_sequence, refusal"
+    },
+    {
+      "id": "u0048",
+      "text": "Claude stopped for some other reason"
+    },
+    {
+      "id": "u0049",
+      "text": "Leave the loop and handle that case explicitly"
+    },
+    {
+      "id": "u0050",
+      "text": "pause_turn"
+    },
+    {
+      "id": "u0051",
+      "text": "A server-side tool loop hit its iteration cap with work still to do"
+    },
+    {
+      "id": "u0052",
+      "text": "Send the conversation again, including the paused response"
+    },
+    {
+      "id": "u0053",
+      "text": "You also have to decide who hosts the loop. The Messages API is best for custom agent loops where you want fine-grained control. Claude Managed Agents gives you a ready-made harness: you don't build your own loop, tool execution or runtime, and it suits long-running, asynchronous work."
+    },
+    {
+      "id": "u0054",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0055",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0056",
+      "text": "Your application drives the agent loop with the raw Messages API. Match each stop_reason to what your code should do next."
+    },
+    {
+      "id": "u0057",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0058",
+      "text": "tool_use"
+    },
+    {
+      "id": "u0059",
+      "text": "end_turn"
+    },
+    {
+      "id": "u0060",
+      "text": "max_tokens"
+    },
+    {
+      "id": "u0061",
+      "text": "pause_turn"
+    },
+    {
+      "id": "u0062",
+      "text": "A server-side tool loop hit its iteration cap with work still to do: send the conversation again, including the paused response"
+    },
+    {
+      "id": "u0063",
+      "text": "Run the requested tools, send the tool_result blocks and call Claude again"
+    },
+    {
+      "id": "u0064",
+      "text": "Claude stopped before giving a final answer: leave the loop and handle this case explicitly"
+    },
+    {
+      "id": "u0065",
+      "text": "Claude has produced its final answer: leave the loop and deliver the output"
+    },
+    {
+      "id": "u0066",
+      "text": "Sources"
+    },
+    {
+      "id": "u0067",
+      "text": "Who executes tools: client tools versus server tools"
+    },
+    {
+      "id": "u0068",
+      "text": "Claude never runs a tool itself. It emits a structured request, something outside the model carries it out, and the result goes back into the conversation. The main design question for any tool is therefore where its code runs, because that decides what your application is responsible for."
+    },
+    {
+      "id": "u0069",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0070",
+      "text": "Anthropic publishes the schema for the "
+    },
+    {
+      "id": "u0071",
+      "text": " tool. When Claude calls "
+    },
+    {
+      "id": "u0072",
+      "text": ", who runs the command?"
+    },
+    {
+      "id": "u0073",
+      "text": "Claude itself, inside the model"
+    },
+    {
+      "id": "u0074",
+      "text": "Your application, which then returns a tool_result"
+    },
+    {
+      "id": "u0075",
+      "text": "Anthropic, in a sandbox on its servers"
+    },
+    {
+      "id": "u0076",
+      "text": "Tools fall into three groups. "
+    },
+    {
+      "id": "u0077",
+      "text": "User-defined client tools"
+    },
+    {
+      "id": "u0078",
+      "text": " carry most tool-use traffic. You write the schema, run the code and return the result. Claude sees the schema and the result but never your implementation. "
+    },
+    {
+      "id": "u0079",
+      "text": "Anthropic-schema client tools"
+    },
+    {
+      "id": "u0080",
+      "text": ") run the same way, in your code. The difference is that Claude was trained on these exact signatures, so it calls them more reliably and recovers from errors better than it would with a custom tool that does the same job. "
+    },
+    {
+      "id": "u0081",
+      "text": "Server tools"
+    },
+    {
+      "id": "u0082",
+      "text": ") run on Anthropic's infrastructure. You enable them in the request and never build a "
+    },
+    {
+      "id": "u0083",
+      "text": " for them."
+    },
+    {
+      "id": "u0084",
+      "text": "Where each kind of tool sits in the architecture"
+    },
+    {
+      "id": "u0085",
+      "text": "Tool kind"
+    },
+    {
+      "id": "u0086",
+      "text": "Who executes"
+    },
+    {
+      "id": "u0087",
+      "text": "Your loop's job"
+    },
+    {
+      "id": "u0088",
+      "text": "User-defined client tool"
+    },
+    {
+      "id": "u0089",
+      "text": "Your application"
+    },
+    {
+      "id": "u0090",
+      "text": "Run the operation, return tool_result, drive the loop"
+    },
+    {
+      "id": "u0091",
+      "text": "Anthropic-schema client tool (bash, text_editor, computer…)"
+    },
+    {
+      "id": "u0092",
+      "text": "Your application"
+    },
+    {
+      "id": "u0093",
+      "text": "Same as above; Claude calls it more reliably because the schema is trained-in"
+    },
+    {
+      "id": "u0094",
+      "text": "Server tool (web_search, web_fetch, code_execution, tool_search)"
+    },
+    {
+      "id": "u0095",
+      "text": "Anthropic"
+    },
+    {
+      "id": "u0096",
+      "text": "Enable it and read the results; resend on pause_turn"
+    },
+    {
+      "id": "u0097",
+      "text": "Client tools put a round trip in every call. The model can't run your code, so it asks, you execute, you report back, and it carries on. Server tools turn that around. A single request can set off several searches or code runs inside Anthropic's own loop, and the response arrives with the "
+    },
+    {
+      "id": "u0098",
+      "text": " blocks already done. Your application usually just reads the answer."
+    },
+    {
+      "id": "u0099",
+      "text": "That server-side loop has two exits to design for. It has an iteration cap, and hitting the cap returns "
+    },
+    {
+      "id": "u0100",
+      "text": " instead of "
+    },
+    {
+      "id": "u0101",
+      "text": ". The work isn't finished, so send the conversation again with the paused response and the model picks up where it stopped. Second, if Claude calls a server tool and a client tool in the same group of parallel calls, the response comes back as "
+    },
+    {
+      "id": "u0102",
+      "text": " with a "
+    },
+    {
+      "id": "u0103",
+      "text": " block that has no result yet. The API runs it only after you return the client tool results."
+    },
+    {
+      "id": "u0104",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0105",
+      "text": "Anthropic publishes the bash, text_editor and computer tools, so Anthropic runs them."
+    },
+    {
+      "id": "u0106",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0108",
+      "text": "A response with stop_reason pause_turn is finished and can be shown to the user."
+    },
+    {
+      "id": "u0109",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0111",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0112",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0113",
+      "text": "A support agent gets four tools: a custom lookup_order tool, text_editor, computer and web_fetch. When Claude calls one of them, which one never needs your application to run it and build a tool_result?"
+    },
+    {
+      "id": "u0114",
+      "text": "computer, because Claude was trained on its exact signature"
+    },
+    {
+      "id": "u0115",
+      "text": "lookup_order, because Claude only sees its schema and never the implementation"
+    },
+    {
+      "id": "u0116",
+      "text": "text_editor, because Anthropic publishes its schema"
+    },
+    {
+      "id": "u0117",
+      "text": "web_fetch, because it is a server tool that Anthropic runs"
+    },
+    {
+      "id": "u0118",
+      "text": "Sources"
+    },
+    {
+      "id": "u0119",
+      "text": "When a tool belongs in the design at all"
+    },
+    {
+      "id": "u0120",
+      "text": "Every tool adds a round trip, so include one only when it does something text alone can't. Tool use fits four situations:"
+    },
+    {
+      "id": "u0121",
+      "text": "Actions with side effects, such as sending an email or updating a record. The model can describe them, but only a tool can do them."
+    },
+    {
+      "id": "u0122",
+      "text": "Fresh or external data, such as current prices or the contents of your database."
+    },
+    {
+      "id": "u0123",
+      "text": "Output that must have a fixed structure, where a schema enforces the fields."
+    },
+    {
+      "id": "u0124",
+      "text": "Calls into existing systems, such as internal APIs, databases and filesystems."
+    },
+    {
+      "id": "u0125",
+      "text": "A design smell gives it away. If you find yourself writing a regex to pull a decision out of model output, that decision should have been a tool call. The reverse case matters as much. Summarization, translation and general-knowledge Q&A need no tool. And when the response is trivial, a tool's latency can cost more than the work itself."
+    },
+    {
+      "id": "u0126",
+      "text": "Integrations with several systems raise another question: does each one need its own hand-written execution code? An agent that reads a wiki, queries a ticket database and posts to chat could each be a user-defined client tool, with your loop checking "
+    },
+    {
+      "id": "u0127",
+      "text": " and calling a handler for each. That is three integrations to build and maintain. Connecting "
+    },
+    {
+      "id": "u0128",
+      "text": "MCP servers"
+    },
+    {
+      "id": "u0129",
+      "text": " instead exposes each system through one standardized protocol. Claude still decides when to call each tool. Managed Agents, for example, declares MCP servers on the agent and supplies credentials when each session is created. Choosing between MCP and other integration mechanisms is covered under "
+    },
+    {
+      "id": "u0130",
+      "text": "connection protocols"
+    },
+    {
+      "id": "u0131",
+      "text": "Two shortcuts fail for different reasons. Pasting the wiki, database and chat contents into the system prompt gives Claude a stale copy and no way to act. It can't post a reply or see a ticket that changed a minute ago. A precomputed decision tree that runs fixed API calls without the model removes the very thing the agent loop adds: the model choosing the next step from the last result."
+    },
+    {
+      "id": "u0132",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0133",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0134",
+      "text": "A ticket-triage service asks Claude to decide whether each ticket should be escalated. The code then runs a regex over the reply to find 'ESCALATE: yes' or 'ESCALATE: no', and the match breaks whenever the wording changes. What is the right design fix?"
+    },
+    {
+      "id": "u0135",
+      "text": "Paste the escalation rules and recent ticket data into the system prompt so Claude's answers become more consistent"
+    },
+    {
+      "id": "u0136",
+      "text": "Keep the regex, but add a system-prompt instruction that tells Claude to always use the exact 'ESCALATE:' wording"
+    },
+    {
+      "id": "u0137",
+      "text": "Make the escalation decision a tool call whose schema has the decision as a field, so the structure is enforced instead of parsed"
+    },
+    {
+      "id": "u0138",
+      "text": "Replace Claude with a precomputed decision tree that runs fixed API calls for each ticket category"
+    },
+    {
+      "id": "u0139",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0140",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0141",
+      "text": "An architect is building an agent that must read internal wiki pages, query a ticketing database, and post replies to a chat tool. The team wants to avoid writing and maintaining custom tool-execution code for each integration and wants the agent to autonomously decide when to call each system. Which architecture choice best satisfies this?"
+    },
+    {
+      "id": "u0142",
+      "text": "Connect the agent to MCP servers for the wiki, database, and chat tool so each system is exposed through one standardized protocol"
+    },
+    {
+      "id": "u0143",
+      "text": "Implement a manual tool loop with the Client SDK where application code inspects stop_reason and dispatches hand-written handlers"
+    },
+    {
+      "id": "u0144",
+      "text": "Embed the wiki, database, and chat contents directly into the system prompt on every request so no runtime tool calls are needed"
+    },
+    {
+      "id": "u0145",
+      "text": "Precompute a static decision tree mapping every possible request to a fixed sequence of API calls the application runs without the model"
+    },
+    {
+      "id": "u0146",
+      "text": "Sources"
+    },
+    {
+      "id": "u0147",
+      "text": "Sizing the processing stage"
+    },
+    {
+      "id": "u0148",
+      "text": "The model that does the processing sets most of the system's cost and latency, and choosing it is an architecture decision. The default is to start small and earn the upgrade. Start with a fast, low-cost Haiku model, test it on real inputs, and move up to a more capable model only where the tests show a capability gap. Detailed model trade-offs are covered under "
+    },
+    {
+      "id": "u0149",
+      "text": "model selection"
+    },
+    {
+      "id": "u0150",
+      "text": "Take a ticket-triage pipeline with a strict cost ceiling per ticket. Sending every ticket through the largest model at maximum effort pays for capability most tickets never use. Agentic systems often trade latency and cost for better task performance, and that trade has to be justified rather than assumed. Picking a model at random for each ticket averages the cost, but quality becomes unpredictable and the design has no idea which tickets needed more. Replacing Claude with a separately trained classifier throws away the reasoning about edge cases the task needs. The approach that holds up is to benchmark the small model on real tickets, then route only the hard cases upward."
+    },
+    {
+      "id": "u0151",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0152",
+      "text": "Over-provisioning intelligence is a design error, not a safe default. When a scenario combines a cost ceiling with a quality requirement, the answer starts on the cheaper model, measures it against real inputs, and escalates only on evidence of a gap."
+    },
+    {
+      "id": "u0153",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0154",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0155",
+      "text": "An insurer is designing a pipeline that classifies incoming claim documents. Each document has a strict cost ceiling, and edge cases still need careful reasoning. Which way of choosing the processing model holds up?"
+    },
+    {
+      "id": "u0156",
+      "text": "Pick a model at random for each document so the average cost stays under the ceiling"
+    },
+    {
+      "id": "u0157",
+      "text": "Send every document to the most capable model at maximum effort, since over-provisioning is the safe default when quality matters"
+    },
+    {
+      "id": "u0158",
+      "text": "Replace Claude with a separately trained classifier, because it is cheaper than any LLM call"
+    },
+    {
+      "id": "u0159",
+      "text": "Start with a fast, low-cost Haiku model, benchmark it on real claim documents, and route only the cases it struggles with to a more capable model"
+    },
+    {
+      "id": "u0160",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0161",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0162",
+      "text": "A team is designing the processing stage of a customer-support architecture. Support tickets arrive continuously and must be triaged with strong reasoning about edge cases, but the team has a strict per-ticket cost ceiling and wants to avoid over-provisioning intelligence. Which approach best fits the input-to-processing handoff for this architecture?"
+    },
+    {
+      "id": "u0163",
+      "text": "Start triage on Claude Haiku 4.5, benchmark it against real tickets, and only route to a stronger model when a capability gap appears"
+    },
+    {
+      "id": "u0164",
+      "text": "Route every ticket through Claude Opus 4.8 at maximum effort so triage accuracy is never a bottleneck for any downstream stage at all"
+    },
+    {
+      "id": "u0165",
+      "text": "Alternate between Haiku and Opus at random across tickets to average out cost while keeping accuracy roughly acceptable"
+    },
+    {
+      "id": "u0166",
+      "text": "Fine-tune a separate classifier outside Claude and use it exclusively so no per-ticket model inference cost is incurred"
+    },
+    {
+      "id": "u0167",
+      "text": "Sources"
+    },
+    {
+      "id": "u0168",
+      "text": "Feedback loops that correct the run"
+    },
+    {
+      "id": "u0169",
+      "text": "A system corrects itself during a run only if feedback from its environment comes back into the loop. There are three places to design that feedback in, each more structured than the last."
+    },
+    {
+      "id": "u0170",
+      "text": "Tool results"
+    },
+    {
+      "id": "u0171",
+      "text": " are the basic feedback channel. In the auth-bug run, the first "
+    },
+    {
+      "id": "u0172",
+      "text": " result is what sent Claude to read the files, and the second run confirmed the fix. Design tools that report checkable facts, such as test results, validator errors or schema failures, and Claude can react to them on its next turn. A tool that only says \"done\" gives it nothing to correct against."
+    },
+    {
+      "id": "u0173",
+      "text": "Hooks"
+    },
+    {
+      "id": "u0174",
+      "text": " turn feedback into code that runs every time, whatever the model decides. The Agent SDK lets hooks intercept, modify or block a tool call before it runs ("
+    },
+    {
+      "id": "u0175",
+      "text": "), and fire after a tool has run ("
+    },
+    {
+      "id": "u0176",
+      "text": "). Each "
+    },
+    {
+      "id": "u0177",
+      "text": " pairs a matcher pattern such as "
+    },
+    {
+      "id": "u0178",
+      "text": " with a list of callbacks. To write an audit entry every time the agent changes a file, register a "
+    },
+    {
+      "id": "u0179",
+      "text": " hook matched to "
+    },
+    {
+      "id": "u0180",
+      "text": " whose callback appends the entry. Putting \"remember to log your edits\" in the system prompt depends on the model complying on every turn of a multi-hour run. Polling the filesystem from outside only guesses at what changed. Asking the user to confirm each edit is a human approval gate, not an audit log."
+    },
+    {
+      "id": "u0181",
+      "text": "Agent SDK (Python): hook callbacks registered through HookMatcher; a PostToolUse entry takes the same list shape"
+    },
+    {
+      "id": "u0182",
+      "text": "python"
+    },
+    {
+      "id": "u0183",
+      "text": "Graded outcomes"
+    },
+    {
+      "id": "u0184",
+      "text": " close the loop on the whole deliverable, not on individual tool calls. In Claude Managed Agents you define an outcome: a description of done plus a rubric. The harness then sets up a grader that checks the artifact against the rubric in a separate context window, so the agent's own implementation choices don't sway it. The grader's explanation of which criteria passed or failed goes back to the agent for its next iteration. This is the "
+    },
+    {
+      "id": "u0185",
+      "text": "evaluator-optimizer pattern"
+    },
+    {
+      "id": "u0186",
+      "text": " built into the harness."
+    },
+    {
+      "id": "u0187",
+      "text": "The event that starts an outcome-oriented session (max_iterations is optional: default 3, max 20)"
+    },
+    {
+      "id": "u0188",
+      "text": "json"
+    },
+    {
+      "id": "u0189",
+      "text": "A grader is only as good as its rubric. It scores each criterion on its own, so \"The data looks good\" produces noisy verdicts while \"The CSV contains a price column with numeric values\" produces a clear one. The iteration cap is the loop's stop condition. Without it, a rubric the agent can never satisfy would keep the agent revising indefinitely."
+    },
+    {
+      "id": "u0190",
+      "text": "How each outcome evaluation result routes the loop"
+    },
+    {
+      "id": "u0191",
+      "text": "result"
+    },
+    {
+      "id": "u0192",
+      "text": "What happens next"
+    },
+    {
+      "id": "u0193",
+      "text": "satisfied"
+    },
+    {
+      "id": "u0194",
+      "text": "Session transitions to idle"
+    },
+    {
+      "id": "u0195",
+      "text": "needs_revision"
+    },
+    {
+      "id": "u0196",
+      "text": "Agent starts a new iteration cycle with the grader's feedback"
+    },
+    {
+      "id": "u0197",
+      "text": "max_iterations_reached"
+    },
+    {
+      "id": "u0198",
+      "text": "One final acknowledgment turn, then idle; no further evaluation"
+    },
+    {
+      "id": "u0199",
+      "text": "failed"
+    },
+    {
+      "id": "u0200",
+      "text": "Session goes idle; the rubric does not apply to the deliverables"
+    },
+    {
+      "id": "u0201",
+      "text": "interrupted"
+    },
+    {
+      "id": "u0202",
+      "text": "The session was interrupted while an outcome was active"
+    },
+    {
+      "id": "u0203",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0204",
+      "text": "Pick an agent you have built or plan to build. Which of its checks rely on the model remembering an instruction, and which could become a tool result, a hook or a rubric criterion instead?"
+    },
+    {
+      "id": "u0205",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0206",
+      "text": "A system-prompt instruction is enough to make the agent log every file change during a long run."
+    },
+    {
+      "id": "u0207",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0209",
+      "text": "In an outcome loop, the main agent grades its own work."
+    },
+    {
+      "id": "u0210",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0212",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0213",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0214",
+      "text": "In a Claude Managed Agents session started with user.define_outcome, what checks the finished artifact against the rubric, and why is it set up that way?"
+    },
+    {
+      "id": "u0215",
+      "text": "A PostToolUse hook matched to Edit|Write, which checks each file change against the rubric criteria as it happens"
+    },
+    {
+      "id": "u0216",
+      "text": "A grader that the harness sets up, working in a separate context window so the agent's implementation choices don't sway its verdict"
+    },
+    {
+      "id": "u0217",
+      "text": "Your application, which parses the agent's final text and sends back a tool_result marking each criterion as passed or failed"
+    },
+    {
+      "id": "u0218",
+      "text": "The main agent re-reads its own artifact against the rubric at the end of each iteration, because it knows best what it implemented"
+    },
+    {
+      "id": "u0219",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0220",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0221",
+      "text": "If the agent can never satisfy the rubric, this outcome session must not keep revising forever. Which field sets that stop condition?"
+    },
+    {
+      "id": "u0222",
+      "text": "max_iterations"
+    },
+    {
+      "id": "u0223",
+      "text": "max_tokens"
+    },
+    {
+      "id": "u0224",
+      "text": "max_retries"
+    },
+    {
+      "id": "u0225",
+      "text": "max_turns"
+    },
+    {
+      "id": "u0226",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0227",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0228",
+      "text": "A production agent built with the Claude Agent SDK runs multi-hour autonomous coding sessions. The architecture needs a feedback loop that automatically writes an audit-log entry to disk every time the agent edits or writes a file, without the model having to be asked to do this in every prompt. Which mechanism should the architect use?"
+    },
+    {
+      "id": "u0229",
+      "text": "Register a PostToolUse hook matched to the Edit and Write tools that runs a callback to append an audit entry after each call"
+    },
+    {
+      "id": "u0230",
+      "text": "Add a line to the system prompt asking Claude to remember to log every file change it makes during the session"
+    },
+    {
+      "id": "u0231",
+      "text": "Poll the filesystem every few seconds from a separate process and diff it against the prior state to infer which files changed"
+    },
+    {
+      "id": "u0232",
+      "text": "Require the user to manually confirm and log each edit through the AskUserQuestion tool before it is applied"
+    },
+    {
+      "id": "u0233",
+      "text": "Sources"
+    },
+    {
+      "id": "u0234",
+      "text": "Sources"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Accept edits preapproves file changes and common filesystem operations. Select Manual instead when each edit and shell command must receive explicit human approval.",
+    "vi": "Accept edits chấp thuận trước thay đổi tệp và thao tác hệ thống tệp thông thường. Hãy chọn Manual nếu từng lần sửa và lệnh shell đều phải được con người chấp thuận rõ ràng."
+  },
+  "exam-trap-2": {
+    "en": "A directory mention supplies a listing, not all file contents. Reference the individual file when its actual text needs to enter context.",
+    "vi": "Tham chiếu thư mục chỉ cung cấp danh sách, không đưa nội dung mọi tệp vào. Hãy tham chiếu từng tệp khi cần văn bản thực của nó xuất hiện trong ngữ cảnh."
+  }
+}

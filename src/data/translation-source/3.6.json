@@ -1,0 +1,831 @@
+{
+  "pageId": "3.6",
+  "title": "Retrieval strategies matched to data shape and query pattern",
+  "titleVi": "Chiến lược truy xuất phù hợp với cấu trúc dữ liệu và dạng truy vấn",
+  "units": [
+    {
+      "id": "description",
+      "text": "Apply retrieval strategies matched to data shape and query pattern"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide whether a corpus belongs in the prompt with caching or needs a retrieval system"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose between embeddings, BM25 and hybrid search from the shape of the data and the queries"
+    },
+    {
+      "id": "u0003",
+      "text": "Choose a retrieval stack by trading accuracy against per-query latency and cost"
+    },
+    {
+      "id": "u0004",
+      "text": "Decide when an agent should retrieve just in time with tools instead of using a pre-built index"
+    },
+    {
+      "id": "u0005",
+      "text": "Apply the same matching logic to tool catalogs and to long-running sessions"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Retrieval matched to data shape"
+    },
+    {
+      "id": "u0008",
+      "text": "No retrieval method is best everywhere. Pick it from what the corpus contains and how users ask: put the corpus in the prompt if it fits, use BM25 for exact identifiers, embeddings for meaning, a weighted blend for mixed traffic, and agent-driven tool search when an index would go stale."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "First ask whether the corpus fits in the prompt"
+    },
+    {
+      "id": "u0011",
+      "text": "Embeddings match meaning, BM25 matches exact terms"
+    },
+    {
+      "id": "u0012",
+      "text": "Hybrid search and tuning the blend to your data"
+    },
+    {
+      "id": "u0013",
+      "text": "Choosing the full stack by accuracy, latency and cost"
+    },
+    {
+      "id": "u0014",
+      "text": "Just-in-time retrieval: letting the agent search with tools"
+    },
+    {
+      "id": "u0015",
+      "text": "The same logic for tool catalogs and long sessions"
+    },
+    {
+      "id": "u0016",
+      "text": "First ask whether the corpus fits in the prompt"
+    },
+    {
+      "id": "u0017",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0018",
+      "text": "Every chat in a support team's assistant needs a 400-page policy handbook. What should the architect build first?"
+    },
+    {
+      "id": "u0019",
+      "text": "Nothing new: put the whole handbook in the prompt and cache it"
+    },
+    {
+      "id": "u0020",
+      "text": "An agent with a grep tool that searches the handbook on every turn"
+    },
+    {
+      "id": "u0021",
+      "text": "A vector database with hybrid BM25 and embedding search over chunked policies"
+    },
+    {
+      "id": "u0022",
+      "text": "Retrieval exists because some corpora are too big for the context window. So the first design question is whether yours is. A knowledge base under 200,000 tokens, about 500 pages, can go into the prompt whole. Then there is no chunking, no index to keep fresh, and no retrieval step that can return the wrong passage."
+    },
+    {
+      "id": "u0023",
+      "text": "Prompt caching is what makes the full-context option cheap. The first request processes the whole prompt and caches the prefix. Later requests that start with the same prefix reuse the cached version, which cuts processing time and cost. Anthropic reports that caching frequently used prompts cuts latency by more than 2x and cost by up to 90%. A handbook that every conversation reads is the ideal case, because the prefix is identical on every request."
+    },
+    {
+      "id": "u0024",
+      "text": "Fitting in the window sets an upper limit. It does not mean you should fill the window. As the token count grows, accuracy and recall degrade, so what you put in context matters as much as how much room there is. Once the knowledge base grows past what fits, you need a retrieval method that scales, and the rest of this lesson is about choosing one."
+    },
+    {
+      "id": "u0025",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0026",
+      "text": "Any knowledge base used for grounding needs a RAG pipeline with chunking and a vector index."
+    },
+    {
+      "id": "u0027",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0029",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0030",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0031",
+      "text": "An internal assistant is grounded on a 150-page product FAQ that every conversation reads. Next year the team plans to add about 2,000 pages of engineering docs. Which plan best fits the guidance?"
+    },
+    {
+      "id": "u0032",
+      "text": "Build a chunked vector index now, because any knowledge base used for grounding needs a RAG pipeline"
+    },
+    {
+      "id": "u0033",
+      "text": "Put the FAQ and the engineering docs in the prompt, because prompt caching makes prompt size irrelevant"
+    },
+    {
+      "id": "u0034",
+      "text": "Fill the context window as close to its limit as possible, because more context in the prompt improves recall"
+    },
+    {
+      "id": "u0035",
+      "text": "Put the FAQ in the prompt with prompt caching now, and add a scalable retrieval method once the corpus grows past about 200,000 tokens"
+    },
+    {
+      "id": "u0036",
+      "text": "Sources"
+    },
+    {
+      "id": "u0037",
+      "text": "Embeddings match meaning, BM25 matches exact terms"
+    },
+    {
+      "id": "u0038",
+      "text": "The two basic retrievers fail in opposite ways. "
+    },
+    {
+      "id": "u0039",
+      "text": "Embeddings"
+    },
+    {
+      "id": "u0040",
+      "text": " turn text into vectors so that chunks close in meaning to the query rank high, even when they use different words. They are good at semantic relationships, but they can miss an exact match that matters."
+    },
+    {
+      "id": "u0041",
+      "text": "BM25"
+    },
+    {
+      "id": "u0042",
+      "text": " is a lexical ranking function: it looks for the exact words or phrases in the query. It builds on TF-IDF, which scores how important a word is to one document within a collection. BM25 adds a correction for document length and a saturation function on term frequency, so common words cannot dominate the ranking. That makes it strong wherever queries carry unique identifiers or technical terms."
+    },
+    {
+      "id": "u0043",
+      "text": "Take the query \"Error code TS-999\" against a technical support database. An embedding model may return content about error codes in general and miss the one page about TS-999. BM25 searches for that exact string and finds it. The reverse also holds: a question phrased in the user's own words, with none of the document's vocabulary, gives BM25 nothing to match, while embeddings find it through meaning."
+    },
+    {
+      "id": "u0044",
+      "text": "Which retriever wins for each query shape"
+    },
+    {
+      "id": "u0045",
+      "text": "Query shape"
+    },
+    {
+      "id": "u0046",
+      "text": "Stronger retriever"
+    },
+    {
+      "id": "u0047",
+      "text": "Reason"
+    },
+    {
+      "id": "u0048",
+      "text": "Exact identifier, such as Error code TS-999"
+    },
+    {
+      "id": "u0049",
+      "text": "BM25"
+    },
+    {
+      "id": "u0050",
+      "text": "Looks for that specific text string"
+    },
+    {
+      "id": "u0051",
+      "text": "Conceptual question in the user's own words"
+    },
+    {
+      "id": "u0052",
+      "text": "Embeddings"
+    },
+    {
+      "id": "u0053",
+      "text": "Ranks by semantic similarity, not shared words"
+    },
+    {
+      "id": "u0054",
+      "text": "Mixed traffic: some identifiers, some paraphrase"
+    },
+    {
+      "id": "u0055",
+      "text": "Embeddings + BM25 combined"
+    },
+    {
+      "id": "u0056",
+      "text": "Balances exact term matching with semantic understanding"
+    },
+    {
+      "id": "u0057",
+      "text": "Embedding retrieval has one setting that is easy to get wrong: "
+    },
+    {
+      "id": "u0058",
+      "text": ". Set it to "
+    },
+    {
+      "id": "u0059",
+      "text": " for user questions and to "
+    },
+    {
+      "id": "u0060",
+      "text": " for corpus text. Each value prepends its own instruction before embedding, which gives better vectors for retrieval. Leaving it out or setting it to "
+    },
+    {
+      "id": "u0061",
+      "text": " throws that gain away."
+    },
+    {
+      "id": "u0062",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0063",
+      "text": "A good embedding model finds exact identifiers such as error codes as reliably as it finds paraphrases."
+    },
+    {
+      "id": "u0064",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0068",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0069",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0070",
+      "text": "A support assistant gets three kinds of query traffic. Match each one to the retriever that suits it best."
+    },
+    {
+      "id": "u0071",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0072",
+      "text": "Agents paste exact strings such as \"ERR-4521\" or a part number"
+    },
+    {
+      "id": "u0073",
+      "text": "Customers describe their problem in their own words, using none of the docs' vocabulary"
+    },
+    {
+      "id": "u0074",
+      "text": "Traffic mixes exact identifiers with paraphrased questions"
+    },
+    {
+      "id": "u0075",
+      "text": "Embedding-based semantic search"
+    },
+    {
+      "id": "u0076",
+      "text": "Embeddings and BM25 combined"
+    },
+    {
+      "id": "u0077",
+      "text": "BM25 lexical matching"
+    },
+    {
+      "id": "u0078",
+      "text": "Sources"
+    },
+    {
+      "id": "u0079",
+      "text": "Hybrid search and tuning the blend to your data"
+    },
+    {
+      "id": "u0080",
+      "text": "Hybrid search runs both retrievers and merges what they find. The standard pipeline:"
+    },
+    {
+      "id": "u0081",
+      "text": "Split the corpus into chunks, usually a few hundred tokens or fewer."
+    },
+    {
+      "id": "u0082",
+      "text": "Build TF-IDF encodings and semantic embeddings for every chunk."
+    },
+    {
+      "id": "u0083",
+      "text": "Take the top chunks by exact match with BM25."
+    },
+    {
+      "id": "u0084",
+      "text": "Take the top chunks by semantic similarity with embeddings."
+    },
+    {
+      "id": "u0085",
+      "text": "Combine and deduplicate the two lists using rank fusion."
+    },
+    {
+      "id": "u0086",
+      "text": "Add the top-K chunks to the prompt."
+    },
+    {
+      "id": "u0087",
+      "text": "The fusion step is where you tune for your data. Anthropic's reference implementation takes the top 150 candidates from each retriever and merges them with weighted Reciprocal Rank Fusion. The default is 80% weight on semantic search and 20% on BM25, and the weights are meant to be tuned. A corpus full of function names, part numbers or error codes calls for more BM25 weight. A corpus where users paraphrase calls for more semantic weight."
+    },
+    {
+      "id": "u0088",
+      "text": "Even at 80/20 the lexical side does real work. In a codebase evaluation, BM25 still supplied about 39–45% of the final results after fusion, depending on how many results were kept. Code is full of exact identifiers, and those are the queries embeddings miss."
+    },
+    {
+      "id": "u0089",
+      "text": "The embedding side can be matched to the data as well. Domain-specific models exist for code retrieval and agentic coding ("
+    },
+    {
+      "id": "u0090",
+      "text": "), legal work ("
+    },
+    {
+      "id": "u0091",
+      "text": ") and finance ("
+    },
+    {
+      "id": "u0092",
+      "text": "). Providers that allow continued training on private data can improve results on unusual vocabularies. Before you add a second retriever to cover vocabulary a general model handles badly, check whether a domain model already covers it."
+    },
+    {
+      "id": "u0093",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0094",
+      "text": "Take twenty real queries from your system. How many contain a string that must match exactly, such as an ID, a SKU or an error code? Where would that ratio put your starting BM25 weight?"
+    },
+    {
+      "id": "u0095",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0096",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0097",
+      "text": "Hybrid search over a spare-parts catalog runs with the reference defaults: 80% weight on semantic search, 20% on BM25. Logs show that queries quoting an exact part number such as \"PN-77214-B\" often miss the right page, while queries describing a part in plain words work well. What should the architect change first?"
+    },
+    {
+      "id": "u0098",
+      "text": "Raise the semantic weight further, because a good embedding model matches part numbers as reliably as paraphrases"
+    },
+    {
+      "id": "u0099",
+      "text": "Remove BM25 from the pipeline, because at 20% weight it contributes almost nothing after fusion"
+    },
+    {
+      "id": "u0100",
+      "text": "Raise the BM25 weight in the rank fusion step, because this corpus is full of exact identifiers"
+    },
+    {
+      "id": "u0101",
+      "text": "Leave the weights alone, because 80/20 is the fixed ratio that weighted Reciprocal Rank Fusion requires"
+    },
+    {
+      "id": "u0102",
+      "text": "Sources"
+    },
+    {
+      "id": "u0103",
+      "text": "Choosing the full stack by accuracy, latency and cost"
+    },
+    {
+      "id": "u0104",
+      "text": "Beyond plain hybrid search there are two more layers you can add, and each one costs something. "
+    },
+    {
+      "id": "u0105",
+      "text": "Contextual retrieval (contextual embeddings and contextual BM25)"
+    },
+    {
+      "id": "u0106",
+      "text": " uses Claude to prepend a short, chunk-specific context to each chunk before it is indexed. "
+    },
+    {
+      "id": "u0107",
+      "text": "Reranking and how many chunks to pass"
+    },
+    {
+      "id": "u0108",
+      "text": " re-scores a large candidate set with a specialised model and keeps only the best few."
+    },
+    {
+      "id": "u0109",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0110",
+      "text": "A codebase retrieval system starts at 87% Pass@10. Contextual embeddings, hybrid BM25 and reranking are then added one at a time. Which step gives the biggest single jump?"
+    },
+    {
+      "id": "u0111",
+      "text": "Contextual embeddings"
+    },
+    {
+      "id": "u0112",
+      "text": "Reranking"
+    },
+    {
+      "id": "u0113",
+      "text": "Hybrid search with BM25"
+    },
+    {
+      "id": "u0114",
+      "text": "Pass@k as each technique is added, codebase evaluation (248 queries)"
+    },
+    {
+      "id": "u0115",
+      "text": "Approach"
+    },
+    {
+      "id": "u0116",
+      "text": "Pass@5"
+    },
+    {
+      "id": "u0117",
+      "text": "Pass@10"
+    },
+    {
+      "id": "u0118",
+      "text": "Pass@20"
+    },
+    {
+      "id": "u0119",
+      "text": "Baseline RAG"
+    },
+    {
+      "id": "u0120",
+      "text": "+ Contextual Embeddings"
+    },
+    {
+      "id": "u0121",
+      "text": "+ Hybrid Search (BM25)"
+    },
+    {
+      "id": "u0122",
+      "text": "+ Reranking"
+    },
+    {
+      "id": "u0123",
+      "text": "Contextual retrieval pays off when the data is made of chunks that lose their meaning once cut out of the document. SEC filings are the usual example. A chunk that says \"The company's revenue grew by 3% over the previous quarter\" names neither the company nor the period, so neither retriever can match it to a question about ACME in Q2 2023. The cost is paid once, at ingestion: about $1.02 per million document tokens with prompt caching, and about $3 for the whole codebase dataset above. Plain hybrid search needs no LLM pass at all, but you have to run and maintain Elasticsearch."
+    },
+    {
+      "id": "u0124",
+      "text": "Reranking costs something on every query: roughly 100–200 ms of extra latency and about $0.002 per query in API fees. Within reranking there is a further trade-off. Scoring more candidates improves accuracy, and scoring fewer lowers latency and cost. Rerankers come in tiers too: "
+    },
+    {
+      "id": "u0125",
+      "text": " is the most accurate, and "
+    },
+    {
+      "id": "u0126",
+      "text": " is optimised for latency and cost."
+    },
+    {
+      "id": "u0127",
+      "text": "The results suggest three typical choices. For high-volume, cost-sensitive traffic, contextual embeddings alone reach about 92% Pass@10 with no per-query cost. For a balanced production system, add hybrid search for about 93% without per-query fees. When maximum accuracy matters and some latency is acceptable, add reranking to reach about 95%. For most production systems the best performance per dollar comes from contextual embeddings."
+    },
+    {
+      "id": "u0128",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0129",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0130",
+      "text": "Millions of low-margin search queries a day run against a large, chunked document corpus. Every extra cent per query matters, and a few points of Pass@10 matter less. Which retrieval stack fits these requirements best?"
+    },
+    {
+      "id": "u0131",
+      "text": "Contextual embeddings, hybrid BM25 and reranking together, because the full pipeline reaches the highest Pass@10"
+    },
+    {
+      "id": "u0132",
+      "text": "Plain hybrid BM25 search without contextual embeddings, because it needs no LLM pass and no infrastructure to maintain"
+    },
+    {
+      "id": "u0133",
+      "text": "Reranking on top of baseline RAG, skipping contextual embeddings, because Claude would have to generate chunk context on every query"
+    },
+    {
+      "id": "u0134",
+      "text": "Contextual embeddings alone, because their cost is paid once at ingestion and adds nothing per query"
+    },
+    {
+      "id": "u0135",
+      "text": "Sources"
+    },
+    {
+      "id": "u0136",
+      "text": "Just-in-time retrieval: letting the agent search with tools"
+    },
+    {
+      "id": "u0137",
+      "text": "Everything so far assumes an index built before any query arrives. Just-in-time retrieval drops that assumption. The agent keeps lightweight references such as file paths, stored queries and web links, and uses tools to load data into context only when it needs it. Claude Code works this way on large databases: it writes targeted queries, stores the results, and uses "
+    },
+    {
+      "id": "u0138",
+      "text": " and "
+    },
+    {
+      "id": "u0139",
+      "text": " to inspect large outputs without ever loading the full objects into context."
+    },
+    {
+      "id": "u0140",
+      "text": "This approach wins when the data changes faster than an index can be rebuilt. Claude Code's "
+    },
+    {
+      "id": "u0141",
+      "text": " and "
+    },
+    {
+      "id": "u0142",
+      "text": " read files as they are now, which avoids stale indexes and complex syntax trees in a codebase that is edited all day. The surroundings are also information: a "
+    },
+    {
+      "id": "u0143",
+      "text": " file in a "
+    },
+    {
+      "id": "u0144",
+      "text": " folder means something different from one in "
+    },
+    {
+      "id": "u0145",
+      "text": ". Folder structure, naming conventions and timestamps all help the agent decide what to open next."
+    },
+    {
+      "id": "u0146",
+      "text": "The cost is speed and reliability. Exploring at run time is slower than looking up precomputed results. The agent also needs the right tools and guidance, or it will misuse tools, chase dead ends and fill its context with noise. That last risk is serious, because accuracy and recall drop as the token count grows."
+    },
+    {
+      "id": "u0147",
+      "text": "Many systems combine the two. Claude Code loads its "
+    },
+    {
+      "id": "u0148",
+      "text": " files into context at the start and greps for everything else. A mixed approach suits content that changes less often, such as legal or finance material: load the stable core up front for speed, and let the agent explore the rest when it needs to."
+    },
+    {
+      "id": "u0149",
+      "text": "A team embeds a monorepo nightly. Developers say the assistant cites functions that were renamed that morning. Which retrieval change targets the cause?"
+    },
+    {
+      "id": "u0150",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0151",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0152",
+      "text": "For a legal-research agent, a core set of firm policies and standard clauses changes only a few times a year. A much larger archive of past case files is consulted now and then. Answers should come back quickly. Which retrieval design fits best?"
+    },
+    {
+      "id": "u0153",
+      "text": "A hybrid: load the stable core into context up front for speed, and let the agent explore the archive with tools when it needs to"
+    },
+    {
+      "id": "u0154",
+      "text": "Pure just-in-time retrieval, because exploring at run time is faster than looking up precomputed results"
+    },
+    {
+      "id": "u0155",
+      "text": "Pure just-in-time retrieval: give the agent glob and grep for everything, because tool-based search always beats loading content up front"
+    },
+    {
+      "id": "u0156",
+      "text": "Load the core and the whole archive into context on every request, because more context in the window improves recall"
+    },
+    {
+      "id": "u0157",
+      "text": "Sources"
+    },
+    {
+      "id": "u0158",
+      "text": "The same logic for tool catalogs and long sessions"
+    },
+    {
+      "id": "u0159",
+      "text": "Tool definitions are a corpus too, and the first question is the same: do they fit? Tool search marks definitions with "
+    },
+    {
+      "id": "u0160",
+      "text": ", so they enter context only when Claude finds them by searching. It is a form of "
+    },
+    {
+      "id": "u0161",
+      "text": "progressive discovery vs monolithic context"
+    },
+    {
+      "id": "u0162",
+      "text": ". It comes in two built-in variants, "
+    },
+    {
+      "id": "u0163",
+      "text": " and "
+    },
+    {
+      "id": "u0164",
+      "text": "Tool search adds a search step before each tool call. It only pays off when the context saved and the gain in tool-selection accuracy outweigh that extra latency. Typical signals are definitions totalling more than 10K tokens or more than ten tools. Even then, keep your 3–5 most-used tools non-deferred so Claude can call them without searching. Eight small tools that nearly every request uses fall well below that threshold, so load them directly. Deferring them, with regex or BM25 search or behind a deferred MCP toolset, would add a search before every call Claude was going to make anyway."
+    },
+    {
+      "id": "u0165",
+      "text": "Matching on meaning works for tools the same way it works for chunks. Both built-in variants match on words or patterns. When tool descriptions are short and related only through an embedding space, BM25 has too few shared words to match, and broad regex wildcards do not capture meaning either. Instead, build a custom search tool that queries your embeddings index and returns "
+    },
+    {
+      "id": "u0166",
+      "text": " blocks in its "
+    },
+    {
+      "id": "u0167",
+      "text": ". Every tool it references must still be defined in the top-level "
+    },
+    {
+      "id": "u0168",
+      "text": " array, normally with "
+    },
+    {
+      "id": "u0169",
+      "text": "A custom search tool's result pointing Claude at a discovered tool"
+    },
+    {
+      "id": "u0170",
+      "text": "json"
+    },
+    {
+      "id": "u0171",
+      "text": "A long agent session can outgrow the window by itself. A research agent that retrieves and discusses documents for hours builds up a history that, like an oversized corpus, eventually stops fitting. For long-running conversations and agentic workflows, server-side compaction is the main way to manage this. It lets the session continue past the limit without the agent losing its earlier findings. Other fixes make things worse. The context window holds both the history and the new output, so raising "
+    },
+    {
+      "id": "u0172",
+      "text": " leaves less room for history. Re-uploading earlier documents on every turn fills the window faster. More on managing the window in "
+    },
+    {
+      "id": "u0173",
+      "text": "context window management"
+    },
+    {
+      "id": "u0174",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0175",
+      "text": "Tool search always saves context, so defer every tool, even in a small catalog Claude uses on nearly every request."
+    },
+    {
+      "id": "u0176",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0182",
+      "text": "The built-in BM25 tool search is close enough to semantic search when tool descriptions are sparse."
+    },
+    {
+      "id": "u0183",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0189",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0190",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0191",
+      "text": "Three hours into a research session, an agent that retrieves and discusses documents has built up a history that no longer fits in the context window. The team wants it to keep working without losing what it found earlier. Which change addresses this?"
+    },
+    {
+      "id": "u0192",
+      "text": "Raise max_tokens so the model has more room for the growing history"
+    },
+    {
+      "id": "u0193",
+      "text": "Use server-side compaction so the session can continue past the window limit and keep its earlier findings"
+    },
+    {
+      "id": "u0194",
+      "text": "Mark the retrieved documents with defer_loading: true so they load only when the agent searches for them"
+    },
+    {
+      "id": "u0195",
+      "text": "Re-upload the earlier source documents on every turn so the agent never loses them"
+    },
+    {
+      "id": "u0196",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0197",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0198",
+      "text": "An internal ops agent has 8 tools total (deploy, rollback, restart, status, logs, scale, alert, notify), each under 100 tokens, and nearly every request needs several of them. Which tool-configuration approach fits this scenario?"
+    },
+    {
+      "id": "u0199",
+      "text": "Call all 8 tools directly through standard tool definitions without enabling tool search or deferred loading."
+    },
+    {
+      "id": "u0200",
+      "text": "Enable the BM25 tool search variant so Claude searches the catalog by natural language before every call."
+    },
+    {
+      "id": "u0201",
+      "text": "Enable the regex tool search variant and defer all 8 tools so Claude searches by pattern before every call."
+    },
+    {
+      "id": "u0202",
+      "text": "Aggregate the 8 tools behind a single MCP connector and defer loading for the entire toolset."
+    },
+    {
+      "id": "u0203",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0204",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0205",
+      "text": "A research agent runs for several hours, repeatedly retrieving and discussing documents, and the conversation is approaching its context window limit while still needing to reference earlier findings. Which strategy matches this query pattern?"
+    },
+    {
+      "id": "u0206",
+      "text": "Enable server-side compaction so earlier turns are automatically summarized while the session continues past the limit."
+    },
+    {
+      "id": "u0207",
+      "text": "Increase max_tokens on each request so more output room is reserved for new retrieval results."
+    },
+    {
+      "id": "u0208",
+      "text": "Re-upload every previously retrieved document at the start of each new turn so nothing is lost from history."
+    },
+    {
+      "id": "u0209",
+      "text": "Switch to a model with a smaller context window to force more frequent manual summarization by the user."
+    },
+    {
+      "id": "u0210",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0211",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0212",
+      "text": "A platform wants Claude to discover tools using an existing embeddings index rather than the built-in regex or BM25 matching, because tool descriptions are sparse but semantically related through the embedding space. Which implementation matches this requirement?"
+    },
+    {
+      "id": "u0213",
+      "text": "Build a custom tool that runs the embeddings search and returns tool_reference blocks in its tool_result for Claude to expand."
+    },
+    {
+      "id": "u0214",
+      "text": "Enable the built-in BM25 tool search variant, since BM25 ranking approximates embedding-based semantic similarity closely enough."
+    },
+    {
+      "id": "u0215",
+      "text": "Enable the built-in regex tool search variant and rely on broad wildcard patterns to approximate semantic matching."
+    },
+    {
+      "id": "u0216",
+      "text": "Disable tool search and load every tool definition up front so the embeddings index becomes unnecessary."
+    },
+    {
+      "id": "u0217",
+      "text": "Sources"
+    },
+    {
+      "id": "u0218",
+      "text": "Sources"
+    }
+  ]
+}

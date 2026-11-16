@@ -1,0 +1,14 @@
+{
+  "exam-trap-2": {
+    "en": "Too little evidence can omit the answer altogether. Larger retrieved sets performed better in the cited comparison; tune the chunk count against your own evaluation set.",
+    "vi": "Quá ít bằng chứng có thể khiến thiếu hẳn câu trả lời. Trong so sánh được dẫn, tập đoạn truy xuất lớn hơn cho kết quả tốt hơn; hãy chỉnh số đoạn theo tập đánh giá của bạn."
+  },
+  "exam-trap-1": {
+    "en": "The search_result structure alone does not switch citations on. Explicitly enable citations and keep that setting consistent across every result in the request.",
+    "vi": "Cấu trúc search_result tự nó không bật trích dẫn. Phải bật trích dẫn rõ ràng và dùng thiết lập nhất quán cho mọi kết quả trong yêu cầu."
+  },
+  "exam-trap-3": {
+    "en": "Caching compares prefixes rather than entire requests. Mark the static material before the question as cacheable, allowing different questions to reuse that shared prefix.",
+    "vi": "Bộ nhớ đệm so khớp tiền tố chứ không phải toàn bộ yêu cầu. Đánh dấu phần cố định trước câu hỏi để lưu đệm, cho phép các câu hỏi khác nhau dùng lại tiền tố chung."
+  }
+}

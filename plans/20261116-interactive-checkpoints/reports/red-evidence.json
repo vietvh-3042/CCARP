@@ -1,0 +1,5 @@
+{
+  "command": "npm test -- tests/checkpoint-interactions.spec.ts",
+  "exitCode": 1,
+  "expectedFailure": "Static checkpoints have no selectable buttons and lesson completion is not gated."
+}

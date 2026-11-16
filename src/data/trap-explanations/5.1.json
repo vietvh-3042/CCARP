@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "A screening refusal is evidence of harmful input, not permission to bypass screening. Handle it as a harmful classification rather than forwarding or retrying.",
+    "vi": "Bộ sàng lọc từ chối là dấu hiệu đầu vào có hại, không phải lý do bỏ qua sàng lọc. Hãy xử lý như kết quả phân loại có hại thay vì chuyển tiếp hoặc thử lại."
+  },
+  "exam-trap-2": {
+    "en": "Retrieved material lacks operator authority. Keep it in tool_result blocks and encode untrusted strings as JSON so embedded text cannot escape its data boundaries.",
+    "vi": "Tài liệu truy xuất không có thẩm quyền của bên vận hành. Giữ nó trong khối tool_result và mã hóa chuỗi không đáng tin cậy bằng JSON để nội dung nhúng không thoát khỏi ranh giới dữ liệu."
+  },
+  "exam-trap-3": {
+    "en": "A refusal can be a successful HTTP response. Inspect stop_reason and stop_details.category for control flow; explanatory prose is for users, not reliable branching.",
+    "vi": "Lời từ chối có thể nằm trong phản hồi HTTP thành công. Dùng stop_reason và stop_details.category để điều khiển xử lý; văn bản giải thích dành cho người dùng, không phù hợp để rẽ nhánh đáng tin cậy."
+  },
+  "exam-trap-4": {
+    "en": "Fallback availability depends on the model. Claude Haiku 5.5 lacks a server-side fallback, so the application must implement any retry behavior itself.",
+    "vi": "Khả năng dự phòng phụ thuộc vào mô hình. Claude Haiku 5.5 không có phương án dự phòng phía máy chủ, nên ứng dụng phải tự triển khai cơ chế thử lại nếu cần."
+  }
+}

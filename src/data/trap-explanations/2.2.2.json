@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "A tool_result is treated as untrusted data, so embedded directions may be rejected. Put your follow-up request in a subsequent user turn.",
+    "vi": "tool_result được xem là dữ liệu không đáng tin, nên chỉ dẫn nằm trong đó có thể bị từ chối. Hãy đặt yêu cầu tiếp theo ở lượt người dùng sau đó."
+  },
+  "exam-trap-2": {
+    "en": "Retrieved material is outside content, not privileged policy. Keeping it in tool_result blocks preserves the distinction between evidence to inspect and instructions to follow.",
+    "vi": "Tài liệu truy xuất là nội dung bên ngoài, không phải chính sách có thẩm quyền. Đặt nó trong khối tool_result giúp phân biệt bằng chứng cần xem xét với chỉ dẫn cần tuân theo."
+  },
+  "exam-trap-3": {
+    "en": "Additional defensive instructions can interfere with the main task. Apply leak protection where it is needed, then evaluate both its protection and its quality impact.",
+    "vi": "Chỉ dẫn phòng vệ bổ sung có thể cản trở tác vụ chính. Chỉ áp dụng chống lộ câu lệnh ở nơi cần thiết, rồi đánh giá cả khả năng bảo vệ lẫn ảnh hưởng tới chất lượng."
+  }
+}

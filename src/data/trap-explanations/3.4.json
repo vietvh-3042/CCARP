@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "A managed endpoint does not fix exporter selection. Pin the selectors as well, or developer settings can route a signal to console or disable its export.",
+    "vi": "Điểm cuối được quản lý không cố định lựa chọn bộ xuất. Phải đặt cả các bộ chọn, nếu không thiết lập của lập trình viên có thể chuyển tín hiệu ra console hoặc tắt xuất."
+  },
+  "exam-trap-2": {
+    "en": "Session and account attributes are already enabled on metrics. Disable identifiers that dashboards do not need to prevent unnecessary growth in distinct time series.",
+    "vi": "Thuộc tính phiên và tài khoản đã được bật sẵn trong số liệu. Hãy tắt định danh mà bảng giám sát không cần để tránh tăng số chuỗi thời gian riêng biệt không cần thiết."
+  },
+  "exam-trap-3": {
+    "en": "Logging raw bodies captures conversation contents wholesale. Enabling it also authorizes content exposure otherwise controlled by narrower gates, so it is not an isolated diagnostic setting.",
+    "vi": "Ghi phần thân thô sẽ thu toàn bộ nội dung hội thoại. Bật nó cũng cho phép lộ nội dung vốn chịu kiểm soát của các cổng hẹp hơn, nên đây không phải thiết lập chẩn đoán tách biệt."
+  }
+}

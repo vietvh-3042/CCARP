@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Retrieval infrastructure is unnecessary when the complete corpus fits in context. For a modest collection, supplying it directly with caching can be simpler and economical.",
+    "vi": "Không cần hạ tầng truy xuất nếu toàn bộ kho tài liệu vừa ngữ cảnh. Với tập tài liệu vừa phải, đưa trực tiếp vào kèm lưu đệm có thể đơn giản và tiết kiệm hơn."
+  },
+  "exam-trap-2": {
+    "en": "Semantic similarity can overlook literal identifiers. Combine embeddings with BM25 when queries depend on exact codes or names that lexical matching can preserve.",
+    "vi": "Độ tương đồng ngữ nghĩa có thể bỏ sót định danh nguyên văn. Khi câu hỏi phụ thuộc mã hoặc tên chính xác, hãy kết hợp mô hình nhúng với BM25 để giữ khả năng khớp từ vựng."
+  },
+  "exam-trap-3": {
+    "en": "Deferral introduces a search before tool use. Frequently needed tools should remain directly available; a small catalogue used constantly may gain nothing from tool search.",
+    "vi": "Nạp trì hoãn thêm bước tìm kiếm trước khi dùng công cụ. Công cụ thường dùng nên sẵn có trực tiếp; danh mục nhỏ được dùng liên tục có thể chẳng được lợi từ tìm kiếm công cụ."
+  },
+  "exam-trap-4": {
+    "en": "BM25 matches words rather than embedding similarity. Sparse descriptions do not change that mechanism; semantic discovery needs a custom search implementation returning tool_reference blocks.",
+    "vi": "BM25 khớp từ thay vì độ tương đồng biểu diễn nhúng. Mô tả ít thông tin không thay đổi cơ chế đó; muốn tìm theo ngữ nghĩa cần cách tìm kiếm tùy chỉnh trả về khối tool_reference."
+  }
+}

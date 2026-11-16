@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Use OpenTelemetry for per-user usage attribution. Enforce per-user caps through a gateway; Bedrock billing controls remain separate from direct-platform workspace limits.",
+    "vi": "Dùng OpenTelemetry để quy mức sử dụng về từng người dùng. Muốn áp giới hạn cho từng người, cần cổng trung gian; cơ chế thanh toán Bedrock tách biệt với giới hạn không gian làm việc của nền tảng trực tiếp."
+  },
+  "exam-trap-2": {
+    "en": "Organization sizing uses team-size bands because recommended capacity per person decreases at larger scales. Apply the destination headcount band rather than extrapolating a small pilot.",
+    "vi": "Định cỡ tổ chức dùng các khoảng quy mô nhóm vì năng lực khuyến nghị mỗi người giảm khi quy mô lớn hơn. Hãy dùng khoảng tương ứng tổng nhân sự đích thay vì ngoại suy từ đợt thử nhỏ."
+  }
+}

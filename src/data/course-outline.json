@@ -1,0 +1,373 @@
+[
+  {
+    "lessonId": "1.1",
+    "part": 1,
+    "title": "Translating business problems into Claude solutions",
+    "titleVi": "Chuyển bài toán kinh doanh thành giải pháp dùng Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design"
+  },
+  {
+    "lessonId": "1.2",
+    "part": 1,
+    "title": "End-to-end agent architecture: the loop, tool execution and feedback",
+    "titleVi": "Kiến trúc tác tử từ đầu đến cuối: vòng lặp, thực thi công cụ và phản hồi",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/end-to-end-claude-architecture-input-processing-output-and-feedback-loops#continue"
+  },
+  {
+    "lessonId": "1.3",
+    "part": 1,
+    "title": "Workflow, agent and augmented LLM patterns for Claude",
+    "titleVi": "Các mẫu quy trình, tác tử và LLM tăng cường cho Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/augmented-llm-workflows-or-agents-choosing-the-base-pattern#continue"
+  },
+  {
+    "lessonId": "1.4",
+    "part": 1,
+    "title": "Multi-agent design: when to split and how to brief subagents",
+    "titleVi": "Thiết kế hệ thống đa tác tử: khi nào nên chia việc và cách giao nhiệm vụ cho tác tử con",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/multi-agent-system-design-when-to-split-and-how-to-decompose#continue"
+  },
+  {
+    "lessonId": "1.4",
+    "part": 2,
+    "title": "Configuring coordinators and subagents in Managed Agents, the Agent SDK and Claude Code",
+    "titleVi": "Cấu hình tác tử điều phối và tác tử con trong Managed Agents, Agent SDK và Claude Code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/multi-agent-orchestration-in-managed-agents-the-agent-sdk-and-claude-code"
+  },
+  {
+    "lessonId": "1.5",
+    "part": 1,
+    "title": "Task decomposition patterns: chaining, routing, parallelization and orchestrator-workers",
+    "titleVi": "Các mẫu phân rã nhiệm vụ: nối chuỗi, định tuyến, xử lý song song và điều phối–thực thi",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/task-decomposition-with-workflow-patterns-chaining-routing-parallelization#continue"
+  },
+  {
+    "lessonId": "1.6",
+    "part": 1,
+    "title": "Business value pillars for Claude solutions",
+    "titleVi": "Các trụ cột giá trị kinh doanh của giải pháp dùng Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/business-value-pillars-for-claude-solutions-cost-and-efficiency#continue"
+  },
+  {
+    "lessonId": "2.1",
+    "part": 1,
+    "title": "Choosing a Claude model: lineup, starting point and cost per task",
+    "titleVi": "Chọn mô hình Claude: các dòng mô hình, điểm khởi đầu và chi phí cho từng nhiệm vụ",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-a-claude-model-lineup-trade-offs-and-starting-points#continue"
+  },
+  {
+    "lessonId": "2.2",
+    "part": 1,
+    "title": "System Prompts and Reusable Prompt Templates for Claude",
+    "titleVi": "Chỉ dẫn hệ thống và mẫu câu lệnh tái sử dụng cho Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/system-prompts-and-reusable-prompt-templates-for-claude#continue"
+  },
+  {
+    "lessonId": "2.2",
+    "part": 2,
+    "title": "Guardrails for Claude Apps: Jailbreaks, Prompt Injection, Hallucinations and Prompt Leaks",
+    "titleVi": "Biện pháp bảo vệ ứng dụng Claude: vượt rào, chèn lệnh, ảo giác và rò rỉ câu lệnh",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/guardrails-for-claude-apps-jailbreaks-prompt-injection-hallucinations-and-prompt-leaks"
+  },
+  {
+    "lessonId": "2.3",
+    "part": 1,
+    "title": "Few-shot and chain-of-thought prompting for Claude",
+    "titleVi": "Viết câu lệnh cho Claude bằng vài ví dụ và chuỗi suy luận",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/zero-shot-and-few-shot-prompting-with-claude#continue"
+  },
+  {
+    "lessonId": "2.4",
+    "part": 1,
+    "title": "Context window budgeting: what counts and how to measure it",
+    "titleVi": "Phân bổ dung lượng cửa sổ ngữ cảnh: những gì được tính và cách đo",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/context-window-budgeting-what-counts-and-how-to-measure-it#continue"
+  },
+  {
+    "lessonId": "2.4",
+    "part": 2,
+    "title": "Compaction and context editing for long Claude sessions",
+    "titleVi": "Nén và chỉnh sửa ngữ cảnh cho các phiên làm việc dài với Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/managing-long-conversations-compaction-context-editing-and-cache-trade-offs"
+  },
+  {
+    "lessonId": "2.5",
+    "part": 1,
+    "title": "Prompt reuse with caching, modular prompts and Agent Skills",
+    "titleVi": "Tái sử dụng câu lệnh bằng bộ nhớ đệm, câu lệnh mô-đun và Agent Skills",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-caching-and-modular-prompt-layout#continue"
+  },
+  {
+    "lessonId": "3.1",
+    "part": 1,
+    "title": "Capability bloat in agent tool configurations",
+    "titleVi": "Tình trạng dư thừa năng lực trong cấu hình công cụ của tác tử",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/capability-bloat-why-too-many-tools-degrade-an-agent#continue"
+  },
+  {
+    "lessonId": "3.2",
+    "part": 1,
+    "title": "MCP authorization: discovery, client registration and scoped tokens",
+    "titleVi": "Ủy quyền MCP: khám phá, đăng ký ứng dụng khách và token giới hạn phạm vi",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/mcp-authorization-requirements-discovery-registration-and-token-binding#continue"
+  },
+  {
+    "lessonId": "3.2",
+    "part": 2,
+    "title": "Who the agent acts as: per-user credentials and permission layers",
+    "titleVi": "Tác tử hành động dưới danh nghĩa ai: thông tin xác thực riêng cho từng người dùng và các lớp quyền",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/finding-mcp-authorization-gaps-scopes-per-user-credentials-and-server-policy"
+  },
+  {
+    "lessonId": "3.3",
+    "part": 1,
+    "title": "Accuracy-latency trade-offs: effort, fast mode, streaming and justified configs",
+    "titleVi": "Đánh đổi giữa độ chính xác và độ trễ: mức nỗ lực, chế độ nhanh, truyền luồng và cấu hình có cơ sở",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/effort-and-model-choice-trading-accuracy-for-latency-and-cost#continue"
+  },
+  {
+    "lessonId": "3.4",
+    "part": 1,
+    "title": "Run-level telemetry and tagging for Claude agent fleets",
+    "titleVi": "Thu thập dữ liệu vận hành và gắn nhãn theo từng lần chạy cho các nhóm tác tử Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/monitoring-strategy-for-claude-agents-privacy-collectors-and-reporting-apis#continue"
+  },
+  {
+    "lessonId": "3.4",
+    "part": 2,
+    "title": "Choosing a Claude monitoring strategy: OpenTelemetry, usage reports or a gateway",
+    "titleVi": "Chọn chiến lược giám sát Claude: OpenTelemetry, báo cáo sử dụng hoặc cổng trung gian",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-a-claude-monitoring-strategy-opentelemetry-usage-reports-or-a-gateway"
+  },
+  {
+    "lessonId": "3.5",
+    "part": 1,
+    "title": "RAG ingestion: chunking, embeddings and contextual indexing",
+    "titleVi": "Nạp dữ liệu cho RAG: chia đoạn, tạo vector nhúng và lập chỉ mục theo ngữ cảnh",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/rag-pipeline-design-chunking-embeddings-and-hybrid-indexing#continue"
+  },
+  {
+    "lessonId": "3.5",
+    "part": 2,
+    "title": "RAG query time: reranking, top-k and citable search results",
+    "titleVi": "Xử lý truy vấn RAG: xếp hạng lại, top-k và kết quả tìm kiếm có thể trích dẫn",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/contextual-retrieval-reranking-and-citable-search-results"
+  },
+  {
+    "lessonId": "3.6",
+    "part": 1,
+    "title": "Retrieval strategies matched to data shape and query pattern",
+    "titleVi": "Chiến lược truy xuất phù hợp với cấu trúc dữ liệu và dạng truy vấn",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/retrieval-strategy-selection-full-context-embeddings-bm25-and-hybrid-search#continue"
+  },
+  {
+    "lessonId": "3.7",
+    "part": 1,
+    "title": "Choosing between MCP, direct tools and agent-to-agent integration",
+    "titleVi": "Lựa chọn giữa MCP, công cụ trực tiếp và tích hợp giữa các tác tử",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-between-mcp-direct-tool-use-and-subagents#continue"
+  },
+  {
+    "lessonId": "3.8",
+    "part": 1,
+    "title": "Progressive discovery vs. monolithic context: tool search and when to use it",
+    "titleVi": "Khám phá từng bước so với ngữ cảnh nguyên khối: tìm kiếm công cụ và khi nào nên dùng",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/tool-search-vs-loading-every-tool-definition-up-front#continue"
+  },
+  {
+    "lessonId": "4.1",
+    "part": 1,
+    "title": "Evaluation metrics for Claude systems: accuracy, latency, cost, safety and security",
+    "titleVi": "Chỉ số đánh giá hệ thống Claude: độ chính xác, độ trễ, chi phí, an toàn và bảo mật",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/latency-cost-safety-and-security-metrics#continue"
+  },
+  {
+    "lessonId": "4.2",
+    "part": 1,
+    "title": "Eval datasets and graders: designing a mixed-method test framework",
+    "titleVi": "Bộ dữ liệu đánh giá và bộ chấm điểm: thiết kế khung kiểm thử kết hợp nhiều phương pháp",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/evaluation-datasets-test-cases-edge-cases-and-volume#continue"
+  },
+  {
+    "lessonId": "4.3",
+    "part": 1,
+    "title": "A/B testing prompts: baselines, segments and versioned rollout",
+    "titleVi": "Thử nghiệm A/B cho câu lệnh: mốc chuẩn, phân nhóm và triển khai theo phiên bản",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/a-b-testing-prompt-and-model-changes-against-a-baseline#continue"
+  },
+  {
+    "lessonId": "4.4",
+    "part": 1,
+    "title": "Diagnosing Claude system failures: hallucination, prompt, tool and model faults",
+    "titleVi": "Chẩn đoán lỗi hệ thống Claude: ảo giác và lỗi câu lệnh, công cụ, mô hình",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/diagnosing-prompt-failures-tool-misuse-and-model-mismatch#continue"
+  },
+  {
+    "lessonId": "4.5",
+    "part": 1,
+    "title": "Optimizing Claude cost and latency: free wins, batching and budgets",
+    "titleVi": "Tối ưu chi phí và độ trễ của Claude: cải thiện không tốn thêm phí, xử lý theo lô và ngân sách",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-caching-and-free-cost-wins-on-claude#continue"
+  },
+  {
+    "lessonId": "4.6",
+    "part": 1,
+    "title": "OpenTelemetry for Claude Code and the Agent SDK: signals, traces and content gates",
+    "titleVi": "OpenTelemetry cho Claude Code và Agent SDK: tín hiệu, dấu vết thực thi và kiểm soát nội dung",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/opentelemetry-metrics-logs-and-traces-for-claude-agents#continue"
+  },
+  {
+    "lessonId": "4.6",
+    "part": 2,
+    "title": "Organisation-wide monitoring: API traces, usage and cost reports, audit events",
+    "titleVi": "Giám sát toàn tổ chức: dấu vết API, báo cáo sử dụng và chi phí, sự kiện kiểm toán",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/telemetry-content-gates-audit-events-and-the-usage-cost-api"
+  },
+  {
+    "lessonId": "5.1",
+    "part": 1,
+    "title": "Input and output guardrails for Claude applications",
+    "titleVi": "Biện pháp bảo vệ đầu vào và đầu ra cho ứng dụng Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-level-guardrails-jailbreaks-prompt-injection-hallucinations-and-refusals#continue"
+  },
+  {
+    "lessonId": "5.1",
+    "part": 2,
+    "title": "Least privilege and sandboxing for Claude agents",
+    "titleVi": "Nguyên tắc quyền tối thiểu và môi trường cách ly cho tác tử Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/access-controls-for-claude-agents-permissions-sandboxing-and-audit"
+  },
+  {
+    "lessonId": "5.2",
+    "part": 1,
+    "title": "LLM failure modes: hallucination, knowledge limits, context rot and prompt injection",
+    "titleVi": "Các dạng lỗi của LLM: ảo giác, giới hạn kiến thức, suy giảm ngữ cảnh và chèn lệnh",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/llm-limitations-hallucination-knowledge-gaps-context-limits-and-steerability#continue"
+  },
+  {
+    "lessonId": "5.3",
+    "part": 1,
+    "title": "Human approval checkpoints in Claude Code and the Agent SDK",
+    "titleVi": "Các điểm phê duyệt của con người trong Claude Code và Agent SDK",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/human-approval-checkpoints-in-claude-code#continue"
+  },
+  {
+    "lessonId": "5.3",
+    "part": 2,
+    "title": "Managed Agents permission policies and tool confirmations",
+    "titleVi": "Chính sách phân quyền và xác nhận sử dụng công cụ trong Managed Agents",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/programmatic-approval-flows-agent-sdk-and-managed-agents"
+  },
+  {
+    "lessonId": "5.4",
+    "part": 1,
+    "title": "HIPAA, BAAs and zero data retention for Claude",
+    "titleVi": "HIPAA, BAA và chính sách không lưu giữ dữ liệu cho Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/hipaa-compliance-on-claude-baa-hipaa-readiness-and-zdr#continue"
+  },
+  {
+    "lessonId": "5.4",
+    "part": 2,
+    "title": "GDPR, data residency and FedRAMP for Claude deployments",
+    "titleVi": "GDPR, nơi lưu trữ dữ liệu và FedRAMP khi triển khai Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/gdpr-fedramp-and-data-residency-controls-for-claude"
+  },
+  {
+    "lessonId": "5.5",
+    "part": 1,
+    "title": "Bias, fairness and honest outputs in Claude builds",
+    "titleVi": "Thiên lệch, tính công bằng và đầu ra trung thực trong các giải pháp dùng Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-bias-and-fairness-where-bias-comes-from-and-how-to-measure-it#continue"
+  },
+  {
+    "lessonId": "5.5",
+    "part": 2,
+    "title": "AI disclosure, watermarks and Content Credentials",
+    "titleVi": "Công khai việc sử dụng AI, dấu chìm và Content Credentials",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-transparency-disclosure-watermarks-and-content-credentials"
+  },
+  {
+    "lessonId": "6.1",
+    "part": 1,
+    "title": "Structured discovery and requirement gathering for Claude solutions",
+    "titleVi": "Khảo sát và thu thập yêu cầu có hệ thống cho giải pháp dùng Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/writing-measurable-requirements-and-acceptance-tests-for-ai-solutions#continue"
+  },
+  {
+    "lessonId": "6.2",
+    "part": 1,
+    "title": "Communicating architecture trade-offs to stakeholders",
+    "titleVi": "Trình bày những đánh đổi về kiến trúc với các bên liên quan",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/explaining-claude-model-and-cost-trade-offs-to-stakeholders#continue"
+  },
+  {
+    "lessonId": "6.3",
+    "part": 1,
+    "title": "Stakeholder expectations: SLAs, limits and pilot feedback",
+    "titleVi": "Kỳ vọng của các bên liên quan: SLA, giới hạn và phản hồi từ triển khai thử nghiệm",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/stakeholder-expectations-and-slas-for-claude-solutions#continue"
+  },
+  {
+    "lessonId": "6.4",
+    "part": 1,
+    "title": "Architecture documentation for Claude solutions",
+    "titleVi": "Tài liệu kiến trúc cho giải pháp dùng Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/documenting-an-ai-solution-architecture-for-engineering-teams#continue"
+  },
+  {
+    "lessonId": "6.4",
+    "part": 2,
+    "title": "CLAUDE.md as implementation guidance",
+    "titleVi": "Dùng CLAUDE.md để hướng dẫn triển khai",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/writing-implementation-guidance-with-claude-md"
+  },
+  {
+    "lessonId": "6.5",
+    "part": 1,
+    "title": "AI solution lifecycle phases: discovery to retirement",
+    "titleVi": "Các giai đoạn vòng đời giải pháp AI: từ khảo sát đến ngừng vận hành",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-solution-lifecycle-discovery-design-and-handoff#continue"
+  },
+  {
+    "lessonId": "7.1",
+    "part": 1,
+    "title": "Claude Code settings scopes, precedence and permission rules",
+    "titleVi": "Phạm vi cài đặt, thứ tự ưu tiên và quy tắc phân quyền trong Claude Code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/claude-code-settings-scopes-and-managed-policy-delivery-for-teams#continue"
+  },
+  {
+    "lessonId": "7.1",
+    "part": 2,
+    "title": "Managed policy for Claude Code: delivery, locks and model pins",
+    "titleVi": "Chính sách quản lý tập trung cho Claude Code: phân phối, khóa cài đặt và cố định mô hình",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/claude-code-team-policy-permissions-mcp-servers-models-and-spend"
+  },
+  {
+    "lessonId": "7.2",
+    "part": 1,
+    "title": "Explore, plan, implement, commit: the Claude Code loop",
+    "titleVi": "Khám phá, lập kế hoạch, triển khai, commit: vòng lặp làm việc với Claude Code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompting-claude-code-verification-context-and-the-explore-plan-implement-loop#continue"
+  },
+  {
+    "lessonId": "7.2",
+    "part": 2,
+    "title": "Claude Code hooks, shared skills and CI automation",
+    "titleVi": "Hook, kỹ năng dùng chung và tự động hóa CI trong Claude Code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/sharing-claude-code-workflows-claude-md-skills-hooks-and-ci"
+  },
+  {
+    "lessonId": "7.3",
+    "part": 1,
+    "title": "Diagnose Claude Code configuration: what loaded and why",
+    "titleVi": "Chẩn đoán cấu hình Claude Code: những gì đã được nạp và lý do",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/diagnosing-claude-code-configuration-mcp-and-hook-failures#continue"
+  },
+  {
+    "lessonId": "7.3",
+    "part": 2,
+    "title": "Claude Code errors, automatic retries and session recovery",
+    "titleVi": "Lỗi Claude Code, tự động thử lại và khôi phục phiên làm việc",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/reading-claude-code-errors-retries-and-multiagent-session-traces"
+  }
+]

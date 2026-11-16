@@ -1,0 +1,94 @@
+---
+import { lessonUrl } from "../lib/lesson-routes.mjs";
+import SourceHeader from "../components/source-header.astro";
+import SourceFooter from "../components/source-footer.astro";
+import { ui, type Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  lessonId?: string;
+}
+const { locale, title, description, lessonId } = Astro.props;
+const t = ui[locale];
+const canonicalPath = lessonId ? lessonUrl(locale, lessonId) : undefined;
+---
+
+<!doctype html>
+<html lang={locale} class="dark scroll-pt-[110px] bg-background text-foreground [color-scheme:dark]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#161817" />
+    <title>{title} · CCAR-P Study</title>
+    {canonicalPath && <link rel="canonical" href={canonicalPath} />}
+    <script is:inline define:vars={{ canonicalPath: canonicalPath ?? null }}>
+      if (canonicalPath && window.location.pathname !== canonicalPath) {
+        window.history.replaceState(
+          window.history.state,
+          "",
+          canonicalPath + window.location.search + window.location.hash,
+        );
+      }
+    </script>
+  </head>
+  <body
+    class="m-0 font-sans text-base leading-normal
+    [&_[hidden]]:!hidden [&_a]:touch-manipulation [&_button]:touch-manipulation
+    [&_button]:cursor-pointer [&_summary]:cursor-pointer
+    [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-primary
+    [&_.study-shell]:mx-auto [&_.study-shell]:max-w-[1064px] [&_.study-shell]:gap-10
+    [&_.study-shell]:px-5 [&_.study-shell]:pb-24 [&_.study-shell]:md:grid
+    [&_.study-shell]:md:grid-cols-[256px_minmax(0,768px)] [&_.study-shell]:md:px-0 [&_.study-shell]:md:pt-10
+    max-[1120px]:[&_.study-shell]:md:px-6 max-[1120px]:[&_.study-shell]:md:gap-7
+    max-[1120px]:[&_.study-shell]:md:grid-cols-[220px_minmax(0,1fr)]
+    [&_.lesson-main]:min-w-0 [&_.lesson-main]:pt-6 [&_.lesson-main]:md:pt-0
+    [&_.editor-note]:my-8 [&_.editor-note]:text-xs [&_.editor-note]:leading-6 [&_.editor-note]:text-muted-foreground
+    [&_.back-link]:mt-8 [&_.back-link]:inline-block [&_.back-link]:py-3 [&_.back-link]:text-muted-foreground
+    motion-reduce:[&_*]:transition-none"
+  >
+    <a class="skip-link fixed -top-24 left-5 z-50 bg-primary p-4 text-primary-foreground focus:top-2" href="#main"
+      >{t.skip}</a
+    >
+    <SourceHeader locale={locale} lessonId={lessonId} />
+    <slot />
+    <SourceFooter locale={locale} />
+    <script>
+      const synchronizeLanguageLinks = () => {
+        document.querySelectorAll<HTMLAnchorElement>("[data-language-switch]").forEach((link) => {
+          link.hash = window.location.hash;
+        });
+      };
+      synchronizeLanguageLinks();
+      window.addEventListener("hashchange", synchronizeLanguageLinks);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import "tailwindcss";
+  @custom-variant dark (&:where(.dark, .dark *));
+  @theme {
+    --font-sans: Arial, "Helvetica Neue", sans-serif;
+    --color-background: hsl(160 6% 9%);
+    --color-foreground: hsl(150 10% 96%);
+    --color-card: hsl(160 8% 12%);
+    --color-card-foreground: hsl(150 10% 96%);
+    --color-popover: hsl(160 8% 12%);
+    --color-popover-foreground: hsl(150 10% 96%);
+    --color-primary: hsl(158 50% 52%);
+    --color-primary-foreground: hsl(160 6% 9%);
+    --color-secondary: hsl(160 8% 18%);
+    --color-secondary-foreground: hsl(150 10% 96%);
+    --color-muted: hsl(160 8% 18%);
+    --color-muted-foreground: hsl(150 6% 62%);
+    --color-accent: hsl(160 8% 18%);
+    --color-accent-foreground: hsl(150 10% 96%);
+    --color-destructive: hsl(0 63% 55%);
+    --color-destructive-foreground: hsl(150 10% 96%);
+    --color-border: hsl(160 8% 20%);
+    --color-input: hsl(160 8% 20%);
+    --color-ring: hsl(158 50% 52%);
+  }
+</style>

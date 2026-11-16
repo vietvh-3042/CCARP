@@ -1,0 +1,671 @@
+{
+  "pageId": "5.1.2",
+  "title": "Least privilege and sandboxing for Claude agents",
+  "titleVi": "Nguyên tắc quyền tối thiểu và môi trường cách ly cho tác tử Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Implement guardrails and safety controls"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Write permission rules for an agent starting from deny, and spot patterns that match more than intended"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain why command-pattern rules alone cannot contain a determined command, and where the sandbox takes over"
+    },
+    {
+      "id": "u0003",
+      "text": "Configure sandbox filesystem and network boundaries and know which processes and tools they do not cover"
+    },
+    {
+      "id": "u0004",
+      "text": "Keep credential files and secret environment variables out of an agent's reach"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Least privilege: writing rules from deny"
+    },
+    {
+      "id": "u0007",
+      "text": "Where command-pattern rules stop protecting"
+    },
+    {
+      "id": "u0008",
+      "text": "Sandboxing the filesystem and network"
+    },
+    {
+      "id": "u0009",
+      "text": "Keeping secrets out of the agent's reach"
+    },
+    {
+      "id": "u0010",
+      "text": "Least privilege: writing rules from deny"
+    },
+    {
+      "id": "u0011",
+      "text": "Every guardrail on the prompt side can eventually be beaten by a clever enough input. Least privilege controls the damage when that happens: an agent holding only the tools, paths and credentials its task needs leaves an injected instruction very little to work with. The same principle applies in reverse to the agent's own mistakes."
+    },
+    {
+      "id": "u0012",
+      "text": "In Claude Code this is written as permission rules. Allow rules run a tool without asking, ask rules prompt every time, and deny rules block the tool outright ("
+    },
+    {
+      "id": "u0013",
+      "text": "Permission rules: allow, ask and deny"
+    },
+    {
+      "id": "u0014",
+      "text": "). For least privilege, start from deny and open only what the job needs. A build agent needs its build and commit commands, never a push to the remote, and a team that uses no MCP servers can block every one of them with a single "
+    },
+    {
+      "id": "u0015",
+      "text": " deny entry."
+    },
+    {
+      "id": "u0016",
+      "text": "Allow the build and commit commands the task needs, and deny pushing"
+    },
+    {
+      "id": "u0017",
+      "text": "json"
+    },
+    {
+      "id": "u0018",
+      "text": "Wildcards widen a rule further than they appear to. The "
+    },
+    {
+      "id": "u0019",
+      "text": " stands for any text in its position, so "
+    },
+    {
+      "id": "u0020",
+      "text": " matches every git subcommand, including "
+    },
+    {
+      "id": "u0021",
+      "text": ", and "
+    },
+    {
+      "id": "u0022",
+      "text": " makes git run a program you name. A single space changes the match: "
+    },
+    {
+      "id": "u0023",
+      "text": " does not match "
+    },
+    {
+      "id": "u0024",
+      "text": ", but "
+    },
+    {
+      "id": "u0025",
+      "text": " does. When you write an allow rule, check what else the wildcard admits."
+    },
+    {
+      "id": "u0026",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0027",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0028",
+      "text": "This build agent should be able to build and commit, but must never push to the remote. Which key completes the rule set?"
+    },
+    {
+      "id": "u0029",
+      "text": "allow"
+    },
+    {
+      "id": "u0030",
+      "text": "deny"
+    },
+    {
+      "id": "u0031",
+      "text": "ask"
+    },
+    {
+      "id": "u0032",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0033",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0034",
+      "text": "To let an agent run git commands against the main branch without prompting, an admin adds the allow rule Bash(git * main). What does this rule actually admit?"
+    },
+    {
+      "id": "u0035",
+      "text": "Every git subcommand and any options before it, including git -c core.fsmonitor=SCRIPT diff main, which makes git run a program you name"
+    },
+    {
+      "id": "u0036",
+      "text": "Only read-only git subcommands such as git log main and git diff main"
+    },
+    {
+      "id": "u0037",
+      "text": "Nothing beyond git merge main, because Claude Code checks git subcommands for safety on its own"
+    },
+    {
+      "id": "u0038",
+      "text": "Only the command git main, because * matches a single word"
+    },
+    {
+      "id": "u0039",
+      "text": "Sources"
+    },
+    {
+      "id": "u0040",
+      "text": "Where command-pattern rules stop protecting"
+    },
+    {
+      "id": "u0041",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0042",
+      "text": "A deny rule Bash(rm *) is in place. Will it stop the agent from running /bin/rm -rf build/?"
+    },
+    {
+      "id": "u0043",
+      "text": "Only if the sandbox is also enabled"
+    },
+    {
+      "id": "u0044",
+      "text": "No, the rule matches the command text, and /bin/rm is different text"
+    },
+    {
+      "id": "u0045",
+      "text": "Yes, any command that deletes files with rm is blocked"
+    },
+    {
+      "id": "u0046",
+      "text": "What a Bash deny pattern stops, and what gets past it"
+    },
+    {
+      "id": "u0047",
+      "text": "Rule"
+    },
+    {
+      "id": "u0048",
+      "text": "Stops"
+    },
+    {
+      "id": "u0049",
+      "text": "Doesn't stop"
+    },
+    {
+      "id": "u0050",
+      "text": "Bash(curl *)"
+    },
+    {
+      "id": "u0051",
+      "text": "curl https://example.com"
+    },
+    {
+      "id": "u0052",
+      "text": "/usr/bin/curl https://example.com, sh -c 'curl https://example.com'"
+    },
+    {
+      "id": "u0053",
+      "text": "Bash(rm *)"
+    },
+    {
+      "id": "u0054",
+      "text": "rm -rf build/"
+    },
+    {
+      "id": "u0055",
+      "text": "/bin/rm -rf build/, bash -c 'rm -rf build/'"
+    },
+    {
+      "id": "u0056",
+      "text": "Bash(git push *)"
+    },
+    {
+      "id": "u0057",
+      "text": "git push origin main"
+    },
+    {
+      "id": "u0058",
+      "text": "git -C . push origin main, git 'push' origin main"
+    },
+    {
+      "id": "u0059",
+      "text": "Pattern rules are a good way to express intent and a weak way to contain a command that is trying to get out. Treat them as the first layer. The sandbox in the next section enforces filesystem and network limits on every sandboxed command however it is spelled, and explicit deny rules are still respected inside it. Behind both preventive layers, audit logging is the detective control: it records what the agent actually did, so a bypass that gets through is found and the rule tightened ("
+    },
+    {
+      "id": "u0060",
+      "text": "Audit events and their routing"
+    },
+    {
+      "id": "u0061",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0062",
+      "text": "A deny rule like Bash(rm *) blocks every way the agent could delete files with rm."
+    },
+    {
+      "id": "u0063",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0066",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0067",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0068",
+      "text": "A team relies on a single deny rule, Bash(git push *), to keep its agent from pushing to the remote. Which of these commands still runs, because the rule never matches it?"
+    },
+    {
+      "id": "u0069",
+      "text": "None of them: the deny rule blocks every command that pushes to the remote"
+    },
+    {
+      "id": "u0070",
+      "text": "git push --force origin main"
+    },
+    {
+      "id": "u0071",
+      "text": "git push origin feature-branch"
+    },
+    {
+      "id": "u0072",
+      "text": "git -C . push origin main"
+    },
+    {
+      "id": "u0073",
+      "text": "Sources"
+    },
+    {
+      "id": "u0074",
+      "text": "Sandboxing the filesystem and network"
+    },
+    {
+      "id": "u0075",
+      "text": "Claude Code's built-in sandbox restricts which files and network hosts its shell commands can reach. It uses Seatbelt on macOS and bubblewrap on Linux and WSL2. The defaults are tight for writes and network and loose for reads and environment variables, which tells you where to configure."
+    },
+    {
+      "id": "u0076",
+      "text": "Sandbox defaults for Bash commands and the settings that change them"
+    },
+    {
+      "id": "u0077",
+      "text": "Access"
+    },
+    {
+      "id": "u0078",
+      "text": "Default"
+    },
+    {
+      "id": "u0079",
+      "text": "Change it with"
+    },
+    {
+      "id": "u0080",
+      "text": "Writes"
+    },
+    {
+      "id": "u0081",
+      "text": "Working directory, a per-user temp directory and added directories"
+    },
+    {
+      "id": "u0082",
+      "text": "filesystem.allowWrite, filesystem.denyWrite"
+    },
+    {
+      "id": "u0083",
+      "text": "Reads"
+    },
+    {
+      "id": "u0084",
+      "text": "Most of the machine, including ~/.ssh and ~/.aws/credentials"
+    },
+    {
+      "id": "u0085",
+      "text": "filesystem.denyRead, credentials"
+    },
+    {
+      "id": "u0086",
+      "text": "Network"
+    },
+    {
+      "id": "u0087",
+      "text": "Only through a proxy that checks allowed domains, which start empty"
+    },
+    {
+      "id": "u0088",
+      "text": "network.allowedDomains, network.deniedDomains"
+    },
+    {
+      "id": "u0089",
+      "text": "Environment variables"
+    },
+    {
+      "id": "u0090",
+      "text": "Inherited from Claude Code, including secrets"
+    },
+    {
+      "id": "u0091",
+      "text": "credentials, CLAUDE_CODE_SUBPROCESS_ENV_SCRUB"
+    },
+    {
+      "id": "u0092",
+      "text": "Read access is where least privilege usually has to be added by hand. Denying the home directory and allowing only the project directory gives the agent the code it needs and nothing beside it. Deny and allow combine predictably: a narrower allow re-opens part of a denied region, while a deny inside a wider allow holds. "
+    },
+    {
+      "id": "u0093",
+      "text": " with "
+    },
+    {
+      "id": "u0094",
+      "text": " keeps every "
+    },
+    {
+      "id": "u0095",
+      "text": " blocked."
+    },
+    {
+      "id": "u0096",
+      "text": "Deny reads across the home directory, allow only the working directory"
+    },
+    {
+      "id": "u0097",
+      "text": "json"
+    },
+    {
+      "id": "u0098",
+      "text": "Know where the boundary ends. The built-in Read, Edit, Write, WebFetch and WebSearch tools follow permission rules, not sandbox settings. Command hooks, local MCP servers and helper commands run with your full access. Commands that match "
+    },
+    {
+      "id": "u0099",
+      "text": " run unsandboxed, and Claude can ask to retry a failed command outside the sandbox. A matching allow rule such as "
+    },
+    {
+      "id": "u0100",
+      "text": " silently approves that retry. To keep retries visible, add an ask rule for "
+    },
+    {
+      "id": "u0101",
+      "text": ", or set "
+    },
+    {
+      "id": "u0102",
+      "text": " to false. Repositories cannot weaken the boundary from inside either: project settings cannot switch filesystem isolation off."
+    },
+    {
+      "id": "u0103",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0104",
+      "text": "Adding a path to sandbox denyRead also stops Claude's built-in Read tool from opening it."
+    },
+    {
+      "id": "u0105",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0107",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0108",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0109",
+      "text": "Sandboxed Bash commands should read the project's code but nothing else in the home directory, including ~/.ssh. Which key completes the sandbox settings?"
+    },
+    {
+      "id": "u0110",
+      "text": "denyWrite"
+    },
+    {
+      "id": "u0111",
+      "text": "denyRead"
+    },
+    {
+      "id": "u0112",
+      "text": "deniedDomains"
+    },
+    {
+      "id": "u0113",
+      "text": "allowWrite"
+    },
+    {
+      "id": "u0114",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0115",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0116",
+      "text": "An admin enables the sandbox and adds ~/.aws/credentials to filesystem.denyRead. Claude then calls its built-in Read tool on that file. What happens?"
+    },
+    {
+      "id": "u0117",
+      "text": "The read is blocked only on Linux, where bubblewrap enforces filesystem isolation for all tools"
+    },
+    {
+      "id": "u0118",
+      "text": "The Read tool can still open the file, but only if Claude first asks to retry outside the sandbox"
+    },
+    {
+      "id": "u0119",
+      "text": "The read is blocked, because denyRead applies to every way Claude Code accesses files"
+    },
+    {
+      "id": "u0120",
+      "text": "The Read tool can still open the file, because built-in tools follow permission rules, so a matching Read deny rule is also needed"
+    },
+    {
+      "id": "u0121",
+      "text": "Sources"
+    },
+    {
+      "id": "u0122",
+      "text": "Keeping secrets out of the agent's reach"
+    },
+    {
+      "id": "u0123",
+      "text": "A secret the agent can read is a secret an injected instruction can try to send somewhere. By default, sandboxed commands can still read credential files such as "
+    },
+    {
+      "id": "u0124",
+      "text": ", and they inherit every environment variable Claude Code has. The "
+    },
+    {
+      "id": "u0125",
+      "text": " block closes both routes: "
+    },
+    {
+      "id": "u0126",
+      "text": " entries block credential paths, and "
+    },
+    {
+      "id": "u0127",
+      "text": " entries keep named tokens out of command environments."
+    },
+    {
+      "id": "u0128",
+      "text": "Deny cloud and SSH credential files and two token environment variables"
+    },
+    {
+      "id": "u0129",
+      "text": "json"
+    },
+    {
+      "id": "u0130",
+      "text": "Where the configuration lives decides whether it applies. Claude Code ignores "
+    },
+    {
+      "id": "u0131",
+      "text": " entries in project or local settings, so a cloned repository cannot rewrite them. Put them in user or managed settings. When managed settings configure "
+    },
+    {
+      "id": "u0132",
+      "text": " or a credentials file deny, only managed settings can change that key, which keeps an administrator's restrictions in force on every machine."
+    },
+    {
+      "id": "u0133",
+      "text": "The layers fail independently, and that matters when someone turns filesystem isolation off. File deny blocks stop being enforced, because the filesystem layer applies them. Environment-variable deny and mask entries keep working, because scrubbing does not depend on that layer. Setting "
+    },
+    {
+      "id": "u0134",
+      "text": " keeps filesystem isolation on regardless of any "
+    },
+    {
+      "id": "u0135",
+      "text": " setting, including one in managed settings."
+    },
+    {
+      "id": "u0136",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0137",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0138",
+      "text": "GITHUB_TOKEN and NPM_TOKEN are set in Claude Code's environment, and sandboxed commands must not inherit them. Which key completes this credentials block?"
+    },
+    {
+      "id": "u0139",
+      "text": "denyRead"
+    },
+    {
+      "id": "u0140",
+      "text": "envVars"
+    },
+    {
+      "id": "u0141",
+      "text": "files"
+    },
+    {
+      "id": "u0142",
+      "text": "excludedCommands"
+    },
+    {
+      "id": "u0143",
+      "text": "Sources"
+    },
+    {
+      "id": "u0144",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0145",
+      "text": "Turn on the Claude Code sandbox with no unsandboxed fallback and confirm that it blocks writes outside the project and direct network access."
+    },
+    {
+      "id": "u0146",
+      "text": "Start Claude Code with claude --settings '{\"sandbox\": {\"enabled\": true, \"allowUnsandboxedCommands\": false}}'. On Linux or WSL2, install bubblewrap and socat first."
+    },
+    {
+      "id": "u0147",
+      "text": "Why: "
+    },
+    {
+      "id": "u0148",
+      "text": "allowUnsandboxedCommands set to false removes the route where a failed command is retried outside the sandbox."
+    },
+    {
+      "id": "u0149",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0150",
+      "text": "The session starts; /sandbox shows the resolved sandbox settings under Config."
+    },
+    {
+      "id": "u0151",
+      "text": "Ask Claude to run touch ~/sandbox-probe."
+    },
+    {
+      "id": "u0152",
+      "text": "Why: "
+    },
+    {
+      "id": "u0153",
+      "text": "Your home directory is outside the default write boundary."
+    },
+    {
+      "id": "u0154",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0155",
+      "text": "The command fails with Operation not permitted on macOS, or Read-only file system on Linux and WSL2."
+    },
+    {
+      "id": "u0156",
+      "text": "Ask Claude to run curl --noproxy '*' https://example.com."
+    },
+    {
+      "id": "u0157",
+      "text": "Why: "
+    },
+    {
+      "id": "u0158",
+      "text": "Sandboxed commands have no direct route out; traffic must go through the proxy that checks allowed domains."
+    },
+    {
+      "id": "u0159",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0160",
+      "text": "The command fails with Could not resolve host."
+    },
+    {
+      "id": "u0161",
+      "text": "Add the credentials block that denies ~/.aws/credentials, ~/.ssh, GITHUB_TOKEN and NPM_TOKEN to your user settings, not the project's .claude/settings.json."
+    },
+    {
+      "id": "u0162",
+      "text": "Why: "
+    },
+    {
+      "id": "u0163",
+      "text": "Claude Code applies no credentials entries from project or local settings."
+    },
+    {
+      "id": "u0164",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0165",
+      "text": "Sandboxed commands can no longer read those files or see those variables."
+    },
+    {
+      "id": "u0166",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0168",
+      "text": "Sources"
+    }
+  ]
+}

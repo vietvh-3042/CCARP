@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Human confirmations resolve ask decisions only. An auto-policy denial for high risk is final; submitting an allow confirmation for it produces an error.",
+    "vi": "Xác nhận của con người chỉ giải quyết quyết định ask. Chính sách auto từ chối vì rủi ro cao là quyết định cuối cùng; gửi xác nhận allow cho trường hợp đó sẽ gây lỗi."
+  },
+  "exam-trap-2": {
+    "en": "Server permission policies do not govern application-executed custom tools. Your application must pause those executions and obtain approval through its own mechanism.",
+    "vi": "Chính sách quyền phía máy chủ không quản lý công cụ tùy chỉnh do ứng dụng thực thi. Ứng dụng phải tự tạm dừng việc thực thi đó và lấy chấp thuận bằng cơ chế riêng."
+  }
+}

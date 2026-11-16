@@ -1,0 +1,1127 @@
+{
+  "pageId": "3.7",
+  "title": "Choosing between MCP, direct tools and agent-to-agent integration",
+  "titleVi": "Lựa chọn giữa MCP, công cụ trực tiếp và tích hợp giữa các tác tử",
+  "units": [
+    {
+      "id": "description",
+      "text": "Evaluate connection protocols and select the appropriate integration mechanism"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Choose between a direct tool or CLI call, an MCP server and a hand-off to another agent for reaching a given system"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain what MCP standardises, including its three primitives and its stdio and Streamable HTTP transports"
+    },
+    {
+      "id": "u0003",
+      "text": "Attach an MCP server in Claude Code, in the Agent SDK and through the Messages API MCP connector, and know the limits of each"
+    },
+    {
+      "id": "u0004",
+      "text": "Choose the Claude surface (Claude Code CLI, Agent SDK, Client SDK, Managed Agents) that fits a given workflow"
+    },
+    {
+      "id": "u0005",
+      "text": "Recognise when agent-to-agent delegation fits better than a tool or MCP server, and what a delegated agent receives and returns"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "MCP server as a shared integration point"
+    },
+    {
+      "id": "u0008",
+      "text": "An MCP server exposes tools, resources and prompts through one protocol, so the same server can be plugged into any MCP client (Claude Code, the Agent SDK, the Messages API connector) without rewriting the integration for each. Choosing an integration mechanism mostly comes down to whether that reuse is worth running a separate server for."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Three ways to connect Claude to a system"
+    },
+    {
+      "id": "u0011",
+      "text": "What MCP standardises: primitives and transports"
+    },
+    {
+      "id": "u0012",
+      "text": "Attaching an MCP server in Claude Code"
+    },
+    {
+      "id": "u0013",
+      "text": "Choosing the surface: Claude Code CLI, Agent SDK, Client SDK or Managed Agents"
+    },
+    {
+      "id": "u0014",
+      "text": "The Messages API MCP connector: remote servers only"
+    },
+    {
+      "id": "u0015",
+      "text": "When the system is better reached as another agent"
+    },
+    {
+      "id": "u0016",
+      "text": "Three ways to connect Claude to a system"
+    },
+    {
+      "id": "u0017",
+      "text": "Each time Claude needs to reach an outside system, such as a database, an issue tracker or a build server, the architect picks one of three mechanisms: a tool your application defines and runs, an MCP server, or another agent that owns that system. All three can get the job done. They differ in who maintains the integration, how many clients can reuse it, and how much judgement sits on the other side."
+    },
+    {
+      "id": "u0018",
+      "text": "Direct tool use"
+    },
+    {
+      "id": "u0019",
+      "text": " is the shortest path. Your application defines a tool with an "
+    },
+    {
+      "id": "u0020",
+      "text": ", Claude returns a "
+    },
+    {
+      "id": "u0021",
+      "text": " block, your code runs the operation and returns a "
+    },
+    {
+      "id": "u0022",
+      "text": ". Where that code runs is covered in "
+    },
+    {
+      "id": "u0023",
+      "text": "Who executes tools: client tools versus server tools"
+    },
+    {
+      "id": "u0024",
+      "text": ". As an integration choice, it wins when one application owns one system and you control the schema. A CLI belongs here too: Anthropic publishes a bash tool schema, but your application still runs each command. The cost is that this integration lives inside your application. A second client, say a developer's Claude Code session, cannot reuse it."
+    },
+    {
+      "id": "u0025",
+      "text": "An MCP server"
+    },
+    {
+      "id": "u0026",
+      "text": " moves the integration out of your application and puts it behind a protocol. One server can then serve any MCP client, and one client can combine several servers. Each server sees only what it needs, because the full conversation stays with the host. MCP wins when the same capability has to be reachable from more than one surface, or when the vendor of the system already ships an MCP server you can attach rather than build."
+    },
+    {
+      "id": "u0027",
+      "text": "Agent-to-agent"
+    },
+    {
+      "id": "u0028",
+      "text": " hand-off is the right choice when the system needs its own judgement, not just a function call: a security review, a test-writing pass, a domain specialist with its own system prompt and toolset. The calling agent delegates the task and reads back what the specialist reports, instead of driving each step itself. How subagents, agent teams and workflows differ is taught in "
+    },
+    {
+      "id": "u0029",
+      "text": "Subagents vs agent teams vs workflows across Managed Agents, Agent SDK and Claude Code"
+    },
+    {
+      "id": "u0030",
+      "text": "In Managed Agents the specialist is either a predefined agent listed in the "
+    },
+    {
+      "id": "u0031",
+      "text": " block of the lead's definition, or an inline agent that the lead defines when it delegates. Each subagent works in its own session thread, so its working context stays out of the lead's. Delegation is one level deep: a specialist cannot hand work on to further agents. Pick this over a tool or an MCP server when the system must reason about the task, and expect the lead to receive a report rather than a raw result."
+    },
+    {
+      "id": "u0032",
+      "text": "Choosing the mechanism for one system"
+    },
+    {
+      "id": "u0033",
+      "text": "Mechanism"
+    },
+    {
+      "id": "u0034",
+      "text": "Who maintains the integration"
+    },
+    {
+      "id": "u0035",
+      "text": "Wins when"
+    },
+    {
+      "id": "u0036",
+      "text": "Direct tool (your input_schema, your code)"
+    },
+    {
+      "id": "u0037",
+      "text": "Your application, which runs each call and returns tool_result"
+    },
+    {
+      "id": "u0038",
+      "text": "One application owns the system and you control the schema"
+    },
+    {
+      "id": "u0039",
+      "text": "MCP server"
+    },
+    {
+      "id": "u0040",
+      "text": "A separate server any MCP client can attach"
+    },
+    {
+      "id": "u0041",
+      "text": "The same capability must be reachable from several clients, or a vendor server exists"
+    },
+    {
+      "id": "u0042",
+      "text": "Another agent"
+    },
+    {
+      "id": "u0043",
+      "text": "An agent with its own model, system prompt, tools, MCP servers and skills"
+    },
+    {
+      "id": "u0044",
+      "text": "The system needs its own reasoning and toolset, not a single call"
+    },
+    {
+      "id": "u0045",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0046",
+      "text": "Agent-to-agent delegation can chain: a subagent can hand its work on to further agents, so deep hierarchies are the normal design."
+    },
+    {
+      "id": "u0047",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0049",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0050",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0051",
+      "text": "An architect is connecting Claude to three outside systems. Match each situation to the integration mechanism that fits it best."
+    },
+    {
+      "id": "u0052",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0053",
+      "text": "Direct tool use (your input_schema, your code)"
+    },
+    {
+      "id": "u0054",
+      "text": "MCP server"
+    },
+    {
+      "id": "u0055",
+      "text": "Another agent"
+    },
+    {
+      "id": "u0056",
+      "text": "Each pull request needs a security review by a specialist that has its own system prompt and toolset"
+    },
+    {
+      "id": "u0057",
+      "text": "A single internal application talks to its own inventory database, and the team controls the tool schema completely"
+    },
+    {
+      "id": "u0058",
+      "text": "The issue-tracker integration has to work from the production app and also from developers' Claude Code sessions, and the vendor already ships a server"
+    },
+    {
+      "id": "u0059",
+      "text": "Sources"
+    },
+    {
+      "id": "u0060",
+      "text": "What MCP standardises: primitives and transports"
+    },
+    {
+      "id": "u0061",
+      "text": "MCP standardises three kinds of things a server can expose, and each one is controlled by a different party. That split matters when you compare MCP with a plain tool definition, because a tool definition only covers the first row of the table below. Resources and prompts give a client context and templates that it, or the user, chooses to bring in."
+    },
+    {
+      "id": "u0062",
+      "text": "MCP server primitives and who controls them"
+    },
+    {
+      "id": "u0063",
+      "text": "Primitive"
+    },
+    {
+      "id": "u0064",
+      "text": "Control"
+    },
+    {
+      "id": "u0065",
+      "text": "Example"
+    },
+    {
+      "id": "u0066",
+      "text": "Tools"
+    },
+    {
+      "id": "u0067",
+      "text": "Model-controlled"
+    },
+    {
+      "id": "u0068",
+      "text": "API POST requests, file writing"
+    },
+    {
+      "id": "u0069",
+      "text": "Resources"
+    },
+    {
+      "id": "u0070",
+      "text": "Application-controlled"
+    },
+    {
+      "id": "u0071",
+      "text": "File contents, git history"
+    },
+    {
+      "id": "u0072",
+      "text": "Prompts"
+    },
+    {
+      "id": "u0073",
+      "text": "User-controlled"
+    },
+    {
+      "id": "u0074",
+      "text": "Slash commands, menu options"
+    },
+    {
+      "id": "u0075",
+      "text": "Servers and clients also negotiate capabilities. A server has to declare tool support before tools can be invoked, and a client has to declare sampling support before a server can request it. This lets each side add features at its own pace. The protocol can also run in the other direction: in Claude Code, an MCP server can act as a channel that pushes Telegram messages, Discord chats or webhook events into a session. A tool that Claude calls directly can only answer when Claude asks."
+    },
+    {
+      "id": "u0076",
+      "text": "Two transports carry the protocol, and the choice between them decides which clients can reach a server. With "
+    },
+    {
+      "id": "u0077",
+      "text": "stdio"
+    },
+    {
+      "id": "u0078",
+      "text": ", the client launches the server as a subprocess and exchanges newline-delimited JSON-RPC messages over stdin and stdout. The server may log to stderr but must write nothing to stdout except valid MCP messages. Stdio is the transport behind the server that runs on a developer's laptop. With "
+    },
+    {
+      "id": "u0079",
+      "text": "Streamable HTTP"
+    },
+    {
+      "id": "u0080",
+      "text": ", the server is a remote endpoint. The client POSTs each JSON-RPC message to that endpoint, and the server answers with either one JSON object or an SSE stream. The client may also open a GET stream so the server can send messages without being asked."
+    },
+    {
+      "id": "u0081",
+      "text": "A remote server takes on duties a subprocess never has. It must validate the "
+    },
+    {
+      "id": "u0082",
+      "text": " header on every incoming connection to block DNS rebinding. When it runs locally it should bind to 127.0.0.1 rather than 0.0.0.0, and it should authenticate every connection. Turning a stdio server into a production HTTP service is therefore deployment work, not a configuration toggle."
+    },
+    {
+      "id": "u0083",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0084",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0085",
+      "text": "A team's MCP server runs over stdio on a developer's laptop. They now want a hosted production service to reach the same server over the network. What does this change involve?"
+    },
+    {
+      "id": "u0086",
+      "text": "Change one transport setting from stdio to HTTP. The server's duties stay the same; only the wire format changes."
+    },
+    {
+      "id": "u0087",
+      "text": "Keep stdio and have the server send its replies to stderr, because stdout is only for local clients."
+    },
+    {
+      "id": "u0088",
+      "text": "Deploy the server as a Streamable HTTP endpoint that receives JSON-RPC over POST, validates the Origin header on every connection and authenticates each connection."
+    },
+    {
+      "id": "u0089",
+      "text": "Nothing. Point the hosted service at the command that launches the server, and it will start the subprocess remotely and use stdin/stdout."
+    },
+    {
+      "id": "u0090",
+      "text": "Sources"
+    },
+    {
+      "id": "u0091",
+      "text": "Attaching an MCP server in Claude Code"
+    },
+    {
+      "id": "u0092",
+      "text": "Claude Code is a full MCP client, so it can attach a server over any transport. The "
+    },
+    {
+      "id": "u0093",
+      "text": " flag names the transport. What you were given tells you which one: a URL such as "
+    },
+    {
+      "id": "u0094",
+      "text": " means the server is remote, and a launch command such as "
+    },
+    {
+      "id": "u0095",
+      "text": " means it runs on your machine."
+    },
+    {
+      "id": "u0096",
+      "text": "Adding a remote server over Streamable HTTP, with and without a bearer token"
+    },
+    {
+      "id": "u0097",
+      "text": "bash"
+    },
+    {
+      "id": "u0098",
+      "text": "Adding a local stdio server: everything after -- is the command Claude Code launches"
+    },
+    {
+      "id": "u0099",
+      "text": "bash"
+    },
+    {
+      "id": "u0100",
+      "text": "Configuration copied from another client usually arrives as an "
+    },
+    {
+      "id": "u0101",
+      "text": " JSON block, and you can pass it to "
+    },
+    {
+      "id": "u0102",
+      "text": ". One mistake comes up often: Claude Code reads an entry that has no "
+    },
+    {
+      "id": "u0103",
+      "text": " as a stdio server. An entry with a "
+    },
+    {
+      "id": "u0104",
+      "text": " but no "
+    },
+    {
+      "id": "u0105",
+      "text": " or "
+    },
+    {
+      "id": "u0106",
+      "text": " therefore fails. When you stop the session, Claude Code also stops each stdio server it launched. On macOS and Linux it sends SIGINT, then SIGTERM, then SIGKILL."
+    },
+    {
+      "id": "u0107",
+      "text": "Use "
+    },
+    {
+      "id": "u0108",
+      "text": " and "
+    },
+    {
+      "id": "u0109",
+      "text": " to see whether a server is connected, pending approval or disabled. A project-scoped server from "
+    },
+    {
+      "id": "u0110",
+      "text": " stays pending until someone runs "
+    },
+    {
+      "id": "u0111",
+      "text": " interactively and approves it. Headless runs ("
+    },
+    {
+      "id": "u0112",
+      "text": ") are stricter still: only servers passed on the command line, for example with "
+    },
+    {
+      "id": "u0113",
+      "text": ", connect."
+    },
+    {
+      "id": "u0114",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0115",
+      "text": "An mcpServers entry with just a url is enough for Claude Code to treat the server as remote."
+    },
+    {
+      "id": "u0116",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0121",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0122",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0123",
+      "text": "This command attaches an Airtable MCP server, and Claude Code starts it on your own machine with "
+    },
+    {
+      "id": "u0124",
+      "text": ". Which transport value belongs in the blank?"
+    },
+    {
+      "id": "u0125",
+      "text": "stdio"
+    },
+    {
+      "id": "u0126",
+      "text": "http"
+    },
+    {
+      "id": "u0127",
+      "text": "ws"
+    },
+    {
+      "id": "u0128",
+      "text": "sse"
+    },
+    {
+      "id": "u0129",
+      "text": "Sources"
+    },
+    {
+      "id": "u0130",
+      "text": "Choosing the surface: Claude Code CLI, Agent SDK, Client SDK or Managed Agents"
+    },
+    {
+      "id": "u0131",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0132",
+      "text": "A CI step needs Claude to read files, run tests and edit code repeatedly until the tests pass, and the team doesn't want to write code that parses tool_use blocks. Which surface fits?"
+    },
+    {
+      "id": "u0133",
+      "text": "The Client SDK calling the Messages API"
+    },
+    {
+      "id": "u0134",
+      "text": "The Claude Code CLI in an interactive terminal"
+    },
+    {
+      "id": "u0135",
+      "text": "The Agent SDK"
+    },
+    {
+      "id": "u0136",
+      "text": "Where you attach an MCP server depends on which surface runs the agent, so pick the surface first. The four options differ in who writes the agent loop and whether a person is watching while it runs."
+    },
+    {
+      "id": "u0137",
+      "text": "Claude surfaces and when each fits"
+    },
+    {
+      "id": "u0138",
+      "text": "Surface"
+    },
+    {
+      "id": "u0139",
+      "text": "What you get"
+    },
+    {
+      "id": "u0140",
+      "text": "Fits when"
+    },
+    {
+      "id": "u0141",
+      "text": "Claude Code CLI"
+    },
+    {
+      "id": "u0142",
+      "text": "The terminal interface, built for daily interactive use"
+    },
+    {
+      "id": "u0143",
+      "text": "A person chats, watches each step and approves risky commands as they come up"
+    },
+    {
+      "id": "u0144",
+      "text": "Agent SDK"
+    },
+    {
+      "id": "u0145",
+      "text": "A library that runs the Claude Code binary, with built-in tools, permissions, sessions and hooks"
+    },
+    {
+      "id": "u0146",
+      "text": "Your Python or TypeScript process, such as a CI job, needs the agent loop without hand-written tool handling"
+    },
+    {
+      "id": "u0147",
+      "text": "Client SDK"
+    },
+    {
+      "id": "u0148",
+      "text": "Direct access to the Claude API; you write the tool loop yourself or use the beta tool runner"
+    },
+    {
+      "id": "u0149",
+      "text": "You want full control of every request and tool_result"
+    },
+    {
+      "id": "u0150",
+      "text": "Managed Agents"
+    },
+    {
+      "id": "u0151",
+      "text": "A hosted agent harness that runs the agent loop in an Anthropic-managed or self-hosted sandbox"
+    },
+    {
+      "id": "u0152",
+      "text": "Anthropic should host the agent, configured through the Claude API"
+    },
+    {
+      "id": "u0153",
+      "text": "The Client SDK and the Agent SDK sound alike, but they split the work differently. With the Client SDK your code checks "
+    },
+    {
+      "id": "u0154",
+      "text": ", runs each "
+    },
+    {
+      "id": "u0155",
+      "text": " block and sends the results back, which is exactly the code a pipeline team wants to avoid writing. The Agent SDK already contains that loop, along with Read, Edit and Bash tools and a permission system that decides which tools run automatically and which need approval. For CI, the headless form "
+    },
+    {
+      "id": "u0156",
+      "text": " pre-approves the tools, so nobody has to answer prompts."
+    },
+    {
+      "id": "u0157",
+      "text": "Interactive approval is the deciding case for the CLI. An engineer debugging a failing build, who wants to see every file Claude opens and approve each risky command, needs the terminal session, with no integration code. An SDK script on a schedule has nobody watching. Managed Agents runs the session in a sandbox. The Messages API connector has no terminal at all."
+    },
+    {
+      "id": "u0158",
+      "text": "In the Agent SDK, MCP servers go in the "
+    },
+    {
+      "id": "u0159",
+      "text": " option of "
+    },
+    {
+      "id": "u0160",
+      "text": ". Tools from a server get names of the form "
+    },
+    {
+      "id": "u0161",
+      "text": ", which is what "
+    },
+    {
+      "id": "u0162",
+      "text": " matches against."
+    },
+    {
+      "id": "u0163",
+      "text": "Agent SDK: attaching a remote MCP server and pre-approving its tools"
+    },
+    {
+      "id": "u0164",
+      "text": "typescript"
+    },
+    {
+      "id": "u0165",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0166",
+      "text": "The Client SDK provides the agent loop, so a pipeline built on it needs no tool-handling code."
+    },
+    {
+      "id": "u0167",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0169",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0170",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0171",
+      "text": "A team built a nightly pipeline on the Client SDK because they expected it to handle tools on its own. Their first request comes back with stop_reason \"tool_use\" and a tool_use block for one of their own tools. What happens next?"
+    },
+    {
+      "id": "u0172",
+      "text": "The team's code has to run the tool_use block and send a tool_result in the next request, either with hand-written loop code or with the beta tool runner."
+    },
+    {
+      "id": "u0173",
+      "text": "The Client SDK runs its built-in Read, Edit or Bash tool and carries on the loop until the task is finished."
+    },
+    {
+      "id": "u0174",
+      "text": "The request waits until someone at a terminal approves the tool call, and then the SDK continues."
+    },
+    {
+      "id": "u0175",
+      "text": "Anthropic runs the team's tool on its own infrastructure, and the result shows up in the same response."
+    },
+    {
+      "id": "u0176",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0177",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0178",
+      "text": "A platform team is building an automated CI pipeline step where Claude must read repository files, run test commands, and edit code across multiple iterations until tests pass, without the team writing custom logic to parse tool_use blocks and resubmit tool results. Which integration approach best fits this need?"
+    },
+    {
+      "id": "u0179",
+      "text": "Use the Claude Agent SDK, which provides the agent loop, built-in tools like Read, Edit, and Bash, and manages tool execution automatically."
+    },
+    {
+      "id": "u0180",
+      "text": "Use the Anthropic Client SDK and implement a loop that inspects stop_reason, executes each tool_use block, and resubmits results to the Messages API."
+    },
+    {
+      "id": "u0181",
+      "text": "Use the Claude Code CLI interactively during each pipeline run so an engineer can approve every file edit before it happens."
+    },
+    {
+      "id": "u0182",
+      "text": "Use the MCP connector to expose the repository as a remote MCP server and let the Messages API call tool definitions over HTTPS."
+    },
+    {
+      "id": "u0183",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0184",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0185",
+      "text": "An engineer wants to interactively debug a failing build by chatting with Claude in a terminal, watching each file it opens and approving risky commands ad hoc, without writing any integration code. Which option best matches this workflow?"
+    },
+    {
+      "id": "u0186",
+      "text": "The Claude Code CLI, run interactively in a terminal to watch and approve each step live."
+    },
+    {
+      "id": "u0187",
+      "text": "The Claude Agent SDK embedded in a Python script that runs headlessly on a schedule."
+    },
+    {
+      "id": "u0188",
+      "text": "The Managed Agents REST API, which runs the session on an Anthropic-hosted sandbox."
+    },
+    {
+      "id": "u0189",
+      "text": "The MCP connector configured in a Messages API request with a denylisted destructive tool."
+    },
+    {
+      "id": "u0190",
+      "text": "Sources"
+    },
+    {
+      "id": "u0191",
+      "text": "The Messages API MCP connector: remote servers only"
+    },
+    {
+      "id": "u0192",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0193",
+      "text": "Developers already use a stdio MCP server on their laptops. Production code calls the Messages API from a backend and runs no MCP client. What is the least work that lets Claude call that server's tools?"
+    },
+    {
+      "id": "u0194",
+      "text": "Deploy the server as a remote HTTPS endpoint over Streamable HTTP or SSE and list its URL in mcp_servers"
+    },
+    {
+      "id": "u0195",
+      "text": "Point the connector at the stdio server using its local process path"
+    },
+    {
+      "id": "u0196",
+      "text": "Put the server's launch command in mcp_servers so the API starts it for each request"
+    },
+    {
+      "id": "u0197",
+      "text": "The MCP connector lets a Messages API request use a remote MCP server directly, without a separate MCP client. Anthropic's side makes the connection. That is also why its limits are strict. The server must be publicly reachable over HTTP, using Streamable HTTP or SSE, and its "
+    },
+    {
+      "id": "u0198",
+      "text": " must start with "
+    },
+    {
+      "id": "u0199",
+      "text": ". The API has no process to launch a stdio server from, so the laptop server above has to be deployed before production can use it. Only tool calls are supported, so the server's resources and prompts are not available through this path."
+    },
+    {
+      "id": "u0200",
+      "text": "A request names the server and enables its tools in two separate places. The "
+    },
+    {
+      "id": "u0201",
+      "text": " array holds connection details: "
+    },
+    {
+      "id": "u0202",
+      "text": " (currently only "
+    },
+    {
+      "id": "u0203",
+      "text": " and an optional OAuth "
+    },
+    {
+      "id": "u0204",
+      "text": ". The "
+    },
+    {
+      "id": "u0205",
+      "text": " array holds an "
+    },
+    {
+      "id": "u0206",
+      "text": " that refers to that server by name. Each server name must be referenced by exactly one toolset. The toolset is also where you enable every tool, allowlist some or denylist others. One request can attach several servers. The connector sits behind a beta flag."
+    },
+    {
+      "id": "u0207",
+      "text": "Messages API request that attaches one remote MCP server and enables all its tools"
+    },
+    {
+      "id": "u0208",
+      "text": "python"
+    },
+    {
+      "id": "u0209",
+      "text": "Rewriting the server's functions as client tools also connects the system, but it changes who does the work. Your backend would run every call and return each "
+    },
+    {
+      "id": "u0210",
+      "text": " itself, so the query logic moves into the application and stops being a server other clients can share. Use the connector when the server can be exposed remotely and you want the API to handle the MCP round trip. Use client tools when the system must stay private to your backend."
+    },
+    {
+      "id": "u0211",
+      "text": "Where each surface can attach an MCP server"
+    },
+    {
+      "id": "u0212",
+      "text": "Surface"
+    },
+    {
+      "id": "u0213",
+      "text": "How you attach"
+    },
+    {
+      "id": "u0214",
+      "text": "Transports"
+    },
+    {
+      "id": "u0215",
+      "text": "Claude Code"
+    },
+    {
+      "id": "u0216",
+      "text": "claude mcp add, add-json, or --mcp-config for claude -p"
+    },
+    {
+      "id": "u0217",
+      "text": "stdio, http, sse, ws"
+    },
+    {
+      "id": "u0218",
+      "text": "Agent SDK"
+    },
+    {
+      "id": "u0219",
+      "text": "mcpServers option of query()"
+    },
+    {
+      "id": "u0220",
+      "text": "Local and remote, such as type: \"http\""
+    },
+    {
+      "id": "u0221",
+      "text": "Messages API"
+    },
+    {
+      "id": "u0222",
+      "text": "mcp_servers plus an mcp_toolset in tools"
+    },
+    {
+      "id": "u0223",
+      "text": "Streamable HTTP or SSE over https:// only; tool calls only"
+    },
+    {
+      "id": "u0224",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0225",
+      "text": "The Messages API MCP connector can use a local stdio server if you give it the command or process path to launch."
+    },
+    {
+      "id": "u0226",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0230",
+      "text": "Attaching a server through the MCP connector exposes its tools, resources and prompts to Claude."
+    },
+    {
+      "id": "u0231",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0235",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0236",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0237",
+      "text": "In this Messages API request, "
+    },
+    {
+      "id": "u0238",
+      "text": " only holds the connection details. Which "
+    },
+    {
+      "id": "u0239",
+      "text": " value in the "
+    },
+    {
+      "id": "u0240",
+      "text": " array turns on the server's tools for Claude?"
+    },
+    {
+      "id": "u0241",
+      "text": "function"
+    },
+    {
+      "id": "u0242",
+      "text": "mcp_server"
+    },
+    {
+      "id": "u0243",
+      "text": "mcp_toolset"
+    },
+    {
+      "id": "u0244",
+      "text": "url"
+    },
+    {
+      "id": "u0245",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0246",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0247",
+      "text": "A fintech company wants Claude to call tools hosted on an internal Postgres query service. The service currently only exposes a local stdio-based MCP server used by developers on their laptops, but the production app needs Claude to invoke it directly from server-side Messages API calls without operating a separate MCP client process. What should the team do?"
+    },
+    {
+      "id": "u0248",
+      "text": "Deploy the query service as a remote MCP server reachable over HTTPS via Streamable HTTP or SSE, then reference it in the mcp_servers array."
+    },
+    {
+      "id": "u0249",
+      "text": "Keep the stdio server unchanged and list its local process path directly inside the mcp_servers array so the Messages API can spawn it for each incoming request."
+    },
+    {
+      "id": "u0250",
+      "text": "Wrap the stdio server's functions as a client-side tool definition so Claude calls it through the standard tool_use mechanism instead of any MCP configuration."
+    },
+    {
+      "id": "u0251",
+      "text": "Upload the stdio server's tool schema to the Files API so Claude can retrieve and reuse it automatically before every conversation turn begins."
+    },
+    {
+      "id": "u0252",
+      "text": "Sources"
+    },
+    {
+      "id": "u0253",
+      "text": "When the system is better reached as another agent"
+    },
+    {
+      "id": "u0254",
+      "text": "Some systems need a whole agent rather than a tool. A tool or an MCP server gives Claude one function at a time, and the calling agent still does all the reasoning. A predefined agent brings its own model, system prompt, tools, MCP servers and skills. Handing work to it means handing over the judgement, together with the integrations that judgement needs."
+    },
+    {
+      "id": "u0255",
+      "text": "Here is a concrete case. A lead agent needs code review and test writing. Attaching every review tool and test runner to the lead fills its context and blurs its instructions. Routing the work to a reviewer agent and a test-writer agent, each with a focused prompt and its own tools, keeps each concern self-contained. The same reasoning applies when the system is an MCP server that only a specialist needs: attach it to the specialist agent, not to the agent that coordinates the work."
+    },
+    {
+      "id": "u0256",
+      "text": "Two properties of this option affect its design. Agents in a Managed Agents session share the same sandbox, filesystem and vault credentials, so a hand-off does not isolate permissions. It isolates context, because each agent runs in its own session thread with its own history. A subagent's thread also persists, so the lead can send follow-ups to a specialist that keeps its earlier work. Choose an agent over an MCP server when the conversation with the system may take several turns, not one request and one result."
+    },
+    {
+      "id": "u0257",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0258",
+      "text": "Pick one system your team connects to Claude today. Is it called from one application only, from several clients, or does it need its own reasoning? Which of the three mechanisms does that point to?"
+    },
+    {
+      "id": "u0259",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0260",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0261",
+      "text": "Your security team suggests delegating secret-scanning to a separate reviewer agent in the same Managed Agents session, so that the reviewer is walled off from the lead agent's credentials. What does handing work to that reviewer actually isolate?"
+    },
+    {
+      "id": "u0262",
+      "text": "Nothing: the reviewer reads the lead's full conversation history and works in the same thread, so only its system prompt differs."
+    },
+    {
+      "id": "u0263",
+      "text": "Context, but only for one turn: the reviewer's thread is discarded once it reports, so any follow-up starts a fresh reviewer."
+    },
+    {
+      "id": "u0264",
+      "text": "Permissions: the reviewer runs in its own sandbox with its own vault credentials, so it can't reach anything the lead can."
+    },
+    {
+      "id": "u0265",
+      "text": "Context: the reviewer has its own session thread and conversation history, but it shares the lead's sandbox, filesystem and vault credentials."
+    },
+    {
+      "id": "u0266",
+      "text": "Sources"
+    },
+    {
+      "id": "u0267",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0268",
+      "text": "Attach a remote MCP server to Claude Code and confirm its status"
+    },
+    {
+      "id": "u0269",
+      "text": "Run claude mcp add --transport http notion https://mcp.notion.com/mcp"
+    },
+    {
+      "id": "u0270",
+      "text": "Why: "
+    },
+    {
+      "id": "u0271",
+      "text": "A URL means the server is remote, so it needs the http transport rather than a launch command"
+    },
+    {
+      "id": "u0272",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0273",
+      "text": "Claude Code saves a server named notion"
+    },
+    {
+      "id": "u0274",
+      "text": "Run claude mcp list, then claude mcp get notion"
+    },
+    {
+      "id": "u0275",
+      "text": "Why: "
+    },
+    {
+      "id": "u0276",
+      "text": "These show each configured server and its connection details without opening a session"
+    },
+    {
+      "id": "u0277",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0278",
+      "text": "notion appears in the list, and get shows its details"
+    },
+    {
+      "id": "u0279",
+      "text": "Start claude and run /mcp"
+    },
+    {
+      "id": "u0280",
+      "text": "Why: "
+    },
+    {
+      "id": "u0281",
+      "text": "The /mcp panel shows each server's status from inside a session and is where you re-enable a disabled server"
+    },
+    {
+      "id": "u0282",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0283",
+      "text": "The notion server appears with its status"
+    },
+    {
+      "id": "u0284",
+      "text": "Run claude mcp remove notion"
+    },
+    {
+      "id": "u0285",
+      "text": "Why: "
+    },
+    {
+      "id": "u0286",
+      "text": "Removes the server when you are done, leaving the configuration as it was"
+    },
+    {
+      "id": "u0287",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0288",
+      "text": "notion no longer appears in claude mcp list"
+    },
+    {
+      "id": "u0289",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0291",
+      "text": "Sources"
+    }
+  ]
+}

@@ -1,0 +1,799 @@
+{
+  "pageId": "1.6",
+  "title": "Business value pillars for Claude solutions",
+  "titleVi": "Các trụ cột giá trị kinh doanh của giải pháp dùng Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Align solutions to business value pillars"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Build a business case for a Claude solution on the five pillars: efficiency, transformation, productivity, cost and performance SLAs, each tied to a metric the sponsor already tracks"
+    },
+    {
+      "id": "u0002",
+      "text": "Name the main lever and the headline metric for each pillar, and say which design decision moves which pillar"
+    },
+    {
+      "id": "u0003",
+      "text": "Choose a model class and configuration that meets a latency SLA at a sustainable cost, and explain why fast mode, batch and oversized context fail that brief"
+    },
+    {
+      "id": "u0004",
+      "text": "Tell productivity apart from transformation: the same workflow producing more finished work, versus work or a workflow that was not feasible before"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Business value pillars"
+    },
+    {
+      "id": "u0007",
+      "text": "The five outcomes a Claude solution is justified against: efficiency, transformation, productivity, cost and performance SLAs. Every architectural decision should name the pillar it moves and the metric that proves it moved."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Five pillars as the skeleton of a business case"
+    },
+    {
+      "id": "u0010",
+      "text": "Cost: price the outcome, and bank free savings first"
+    },
+    {
+      "id": "u0011",
+      "text": "Efficiency: caching is the main item"
+    },
+    {
+      "id": "u0012",
+      "text": "Performance SLAs: latency and availability the design must meet"
+    },
+    {
+      "id": "u0013",
+      "text": "Productivity: finished work per run"
+    },
+    {
+      "id": "u0014",
+      "text": "Transformation: work that was not feasible before"
+    },
+    {
+      "id": "u0015",
+      "text": "Five pillars as the skeleton of a business case"
+    },
+    {
+      "id": "u0016",
+      "text": "A sponsor funds outcomes, not architecture. Before a Claude solution gets approved, someone has to say what it will change for the business and how that change will be measured. The five value pillars give that argument a fixed structure. "
+    },
+    {
+      "id": "u0017",
+      "text": "Cost"
+    },
+    {
+      "id": "u0018",
+      "text": " asks what each finished outcome costs. "
+    },
+    {
+      "id": "u0019",
+      "text": "Efficiency"
+    },
+    {
+      "id": "u0020",
+      "text": " asks how much resource each unit of work uses. "
+    },
+    {
+      "id": "u0021",
+      "text": "Performance SLAs"
+    },
+    {
+      "id": "u0022",
+      "text": " set the latency and availability the system has to hold. "
+    },
+    {
+      "id": "u0023",
+      "text": "Productivity"
+    },
+    {
+      "id": "u0024",
+      "text": " counts finished, usable work per run or per person-hour. "
+    },
+    {
+      "id": "u0025",
+      "text": "Transformation"
+    },
+    {
+      "id": "u0026",
+      "text": " names work that was not feasible before."
+    },
+    {
+      "id": "u0027",
+      "text": "Each pillar has to end in a number the sponsor already tracks. The evaluation guidance describes good success criteria as specific, measurable, achievable and relevant, and notes that most real applications are judged on several criteria at once. A summarisation feature might commit to a cost per finished summary, a p95 response time, a weekly count of summaries analysts accept without rework, and a new report type that nobody produced before. Those are four pillars with four metrics, and each one can be checked after launch."
+    },
+    {
+      "id": "u0028",
+      "text": "Each pillar, the metric that proves it, and the design lever that usually moves it"
+    },
+    {
+      "id": "u0029",
+      "text": "Pillar"
+    },
+    {
+      "id": "u0030",
+      "text": "Headline metric"
+    },
+    {
+      "id": "u0031",
+      "text": "Typical design lever"
+    },
+    {
+      "id": "u0032",
+      "text": "Cost"
+    },
+    {
+      "id": "u0033",
+      "text": "Cost per completed task"
+    },
+    {
+      "id": "u0034",
+      "text": "Model and effort chosen on cost per task, after free wins are banked"
+    },
+    {
+      "id": "u0035",
+      "text": "Efficiency"
+    },
+    {
+      "id": "u0036",
+      "text": "Share of input read from cache; tokens per task"
+    },
+    {
+      "id": "u0037",
+      "text": "Prompt caching, token trimming, batch for work that can wait"
+    },
+    {
+      "id": "u0038",
+      "text": "Performance SLAs"
+    },
+    {
+      "id": "u0039",
+      "text": "Response time (ms), time to first token, uptime (%)"
+    },
+    {
+      "id": "u0040",
+      "text": "Model class, effort level, output length, streaming"
+    },
+    {
+      "id": "u0041",
+      "text": "Productivity"
+    },
+    {
+      "id": "u0042",
+      "text": "Completed, usable outputs per run or per person-hour; task completion rate"
+    },
+    {
+      "id": "u0043",
+      "text": "A model and loop that carry the work through to a finished deliverable"
+    },
+    {
+      "id": "u0044",
+      "text": "Transformation"
+    },
+    {
+      "id": "u0045",
+      "text": "New outputs or workflows the old process could not produce"
+    },
+    {
+      "id": "u0046",
+      "text": "Capability-first model choice on tasks current tools fail"
+    },
+    {
+      "id": "u0047",
+      "text": "Some things are not outcomes. Context window size, token throughput and rate limits are properties of the platform. They constrain the design but tell the sponsor nothing about value. Prompt templates written and tools integrated are implementation artefacts. Developer satisfaction scores collected after launch measure how the build felt, not what it delivered, and they arrive too late to support a funding decision. A business case built on any of these does not answer the question the sponsor asked."
+    },
+    {
+      "id": "u0048",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0049",
+      "text": "Pick a Claude feature you have built or scoped. For each of the five pillars, write down the metric your sponsor already reports on. Which pillar has no metric yet, and is that because the feature does not move it or because nobody has measured it?"
+    },
+    {
+      "id": "u0050",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0051",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0052",
+      "text": "A sponsor wants one headline metric per pillar in the business case for a Claude summarisation feature. Match each value pillar to the metric that proves it moved."
+    },
+    {
+      "id": "u0053",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0054",
+      "text": "Cost"
+    },
+    {
+      "id": "u0055",
+      "text": "Efficiency"
+    },
+    {
+      "id": "u0056",
+      "text": "Performance SLAs"
+    },
+    {
+      "id": "u0057",
+      "text": "Productivity"
+    },
+    {
+      "id": "u0058",
+      "text": "Transformation"
+    },
+    {
+      "id": "u0059",
+      "text": "A new report type the old process could not produce"
+    },
+    {
+      "id": "u0060",
+      "text": "Share of input tokens read from the prompt cache, and tokens used per task"
+    },
+    {
+      "id": "u0061",
+      "text": "Summaries analysts accept without rework, per week or per person-hour"
+    },
+    {
+      "id": "u0062",
+      "text": "p95 response time in ms, time to first token, and uptime %"
+    },
+    {
+      "id": "u0063",
+      "text": "Spend per finished summary, not the price per token"
+    },
+    {
+      "id": "u0064",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0065",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0066",
+      "text": "A solutions architect is scoping a new Claude-based document summarization feature for an enterprise sponsor. The sponsor asks for a business case that ties the proposed architecture to measurable outcomes before funding is approved. Which set of pillars should the architect use to structure that business case?"
+    },
+    {
+      "id": "u0067",
+      "text": "Efficiency, transformation, productivity, cost, and performance SLAs, each mapped to a specific metric the sponsor already tracks"
+    },
+    {
+      "id": "u0068",
+      "text": "Model context window size, token throughput, and API rate limits, since these are the only quantifiable technical properties available"
+    },
+    {
+      "id": "u0069",
+      "text": "Number of prompt templates created and number of tools integrated, since implementation artifacts are the most concrete deliverables"
+    },
+    {
+      "id": "u0070",
+      "text": "Developer satisfaction survey scores collected after the feature ships, since adoption sentiment predicts long-term success"
+    },
+    {
+      "id": "u0071",
+      "text": "Sources"
+    },
+    {
+      "id": "u0072",
+      "text": "Cost: price the outcome, and bank free savings first"
+    },
+    {
+      "id": "u0073",
+      "text": "The cost pillar's headline number is cost per outcome, not price per token. "
+    },
+    {
+      "id": "u0074",
+      "text": "Cost per solved task (not price per token)"
+    },
+    {
+      "id": "u0075",
+      "text": " divides total spend by the tasks that actually succeeded. In the business case, that means quoting \"dollars per resolved ticket\" or \"dollars per accepted summary\", never a rate card. A model with a higher token price can still win on this measure, because more capable models often take fewer turns and less thinking to finish a task correctly."
+    },
+    {
+      "id": "u0076",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0077",
+      "text": "Spend on an agent is too high and the sponsor wants it cut. What should the cost section of the plan propose first?"
+    },
+    {
+      "id": "u0078",
+      "text": "Lower the output cap so every response is shorter"
+    },
+    {
+      "id": "u0079",
+      "text": "Turn on prompt caching and trim unneeded tokens before proposing any quality trade-off"
+    },
+    {
+      "id": "u0080",
+      "text": "Move to a cheaper model tier and accept a small drop in pass rate"
+    },
+    {
+      "id": "u0081",
+      "text": "A credible cost plan comes in two steps. "
+    },
+    {
+      "id": "u0082",
+      "text": "Free wins versus real trade-offs"
+    },
+    {
+      "id": "u0083",
+      "text": " separates levers that cut spend at the same quality (caching, token hygiene, a prompt audit, batch for work that can wait) from levers that buy savings with intelligence: model choice, effort, output caps and session budgets, an elapsed-time clock, and multi-model architectures. Bank the first group and report it. Then, if a gap remains, propose the second group as an explicit trade-off with its quality cost stated. A plan that opens by downgrading the model leaves free money on the table and asks the sponsor to accept a quality risk they did not need to take."
+    },
+    {
+      "id": "u0084",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0085",
+      "text": "The cost pillar is best argued from the lowest price per token."
+    },
+    {
+      "id": "u0086",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0090",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0091",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0092",
+      "text": "You are comparing two models for a support-ticket agent. Model A's token price is half of Model B's. Model B usually resolves a ticket in fewer turns, and more of its tickets end up resolved. Which figure should the cost section of the business case use to compare them?"
+    },
+    {
+      "id": "u0093",
+      "text": "The price per million tokens, because Model A's lower rate directly lowers the bill"
+    },
+    {
+      "id": "u0094",
+      "text": "The average price per token across input and output, weighted by traffic volume"
+    },
+    {
+      "id": "u0095",
+      "text": "Total spend divided by the number of tickets actually resolved, for each model"
+    },
+    {
+      "id": "u0096",
+      "text": "Total monthly API spend for each model, whether or not the tickets were resolved"
+    },
+    {
+      "id": "u0097",
+      "text": "Sources"
+    },
+    {
+      "id": "u0098",
+      "text": "Efficiency: caching is the main item"
+    },
+    {
+      "id": "u0099",
+      "text": "Efficiency is resource consumed per unit of work: how many tokens are paid at full price, how much is recomputed, how much waits on a synchronous call that did not need to. It overlaps with cost but is not the same thing. A design can be efficient and still expensive if the task needs a frontier model, and efficiency is what lets the cost pillar improve without a quality trade-off."
+    },
+    {
+      "id": "u0100",
+      "text": "Prompt caching is the largest efficiency lever for agent loops. Every turn of an agentic task resends the whole growing conversation, so a 40-turn task sends its first turn 40 times and cost rises with roughly the square of the turn count. "
+    },
+    {
+      "id": "u0101",
+      "text": "Prompt caching: stable prefix, automatic caching and breakpoints"
+    },
+    {
+      "id": "u0102",
+      "text": " explains how to bill that repeated prefix at the cache-read rate. As a pillar metric, cache-read share is concrete. In Anthropic's own measurements of agent loops on the Claude Platform, taken over a full day of real traffic, the median loop read 84% of its input from cache, and a loop below about 80% is probably breaking its cache somewhere. Anthropic also priced the token counts recorded from its benchmark runs as if caching had been off (none of those runs actually was). Without caching, the longer-running workloads (SWE-bench Pro coding tasks and a bug-triage agent) would have cost 3.1 to 7.3 times as much. Anthropic describes these results as internal and directional, so measure your own loops."
+    },
+    {
+      "id": "u0103",
+      "text": "Batch processing is the second efficiency item, but it only fits some work. The Message Batches API bills all usage at 50% of standard prices, and most batches finish within an hour, with a 24-hour limit. That suits nightly evaluations, bulk content generation and back-office analysis. It does not suit anything a person is waiting on. Batch trades latency for its discount, which is why it belongs in the efficiency column and never in a plan that has to meet an interactive SLA."
+    },
+    {
+      "id": "u0104",
+      "text": "A team reports that its agent \"made 30% fewer API calls this quarter\". Which pillar has improved, and what would you ask before agreeing?"
+    },
+    {
+      "id": "u0105",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0106",
+      "text": "Batch processing is a free 50% saving that belongs in every efficiency plan."
+    },
+    {
+      "id": "u0107",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0109",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0110",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0111",
+      "text": "An efficiency plan proposes moving four Claude workloads to the Message Batches API to take its 50% discount. Which workload should be taken out of the batch column?"
+    },
+    {
+      "id": "u0112",
+      "text": "Bulk generation of product descriptions for next month's catalogue"
+    },
+    {
+      "id": "u0113",
+      "text": "An in-app support assistant that has to answer customers within a 2-second p95 response time"
+    },
+    {
+      "id": "u0114",
+      "text": "The nightly evaluation suite that re-scores the agent against thousands of test cases"
+    },
+    {
+      "id": "u0115",
+      "text": "Weekly back-office analysis that summarises last week's closed tickets"
+    },
+    {
+      "id": "u0116",
+      "text": "Sources"
+    },
+    {
+      "id": "u0117",
+      "text": "Performance SLAs: latency and availability the design must meet"
+    },
+    {
+      "id": "u0118",
+      "text": "The performance pillar is a set of commitments, not an aspiration. "
+    },
+    {
+      "id": "u0119",
+      "text": "What the service tiers and SLAs actually promise"
+    },
+    {
+      "id": "u0120",
+      "text": " covers what the platform guarantees. The architect's job is to turn the product's promise into targets the design must meet, written in operational terms such as \"95% response time < 200ms\" and an uptime percentage. Time to first token matters separately when responses stream, because users judge responsiveness by when text starts appearing."
+    },
+    {
+      "id": "u0121",
+      "text": "Model class is the most direct latency lever, and it lines up with cost. The Haiku class is built for high-frequency workloads where latency and cost both matter: real-time applications, high-volume processing and cost-sensitive deployments. Within a model, effort is the main control for speed and cost. Effort is a request parameter that trades intelligence for latency and cost inside a single model: it sets how much reasoning the model does before answering, so low effort answers sooner and spends less, at some cost in capability. Fewer input and output tokens make every response faster, and streaming improves perceived responsiveness without changing total generation time."
+    },
+    {
+      "id": "u0122",
+      "text": "A time-sensitive request: the Haiku-class model at low effort, the cheapest and fastest setting"
+    },
+    {
+      "id": "u0123",
+      "text": "python"
+    },
+    {
+      "id": "u0124",
+      "text": "Three tempting answers to a latency SLA fail one pillar or another. Fast mode on an Opus model raises output speed by up to 2.5x, but at premium pricing, on top of a model that already costs far more per token. It meets the SLA and fails the cost pillar for routine, high-volume questions. Turning thinking off is not a general lever: several current models run adaptive thinking that is always on, and effort is the documented control for speed. Loading a whole knowledge base into a large context window on every request inflates input tokens, which slows each response and raises its cost. For routine questions at high volume under a sub-second target, start with the fastest, lowest-priced class and tune effort."
+    },
+    {
+      "id": "u0125",
+      "text": "Standard per-token prices across current model classes, the cost side of a latency choice"
+    },
+    {
+      "id": "u0126",
+      "text": "Model"
+    },
+    {
+      "id": "u0127",
+      "text": "Input"
+    },
+    {
+      "id": "u0128",
+      "text": "Output"
+    },
+    {
+      "id": "u0129",
+      "text": "Claude Haiku 5.5 (prompts up to 100,000 tokens)"
+    },
+    {
+      "id": "u0130",
+      "text": "$0.10 / MTok"
+    },
+    {
+      "id": "u0131",
+      "text": "$0.50 / MTok"
+    },
+    {
+      "id": "u0132",
+      "text": "Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0133",
+      "text": "$2 / MTok"
+    },
+    {
+      "id": "u0134",
+      "text": "$10 / MTok"
+    },
+    {
+      "id": "u0135",
+      "text": "Claude Opus 5.5"
+    },
+    {
+      "id": "u0136",
+      "text": "$4 / MTok"
+    },
+    {
+      "id": "u0137",
+      "text": "$20 / MTok"
+    },
+    {
+      "id": "u0138",
+      "text": "Claude Fable 5.1"
+    },
+    {
+      "id": "u0139",
+      "text": "$10 / MTok"
+    },
+    {
+      "id": "u0140",
+      "text": "$50 / MTok"
+    },
+    {
+      "id": "u0141",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0142",
+      "text": "When a scenario names latency and sustainable per-ticket cost together, the answer is the fastest, lowest-priced model class. Options that buy speed with a premium (fast mode) or with extra tokens (full-context loading) serve one pillar and break the other."
+    },
+    {
+      "id": "u0143",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0144",
+      "text": "Fast mode on a top-tier model is the best way to meet a strict latency SLA for high-volume routine traffic."
+    },
+    {
+      "id": "u0145",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0149",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0150",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0151",
+      "text": "This request serves a high-volume, time-sensitive feature that has to meet a latency SLA and also keep per-request cost low. Which setting completes the sample so it uses the documented control for speed and cost within the model?"
+    },
+    {
+      "id": "u0152",
+      "text": "temperature"
+    },
+    {
+      "id": "u0153",
+      "text": "thinking"
+    },
+    {
+      "id": "u0154",
+      "text": "speed"
+    },
+    {
+      "id": "u0155",
+      "text": "effort"
+    },
+    {
+      "id": "u0156",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0157",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0158",
+      "text": "A customer-support chatbot must answer high volumes of routine account questions in under a second per response, and the product team's success metric is purely response latency at a sustainable per-ticket cost. Which model choice best aligns the architecture with this performance SLA and cost pillar?"
+    },
+    {
+      "id": "u0159",
+      "text": "Start with Claude Haiku 4.5, the fastest current model with near-frontier intelligence at the lowest per-token price"
+    },
+    {
+      "id": "u0160",
+      "text": "Start with Claude Opus 4.8 in fast mode, since fast mode delivers up to 2.5x higher output speed at premium pricing"
+    },
+    {
+      "id": "u0161",
+      "text": "Start with Claude Sonnet 5 and disable adaptive thinking entirely to remove all reasoning latency from every response"
+    },
+    {
+      "id": "u0162",
+      "text": "Start with Claude Fable 5, since its 1M token context window allows the entire support knowledge base to load per request"
+    },
+    {
+      "id": "u0163",
+      "text": "Sources"
+    },
+    {
+      "id": "u0164",
+      "text": "Productivity: finished work per run"
+    },
+    {
+      "id": "u0165",
+      "text": "Productivity counts completed, usable work per agent run or per person-hour. Tokens, calls and turns are inputs. An agent that uses a million tokens and produces one finished, correct pull request is more productive than one that uses a hundred thousand tokens and leaves a half-done draft someone has to rewrite. The unit is the deliverable: a resolved ticket, an accepted summary, analysis carried through to a finished document, spreadsheet or deck."
+    },
+    {
+      "id": "u0166",
+      "text": "Measure it the way users experience it. Task completion rate is an implicit user-feedback signal: did the output get used without rework? Per person-hour, the question is how many finished items one analyst signs off when Claude drafts and the analyst reviews, compared with drafting by hand. Model choice affects this directly. More capable models often take fewer turns and less thinking to get a task right, so a stronger model can raise finished work per run even where its token count looks worse."
+    },
+    {
+      "id": "u0167",
+      "text": "Productivity also covers the cost of complexity. Agentic systems often trade latency and cost for better task performance, so adding an agent loop is justified only when it raises completed work enough to pay for those extra turns. Where a single well-built call already produces the finished output, a multi-step agent adds spend without adding deliverables."
+    },
+    {
+      "id": "u0168",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0169",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0170",
+      "text": "Today a single well-built Claude call drafts summaries that analysts accept without rework about 90% of the time. A team proposes replacing it with a multi-step agent that plans, drafts and self-reviews over several turns. What should decide whether the productivity section of the business case supports the change?"
+    },
+    {
+      "id": "u0171",
+      "text": "Whether the agent uses fewer tokens per summary than the single call does"
+    },
+    {
+      "id": "u0172",
+      "text": "Whether the agent raises accepted summaries per run or per analyst-hour by enough to pay for its extra turns, latency and cost"
+    },
+    {
+      "id": "u0173",
+      "text": "Whether the new design is agentic, since moving from one call to an agent loop counts as a transformation of the workflow"
+    },
+    {
+      "id": "u0174",
+      "text": "Whether the agent completes more turns per summary, since more turns show more work being done on each one"
+    },
+    {
+      "id": "u0175",
+      "text": "Sources"
+    },
+    {
+      "id": "u0176",
+      "text": "Transformation: work that was not feasible before"
+    },
+    {
+      "id": "u0177",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0178",
+      "text": "A legal team's paralegals read and tag thousands of contracts a month. Leadership plans to redesign intake so the model tags, and paralegals review only flagged exceptions and spend their time negotiating terms. Which pillar is leadership mainly arguing from?"
+    },
+    {
+      "id": "u0179",
+      "text": "Transformation: the workflow and the paralegals' roles are restructured around a new capability"
+    },
+    {
+      "id": "u0180",
+      "text": "Performance SLA: the initiative is measured against a turnaround commitment"
+    },
+    {
+      "id": "u0181",
+      "text": "Productivity: the same paralegals tag the same contracts faster"
+    },
+    {
+      "id": "u0182",
+      "text": "Transformation is value from new capability, not from doing an existing task cheaper or faster. Use one test to recognise it: would the old process, run with more people or more time, produce this outcome at all? If the same workflow runs faster with the same roles, that is productivity. If fewer hours are billed per item, that is cost. If the case rests on a turnaround commitment, that is a performance SLA. Transformation is when the workflow itself is redesigned, roles move to different work such as exception review and negotiation, or the organisation produces something it never could before, like reviewing every contract instead of a sample."
+    },
+    {
+      "id": "u0183",
+      "text": "Model capability is what makes this feasible. Frontier classes are described as especially capable at long-running agent tasks and at problems AI has not reliably handled before. A task that takes a long time, involves many steps or was previously unsolved calls for a more capable model class. Economics can transform as well: agent applications that were once too expensive to run can now operate at scale, which turns a pilot nobody could afford into a standing workflow."
+    },
+    {
+      "id": "u0184",
+      "text": "Transformation is the hardest pillar to argue because there is no baseline to beat. Build the evidence anyway. Assemble an evaluation set drawn from production that deliberately includes difficult tasks your current tools fail at, with success criteria the team defines in advance. A pass rate on tasks the old process could not do at all is the transformation metric, and it gives the sponsor a number in place of a vision statement."
+    },
+    {
+      "id": "u0185",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0186",
+      "text": "Any project where staff finish the same tasks faster counts as transformation."
+    },
+    {
+      "id": "u0187",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0189",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0190",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0191",
+      "text": "Leadership wants an AI contract-review program to review every contract instead of a sample, which the current process has never done. They ask the architect what evidence should support the transformation pillar in the business case. What should the architect propose?"
+    },
+    {
+      "id": "u0192",
+      "text": "Survey the delivery team after launch on how much the new workflow improved their day-to-day work"
+    },
+    {
+      "id": "u0193",
+      "text": "Report the p95 turnaround time per contract against the existing review commitment"
+    },
+    {
+      "id": "u0194",
+      "text": "Compare paralegal hours per contract before and after launch, so the reduction shows the transformation"
+    },
+    {
+      "id": "u0195",
+      "text": "Build an evaluation set from production that includes difficult tasks current tools fail at, define success criteria in advance, and report the pass rate"
+    },
+    {
+      "id": "u0196",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0197",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0198",
+      "text": "A legal operations team currently has paralegals manually reading and tagging thousands of contracts per month. Leadership frames the initiative not as automating the existing manual process but as fundamentally redesigning the contract intake workflow so that paralegals shift to reviewing model-flagged exceptions and negotiating terms. Which business value pillar does this framing primarily represent?"
+    },
+    {
+      "id": "u0199",
+      "text": "Transformation, because the initiative restructures the underlying workflow and staff roles, not merely speeding up the same process"
+    },
+    {
+      "id": "u0200",
+      "text": "Productivity, because the same paralegals complete the same tagging tasks faster within the same unchanged workflow structure"
+    },
+    {
+      "id": "u0201",
+      "text": "Cost reduction, because fewer paralegal hours are billed per contract under the newly introduced tagging process"
+    },
+    {
+      "id": "u0202",
+      "text": "Performance SLA, because the initiative is measured against a fixed contract turnaround time commitment made to clients"
+    },
+    {
+      "id": "u0203",
+      "text": "Sources"
+    },
+    {
+      "id": "u0204",
+      "text": "Sources"
+    }
+  ]
+}

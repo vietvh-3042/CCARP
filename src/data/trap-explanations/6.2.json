@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Token price omits the work needed to finish correctly. Fewer reasoning tokens, turns, or retries can make a stronger model cheaper per completed task.",
+    "vi": "Giá token bỏ qua lượng xử lý cần để hoàn thành đúng. Ít token suy luận, lượt xử lý hoặc lần thử lại hơn có thể khiến mô hình mạnh hơn rẻ hơn cho mỗi nhiệm vụ hoàn tất."
+  },
+  "exam-trap-2": {
+    "en": "Parallel agents often expand the investigation rather than shorten it. Additional computation and token use can increase total runtime despite concurrent execution.",
+    "vi": "Tác tử chạy song song thường mở rộng phạm vi tìm hiểu thay vì rút ngắn công việc. Lượng tính toán và token tăng thêm có thể kéo dài tổng thời gian dù thực thi đồng thời."
+  },
+  "exam-trap-3": {
+    "en": "Published measurements illustrate possibilities, not your expected outcome. Validate the recommendation using representative tasks, actual prompts, and data from your own application.",
+    "vi": "Số đo công bố minh họa khả năng, không bảo đảm kết quả của bạn. Hãy xác thực đề xuất bằng nhiệm vụ đại diện, câu lệnh thực và dữ liệu của chính ứng dụng."
+  },
+  "exam-trap-4": {
+    "en": "Approval requires an honest account of remaining risk. Describe constrained permissions, worst-case effects, audit visibility, and spending limits rather than promising risk-free operation.",
+    "vi": "Để phê duyệt cần mô tả trung thực rủi ro còn lại. Hãy nêu giới hạn quyền, hậu quả xấu nhất, khả năng theo dõi kiểm toán và trần chi tiêu thay vì hứa vận hành không rủi ro."
+  },
+  "exam-trap-5": {
+    "en": "Opus 4.8 belongs to the generation that accepts adaptive thinking only. A manual extended-thinking token budget is rejected instead of running alongside it.",
+    "vi": "Opus 4.8 thuộc thế hệ chỉ chấp nhận suy nghĩ thích ứng. Ngân sách token cho suy nghĩ mở rộng đặt thủ công sẽ bị từ chối, chứ không chạy cùng chế độ đó."
+  }
+}

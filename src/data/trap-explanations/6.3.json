@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Priority commitments apply to agreed capacity on eligible model versions. Excess traffic uses standard service, so the uptime target cannot cover every request.",
+    "vi": "Cam kết Priority áp dụng cho dung lượng đã thỏa thuận trên phiên bản mô hình đủ điều kiện. Lưu lượng vượt cam kết dùng dịch vụ tiêu chuẩn, nên mục tiêu thời gian hoạt động không bao phủ mọi yêu cầu."
+  },
+  "exam-trap-2": {
+    "en": "A rate limit caps permitted traffic; it does not reserve throughput. Bursty requests may still fail before the minute-level allowance appears exhausted.",
+    "vi": "Giới hạn tốc độ đặt trần lưu lượng được phép, không đặt trước thông lượng. Yêu cầu dồn đột ngột vẫn có thể thất bại trước khi hạn mức theo phút có vẻ đã dùng hết."
+  },
+  "exam-trap-3": {
+    "en": "A spending-cap error is not transient throttling. Retrying cannot restore access before the monthly reset unless the organization receives a higher tier.",
+    "vi": "Lỗi chạm trần chi tiêu không phải hạn chế tốc độ tạm thời. Thử lại không khôi phục truy cập trước kỳ đặt lại hằng tháng, trừ khi tổ chức được nâng cấp sử dụng."
+  },
+  "exam-trap-4": {
+    "en": "Retirement schedules depend on the serving platform. Partner-operated services publish their own dates, so Anthropic's schedule cannot be assumed to govern them.",
+    "vi": "Lịch ngừng mô hình phụ thuộc nền tảng cung cấp. Dịch vụ do đối tác vận hành công bố ngày riêng, nên không thể mặc định áp dụng lịch của Anthropic cho chúng."
+  },
+  "exam-trap-5": {
+    "en": "Load-related capacity restrictions can occur without an incident. The status page reports confirmed incidents, so absence there does not invalidate a capacity warning.",
+    "vi": "Hạn chế dung lượng do tải có thể xảy ra mà không có sự cố. Trang trạng thái báo sự cố đã xác nhận, nên không có thông báo ở đó không làm cảnh báo dung lượng mất giá trị."
+  }
+}

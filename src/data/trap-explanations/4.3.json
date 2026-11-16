@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Self-reported confidence is not a correctness score. Compare both prompt versions against identical ground-truth labels using an objective categorical metric.",
+    "vi": "Độ tự tin do mô hình tự báo không phải điểm đúng sai. Hãy so cả hai phiên bản câu lệnh với cùng nhãn chuẩn bằng thước đo phân loại khách quan."
+  },
+  "exam-trap-2": {
+    "en": "Repeated comparisons need broad, affordable evidence. Automated grading scales to larger evaluation sets, while manual scoring incurs fresh work on every run.",
+    "vi": "So sánh lặp lại cần bằng chứng rộng với chi phí hợp lý. Chấm tự động mở rộng được tới bộ đánh giá lớn, còn chấm thủ công tốn thêm công mỗi lần chạy."
+  },
+  "exam-trap-3": {
+    "en": "Start with an offline comparison for quick feedback. Live experiments require sufficient traffic and time to establish whether the difference is statistically meaningful.",
+    "vi": "Bắt đầu bằng so sánh ngoại tuyến để nhận phản hồi nhanh. Thử nghiệm trực tiếp cần đủ lưu lượng và thời gian để xác định khác biệt có ý nghĩa thống kê hay không."
+  },
+  "exam-trap-4": {
+    "en": "Aggregate scores can hide regressions in individual segments. Inspect category-level results before promoting a change intended to improve only part of the workload.",
+    "vi": "Điểm tổng có thể che khuất sự suy giảm ở từng nhóm. Hãy xem kết quả theo danh mục trước khi đưa vào dùng một thay đổi chỉ nhằm cải thiện một phần công việc."
+  },
+  "exam-trap-5": {
+    "en": "An update can immediately affect new sessions using an unversioned agent ID. Pin callers to a specific version until you deliberately promote another.",
+    "vi": "Bản cập nhật có thể lập tức ảnh hưởng phiên mới dùng ID tác tử không ghim phiên bản. Hãy ghim bên gọi vào phiên bản cụ thể cho tới khi chủ động chuyển sang bản khác."
+  }
+}

@@ -1,0 +1,731 @@
+{
+  "pageId": "7.2",
+  "title": "Explore, plan, implement, commit: the Claude Code loop",
+  "titleVi": "Khám phá, lập kế hoạch, triển khai, commit: vòng lặp làm việc với Claude Code",
+  "units": [
+    {
+      "id": "description",
+      "text": "Improve developer workflows using AI-assisted tooling"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Run a Claude Code task as four separate phases (explore, plan, implement, commit) and say why research and planning come before any code is written"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose the permission mode that matches how much the task should be allowed to change without your approval"
+    },
+    {
+      "id": "u0003",
+      "text": "Write prompts that point Claude at exact files, sources and symptoms instead of describing them loosely"
+    },
+    {
+      "id": "u0004",
+      "text": "Keep a session clean by interrupting, rewinding, clearing and delegating research to subagents"
+    },
+    {
+      "id": "u0005",
+      "text": "Give Claude a check it can run (a test, a screenshot or a build) so it can verify its own work"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Explore, plan, implement, commit"
+    },
+    {
+      "id": "u0008",
+      "text": "A Claude Code workflow that keeps reading and planning apart from editing. Claude first learns the relevant code, then proposes a plan you can review, and only after that writes, tests and commits the change."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Explore, plan, implement, commit"
+    },
+    {
+      "id": "u0011",
+      "text": "Matching the permission mode to the task"
+    },
+    {
+      "id": "u0012",
+      "text": "Pointing Claude at exact context"
+    },
+    {
+      "id": "u0013",
+      "text": "Redirecting, clearing and delegating"
+    },
+    {
+      "id": "u0014",
+      "text": "Giving Claude a way to check its own work"
+    },
+    {
+      "id": "u0015",
+      "text": "Explore, plan, implement, commit"
+    },
+    {
+      "id": "u0016",
+      "text": "Claude Code is an agent. It reads files, runs shell commands, edits code and uses git in your project, so a vague request such as \"add Google OAuth\" can turn straight into edits across a codebase it has not read yet. The explore, plan, implement, commit loop prevents that. Each phase is its own prompt, and no code is written until Claude understands the existing code and you have agreed on a plan."
+    },
+    {
+      "id": "u0017",
+      "text": "The four phases as separate prompts, using an OAuth feature as the example"
+    },
+    {
+      "id": "u0018",
+      "text": "text"
+    },
+    {
+      "id": "u0019",
+      "text": "Explore"
+    },
+    {
+      "id": "u0020",
+      "text": " asks Claude to read and explain, and nothing else. "
+    },
+    {
+      "id": "u0021",
+      "text": "Plan"
+    },
+    {
+      "id": "u0022",
+      "text": " asks which files will change and how the flow will work, and the answer is something you can review and correct while correcting it costs nothing. "
+    },
+    {
+      "id": "u0023",
+      "text": "Implement"
+    },
+    {
+      "id": "u0024",
+      "text": " refers back to \"your plan\" and includes its own check: write tests, run the suite, fix the failures. "
+    },
+    {
+      "id": "u0025",
+      "text": "Commit"
+    },
+    {
+      "id": "u0026",
+      "text": " turns the finished work into a commit and a pull request."
+    },
+    {
+      "id": "u0027",
+      "text": "Plan mode makes the first two phases safe. If you start a session with "
+    },
+    {
+      "id": "u0028",
+      "text": ", Claude can investigate and propose changes but cannot write to your source files. You review the proposal and then leave plan mode to implement it, so nothing reaches disk until you have seen the plan."
+    },
+    {
+      "id": "u0029",
+      "text": "Checkpoint 1 of 7"
+    },
+    {
+      "id": "u0030",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0031",
+      "text": "In the four-phase OAuth example, the Implement prompt ties the work back to an earlier phase. Which word completes it?"
+    },
+    {
+      "id": "u0032",
+      "text": "tests"
+    },
+    {
+      "id": "u0033",
+      "text": "plan"
+    },
+    {
+      "id": "u0034",
+      "text": "commit"
+    },
+    {
+      "id": "u0035",
+      "text": "exploration"
+    },
+    {
+      "id": "u0036",
+      "text": "Checkpoint 2 of 7"
+    },
+    {
+      "id": "u0037",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0038",
+      "text": "You want Claude to investigate a codebase and propose a change for you to review. Nothing should be written to your source files until you have seen the proposal. How should you start the session?"
+    },
+    {
+      "id": "u0039",
+      "text": "Start it with "
+    },
+    {
+      "id": "u0040",
+      "text": " so Claude picks up the previous conversation"
+    },
+    {
+      "id": "u0041",
+      "text": "Start it with "
+    },
+    {
+      "id": "u0042",
+      "text": "Start it normally and skip the Explore prompt, so Claude goes straight to writing a plan"
+    },
+    {
+      "id": "u0043",
+      "text": "Start it normally and end the Explore prompt with \"don't change anything yet\""
+    },
+    {
+      "id": "u0044",
+      "text": "Sources"
+    },
+    {
+      "id": "u0045",
+      "text": "Matching the permission mode to the task"
+    },
+    {
+      "id": "u0046",
+      "text": "The permission mode sets which actions Claude takes on its own and which ones wait for you. Choosing a mode is a workflow decision. Exploring an unfamiliar repo, reviewing untrusted code and doing a routine refactor each need a different amount of freedom."
+    },
+    {
+      "id": "u0047",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0048",
+      "text": "In Accept edits mode, Claude has finished editing three files and now wants to run "
+    },
+    {
+      "id": "u0049",
+      "text": ". What happens?"
+    },
+    {
+      "id": "u0050",
+      "text": "Claude asks you first, because Accept edits only auto-approves file edits and common filesystem commands"
+    },
+    {
+      "id": "u0051",
+      "text": "The command is blocked outright, because Accept edits forbids shell commands"
+    },
+    {
+      "id": "u0052",
+      "text": "It runs without asking, because Accept edits approves everything Claude does"
+    },
+    {
+      "id": "u0053",
+      "text": "Permission modes compared by what runs without your approval"
+    },
+    {
+      "id": "u0054",
+      "text": "Mode"
+    },
+    {
+      "id": "u0055",
+      "text": "Runs without asking"
+    },
+    {
+      "id": "u0056",
+      "text": "Waits for you"
+    },
+    {
+      "id": "u0057",
+      "text": "Best for"
+    },
+    {
+      "id": "u0058",
+      "text": "Manual (the default prompting mode)"
+    },
+    {
+      "id": "u0059",
+      "text": "Reading and searching"
+    },
+    {
+      "id": "u0060",
+      "text": "Every file edit and every shell command"
+    },
+    {
+      "id": "u0061",
+      "text": "Untrusted code, such as an external contributor's pull request"
+    },
+    {
+      "id": "u0062",
+      "text": "Accept edits"
+    },
+    {
+      "id": "u0063",
+      "text": "File edits and common filesystem commands like mkdir and mv"
+    },
+    {
+      "id": "u0064",
+      "text": "Other shell commands"
+    },
+    {
+      "id": "u0065",
+      "text": "Implementation work where you trust the edits but want to see commands"
+    },
+    {
+      "id": "u0066",
+      "text": "Plan"
+    },
+    {
+      "id": "u0067",
+      "text": "Exploration only; source files are not edited"
+    },
+    {
+      "id": "u0068",
+      "text": "Leaving plan mode to implement"
+    },
+    {
+      "id": "u0069",
+      "text": "The explore and plan phases"
+    },
+    {
+      "id": "u0070",
+      "text": "Auto"
+    },
+    {
+      "id": "u0071",
+      "text": "Most actions; a background classifier blocks the risky ones"
+    },
+    {
+      "id": "u0072",
+      "text": "Nothing routine, because the classifier decides instead of asking you"
+    },
+    {
+      "id": "u0073",
+      "text": "Long sessions where prompting on every step would slow you down"
+    },
+    {
+      "id": "u0074",
+      "text": "Take a security engineer reviewing a pull request from outside the team. Claude should read the files and run analysis, but every edit and every command needs the engineer's approval first. Manual is the only mode in the table that meets this. Accept edits would apply file changes without asking. Auto would let a classifier approve most actions. Plan blocks edits, but it is a mode for proposing changes, not for approving them one at a time. bypassPermissions goes further than any of these and drops the prompts entirely. It is not even in the normal Shift+Tab cycle until you start Claude Code with "
+    },
+    {
+      "id": "u0075",
+      "text": ". In recent versions of Claude Code, Auto is the built-in starting mode for interactive sessions, so you switch to Manual deliberately when you need it."
+    },
+    {
+      "id": "u0076",
+      "text": "Between these modes, permission allowlists let you pre-approve individual commands you know are safe, such as "
+    },
+    {
+      "id": "u0077",
+      "text": " or "
+    },
+    {
+      "id": "u0078",
+      "text": ". Claude then stops asking about those commands while still asking about everything else. Pre-approving a few specific commands is safer than switching the whole session to a more permissive mode."
+    },
+    {
+      "id": "u0079",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0080",
+      "text": "Accept edits mode still asks before every file edit, so it is a safe choice when someone must approve each change."
+    },
+    {
+      "id": "u0081",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0083",
+      "text": "Checkpoint 3 of 7"
+    },
+    {
+      "id": "u0084",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0085",
+      "text": "Match each permission mode to the task it suits best."
+    },
+    {
+      "id": "u0086",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0087",
+      "text": "Manual"
+    },
+    {
+      "id": "u0088",
+      "text": "Accept edits"
+    },
+    {
+      "id": "u0089",
+      "text": "Plan"
+    },
+    {
+      "id": "u0090",
+      "text": "Auto"
+    },
+    {
+      "id": "u0091",
+      "text": "Exploring an unfamiliar repo and proposing a change, with nothing written to source files until you have reviewed it"
+    },
+    {
+      "id": "u0092",
+      "text": "A long session where a prompt on every step would slow you down, so a background classifier blocks only the risky actions"
+    },
+    {
+      "id": "u0093",
+      "text": "Reviewing an external contributor's pull request, where every edit and every shell command needs your approval first"
+    },
+    {
+      "id": "u0094",
+      "text": "Implementing a change where you trust the file edits but still want to approve commands like npm install"
+    },
+    {
+      "id": "u0095",
+      "text": "Checkpoint 4 of 7"
+    },
+    {
+      "id": "u0096",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0097",
+      "text": "A security engineer wants Claude Code to review a pull request from an external contributor. Claude should be able to read files and run analysis commands, but the engineer must manually approve every file edit and shell command before it executes. Which permission mode satisfies this requirement?"
+    },
+    {
+      "id": "u0098",
+      "text": "default (Manual) mode, which prompts before any write or command beyond reads"
+    },
+    {
+      "id": "u0099",
+      "text": "acceptEdits mode, which auto-approves file edits and common filesystem commands"
+    },
+    {
+      "id": "u0100",
+      "text": "auto mode, which lets a background classifier approve most actions automatically"
+    },
+    {
+      "id": "u0101",
+      "text": "bypassPermissions mode, which skips all prompts including protected path writes"
+    },
+    {
+      "id": "u0102",
+      "text": "Sources"
+    },
+    {
+      "id": "u0103",
+      "text": "Pointing Claude at exact context"
+    },
+    {
+      "id": "u0104",
+      "text": "The precision of a prompt limits the precision of the result. If you ask \"fix the login bug\", Claude has to search for the bug, guess what it is, and decide for itself when the fix is done. If you name the location, the scenario and the fix condition, it has none of those to guess. The table below pairs vague requests with specific versions of the same request."
+    },
+    {
+      "id": "u0105",
+      "text": "Vague requests rewritten to give Claude the exact context"
+    },
+    {
+      "id": "u0106",
+      "text": "Technique"
+    },
+    {
+      "id": "u0107",
+      "text": "Vague"
+    },
+    {
+      "id": "u0108",
+      "text": "Specific"
+    },
+    {
+      "id": "u0109",
+      "text": "Scope the task"
+    },
+    {
+      "id": "u0110",
+      "text": "add tests for foo.py"
+    },
+    {
+      "id": "u0111",
+      "text": "write a test for foo.py covering the edge case where the user is logged out. avoid mocks."
+    },
+    {
+      "id": "u0112",
+      "text": "Point to sources"
+    },
+    {
+      "id": "u0113",
+      "text": "why does ExecutionFactory have such a weird api?"
+    },
+    {
+      "id": "u0114",
+      "text": "look through ExecutionFactory's git history and summarize how its api came to be"
+    },
+    {
+      "id": "u0115",
+      "text": "Reference existing patterns"
+    },
+    {
+      "id": "u0116",
+      "text": "add a calendar widget"
+    },
+    {
+      "id": "u0117",
+      "text": "look at how existing widgets are implemented on the home page; HotDogWidget.php is a good example"
+    },
+    {
+      "id": "u0118",
+      "text": "Describe the symptom"
+    },
+    {
+      "id": "u0119",
+      "text": "fix the login bug"
+    },
+    {
+      "id": "u0120",
+      "text": "login fails after session timeout; check the auth flow in src/auth/, write a failing test that reproduces the issue, then fix it"
+    },
+    {
+      "id": "u0121",
+      "text": "Referencing a file with "
+    },
+    {
+      "id": "u0122",
+      "text": " works better than describing where the code lives, because Claude reads the file before it responds. "
+    },
+    {
+      "id": "u0123",
+      "text": " puts that exact file in context. A directory reference such as "
+    },
+    {
+      "id": "u0124",
+      "text": " gives Claude the list of files in that directory, not their contents. Use it to orient Claude, then reference the files that matter."
+    },
+    {
+      "id": "u0125",
+      "text": "Context can arrive in other ways too. You can paste or drag in a screenshot of an error or a design mockup. You can pipe data straight into Claude with "
+    },
+    {
+      "id": "u0126",
+      "text": ". You can give a documentation URL. Or you can tell Claude to fetch what it needs itself with Bash commands, MCP tools or file reads, which saves you from pasting large amounts of text."
+    },
+    {
+      "id": "u0127",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0128",
+      "text": "Referencing a directory with @ loads the contents of every file in it into context."
+    },
+    {
+      "id": "u0129",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0131",
+      "text": "Checkpoint 5 of 7"
+    },
+    {
+      "id": "u0132",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0133",
+      "text": "A developer types \"review the error handling in @src/api\" and expects Claude to have the code of every handler in context before it answers. What does the directory reference actually give Claude, and what should the developer do?"
+    },
+    {
+      "id": "u0134",
+      "text": "The contents of the largest files in src/api, chosen to stay within the context limit"
+    },
+    {
+      "id": "u0135",
+      "text": "Nothing, because @ works only with single files, so the developer has to paste the code into the prompt"
+    },
+    {
+      "id": "u0136",
+      "text": "Only a list of the files in src/api, so the developer should then reference the specific handler files they want, such as @src/api/handlers.js"
+    },
+    {
+      "id": "u0137",
+      "text": "The full contents of every file in src/api, so the prompt works as written"
+    },
+    {
+      "id": "u0138",
+      "text": "Sources"
+    },
+    {
+      "id": "u0139",
+      "text": "Redirecting, clearing and delegating"
+    },
+    {
+      "id": "u0140",
+      "text": "Correct a session as soon as it drifts. Waiting means more wasted work to undo. Press Esc to stop Claude in the middle of an action: the running tool call is cancelled and the context is kept, so you can redirect it straight away. If Claude is heading the right way and only needs a nudge, type the correction and press Enter without stopping it. The message is queued, and Claude reads it as soon as its current tool calls finish, within the same turn. If the work has already gone wrong, press Esc twice or run "
+    },
+    {
+      "id": "u0141",
+      "text": " to restore an earlier state of both the conversation and the code."
+    },
+    {
+      "id": "u0142",
+      "text": "Leftover context also costs you. A long session full of material from an unrelated earlier task can make Claude perform worse. Run "
+    },
+    {
+      "id": "u0143",
+      "text": " between unrelated tasks to start from an empty context. For a quick side question, use "
+    },
+    {
+      "id": "u0144",
+      "text": ": its answer never enters the conversation history. When a session has to keep going, "
+    },
+    {
+      "id": "u0145",
+      "text": " summarizes it according to your instructions instead of whatever the automatic summary would choose to keep."
+    },
+    {
+      "id": "u0146",
+      "text": "Subagents keep the main context clean in a different way. A prompt such as \"use subagents to investigate how our authentication system handles token refresh\" sends the file reading to a separate agent, and only its findings come back to your session. A subagent can also be a reusable specialist with a fixed tool set and its own instructions, defined in a file:"
+    },
+    {
+      "id": "u0147",
+      "text": "A subagent definition limited to read and search tools plus Bash, with its own model and instructions"
+    },
+    {
+      "id": "u0148",
+      "text": "markdown"
+    },
+    {
+      "id": "u0149",
+      "text": "Checkpoint 6 of 7"
+    },
+    {
+      "id": "u0150",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0151",
+      "text": "Your team wants a reusable security-review subagent that can only read and search code and run Bash, so it can never edit files. Which frontmatter field sets that fixed tool set?"
+    },
+    {
+      "id": "u0152",
+      "text": "allowed-tools"
+    },
+    {
+      "id": "u0153",
+      "text": "permissions"
+    },
+    {
+      "id": "u0154",
+      "text": "context"
+    },
+    {
+      "id": "u0155",
+      "text": "tools"
+    },
+    {
+      "id": "u0156",
+      "text": "Sources"
+    },
+    {
+      "id": "u0157",
+      "text": "Giving Claude a way to check its own work"
+    },
+    {
+      "id": "u0158",
+      "text": "Feedback loops and iterative refinement inside the system"
+    },
+    {
+      "id": "u0159",
+      "text": " mean the system checks its own output and improves on it. In Claude Code, that requires giving Claude something concrete to check against. \"Implement a function that validates email addresses\" has no finish line. Adding example cases (user@example.com is true, invalid is false, user@.com is false) and the instruction \"run the tests after implementing\" gives Claude a result it can verify. UI work follows the same pattern: paste a screenshot of the design, ask Claude to screenshot its result, compare the two, and fix the differences. For a failing build, paste the actual error and ask for the root cause to be fixed, not for the error to be suppressed."
+    },
+    {
+      "id": "u0160",
+      "text": "There are four ways to attach the check, depending on how long it needs to apply and how firmly it must hold:"
+    },
+    {
+      "id": "u0161",
+      "text": "In one prompt: ask Claude to run the check and keep iterating in the same message."
+    },
+    {
+      "id": "u0162",
+      "text": "Across a session: set the check as a "
+    },
+    {
+      "id": "u0163",
+      "text": " condition. A separate evaluator re-checks it after every turn, and Claude keeps working until the goal is met."
+    },
+    {
+      "id": "u0164",
+      "text": "As a deterministic gate: a Stop hook runs your check as a script and blocks the turn from ending until it passes."
+    },
+    {
+      "id": "u0165",
+      "text": "As a second opinion: a verification subagent has a fresh model try to refute the result, so the agent that did the work is not the one grading it."
+    },
+    {
+      "id": "u0166",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0167",
+      "text": "Think of the last change you asked an AI assistant to make. What check could it have run itself (a test, a build, a screenshot comparison) so that you did not have to be the one who verified it?"
+    },
+    {
+      "id": "u0168",
+      "text": "Checkpoint 7 of 7"
+    },
+    {
+      "id": "u0169",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0170",
+      "text": "A team wants Claude to check its own work in four different situations. Pick the way of attaching the check that fits each one."
+    },
+    {
+      "id": "u0171",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0172",
+      "text": "In one prompt"
+    },
+    {
+      "id": "u0173",
+      "text": "A /goal condition"
+    },
+    {
+      "id": "u0174",
+      "text": "A Stop hook"
+    },
+    {
+      "id": "u0175",
+      "text": "A verification subagent"
+    },
+    {
+      "id": "u0176",
+      "text": "A single request to write validateEmail with example test cases, where Claude runs the tests and iterates in that same message"
+    },
+    {
+      "id": "u0177",
+      "text": "A condition that should hold for the whole session, re-checked by a separate evaluator after every turn until it is met"
+    },
+    {
+      "id": "u0178",
+      "text": "A result that the agent who produced it should not grade, so a fresh model tries to refute it"
+    },
+    {
+      "id": "u0179",
+      "text": "A check that must not depend on the model's judgment, so a script blocks the turn from ending until the check passes"
+    },
+    {
+      "id": "u0180",
+      "text": "Sources"
+    },
+    {
+      "id": "u0181",
+      "text": "Sources"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Discovery establishes the problem, success measures, and evaluation examples. Operational runbooks and caching decisions depend on a design and belong to later stages.",
+    "vi": "Khám phá xác định bài toán, thước đo thành công và ví dụ đánh giá. Tài liệu vận hành cùng quyết định lưu đệm phụ thuộc vào thiết kế nên thuộc các giai đoạn sau."
+  },
+  "exam-trap-2": {
+    "en": "The SDK supplies agent behavior but leaves runtime operation to you. A customer avoiding infrastructure ownership needs the hosted Managed Agents option.",
+    "vi": "SDK cung cấp hành vi tác tử nhưng để bạn vận hành môi trường chạy. Khách hàng không muốn chịu trách nhiệm hạ tầng cần lựa chọn Managed Agents được vận hành sẵn."
+  },
+  "exam-trap-3": {
+    "en": "A consistently passing capability evaluation becomes a regression safeguard. Keep running it so later changes cannot silently remove capabilities that already worked.",
+    "vi": "Bộ đánh giá năng lực thường xuyên đạt trở thành chốt phát hiện hồi quy. Hãy tiếp tục chạy để thay đổi sau này không âm thầm làm mất những năng lực từng hoạt động tốt."
+  },
+  "exam-trap-4": {
+    "en": "Retirement stops the model from serving requests. Finish migration during the notice period rather than expecting existing integrations to remain exempt afterward.",
+    "vi": "Khi ngừng hoạt động, mô hình không còn phục vụ yêu cầu. Hãy hoàn tất chuyển đổi trong thời gian thông báo trước, thay vì mong tích hợp hiện có được miễn áp dụng sau đó."
+  }
+}

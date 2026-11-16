@@ -1,0 +1,643 @@
+{
+  "pageId": "7.3.2",
+  "title": "Claude Code errors, automatic retries and session recovery",
+  "titleVi": "Lỗi Claude Code, tự động thử lại và khôi phục phiên làm việc",
+  "units": [
+    {
+      "id": "description",
+      "text": "Support debugging and operational issue resolution"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Sort a Claude Code error message into its category before deciding what to do"
+    },
+    {
+      "id": "u0002",
+      "text": "Predict which failures Claude Code retries on its own and which need action from you"
+    },
+    {
+      "id": "u0003",
+      "text": "Recover a session from autocompact thrashing without losing the investigation"
+    },
+    {
+      "id": "u0004",
+      "text": "Get past a refusal and find a stuck or looping agent in a multi-agent session"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Sort the error into a category before acting"
+    },
+    {
+      "id": "u0007",
+      "text": "What Claude Code retries for you, and what it won't"
+    },
+    {
+      "id": "u0008",
+      "text": "Recovering from context pressure and autocompact thrashing"
+    },
+    {
+      "id": "u0009",
+      "text": "Recovering a session that stalled on a refusal"
+    },
+    {
+      "id": "u0010",
+      "text": "Finding the stuck or looping agent in a multi-agent session"
+    },
+    {
+      "id": "u0011",
+      "text": "Sort the error into a category before acting"
+    },
+    {
+      "id": "u0012",
+      "text": "A Claude Code error message usually tells you which category it belongs to, and the category decides your next move. The error reference groups messages into server errors, usage limits, authentication, network, request errors, command-line errors, plugin errors and tool errors. Deciding the category first keeps you from the most expensive mistake: retrying something that will never succeed, or rewriting a prompt to fix what was really an outage."
+    },
+    {
+      "id": "u0013",
+      "text": "Error categories, a typical message in each, and what the category tells you"
+    },
+    {
+      "id": "u0014",
+      "text": "Category"
+    },
+    {
+      "id": "u0015",
+      "text": "Example message"
+    },
+    {
+      "id": "u0016",
+      "text": "What it tells you"
+    },
+    {
+      "id": "u0017",
+      "text": "Server errors"
+    },
+    {
+      "id": "u0018",
+      "text": "API Error: Repeated 529 Overloaded errors"
+    },
+    {
+      "id": "u0019",
+      "text": "Anthropic-side trouble; often transient"
+    },
+    {
+      "id": "u0020",
+      "text": "Usage limits"
+    },
+    {
+      "id": "u0021",
+      "text": "You've hit your session limit"
+    },
+    {
+      "id": "u0022",
+      "text": "Your quota or spend cap is used up; retrying won't help until it resets"
+    },
+    {
+      "id": "u0023",
+      "text": "Authentication"
+    },
+    {
+      "id": "u0024",
+      "text": "Not logged in · Please run /login"
+    },
+    {
+      "id": "u0025",
+      "text": "Credentials are missing or expired; the message names the fix"
+    },
+    {
+      "id": "u0026",
+      "text": "Network"
+    },
+    {
+      "id": "u0027",
+      "text": "Unable to connect to API"
+    },
+    {
+      "id": "u0028",
+      "text": "The path between you and the API is broken: connectivity, proxy or certificates"
+    },
+    {
+      "id": "u0029",
+      "text": "Request errors"
+    },
+    {
+      "id": "u0030",
+      "text": "Context limit reached · /compact or /clear to continue"
+    },
+    {
+      "id": "u0031",
+      "text": "The request itself has to change before it can succeed"
+    },
+    {
+      "id": "u0032",
+      "text": "Command-line errors"
+    },
+    {
+      "id": "u0033",
+      "text": "--bg and --print conflict"
+    },
+    {
+      "id": "u0034",
+      "text": "The way Claude Code was invoked is wrong; fix the flags"
+    },
+    {
+      "id": "u0035",
+      "text": "The HTTP status codes underneath follow the same split. A 529 "
+    },
+    {
+      "id": "u0036",
+      "text": " means the API is temporarily overloaded. A 429 "
+    },
+    {
+      "id": "u0037",
+      "text": " can mean a rate limit or a reached spend cap. A 400 "
+    },
+    {
+      "id": "u0038",
+      "text": " means the request's format or content is wrong. If a failure persists and you need support, include the request ID from the error: every API response carries one."
+    },
+    {
+      "id": "u0039",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0040",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0041",
+      "text": "Match each Claude Code error message to what its category tells you to do next."
+    },
+    {
+      "id": "u0042",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0043",
+      "text": "API Error: Repeated 529 Overloaded errors"
+    },
+    {
+      "id": "u0044",
+      "text": "You've hit your session limit"
+    },
+    {
+      "id": "u0045",
+      "text": "Context limit reached · /compact or /clear to continue"
+    },
+    {
+      "id": "u0046",
+      "text": "Unable to connect to API"
+    },
+    {
+      "id": "u0047",
+      "text": "--bg and --print conflict"
+    },
+    {
+      "id": "u0048",
+      "text": "The trouble is on Anthropic's side and often passes, so waiting and retrying is reasonable"
+    },
+    {
+      "id": "u0049",
+      "text": "Your quota is used up, so retrying won't help until it resets"
+    },
+    {
+      "id": "u0050",
+      "text": "The request itself has to change before it can succeed"
+    },
+    {
+      "id": "u0051",
+      "text": "Fix the flags you used to start Claude Code"
+    },
+    {
+      "id": "u0052",
+      "text": "Check the path to the API: connectivity, proxy or certificates"
+    },
+    {
+      "id": "u0053",
+      "text": "Sources"
+    },
+    {
+      "id": "u0054",
+      "text": "What Claude Code retries for you, and what it won't"
+    },
+    {
+      "id": "u0055",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0056",
+      "text": "Claude Code reports a 429 from your organization's gateway because a monthly spend limit was reached. What happens if you leave the session alone?"
+    },
+    {
+      "id": "u0057",
+      "text": "Claude Code retries twice, then reports the error"
+    },
+    {
+      "id": "u0058",
+      "text": "Nothing gets better: a spend-limit 429 isn't a throttle, so it isn't retried"
+    },
+    {
+      "id": "u0059",
+      "text": "Claude Code backs off and retries until the request goes through"
+    },
+    {
+      "id": "u0060",
+      "text": "Claude Code retries failures that are transient and that happen before any useful output exists. Server errors, overloaded responses and request timeouts that arrive before any of Claude's response has streamed are retried with backoff. So are dropped connections, including one broken because your computer went to sleep. Temporary 429 throttles are retried too. A message like "
+    },
+    {
+      "id": "u0061",
+      "text": " means this is already happening, and you should wait instead of intervening."
+    },
+    {
+      "id": "u0062",
+      "text": "Some retries are deliberately capped:"
+    },
+    {
+      "id": "u0063",
+      "text": "Stalled stream:"
+    },
+    {
+      "id": "u0064",
+      "text": " a response stream that stalls before any response arrives is aborted and streamed again at most once."
+    },
+    {
+      "id": "u0065",
+      "text": "Error after thinking:"
+    },
+    {
+      "id": "u0066",
+      "text": " a server error that arrives after Claude finishes thinking but before any text or tool call is retried up to two times."
+    },
+    {
+      "id": "u0067",
+      "text": "Content filter:"
+    },
+    {
+      "id": "u0068",
+      "text": " a response stopped by the output content filter is re-sent once. A second block shows "
+    },
+    {
+      "id": "u0069",
+      "text": "Everything that needs a change from you stays failed. A spend-cap 429 has no retry-after header and keeps failing until access resumes. Authentication and request errors name their own fix, such as "
+    },
+    {
+      "id": "u0070",
+      "text": " or "
+    },
+    {
+      "id": "u0071",
+      "text": ". Waiting longer won't clear either kind."
+    },
+    {
+      "id": "u0072",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0073",
+      "text": "Claude Code retries every 429, so a 429 always clears if you wait."
+    },
+    {
+      "id": "u0074",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0077",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0078",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0079",
+      "text": "Your session shows an error and you're deciding whether to step in or let Claude Code handle it. Which of these situations will Claude Code recover from by itself if you just wait?"
+    },
+    {
+      "id": "u0080",
+      "text": "Your laptop went to sleep partway through a request and the connection dropped"
+    },
+    {
+      "id": "u0081",
+      "text": "\"Not logged in · Please run /login\""
+    },
+    {
+      "id": "u0082",
+      "text": "\"Output blocked by content filtering policy\" appears after Claude Code has already re-sent the request once"
+    },
+    {
+      "id": "u0083",
+      "text": "\"Context limit reached · /compact or /clear to continue\""
+    },
+    {
+      "id": "u0084",
+      "text": "Sources"
+    },
+    {
+      "id": "u0085",
+      "text": "Recovering from context pressure and autocompact thrashing"
+    },
+    {
+      "id": "u0086",
+      "text": "Compaction summarizes earlier conversation history to free room in the context window; the mechanics are in "
+    },
+    {
+      "id": "u0087",
+      "text": "Compaction (server-side and client-side SDK)"
+    },
+    {
+      "id": "u0088",
+      "text": ". Compaction can fail in a loop. If the context fills back to the limit straight after compacting, three times in a row, Claude Code stops with an \"Autocompact is thrashing\" error instead of burning more API calls. That error tells you something specific: whatever keeps refilling the window is still in the conversation, so compacting or retrying again won't help."
+    },
+    {
+      "id": "u0089",
+      "text": "The fix is to stop the refill at its source. A typical case is reading a 40,000-line log in one go. Work through these steps in order:"
+    },
+    {
+      "id": "u0090",
+      "text": "Ask Claude to read the oversized file in smaller chunks, such as a specific line range or function."
+    },
+    {
+      "id": "u0091",
+      "text": "Run "
+    },
+    {
+      "id": "u0092",
+      "text": " with a focus that drops the large output, for example "
+    },
+    {
+      "id": "u0093",
+      "text": "Move the large-file work to a subagent, so it runs in a separate context window."
+    },
+    {
+      "id": "u0094",
+      "text": "Run "
+    },
+    {
+      "id": "u0095",
+      "text": ", but only if the earlier conversation is no longer needed."
+    },
+    {
+      "id": "u0096",
+      "text": "Each step costs something different, so check what you are giving up. A focused "
+    },
+    {
+      "id": "u0097",
+      "text": " keeps only what you name, and anything else, like earlier hypotheses, survives only as summary. "
+    },
+    {
+      "id": "u0098",
+      "text": " drops the whole conversation, which is a poor trade in the middle of an investigation where the reasoning so far still matters. After recovering, check "
+    },
+    {
+      "id": "u0099",
+      "text": ". If Messages is the largest row, some output is refilling the window again. If the other rows together are larger, what loads at startup leaves too little room, so trim it. "
+    },
+    {
+      "id": "u0100",
+      "text": " can also return "
+    },
+    {
+      "id": "u0101",
+      "text": " even when the context is full, if a single large paste filled it."
+    },
+    {
+      "id": "u0102",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0103",
+      "text": "Autocompact thrashing means compaction needs more attempts, so keep retrying until the large file fits."
+    },
+    {
+      "id": "u0104",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0108",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0109",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0110",
+      "text": "Midway through an investigation, you ask Claude Code to read a 40,000-line service log in one go. The session then stops with \"Autocompact is thrashing.\" You still need the reasoning built up so far. What should you do first?"
+    },
+    {
+      "id": "u0111",
+      "text": "Leave the session alone, because Claude Code will back off and retry the compaction by itself"
+    },
+    {
+      "id": "u0112",
+      "text": "Run /clear right away so the context window starts empty"
+    },
+    {
+      "id": "u0113",
+      "text": "Run /compact again a few times until the log fits after summarizing"
+    },
+    {
+      "id": "u0114",
+      "text": "Ask Claude to read the log in smaller chunks, such as a specific line range"
+    },
+    {
+      "id": "u0115",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0116",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0117",
+      "text": "During a long debugging session, Claude Code raises \"Autocompact is thrashing: the context refilled to the limit...\" immediately after automatic compaction completes, and it stops retrying. The team was asking Claude to read an entire 40,000-line production log file to find the root cause of an outage. What is the most effective way to recover and continue the investigation?"
+    },
+    {
+      "id": "u0118",
+      "text": "Raise CLAUDE_CODE_MAX_RETRIES so Claude Code keeps retrying compaction until the log file finishes loading successfully."
+    },
+    {
+      "id": "u0119",
+      "text": "Ask Claude to read the log file in smaller chunks, such as a specific line range, or delegate the analysis to a subagent instead."
+    },
+    {
+      "id": "u0120",
+      "text": "Set DISABLE_AUTO_COMPACT so Claude Code stops summarizing history and keeps the entire log output available for reference."
+    },
+    {
+      "id": "u0121",
+      "text": "Run /clear to discard the conversation, then paste only the final error line from the log file into a fresh session."
+    },
+    {
+      "id": "u0122",
+      "text": "Sources"
+    },
+    {
+      "id": "u0123",
+      "text": "Recovering a session that stalled on a refusal"
+    },
+    {
+      "id": "u0124",
+      "text": "A refusal blocks the conversation from the turn that triggered it. Why the model refuses is covered under "
+    },
+    {
+      "id": "u0125",
+      "text": "built-in safety classifiers and refusal fallback"
+    },
+    {
+      "id": "u0126",
+      "text": ". Recovering means getting back to a point before that turn. Press Esc twice or run "
+    },
+    {
+      "id": "u0127",
+      "text": " to return to a checkpoint before the triggering turn, then rephrase or take a different approach. If you can't tell which turn caused it, "
+    },
+    {
+      "id": "u0128",
+      "text": " starts a fresh conversation in the same project. The old conversation stays on disk and is still available in "
+    },
+    {
+      "id": "u0129",
+      "text": "Headless runs need a different path, because rewind isn't available under "
+    },
+    {
+      "id": "u0130",
+      "text": ". Retry with a rephrased prompt in a new session without "
+    },
+    {
+      "id": "u0131",
+      "text": ". Policy checks vary by model, so "
+    },
+    {
+      "id": "u0132",
+      "text": " can sometimes help as well. Sometimes the trigger is in a customization rather than your prompt. If the message shows "
+    },
+    {
+      "id": "u0133",
+      "text": ", look for an instruction telling Claude to write out its reasoning verbatim, which may sit in CLAUDE.md, a skill or an MCP tool description. To confirm, send the same prompt in a "
+    },
+    {
+      "id": "u0134",
+      "text": " session. After you change the customization, start a new session."
+    },
+    {
+      "id": "u0135",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0136",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0137",
+      "text": "A refusal arrives with \"Details: [reasoning_extraction]\". You suspect the trigger is a customization, not your prompt. Which step confirms that?"
+    },
+    {
+      "id": "u0138",
+      "text": "Send the same prompt in a claude --safe-mode session"
+    },
+    {
+      "id": "u0139",
+      "text": "Press Esc twice to rewind to before the turn, then send the same prompt again"
+    },
+    {
+      "id": "u0140",
+      "text": "Run /clear and send the same prompt in a fresh conversation in the same project"
+    },
+    {
+      "id": "u0141",
+      "text": "Rerun it headless with -p --continue so the same session retries the prompt"
+    },
+    {
+      "id": "u0142",
+      "text": "Sources"
+    },
+    {
+      "id": "u0143",
+      "text": "Finding the stuck or looping agent in a multi-agent session"
+    },
+    {
+      "id": "u0144",
+      "text": "When a multi-agent session stops making progress, first find which agent is stuck before deciding what to do. How spans and traces work is covered under "
+    },
+    {
+      "id": "u0145",
+      "text": "reading a trace: spans across a run and its subagents"
+    },
+    {
+      "id": "u0146",
+      "text": ". Claude Code tags each "
+    },
+    {
+      "id": "u0147",
+      "text": " OTEL span with "
+    },
+    {
+      "id": "u0148",
+      "text": " and "
+    },
+    {
+      "id": "u0149",
+      "text": ", and background subagent spans nest under the Agent tool span that dispatched them. Follow those IDs down the tree. The agent whose span stays open, or that keeps producing the same tool calls, is the one stuck or looping."
+    },
+    {
+      "id": "u0150",
+      "text": "You can see the same tree without a tracing backend. "
+    },
+    {
+      "id": "u0151",
+      "text": " shows the nested subagent tree as work fans out, with a descendant count on each row and a path back to main. Runaway nesting has a ceiling: subagent chains are capped at five levels deep. Once you've found the stuck agent, press Ctrl+C to try to cancel the current operation. If the session doesn't respond, close the terminal and restart."
+    },
+    {
+      "id": "u0152",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0153",
+      "text": "The /agents tree shows one subagent whose descendant count keeps growing while the others have finished. What would you check in its spans before cancelling it?"
+    },
+    {
+      "id": "u0154",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0155",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0156",
+      "text": "The /agents tree points to one subagent that keeps making the same tool calls. You press Ctrl+C to cancel the current operation, but the session stays frozen and doesn't respond to input. What is the next step?"
+    },
+    {
+      "id": "u0157",
+      "text": "Close the terminal and restart Claude Code"
+    },
+    {
+      "id": "u0158",
+      "text": "Press Esc twice to rewind to a checkpoint from before the subagent was dispatched"
+    },
+    {
+      "id": "u0159",
+      "text": "Leave it running, because Claude Code backs off and retries stalled work by itself"
+    },
+    {
+      "id": "u0160",
+      "text": "Run /compact so the looping subagent's output is summarized away"
+    },
+    {
+      "id": "u0161",
+      "text": "Sources"
+    },
+    {
+      "id": "u0162",
+      "text": "Sources"
+    }
+  ]
+}

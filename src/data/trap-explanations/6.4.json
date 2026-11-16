@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Driving a hosted service does not host its runtime yourself. Managed Agents uses Anthropic infrastructure; the Agent SDK runs within infrastructure your team operates.",
+    "vi": "Điều khiển một dịch vụ được lưu trữ sẵn không có nghĩa bạn tự vận hành môi trường chạy của nó. Managed Agents dùng hạ tầng Anthropic; Agent SDK chạy trên hạ tầng do nhóm bạn vận hành."
+  },
+  "exam-trap-2": {
+    "en": "Increasing effort prioritizes deeper work over efficiency. For straightforward high-volume tasks, evaluate lower effort or a smaller model to reduce latency and expense.",
+    "vi": "Tăng effort ưu tiên xử lý sâu hơn thay vì hiệu suất. Với nhiệm vụ đơn giản khối lượng lớn, hãy đánh giá effort thấp hơn hoặc mô hình nhỏ hơn để giảm độ trễ và chi phí."
+  }
+}

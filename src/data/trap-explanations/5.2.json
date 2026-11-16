@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Confident wording is not evidence. Specific dates, names, and citations can be fabricated, so verify precise claims independently rather than trusting the tone.",
+    "vi": "Cách diễn đạt tự tin không phải bằng chứng. Ngày tháng, tên riêng và trích dẫn cụ thể vẫn có thể bị bịa, nên cần kiểm chứng độc lập thay vì tin vào giọng điệu."
+  },
+  "exam-trap-2": {
+    "en": "A context limit defines capacity, not guaranteed recall. Longer inputs can reduce accuracy gradually even while they remain comfortably below the maximum.",
+    "vi": "Giới hạn ngữ cảnh xác định sức chứa, không bảo đảm khả năng nhớ lại. Đầu vào dài hơn có thể làm độ chính xác giảm dần dù vẫn thấp hơn nhiều so với mức tối đa."
+  },
+  "exam-trap-3": {
+    "en": "This confuses hostile users with hostile external content. Direct jailbreaks need input screening, validation, refusal policies, and controls on repeat abuse.",
+    "vi": "Nhận định này nhầm người dùng có ác ý với nội dung bên ngoài có ác ý. Vượt rào trực tiếp cần sàng lọc và xác thực đầu vào, chính sách từ chối cùng biện pháp xử lý lạm dụng tái diễn."
+  },
+  "exam-trap-4": {
+    "en": "System placement gives external text inappropriate authority. Put third-party material in tool_result blocks to separate untrusted data from the operator's instructions.",
+    "vi": "Đặt trong câu lệnh hệ thống trao thẩm quyền không phù hợp cho văn bản bên ngoài. Hãy đưa nội dung bên thứ ba vào khối tool_result để tách dữ liệu không đáng tin cậy khỏi hướng dẫn của bên vận hành."
+  }
+}

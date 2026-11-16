@@ -1,0 +1,691 @@
+{
+  "pageId": "3.2",
+  "title": "MCP authorization: discovery, client registration and scoped tokens",
+  "titleVi": "Ủy quyền MCP: khám phá, đăng ký ứng dụng khách và token giới hạn phạm vi",
+  "units": [
+    {
+      "id": "description",
+      "text": "Analyze authentication and authorization requirements to identify security gaps"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide whether an MCP connection should use OAuth or environment credentials, based on its transport"
+    },
+    {
+      "id": "u0002",
+      "text": "Trace how an MCP client finds the authorization server and registers itself, and spot where that flow can be abused"
+    },
+    {
+      "id": "u0003",
+      "text": "Find token audience gaps, such as tokens accepted for the wrong server or passed straight through to downstream APIs"
+    },
+    {
+      "id": "u0004",
+      "text": "Tell a 401 from a 403 and design step-up authorization so scopes stay narrow"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Audience-bound access token"
+    },
+    {
+      "id": "u0007",
+      "text": "An MCP access token is issued for one specific MCP server, named by its canonical URI. That server must reject any token issued for another server, and it must never pass a token it received on to a different service."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "The transport decides how an MCP server authenticates"
+    },
+    {
+      "id": "u0010",
+      "text": "How a client discovers the authorization server"
+    },
+    {
+      "id": "u0011",
+      "text": "Registering a client the server has never seen"
+    },
+    {
+      "id": "u0012",
+      "text": "Binding tokens to one server, and never passing them on"
+    },
+    {
+      "id": "u0013",
+      "text": "401 versus 403, and asking for more scope only when needed"
+    },
+    {
+      "id": "u0014",
+      "text": "The transport decides how an MCP server authenticates"
+    },
+    {
+      "id": "u0015",
+      "text": "Reviewing authentication for an MCP integration starts with one question: how does the client reach the server? A server reached over HTTP is a network service. Anyone who can reach its URL can send it requests, so it needs real authorization, and the MCP authorization specification is built on OAuth 2.1. A server launched locally over STDIO is a child process of the client. It has no network listener to protect, and the specification tells it to skip OAuth and "
+    },
+    {
+      "id": "u0016",
+      "text": "retrieve credentials from the environment"
+    },
+    {
+      "id": "u0017",
+      "text": "Each transport has its own typical gap. An HTTP server that accepts requests with no token, or with a static key everyone shares, has skipped the OAuth flow the specification expects of it. A STDIO server that tries to run browser-based OAuth is overbuilt. The real risk there is the environment itself: any secret it reads from an environment variable is visible to everything else running in that environment. The remaining sections apply to the HTTP case."
+    },
+    {
+      "id": "u0018",
+      "text": "Which authorization mechanism each MCP transport should use"
+    },
+    {
+      "id": "u0019",
+      "text": "Transport"
+    },
+    {
+      "id": "u0020",
+      "text": "Expected mechanism"
+    },
+    {
+      "id": "u0021",
+      "text": "Gap to look for"
+    },
+    {
+      "id": "u0022",
+      "text": "HTTP-based"
+    },
+    {
+      "id": "u0023",
+      "text": "OAuth 2.1 per the MCP authorization spec"
+    },
+    {
+      "id": "u0024",
+      "text": "Server reachable without a token, or with one shared static key"
+    },
+    {
+      "id": "u0025",
+      "text": "STDIO"
+    },
+    {
+      "id": "u0026",
+      "text": "Credentials retrieved from the environment"
+    },
+    {
+      "id": "u0027",
+      "text": "Secrets in the environment that other processes can also read"
+    },
+    {
+      "id": "u0028",
+      "text": "Alternative transports"
+    },
+    {
+      "id": "u0029",
+      "text": "Established security best practices for that protocol"
+    },
+    {
+      "id": "u0030",
+      "text": "No defined mechanism at all"
+    },
+    {
+      "id": "u0031",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0032",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0033",
+      "text": "You are reviewing how an MCP integration authenticates. Match each transport to the authorization mechanism the MCP specification expects it to use."
+    },
+    {
+      "id": "u0034",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0035",
+      "text": "HTTP-based transport"
+    },
+    {
+      "id": "u0036",
+      "text": "STDIO transport"
+    },
+    {
+      "id": "u0037",
+      "text": "Alternative transports"
+    },
+    {
+      "id": "u0038",
+      "text": "Skip the OAuth flow and retrieve credentials from the environment"
+    },
+    {
+      "id": "u0039",
+      "text": "OAuth 2.1 authorization as defined by the MCP authorization specification"
+    },
+    {
+      "id": "u0040",
+      "text": "Follow established security best practices for that protocol"
+    },
+    {
+      "id": "u0041",
+      "text": "Sources"
+    },
+    {
+      "id": "u0042",
+      "text": "How a client discovers the authorization server"
+    },
+    {
+      "id": "u0043",
+      "text": "The client does not need to know in advance where to get a token. Discovery begins with an unauthenticated request. The MCP server replies "
+    },
+    {
+      "id": "u0044",
+      "text": " with a "
+    },
+    {
+      "id": "u0045",
+      "text": " header, and that header carries a "
+    },
+    {
+      "id": "u0046",
+      "text": " URL pointing to the server's OAuth 2.0 Protected Resource Metadata document. Every MCP server must publish this document, and clients must use it to find the authorization server. It can be served at a well-known URI, either at the root ("
+    },
+    {
+      "id": "u0047",
+      "text": ") or with the MCP endpoint's path appended."
+    },
+    {
+      "id": "u0048",
+      "text": "The 401 challenge that starts discovery: a pointer to the metadata document plus a scope hint"
+    },
+    {
+      "id": "u0049",
+      "text": "http"
+    },
+    {
+      "id": "u0050",
+      "text": "Next, the client fetches the authorization server's own metadata. The authorization server must offer at least one of OAuth 2.0 Authorization Server Metadata ("
+    },
+    {
+      "id": "u0051",
+      "text": ") or OpenID Connect Discovery ("
+    },
+    {
+      "id": "u0052",
+      "text": "), and the client must support both. If the metadata has no "
+    },
+    {
+      "id": "u0053",
+      "text": " field, the client must stop. A missing field means the server does not support PKCE, and the client must not proceed without it."
+    },
+    {
+      "id": "u0054",
+      "text": "These are the transport rules to check in an audit. Every authorization server endpoint must be served over HTTPS. Every redirect URI must be either localhost or HTTPS. A client that continues after any of these checks fails has an authentication gap, even if every token it later receives is valid."
+    },
+    {
+      "id": "u0055",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0056",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0057",
+      "text": "An audit log shows an MCP client receive a 401, follow the resource_metadata URL, and fetch the authorization server's metadata over HTTPS. That metadata has no code_challenge_methods_supported field. The client completes the authorization flow anyway and gets a valid token. What should the audit report?"
+    },
+    {
+      "id": "u0058",
+      "text": "No gap. The endpoints used HTTPS and the token the client received is valid."
+    },
+    {
+      "id": "u0059",
+      "text": "A gap. The client should have retried discovery through OpenID Connect Discovery, which always lists PKCE methods."
+    },
+    {
+      "id": "u0060",
+      "text": "A gap. The missing field means the authorization server does not support PKCE, so the client should have refused to proceed."
+    },
+    {
+      "id": "u0061",
+      "text": "A gap. The client should have skipped the Protected Resource Metadata and gone straight to the authorization server's well-known URI."
+    },
+    {
+      "id": "u0062",
+      "text": "Sources"
+    },
+    {
+      "id": "u0063",
+      "text": "Registering a client the server has never seen"
+    },
+    {
+      "id": "u0064",
+      "text": "Before a client can request tokens, the authorization server has to know who that client is. The specification sets an order of preference:"
+    },
+    {
+      "id": "u0065",
+      "text": "Use pre-registered client information, if the client and server already have a relationship."
+    },
+    {
+      "id": "u0066",
+      "text": "Use a Client ID Metadata Document, if the authorization server advertises "
+    },
+    {
+      "id": "u0067",
+      "text": ". This is the usual case when the two have no prior relationship."
+    },
+    {
+      "id": "u0068",
+      "text": "Fall back to Dynamic Client Registration, if the server publishes a "
+    },
+    {
+      "id": "u0069",
+      "text": "Otherwise, ask the user to enter client details."
+    },
+    {
+      "id": "u0070",
+      "text": "With a Client ID Metadata Document, the client's "
+    },
+    {
+      "id": "u0071",
+      "text": " is itself an HTTPS URL with a path component. The JSON hosted at that URL must include "
+    },
+    {
+      "id": "u0072",
+      "text": " and "
+    },
+    {
+      "id": "u0073",
+      "text": ", and its "
+    },
+    {
+      "id": "u0074",
+      "text": " must match the document URL exactly. The authorization server fetches the document and must check the redirect URI in each authorization request against the list in the document. Dynamic Client Registration now remains only for backwards compatibility: the specification calls it deprecated and keeps it for authorization servers that do not support metadata documents."
+    },
+    {
+      "id": "u0075",
+      "text": "A Client ID Metadata Document: the client_id is the URL the document is served from"
+    },
+    {
+      "id": "u0076",
+      "text": "json"
+    },
+    {
+      "id": "u0077",
+      "text": "Localhost redirects open the main impersonation path. An attacker can present the legitimate client's metadata URL as their own "
+    },
+    {
+      "id": "u0078",
+      "text": " and bind to a localhost port listed in its redirect URIs. When the user approves, the attacker's listener receives the authorization code. The specification responds on the consent screen. Authorization servers must clearly display the redirect URI hostname, should add warnings for localhost-only redirect URIs, and may require additional attestation. Servers that protect sensitive resources can also restrict which client domains they accept, using trusted-domain allowlists or reputation checks."
+    },
+    {
+      "id": "u0079",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0080",
+      "text": "Your organization's MCP server accepts any HTTPS client_id. Which control would you add first, and what legitimate clients might it block?"
+    },
+    {
+      "id": "u0081",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0082",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0083",
+      "text": "Your MCP client connects to an authorization server for the first time and has no pre-registered credentials for it. The server's metadata advertises both client_id_metadata_document_supported and a registration_endpoint. How should the client identify itself?"
+    },
+    {
+      "id": "u0084",
+      "text": "Use an HTTPS URL that serves its Client ID Metadata Document as the client_id"
+    },
+    {
+      "id": "u0085",
+      "text": "Call the registration_endpoint with Dynamic Client Registration, because that creates a client record the server already stores"
+    },
+    {
+      "id": "u0086",
+      "text": "Either works the same way, because the specification treats the two registration methods as interchangeable"
+    },
+    {
+      "id": "u0087",
+      "text": "Ask the user to enter client details, because the client and server have no prior relationship"
+    },
+    {
+      "id": "u0088",
+      "text": "Sources"
+    },
+    {
+      "id": "u0089",
+      "text": "Binding tokens to one server, and never passing them on"
+    },
+    {
+      "id": "u0090",
+      "text": "Every token request names the server the token is for. The client sends a "
+    },
+    {
+      "id": "u0091",
+      "text": " parameter in both the authorization request and the token request. The value must be the MCP server's canonical URI, which identifies the server the client intends to use the token with. That URI includes a scheme and has no fragment. For consistency, the specification prefers the form without a trailing slash."
+    },
+    {
+      "id": "u0092",
+      "text": "Canonical server URIs for the resource parameter"
+    },
+    {
+      "id": "u0093",
+      "text": "Value"
+    },
+    {
+      "id": "u0094",
+      "text": "Valid?"
+    },
+    {
+      "id": "u0095",
+      "text": "Reason"
+    },
+    {
+      "id": "u0096",
+      "text": "Yes"
+    },
+    {
+      "id": "u0097",
+      "text": "Scheme, host and path"
+    },
+    {
+      "id": "u0098",
+      "text": "Yes"
+    },
+    {
+      "id": "u0099",
+      "text": "A port is allowed"
+    },
+    {
+      "id": "u0100",
+      "text": "Yes"
+    },
+    {
+      "id": "u0101",
+      "text": "A path is used when it is needed to identify one server"
+    },
+    {
+      "id": "u0102",
+      "text": "mcp.example.com"
+    },
+    {
+      "id": "u0103",
+      "text": "No"
+    },
+    {
+      "id": "u0104",
+      "text": "Missing scheme"
+    },
+    {
+      "id": "u0105",
+      "text": "No"
+    },
+    {
+      "id": "u0106",
+      "text": "Contains a fragment"
+    },
+    {
+      "id": "u0107",
+      "text": "Tokens must also travel in the right place. The client sends the token in the "
+    },
+    {
+      "id": "u0108",
+      "text": " header and must never put it in the URI query string. Query strings end up in logs and browser history. Refresh tokens must be kept confidential both in transit and in storage. Clients must not assume a refresh token will be issued at all, because the authorization server decides that."
+    },
+    {
+      "id": "u0109",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0110",
+      "text": "An MCP server receives a correctly signed, unexpired token. It was issued by the same authorization server, but for a different MCP server. What should the server do?"
+    },
+    {
+      "id": "u0111",
+      "text": "Accept it, because the signature and expiry are valid"
+    },
+    {
+      "id": "u0112",
+      "text": "Accept it, but forward it unchanged to downstream APIs so they can decide"
+    },
+    {
+      "id": "u0113",
+      "text": "Reject it, because it was not issued for this server"
+    },
+    {
+      "id": "u0114",
+      "text": "Audience binding fails in two ways. In the first, the server skips audience validation and so accepts tokens issued for other services. An attacker can then reuse a legitimate token against a service it was never meant for. The second, token passthrough, is worse: the server also forwards those unmodified tokens to downstream APIs. That creates a confused deputy. The downstream API may treat the token as if it came from the MCP server, or assume the upstream API already validated it. A safe server validates the audience of every incoming token and calls downstream services with a token issued for that call."
+    },
+    {
+      "id": "u0115",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0116",
+      "text": "If a scenario says an MCP server \"just forwards the user's token\" to a backend API, the finding is token passthrough and the risk is a confused deputy. The fix is audience validation at the MCP server and a separate token for the downstream call. A longer token lifetime or a stronger signature does not fix it."
+    },
+    {
+      "id": "u0117",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0118",
+      "text": "Any token signed by the organization's authorization server can be used with any of its MCP servers, and forwarding it to backend APIs saves a second token request."
+    },
+    {
+      "id": "u0119",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0122",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0123",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0124",
+      "text": "A team's MCP server takes the bearer token each user sends it and attaches that same token, unchanged, to its calls to an internal billing API. Both services trust the same authorization server. What is the finding, and what fixes it?"
+    },
+    {
+      "id": "u0125",
+      "text": "A finding about the resource parameter. The client should name the billing API's URI as the resource so that one token covers both services."
+    },
+    {
+      "id": "u0126",
+      "text": "No finding. Both services trust the same authorization server, so a validly signed token is acceptable to either one."
+    },
+    {
+      "id": "u0127",
+      "text": "A finding about token lifetime. The token may expire mid-call, so the authorization server should issue longer-lived tokens to the MCP server."
+    },
+    {
+      "id": "u0128",
+      "text": "Token passthrough, which creates a confused deputy. The MCP server should accept only tokens issued for itself and call the billing API with a separate token issued for that call."
+    },
+    {
+      "id": "u0129",
+      "text": "Sources"
+    },
+    {
+      "id": "u0130",
+      "text": "401 versus 403, and asking for more scope only when needed"
+    },
+    {
+      "id": "u0131",
+      "text": "Each of these status codes calls for a different response from the client. A 401 means authorization is required or the token is invalid, so the client has to authenticate. A 403 means the token is valid but its scopes are insufficient. Signing in again with the same scopes will fail again. The client needs a token with more scope."
+    },
+    {
+      "id": "u0132",
+      "text": "How an MCP client should read authorization errors"
+    },
+    {
+      "id": "u0133",
+      "text": "Status"
+    },
+    {
+      "id": "u0134",
+      "text": "Meaning"
+    },
+    {
+      "id": "u0135",
+      "text": "Client response"
+    },
+    {
+      "id": "u0136",
+      "text": "401 Unauthorized"
+    },
+    {
+      "id": "u0137",
+      "text": "Authorization required or token invalid"
+    },
+    {
+      "id": "u0138",
+      "text": "Run discovery and obtain a token"
+    },
+    {
+      "id": "u0139",
+      "text": "403 Forbidden"
+    },
+    {
+      "id": "u0140",
+      "text": "Invalid scopes or insufficient permissions"
+    },
+    {
+      "id": "u0141",
+      "text": "Read the insufficient_scope challenge and step up"
+    },
+    {
+      "id": "u0142",
+      "text": "400 Bad Request"
+    },
+    {
+      "id": "u0143",
+      "text": "Malformed authorization request"
+    },
+    {
+      "id": "u0144",
+      "text": "Fix the request; do not re-authorize"
+    },
+    {
+      "id": "u0145",
+      "text": "A step-up challenge: the 403 names the missing scope for this operation"
+    },
+    {
+      "id": "u0146",
+      "text": "http"
+    },
+    {
+      "id": "u0147",
+      "text": "Step-up authorization lets a client start with a narrow grant and add scope only when an operation needs it. When a 403 challenge arrives, the client re-authorizes with the union of the scopes it already requested and the scopes named in the challenge, so permissions it already has are not lost. It then retries the original request. If the retry fails more than a few times, the client must treat it as a permanent authorization failure and stop looping."
+    },
+    {
+      "id": "u0148",
+      "text": "The initial request is where over-broad scopes usually come from. The client uses the "
+    },
+    {
+      "id": "u0149",
+      "text": " hint from the first 401, if the server sent one. If there is no hint, it requests every scope listed in "
+    },
+    {
+      "id": "u0150",
+      "text": ". A server that never sends a scope hint therefore gets tokens carrying its full scope set on first contact. In an audit, look for servers whose 401 responses omit "
+    },
+    {
+      "id": "u0151",
+      "text": ", and for tokens that already hold write scopes before any write has been attempted."
+    },
+    {
+      "id": "u0152",
+      "text": "A client gets a 403 with error=\"insufficient_scope\" and scope=\"files:write\". It holds a token with files:read. Which scopes should the new authorization request?"
+    },
+    {
+      "id": "u0153",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0154",
+      "text": "A 403 from an MCP server means the token expired, so the client should run the same login flow again."
+    },
+    {
+      "id": "u0155",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0157",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0158",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0159",
+      "text": "A client holds a valid token for this MCP server and tries a write operation, but the token lacks the needed scope. Which error value completes the server's response so the client knows to step up rather than sign in again?"
+    },
+    {
+      "id": "u0160",
+      "text": "insufficient_scope"
+    },
+    {
+      "id": "u0161",
+      "text": "invalid_request"
+    },
+    {
+      "id": "u0162",
+      "text": "invalid_token"
+    },
+    {
+      "id": "u0163",
+      "text": "access_denied"
+    },
+    {
+      "id": "u0164",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0165",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0166",
+      "text": "Tokens issued to a newly connected MCP client already carry files:write, although the client has only read files so far. The server's 401 responses include resource_metadata but no scope parameter. What is the most likely cause?"
+    },
+    {
+      "id": "u0167",
+      "text": "The client used Dynamic Client Registration, which always gives registered clients the full scope set"
+    },
+    {
+      "id": "u0168",
+      "text": "The client left out the resource parameter, so the authorization server issued a token valid for all scopes on every server"
+    },
+    {
+      "id": "u0169",
+      "text": "With no scope hint in the 401, the client requested every scope in scopes_supported, so the server should add a scope hint to its 401 challenge"
+    },
+    {
+      "id": "u0170",
+      "text": "The client calculated the union of scopes wrongly during a step-up and added files:write too early"
+    },
+    {
+      "id": "u0171",
+      "text": "Sources"
+    },
+    {
+      "id": "u0172",
+      "text": "Sources"
+    }
+  ]
+}

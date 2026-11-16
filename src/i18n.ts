@@ -1,0 +1,43 @@
+export type Locale = "en" | "vi";
+export const languages: Locale[] = ["en", "vi"];
+export const ui = {
+  en: {
+    home: "Study guide",
+    course: "Course library",
+    chapter: "Domain",
+    title: "Anthropic Claude Certified Architect – Professional (CCAR-P) Lessons",
+    intro:
+      "A bilingual study companion. Read the original English or explore the Vietnamese translation, one lesson at a time.",
+    draft: "Content verification",
+    read: "Finish lesson",
+    completed: "Completed — click to undo",
+    progress: "Reading progress",
+    saved: "Saved in this browser",
+    memory: "Storage unavailable. Progress lasts for this visit only.",
+    menu: "Lessons",
+    back: "Back to library",
+    note: "Compared with the original lesson. Checkpoints use verified answer keys; progress is saved in this browser.",
+    switch: "Switch language",
+    skip: "Skip to content",
+    js: "Enable JavaScript to answer checkpoints and save progress. Reading and language links still work without it.",
+  },
+  vi: {
+    home: "Hướng dẫn học",
+    course: "Thư viện bài học",
+    chapter: "Chương",
+    title: "Bài học Anthropic Claude Certified Architect – Professional (CCAR-P)",
+    intro: "Tài liệu học song ngữ. Đọc bản tiếng Anh gốc hoặc bản dịch tiếng Việt, theo từng bài và từng chủ đề.",
+    draft: "Đối chiếu nội dung",
+    read: "Hoàn thành bài học",
+    completed: "Đã hoàn thành — bấm để bỏ đánh dấu",
+    progress: "Tiến độ đọc",
+    saved: "Đã lưu trong trình duyệt này",
+    memory: "Không thể lưu trên trình duyệt. Tiến độ chỉ giữ trong lần truy cập này.",
+    menu: "Bài học",
+    back: "Về thư viện",
+    note: "Đã đối chiếu bài gốc. Câu kiểm tra dùng đáp án đã xác minh; tiến độ được lưu trong trình duyệt này.",
+    switch: "Đổi ngôn ngữ",
+    skip: "Đến nội dung",
+    js: "Bật JavaScript để làm câu kiểm tra và lưu tiến độ. Bạn vẫn đọc bài và đổi ngôn ngữ được khi tắt JavaScript.",
+  },
+};

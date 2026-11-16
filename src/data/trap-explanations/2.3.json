@@ -1,0 +1,18 @@
+{
+  "exam-trap-4": {
+    "en": "Output consistency needs examples of the required labels and layout. Asking for explanatory prose addresses reasoning, leaving the formatting contract insufficiently demonstrated.",
+    "vi": "Muốn đầu ra nhất quán, cần ví dụ về nhãn và bố cục yêu cầu. Yêu cầu giải thích bằng văn xuôi chỉ nhắm tới suy luận, chưa minh họa đủ quy ước định dạng."
+  },
+  "exam-trap-1": {
+    "en": "Examples teach recurring patterns, including accidental ones. Vary structures, labels and edge cases so the classifier learns the intended distinction rather than irrelevant similarities.",
+    "vi": "Ví dụ dạy các khuôn mẫu lặp lại, kể cả mẫu ngoài ý muốn. Cần đa dạng cấu trúc, nhãn và trường hợp biên để bộ phân loại học đúng khác biệt thay vì nét giống nhau không liên quan."
+  },
+  "exam-trap-2": {
+    "en": "Visible thinking can be summarized or absent depending on display settings. It therefore cannot be assumed to expose a complete record of internal reasoning.",
+    "vi": "Phần tư duy hiển thị có thể được tóm tắt hoặc không xuất hiện, tùy thiết lập hiển thị. Vì vậy không thể coi đó là bản ghi đầy đủ của suy luận bên trong."
+  },
+  "exam-trap-3": {
+    "en": "Place substantial document content before the query and supporting instructions. The recommended long-context arrangement keeps the question after the material it asks Claude to examine.",
+    "vi": "Đặt tài liệu dài trước câu hỏi và hướng dẫn đi kèm. Cách bố trí ngữ cảnh dài được khuyến nghị để câu hỏi nằm sau phần nội dung Claude cần xem xét."
+  }
+}

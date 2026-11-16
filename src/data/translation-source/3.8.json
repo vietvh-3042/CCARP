@@ -1,0 +1,799 @@
+{
+  "pageId": "3.8",
+  "title": "Progressive discovery vs. monolithic context: tool search and when to use it",
+  "titleVi": "Khám phá từng bước so với ngữ cảnh nguyên khối: tìm kiếm công cụ và khi nào nên dùng",
+  "units": [
+    {
+      "id": "description",
+      "text": "Evaluate progressive discovery vs. monolithic context strategy"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Quantify the per-request cost of loading every tool definition up front, and name the tool count where selection accuracy starts to slip"
+    },
+    {
+      "id": "u0002",
+      "text": "Configure tool search with defer_loading and explain how tool_reference blocks bring deferred tools into context"
+    },
+    {
+      "id": "u0003",
+      "text": "Set ENABLE_TOOL_SEARCH in the Agent SDK and predict when each value loads tools up front"
+    },
+    {
+      "id": "u0004",
+      "text": "Choose between a fixed tool set, tool search, Skills and a hybrid for a given agent, weighing search round-trips against context saved"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Progressive discovery"
+    },
+    {
+      "id": "u0007",
+      "text": "Only lightweight entry points stay in context, such as a search tool or a Skill's name and description. Full definitions and instructions load when a request needs them. A monolithic strategy does the opposite: it loads everything on every request, whether or not that request uses it."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "What a monolithic tool set costs before any work starts"
+    },
+    {
+      "id": "u0010",
+      "text": "How tool search keeps deferred tools out of context"
+    },
+    {
+      "id": "u0011",
+      "text": "Turning tool search on in the Agent SDK with ENABLE_TOOL_SEARCH"
+    },
+    {
+      "id": "u0012",
+      "text": "Choosing progressive discovery or a fixed tool set"
+    },
+    {
+      "id": "u0013",
+      "text": "Skills and hybrid loading as other forms of progressive discovery"
+    },
+    {
+      "id": "u0014",
+      "text": "What a monolithic tool set costs before any work starts"
+    },
+    {
+      "id": "u0015",
+      "text": "A monolithic context strategy puts every tool definition into the context window on every request. That is the baseline that progressive discovery is measured against. Tool definitions count toward the context window just as messages do. The full cost of carrying too many tools is covered in "
+    },
+    {
+      "id": "u0016",
+      "text": "Capability bloat: what too many tools cost"
+    },
+    {
+      "id": "u0017",
+      "text": ". The angle here is how large that fixed cost gets. A typical multiserver setup that connects GitHub, Slack, Sentry, Grafana and Splunk can use about 55k tokens on definitions before Claude does anything useful. The Agent SDK documentation gives a smaller rule of thumb: 50 tools can take 10–20K tokens."
+    },
+    {
+      "id": "u0018",
+      "text": "Tokens are only half of the cost. Claude's ability to pick the right tool degrades once more than 30–50 tools are available at the same time. An agent that worked well with two MCP servers can start choosing the wrong tool after a third or fourth server is connected, even though no single tool changed. Context rot adds to this. As the token count grows, accuracy and recall both decline, so a large block of mostly unused definitions also makes everything else in the window harder to use."
+    },
+    {
+      "id": "u0019",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0020",
+      "text": "The number to remember for tool-selection accuracy is 30–50 tools loaded at once. Single-digit tool counts are well below it. Hundreds of tools are far past it."
+    },
+    {
+      "id": "u0021",
+      "text": "A larger context window does not fix either problem. More room lets the 55k tokens fit, but it does not restore selection accuracy, and context rot gets worse as the window fills. What matters is how much is in context, not how much space is left over."
+    },
+    {
+      "id": "u0022",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0023",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0024",
+      "text": "An agent connected to GitHub, Slack, Sentry, Grafana and Splunk MCP servers loads every tool definition up front, which is about 55k tokens. Since the last two servers were added, it often calls the wrong tool. A teammate suggests switching to a model with a much larger context window. What happens?"
+    },
+    {
+      "id": "u0025",
+      "text": "Tool selection recovers, because the 30–50 tool limit applies to each MCP server separately and no single server exceeds it."
+    },
+    {
+      "id": "u0026",
+      "text": "The definitions fit more easily, but selection accuracy stays degraded because the same large tool set is still loaded at once, and context rot still applies."
+    },
+    {
+      "id": "u0027",
+      "text": "The 55k-token cost disappears, because tool definitions only count toward the context window once a tool is called."
+    },
+    {
+      "id": "u0028",
+      "text": "Tool selection recovers, because the 55k tokens of definitions now take up a much smaller share of the window."
+    },
+    {
+      "id": "u0029",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0030",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0031",
+      "text": "During testing, an engineering team notices that Claude increasingly selects the wrong tool as more MCP servers are connected to their agent. At what approximate number of simultaneously loaded tools does tool selection accuracy begin to noticeably degrade?"
+    },
+    {
+      "id": "u0032",
+      "text": "Between 30 and 50 tools"
+    },
+    {
+      "id": "u0033",
+      "text": "Between 5 and 10 tools"
+    },
+    {
+      "id": "u0034",
+      "text": "Between 100 and 200 tools"
+    },
+    {
+      "id": "u0035",
+      "text": "Between 500 and 1,000 tools"
+    },
+    {
+      "id": "u0036",
+      "text": "Sources"
+    },
+    {
+      "id": "u0037",
+      "text": "How tool search keeps deferred tools out of context"
+    },
+    {
+      "id": "u0038",
+      "text": "Tool search is the API's progressive-discovery mechanism for tools. It replaces the monolithic catalogue with a search step. Tool search typically cuts the definition footprint by over 85 percent, loading only the 3–5 tools a given request needs. Because Claude chooses from a short, relevant list, selection accuracy stays high even when the catalogue holds thousands of tools."
+    },
+    {
+      "id": "u0039",
+      "text": "Tool search comes in two variants. With the regex variant ("
+    },
+    {
+      "id": "u0040",
+      "text": "), Claude writes regex patterns. With the BM25 variant ("
+    },
+    {
+      "id": "u0041",
+      "text": "), Claude writes natural-language queries. Both search tool names, descriptions, argument names and argument descriptions, so well-written descriptions are what make a tool findable. To enable tool search, add one of the variants to the tools list and mark the tools that should stay out of context with "
+    },
+    {
+      "id": "u0042",
+      "text": "A tool marked for on-demand loading"
+    },
+    {
+      "id": "u0043",
+      "text": "json"
+    },
+    {
+      "id": "u0044",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0045",
+      "text": "With 200 tools marked defer_loading: true, what does your request's tools array still need to contain?"
+    },
+    {
+      "id": "u0046",
+      "text": "Just the names of the deferred tools, so the search has something to match"
+    },
+    {
+      "id": "u0047",
+      "text": "Every tool's full definition, deferred ones included, on every request"
+    },
+    {
+      "id": "u0048",
+      "text": "Only the tool search tool, because the deferred tools are fetched later"
+    },
+    {
+      "id": "u0049",
+      "text": " decides what goes into Claude's context window, not what goes into the request. At the start, Claude's context holds only the search tool and any tools that are not deferred. When Claude needs something else, it calls the search tool. The search runs on Anthropic's servers and returns the matching tools as "
+    },
+    {
+      "id": "u0050",
+      "text": " blocks, five by default. Claude can set a "
+    },
+    {
+      "id": "u0051",
+      "text": " between 1 and 10,000. The API then expands each reference into the full tool definition before Claude sees it. You never do the expansion yourself."
+    },
+    {
+      "id": "u0052",
+      "text": "The search call and its tool_reference result inside an assistant response"
+    },
+    {
+      "id": "u0053",
+      "text": "json"
+    },
+    {
+      "id": "u0054",
+      "text": "The conversation loop has a few rules that are easy to break:"
+    },
+    {
+      "id": "u0055",
+      "text": "Send the assistant content back unchanged, including the "
+    },
+    {
+      "id": "u0056",
+      "text": " and "
+    },
+    {
+      "id": "u0057",
+      "text": " blocks."
+    },
+    {
+      "id": "u0058",
+      "text": "Never return a "
+    },
+    {
+      "id": "u0059",
+      "text": " for the "
+    },
+    {
+      "id": "u0060",
+      "text": " ID. The API rejects the request."
+    },
+    {
+      "id": "u0061",
+      "text": "Execute the discovered tool's ordinary "
+    },
+    {
+      "id": "u0062",
+      "text": " and return its "
+    },
+    {
+      "id": "u0063",
+      "text": " as normal."
+    },
+    {
+      "id": "u0064",
+      "text": "Expect an empty "
+    },
+    {
+      "id": "u0065",
+      "text": " array, not an error, when a search matches nothing."
+    },
+    {
+      "id": "u0066",
+      "text": "Discovered tools stay available after they are found. The API expands "
+    },
+    {
+      "id": "u0067",
+      "text": " blocks throughout the conversation history, so Claude can call a tool again in later turns without searching for it again. Deferred tools are also left out of the system-prompt prefix, and their references are added inline. The prefix therefore does not change and prompt caching keeps working. At least one tool, normally the search tool itself, must stay non-deferred. Never set "
+    },
+    {
+      "id": "u0068",
+      "text": " on the search tool."
+    },
+    {
+      "id": "u0069",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0070",
+      "text": "Deferred tools can be left out of the request's tools array because Claude will search for them later."
+    },
+    {
+      "id": "u0071",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0073",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0074",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0075",
+      "text": "This tool definition is sent in the tools array alongside a tool search tool. Which property keeps the tool out of Claude's context window until a search finds it?"
+    },
+    {
+      "id": "u0076",
+      "text": "defer_loading"
+    },
+    {
+      "id": "u0077",
+      "text": "strict"
+    },
+    {
+      "id": "u0078",
+      "text": "cache_control"
+    },
+    {
+      "id": "u0079",
+      "text": "lazy_load"
+    },
+    {
+      "id": "u0080",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0081",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0082",
+      "text": "Claude's response holds three blocks: a server_tool_use block with ID srvtoolu_01ABC123, the tool_search_tool_result for that call, and a tool_use block calling get_weather with ID toolu_01XYZ789. What should your next request contain?"
+    },
+    {
+      "id": "u0083",
+      "text": "A tool_result for srvtoolu_01ABC123 confirming the search, a tool_result for toolu_01XYZ789, and the same tools array"
+    },
+    {
+      "id": "u0084",
+      "text": "The assistant content with the search blocks removed, since get_weather has now been found, plus a tool_result for toolu_01XYZ789"
+    },
+    {
+      "id": "u0085",
+      "text": "A tool_result for toolu_01XYZ789 and a tools array cut down to just the search tool and get_weather"
+    },
+    {
+      "id": "u0086",
+      "text": "The assistant content unchanged, one tool_result for toolu_01XYZ789 only, and the same tools array, deferred definitions included"
+    },
+    {
+      "id": "u0087",
+      "text": "Sources"
+    },
+    {
+      "id": "u0088",
+      "text": "Turning tool search on in the Agent SDK with ENABLE_TOOL_SEARCH"
+    },
+    {
+      "id": "u0089",
+      "text": "In the Agent SDK, tool search is set by the "
+    },
+    {
+      "id": "u0090",
+      "text": " environment variable, which you pass through the "
+    },
+    {
+      "id": "u0091",
+      "text": " option. On Claude Opus 4.5, Sonnet 4.5, Haiku 4.5 and later models, tool search is on by default. This matters when you connect a large MCP server: its tools are deferred automatically unless you choose otherwise. Each value decides whether definitions are deferred or loaded up front."
+    },
+    {
+      "id": "u0092",
+      "text": "ENABLE_TOOL_SEARCH values and what each one does"
+    },
+    {
+      "id": "u0093",
+      "text": "Value"
+    },
+    {
+      "id": "u0094",
+      "text": "Behavior"
+    },
+    {
+      "id": "u0095",
+      "text": "(unset)"
+    },
+    {
+      "id": "u0096",
+      "text": "Tool search on; definitions deferred. Falls back to loading up front on older models, a non-first-party ANTHROPIC_BASE_URL, or a Microsoft Foundry deployment hosted on Azure"
+    },
+    {
+      "id": "u0097",
+      "text": "true"
+    },
+    {
+      "id": "u0098",
+      "text": "Keeps tool search on even with a non-first-party ANTHROPIC_BASE_URL; requests fail on proxies that don't support tool_reference blocks"
+    },
+    {
+      "id": "u0099",
+      "text": "auto"
+    },
+    {
+      "id": "u0100",
+      "text": "Activates only when deferrable definitions reach 10% of the model's context window; below that, everything loads up front"
+    },
+    {
+      "id": "u0101",
+      "text": "auto:N"
+    },
+    {
+      "id": "u0102",
+      "text": "Same as auto with a custom threshold; auto:5 activates at 5%"
+    },
+    {
+      "id": "u0103",
+      "text": "false"
+    },
+    {
+      "id": "u0104",
+      "text": "Off; all tool definitions loaded into context on every turn"
+    },
+    {
+      "id": "u0105",
+      "text": " turns the choice between strategies into a measured threshold. It counts the tokens in the deferrable definitions and compares the total with the model's context window. A small tool set therefore stays monolithic, and a growing one switches to search without a code change. A lower N switches sooner. "
+    },
+    {
+      "id": "u0106",
+      "text": " forces the monolithic strategy on every turn. In the SDK, a catalogue can hold up to 10,000 tools, and each search returns the five most relevant by default."
+    },
+    {
+      "id": "u0107",
+      "text": "An agent sets ENABLE_TOOL_SEARCH to auto and connects a single MCP server whose tools use 3% of the context window. Are those tools deferred?"
+    },
+    {
+      "id": "u0108",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0109",
+      "text": "Setting ENABLE_TOOL_SEARCH to auto means tool definitions are always deferred."
+    },
+    {
+      "id": "u0110",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0114",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0115",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0116",
+      "text": "Match each ENABLE_TOOL_SEARCH value to how the Agent SDK then treats tool definitions."
+    },
+    {
+      "id": "u0117",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0118",
+      "text": "(unset)"
+    },
+    {
+      "id": "u0119",
+      "text": "true"
+    },
+    {
+      "id": "u0120",
+      "text": "auto"
+    },
+    {
+      "id": "u0121",
+      "text": "auto:5"
+    },
+    {
+      "id": "u0122",
+      "text": "false"
+    },
+    {
+      "id": "u0123",
+      "text": "Switches to tool search sooner, once the deferrable definitions reach 5% of the context window"
+    },
+    {
+      "id": "u0124",
+      "text": "Tool search on and definitions deferred on recent models, but falls back to loading everything up front behind a non-first-party ANTHROPIC_BASE_URL"
+    },
+    {
+      "id": "u0125",
+      "text": "Keeps tool search on even through a non-first-party ANTHROPIC_BASE_URL; requests fail on proxies that don't support tool_reference blocks"
+    },
+    {
+      "id": "u0126",
+      "text": "Defers definitions only once the deferrable ones reach 10% of the model's context window; below that, all load up front"
+    },
+    {
+      "id": "u0127",
+      "text": "Forces the monolithic strategy: every tool definition is loaded into context on every turn"
+    },
+    {
+      "id": "u0128",
+      "text": "Sources"
+    },
+    {
+      "id": "u0129",
+      "text": "Choosing progressive discovery or a fixed tool set"
+    },
+    {
+      "id": "u0130",
+      "text": "The rule of thumb is to load a small, frequently used tool set up front and to use progressive discovery for large or rarely used catalogues. The cost of tool search is latency: Claude needs one extra turn to look up a tool before calling it. In return, baseline context usage drops sharply. That trade pays off for toolsets of about 20 or more tools where most aren't needed on every turn. It does not pay off when every tool is used constantly."
+    },
+    {
+      "id": "u0131",
+      "text": "Matching the loading strategy to the tool set"
+    },
+    {
+      "id": "u0132",
+      "text": "Situation"
+    },
+    {
+      "id": "u0133",
+      "text": "Strategy"
+    },
+    {
+      "id": "u0134",
+      "text": "Reason"
+    },
+    {
+      "id": "u0135",
+      "text": "A handful of tools, nearly all used on almost every request"
+    },
+    {
+      "id": "u0136",
+      "text": "Load all up front (no tool search)"
+    },
+    {
+      "id": "u0137",
+      "text": "A search round-trip would precede calls to tools Claude needs anyway, and little context is saved"
+    },
+    {
+      "id": "u0138",
+      "text": "Roughly 20+ tools, most idle on any given turn"
+    },
+    {
+      "id": "u0139",
+      "text": "Tool search with defer_loading on the long tail"
+    },
+    {
+      "id": "u0140",
+      "text": "Large cut in baseline context for one extra lookup turn"
+    },
+    {
+      "id": "u0141",
+      "text": "Large catalogue with a few heavy-use tools"
+    },
+    {
+      "id": "u0142",
+      "text": "Tool search, with the 3–5 most frequent tools non-deferred"
+    },
+    {
+      "id": "u0143",
+      "text": "Common calls skip the search; rare tools stay out of context"
+    },
+    {
+      "id": "u0144",
+      "text": "Large but fixed toolset across many requests"
+    },
+    {
+      "id": "u0145",
+      "text": "Prompt caching (alone or with tool search)"
+    },
+    {
+      "id": "u0146",
+      "text": "Reduces what you pay for repeated definitions, not how many tokens sit in context"
+    },
+    {
+      "id": "u0147",
+      "text": "Take an internal agent with seven tools, about 1,200 tokens of definitions, and nearly every tool used on every request. Deferring those tools would add a search before calls Claude was always going to make, to save tokens that barely register. Keep them all loaded. The guidance to keep the 3–5 most-used tools non-deferred points the same way: whenever a tool is likely to be needed, it belongs in context."
+    },
+    {
+      "id": "u0148",
+      "text": "The 55k-token multiserver agent is the opposite case. Tool search is the fix there, because it is the only option that removes definitions from context. Prompt caching makes repeated definitions cheaper, but every token still sits in context and the agent still chooses among dozens of tools. Rewriting every description by hand shrinks the definitions somewhat, but it leaves the tool count as it was and makes search worse, because names and descriptions are exactly what the search matches against. The approaches can be combined: tool search keeps the set lean, and caching lowers the cost of what stays loaded."
+    },
+    {
+      "id": "u0149",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0150",
+      "text": "If the question describes a small set of tools that are all used constantly, the answer is to load them up front. If it describes a large, multi-server catalogue with a big token footprint, the answer is tool search. Prompt caching lowers cost but not context size, so it never solves context bloat on its own."
+    },
+    {
+      "id": "u0151",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0152",
+      "text": "Prompt caching the tool definitions solves context bloat from a large multi-server catalogue."
+    },
+    {
+      "id": "u0153",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0155",
+      "text": "Deferring every tool is always the most efficient choice, even for a small set of tools that are all used constantly."
+    },
+    {
+      "id": "u0156",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0158",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0159",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0160",
+      "text": "For each tool set, pick the loading strategy that the trade-off between search latency and context size favours."
+    },
+    {
+      "id": "u0161",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0162",
+      "text": "Seven tools, about 1,200 tokens of definitions, nearly every tool used on every request"
+    },
+    {
+      "id": "u0163",
+      "text": "About 40 tools, most of which sit idle on any given turn"
+    },
+    {
+      "id": "u0164",
+      "text": "A 300-tool multi-server catalogue where four tools handle most calls"
+    },
+    {
+      "id": "u0165",
+      "text": "A large toolset that stays the same across thousands of requests, where the bill for repeated definitions is the concern"
+    },
+    {
+      "id": "u0166",
+      "text": "Prompt caching, which lowers the price of the definitions but not how many tokens sit in context"
+    },
+    {
+      "id": "u0167",
+      "text": "Tool search, with those few heavy-use tools left non-deferred"
+    },
+    {
+      "id": "u0168",
+      "text": "Load every definition up front with no tool search"
+    },
+    {
+      "id": "u0169",
+      "text": "Tool search, with defer_loading set on the long tail"
+    },
+    {
+      "id": "u0170",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0171",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0172",
+      "text": "A team builds an internal agent that calls exactly 7 tools, nearly all of which are needed on almost every request, and the combined tool definitions total roughly 1,200 tokens. Which context strategy should they use for tool loading?"
+    },
+    {
+      "id": "u0173",
+      "text": "Load all seven tool definitions into context on every turn, since the toolset is small and every tool is used regularly."
+    },
+    {
+      "id": "u0174",
+      "text": "Enable tool search with the BM25 variant so Claude retrieves only the tools relevant to each request."
+    },
+    {
+      "id": "u0175",
+      "text": "Enable tool search with the regex variant and defer all seven tools so the agent searches before every call."
+    },
+    {
+      "id": "u0176",
+      "text": "Split the tools across two separate MCP servers and enable tool search on each server independently to shrink context further."
+    },
+    {
+      "id": "u0177",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0178",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0179",
+      "text": "An enterprise agent aggregates tool catalogs from GitHub, Slack, Sentry, Grafana, and Splunk MCP servers, and the combined tool definitions consume about 55,000 tokens before the agent does any work. Which strategy best addresses this context bloat?"
+    },
+    {
+      "id": "u0180",
+      "text": "Enable tool search so Claude discovers and loads only the three to five tools relevant to each request instead of loading every definition upfront."
+    },
+    {
+      "id": "u0181",
+      "text": "Ask the model provider to raise the context window limit so all fifty-five thousand tokens of definitions fit alongside the rest of the conversation."
+    },
+    {
+      "id": "u0182",
+      "text": "Manually rewrite every MCP server's tool descriptions into single short sentences so the combined definitions shrink below the fifty-five thousand token total."
+    },
+    {
+      "id": "u0183",
+      "text": "Apply prompt caching to the tool definitions so repeated requests skip re-sending the fifty-five thousand tokens on every subsequent turn."
+    },
+    {
+      "id": "u0184",
+      "text": "Sources"
+    },
+    {
+      "id": "u0185",
+      "text": "Skills and hybrid loading as other forms of progressive discovery"
+    },
+    {
+      "id": "u0186",
+      "text": "Tool search is not the only way to load context on demand. Agent Skills do the same thing for instructions and reference material. Skills load in three levels, described in "
+    },
+    {
+      "id": "u0187",
+      "text": "Progressive disclosure in Skills (three loading levels)"
+    },
+    {
+      "id": "u0188",
+      "text": ": metadata at startup, then the SKILL.md body when the Skill triggers, then bundled files when they are read. What matters for this choice is the always-on cost. Each Skill keeps about 100 tokens of name and description in the system prompt, so many Skills can be installed without paying for content nobody is using."
+    },
+    {
+      "id": "u0189",
+      "text": "Tool search and Skills solve different problems. Tool search defers tool schemas, and the API finds and expands them through "
+    },
+    {
+      "id": "u0190",
+      "text": " blocks. Skills defer know-how: workflows, schemas and scripts. Claude reads them from a filesystem with bash, and only a script's output enters context, never its code. A large catalogue of actions points to tool search. A large body of procedures and reference documents points to Skills. Skills need the code execution environment to work. Tool search needs a model that supports it, and Claude Opus 4.1 and earlier do not."
+    },
+    {
+      "id": "u0191",
+      "text": "A hybrid often works best. Claude Code puts CLAUDE.md files into context up front and uses glob and grep to pull in other files only when they are needed. On-demand exploration has a cost of its own: it is slower than reading data that was retrieved in advance, and an agent with poor guidance can waste context on dead ends. So load what nearly every request needs, and defer the rest."
+    },
+    {
+      "id": "u0192",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0193",
+      "text": "Think of an agent you have built or used. Which of its tools or instructions are needed on almost every request, and which come up only now and then? Where would you draw the line between loading up front and loading on demand?"
+    },
+    {
+      "id": "u0194",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0195",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0196",
+      "text": "A compliance team wants its agent to follow about 60 internal procedures. Each one has a written workflow, a reference schema and a validation script, but any single request uses only one or two of them. Which approach keeps the always-on context cost lowest while still giving Claude the procedures when it needs them?"
+    },
+    {
+      "id": "u0197",
+      "text": "Package each procedure as an Agent Skill, so only its name and description sit in the system prompt until a request triggers it, and the scripts' code never enters context"
+    },
+    {
+      "id": "u0198",
+      "text": "Move to a model with a larger context window, so all 60 procedures fit up front without crowding out the conversation"
+    },
+    {
+      "id": "u0199",
+      "text": "Turn each procedure into a tool definition with defer_loading: true, so tool search returns the right procedure as a tool_reference block"
+    },
+    {
+      "id": "u0200",
+      "text": "Put every procedure into the system prompt and enable prompt caching, so the repeated instructions cost less on each request"
+    },
+    {
+      "id": "u0201",
+      "text": "Sources"
+    },
+    {
+      "id": "u0202",
+      "text": "Sources"
+    }
+  ]
+}

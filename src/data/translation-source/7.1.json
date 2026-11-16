@@ -1,0 +1,687 @@
+{
+  "pageId": "7.1",
+  "title": "Claude Code settings scopes, precedence and permission rules",
+  "titleVi": "Phạm vi cài đặt, thứ tự ưu tiên và quy tắc phân quyền trong Claude Code",
+  "units": [
+    {
+      "id": "description",
+      "text": "Configure Claude tools and environments for teams"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Pick the right settings file for a rule that is shared with the team, kept personal, or enforced by the organization"
+    },
+    {
+      "id": "u0002",
+      "text": "Predict which value applies when a key is set in several scopes, and explain why permission lists merge instead of replacing each other"
+    },
+    {
+      "id": "u0003",
+      "text": "Write allow, ask and deny rules and predict the outcome when a broad deny and a narrow allow both match"
+    },
+    {
+      "id": "u0004",
+      "text": "Decide whether a team convention belongs in CLAUDE.md or in settings"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Settings scope"
+    },
+    {
+      "id": "u0007",
+      "text": "Each Claude Code settings file has a scope, and the scope decides who the file reaches and how much weight its values carry. Managed settings come from the organization and sit above every file a developer controls. Below them are the shared project file that the team commits, the local file that stays with one developer, and the user file that applies across one developer's projects."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Four settings scopes and who each one reaches"
+    },
+    {
+      "id": "u0010",
+      "text": "Which value wins when scopes disagree"
+    },
+    {
+      "id": "u0011",
+      "text": "Writing allow, ask and deny rules"
+    },
+    {
+      "id": "u0012",
+      "text": "Shared instructions versus enforced settings"
+    },
+    {
+      "id": "u0013",
+      "text": "Four settings scopes and who each one reaches"
+    },
+    {
+      "id": "u0014",
+      "text": "When a team uses Claude Code, the first choice for any setting is which file it goes in. The same permission rule does different things depending on where you put it. Committed to the repository, it reaches every teammate. In your home directory, it stays on your laptop. Deployed by IT, nobody below can override it. Claude Code reads four scopes, and each one answers the question \"who gets this?\" differently."
+    },
+    {
+      "id": "u0015",
+      "text": "The four settings scopes, where each lives, and what it is for"
+    },
+    {
+      "id": "u0016",
+      "text": "Scope"
+    },
+    {
+      "id": "u0017",
+      "text": "File"
+    },
+    {
+      "id": "u0018",
+      "text": "Who it affects"
+    },
+    {
+      "id": "u0019",
+      "text": "Use it for"
+    },
+    {
+      "id": "u0020",
+      "text": "Managed"
+    },
+    {
+      "id": "u0021",
+      "text": "managed-settings.json and other managed sources"
+    },
+    {
+      "id": "u0022",
+      "text": "Everyone the organization deploys it to"
+    },
+    {
+      "id": "u0023",
+      "text": "Security policy and compliance requirements"
+    },
+    {
+      "id": "u0024",
+      "text": "Shared project"
+    },
+    {
+      "id": "u0025",
+      "text": ".claude/settings.json"
+    },
+    {
+      "id": "u0026",
+      "text": "Everyone working in the folder; commit it so teammates get it"
+    },
+    {
+      "id": "u0027",
+      "text": "Team permissions, hooks, plugins, and the environment variables the project needs"
+    },
+    {
+      "id": "u0028",
+      "text": "Project local"
+    },
+    {
+      "id": "u0029",
+      "text": ".claude/settings.local.json"
+    },
+    {
+      "id": "u0030",
+      "text": "You, in this one project only"
+    },
+    {
+      "id": "u0031",
+      "text": "Personal overrides for one project, and testing before you share"
+    },
+    {
+      "id": "u0032",
+      "text": "User"
+    },
+    {
+      "id": "u0033",
+      "text": "~/.claude/settings.json"
+    },
+    {
+      "id": "u0034",
+      "text": "You, in every project on this machine"
+    },
+    {
+      "id": "u0035",
+      "text": "Personal preferences such as theme, editor mode, default model"
+    },
+    {
+      "id": "u0036",
+      "text": "For a platform team, the shared project file is the one that matters. "
+    },
+    {
+      "id": "u0037",
+      "text": " lives in the repository, so changes to it go through ordinary code review and land in every clone on the next pull. Until you commit it, though, it is just a file on your disk and nobody else has it. A rule you write in "
+    },
+    {
+      "id": "u0038",
+      "text": " never leaves your machine, even if that machine is the team's reference box. Managed settings are the wrong tool for team conventions the other way round: the organization deploys them, so developers do not create or edit them, and they skip the repository's review process altogether."
+    },
+    {
+      "id": "u0039",
+      "text": "The local file is where personal overrides belong. When Claude Code first writes "
+    },
+    {
+      "id": "u0040",
+      "text": " in a git repository, it adds the file to your global git excludes so it stays out of your commits. If you create the file by hand, add it to "
+    },
+    {
+      "id": "u0041",
+      "text": " yourself. Claude Code also writes to this file for you: choosing \"Yes, and don't ask again\" on a Bash prompt saves an allow rule here. Because the file belongs to you and not to the repository, its allow rules apply without the workspace trust step that the committed file needs, as long as the file stays untracked."
+    },
+    {
+      "id": "u0042",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0043",
+      "text": "Shared rules that go through code review belong in the committed "
+    },
+    {
+      "id": "u0044",
+      "text": ". Personal overrides that must never leave the machine belong in "
+    },
+    {
+      "id": "u0045",
+      "text": ". Managed settings are for organization policy that developers cannot change, not for team conventions."
+    },
+    {
+      "id": "u0046",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0047",
+      "text": "Team-shared rules belong in managed-settings.json because it reaches every machine."
+    },
+    {
+      "id": "u0048",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0050",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0051",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0052",
+      "text": "A platform team is deciding where each setting should go. Match each settings file to the setting that belongs in it."
+    },
+    {
+      "id": "u0053",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0054",
+      "text": "managed-settings.json"
+    },
+    {
+      "id": "u0055",
+      "text": ".claude/settings.json"
+    },
+    {
+      "id": "u0056",
+      "text": ".claude/settings.local.json"
+    },
+    {
+      "id": "u0057",
+      "text": "~/.claude/settings.json"
+    },
+    {
+      "id": "u0058",
+      "text": "One developer's override for a single repository, kept out of commits"
+    },
+    {
+      "id": "u0059",
+      "text": "One developer's theme and editor mode, applied in every project on their machine"
+    },
+    {
+      "id": "u0060",
+      "text": "Team permission rules and hooks that go through code review and reach every clone on the next pull"
+    },
+    {
+      "id": "u0061",
+      "text": "A security policy that the organization deploys to every machine and that developers cannot edit"
+    },
+    {
+      "id": "u0062",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0063",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0064",
+      "text": "A platform team wants every engineer's Claude Code session to inherit a shared set of Bash allow rules and MCP server configuration that the team maintains and reviews through normal code review, while still letting each engineer add personal overrides that never leave their own machine. Where should the team place the shared rules, and where should individual overrides go?"
+    },
+    {
+      "id": "u0065",
+      "text": "Commit the shared rules to .claude/settings.json in the project, and let engineers add personal overrides in .claude/settings.local.json"
+    },
+    {
+      "id": "u0066",
+      "text": "Commit the shared rules to ~/.claude/settings.json on a reference machine, and let engineers add personal overrides in .claude/settings.json"
+    },
+    {
+      "id": "u0067",
+      "text": "Deploy the shared rules through managed-settings.json at the OS policy path, and let engineers add overrides in .claude/settings.json"
+    },
+    {
+      "id": "u0068",
+      "text": "Commit the shared rules to .mcp.json only, and let engineers add their own personal overrides into ~/.claude.json"
+    },
+    {
+      "id": "u0069",
+      "text": "Sources"
+    },
+    {
+      "id": "u0070",
+      "text": "Which value wins when scopes disagree"
+    },
+    {
+      "id": "u0071",
+      "text": "For a single-value key such as "
+    },
+    {
+      "id": "u0072",
+      "text": ", the higher scope wins outright. From highest to lowest, the order is: managed settings, then JSON passed with "
+    },
+    {
+      "id": "u0073",
+      "text": " for one session, then project local, then shared project, then user. The "
+    },
+    {
+      "id": "u0074",
+      "text": " flag sits above your user, project and local files but below managed settings. It can set anything your user file can set, but never a managed key."
+    },
+    {
+      "id": "u0075",
+      "text": "Arrays work differently, and permission rules are arrays. Across the non-managed scopes, Claude Code merges the arrays instead of letting the higher file replace the lower one. Suppose the project file denies a command and your local file allows something. The local file does not replace the project's deny list. Both rules end up in the effective set. A few keys are exceptions. "
+    },
+    {
+      "id": "u0076",
+      "text": " is an ordered chain, so Claude Code takes the whole value from the highest file that defines it. When managed settings define "
+    },
+    {
+      "id": "u0077",
+      "text": ", Claude Code applies that list as-is and ignores entries you add lower down."
+    },
+    {
+      "id": "u0078",
+      "text": "Your user settings set "
+    },
+    {
+      "id": "u0079",
+      "text": " to one value and your project's shared settings set it to another. Which applies, and does the answer change for "
+    },
+    {
+      "id": "u0080",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0081",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0082",
+      "text": "Your project's committed .claude/settings.json has a permissions.deny entry for a command. In your .claude/settings.local.json, you add a permissions.allow entry for a narrower form of that command. Local settings rank above shared project settings. What ends up in the effective permission rules?"
+    },
+    {
+      "id": "u0083",
+      "text": "Only your local rules, because the higher-ranked local file replaces the project's permissions arrays"
+    },
+    {
+      "id": "u0084",
+      "text": "Only the narrower rule, because a more specific rule replaces a broader one from another scope"
+    },
+    {
+      "id": "u0085",
+      "text": "Only the project's rules, because a committed file outranks a personal one for permissions"
+    },
+    {
+      "id": "u0086",
+      "text": "Both: the arrays merge, so your allow rule is added and the project's deny rule stays"
+    },
+    {
+      "id": "u0087",
+      "text": "Sources"
+    },
+    {
+      "id": "u0088",
+      "text": "Writing allow, ask and deny rules"
+    },
+    {
+      "id": "u0089",
+      "text": "A permission rule names a tool and, optionally, a specifier in parentheses. "
+    },
+    {
+      "id": "u0090",
+      "text": " on its own matches every Bash command. "
+    },
+    {
+      "id": "u0091",
+      "text": " matches only that exact command. "
+    },
+    {
+      "id": "u0092",
+      "text": " matches reading "
+    },
+    {
+      "id": "u0093",
+      "text": " in the current directory, and "
+    },
+    {
+      "id": "u0094",
+      "text": " matches fetches to that domain. Some tools also accept a parameter match such as "
+    },
+    {
+      "id": "u0095",
+      "text": ". Each rule names one parameter, so gating on two parameters takes two rules. Rules go into "
+    },
+    {
+      "id": "u0096",
+      "text": " or "
+    },
+    {
+      "id": "u0097",
+      "text": " in whichever scope should own them."
+    },
+    {
+      "id": "u0098",
+      "text": "A settings file that pre-approves lint and test commands and denies reading .env files"
+    },
+    {
+      "id": "u0099",
+      "text": "json"
+    },
+    {
+      "id": "u0100",
+      "text": "The three rule types do three different jobs. An allow rule lets a tool run without asking for approval. An ask rule prompts for confirmation every time. A deny rule stops the tool from being used at all. An allow rule does not grant access past a deny; it only removes the prompt. Because rules from every scope merge into one set, a project-level "
+    },
+    {
+      "id": "u0101",
+      "text": " deny and a local "
+    },
+    {
+      "id": "u0102",
+      "text": " allow both apply to "
+    },
+    {
+      "id": "u0103",
+      "text": ", and the call is blocked. A more specific allow does not carve an exception out of a broad deny, and a local file does not cancel a project's deny."
+    },
+    {
+      "id": "u0104",
+      "text": "Path rules hide an asymmetry that catches teams writing secret-file protections. As an allow rule, "
+    },
+    {
+      "id": "u0105",
+      "text": " matches only "
+    },
+    {
+      "id": "u0106",
+      "text": " under the current directory. As a deny or ask rule, the same pattern matches a "
+    },
+    {
+      "id": "u0107",
+      "text": " directory at any depth. So "
+    },
+    {
+      "id": "u0108",
+      "text": " in a deny list also covers nested copies such as "
+    },
+    {
+      "id": "u0109",
+      "text": ". To allow a directory name at any depth, write "
+    },
+    {
+      "id": "u0110",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0111",
+      "text": "A developer is prompted before Claude runs "
+    },
+    {
+      "id": "u0112",
+      "text": " and picks \"Yes, and don't ask again\". Where does that approval end up, and how long does it last?"
+    },
+    {
+      "id": "u0113",
+      "text": "In .claude/settings.local.json as an allow rule, permanently for this repository and command"
+    },
+    {
+      "id": "u0114",
+      "text": "In the shared .claude/settings.json, for the whole team"
+    },
+    {
+      "id": "u0115",
+      "text": "Nowhere on disk; it lasts until the session ends"
+    },
+    {
+      "id": "u0116",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0117",
+      "text": "A narrower allow rule in local settings, such as Bash(aws s3 ls), creates an exception to a broader project deny such as Bash(aws *)."
+    },
+    {
+      "id": "u0118",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0128",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0129",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0130",
+      "text": "A teammate wants Claude to run "
+    },
+    {
+      "id": "u0131",
+      "text": " without stopping for approval. The committed .claude/settings.json denies "
+    },
+    {
+      "id": "u0132",
+      "text": ". The teammate adds "
+    },
+    {
+      "id": "u0133",
+      "text": " to permissions.allow in their .claude/settings.local.json. What happens the next time Claude tries to run "
+    },
+    {
+      "id": "u0134",
+      "text": "It runs without a prompt, because the more specific allow rule makes an exception to the broad deny"
+    },
+    {
+      "id": "u0135",
+      "text": "Claude Code asks for confirmation, because the allow rule and the deny rule conflict"
+    },
+    {
+      "id": "u0136",
+      "text": "It runs without a prompt, because the local file ranks above the shared project file and overrides its deny"
+    },
+    {
+      "id": "u0137",
+      "text": "It is blocked, because both rules apply and the deny rule wins; an allow rule only removes the prompt"
+    },
+    {
+      "id": "u0138",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0139",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0140",
+      "text": "A security lead configures a project-level deny rule Bash(aws *) to block all AWS CLI usage from Claude Code. A developer later adds an allow rule Bash(aws s3 ls) to their local settings so they can list bucket contents. When the developer runs aws s3 ls in a session, what happens?"
+    },
+    {
+      "id": "u0141",
+      "text": "The command is blocked, because deny rules are evaluated before allow rules and a broad deny cannot carry allowlist exceptions from a narrower allow rule"
+    },
+    {
+      "id": "u0142",
+      "text": "The command runs without a prompt, because the more specific allow rule Bash(aws s3 ls) takes precedence over the broader deny pattern Bash(aws *)"
+    },
+    {
+      "id": "u0143",
+      "text": "The command triggers a one-time confirmation prompt, because Claude Code merges conflicting rules of equal specificity into an ask decision"
+    },
+    {
+      "id": "u0144",
+      "text": "The command runs without a prompt, because local settings always override project settings regardless of whether the rule is allow or deny"
+    },
+    {
+      "id": "u0145",
+      "text": "Sources"
+    },
+    {
+      "id": "u0146",
+      "text": "Shared instructions versus enforced settings"
+    },
+    {
+      "id": "u0147",
+      "text": "CLAUDE.md files use the same layering as settings, but they guide Claude instead of constraining it. A project "
+    },
+    {
+      "id": "u0148",
+      "text": " (or "
+    },
+    {
+      "id": "u0149",
+      "text": ") reaches team members through source control. "
+    },
+    {
+      "id": "u0150",
+      "text": " holds personal preferences for all projects. "
+    },
+    {
+      "id": "u0151",
+      "text": " holds personal notes for one project. A managed policy CLAUDE.md at the OS policy path, such as "
+    },
+    {
+      "id": "u0152",
+      "text": " on Linux, carries organization-wide instructions that are loaded in every session and cannot be excluded."
+    },
+    {
+      "id": "u0153",
+      "text": "The split matters because an instruction is not a control. \"Never read .env\" written in CLAUDE.md is guidance that Claude may or may not follow. "
+    },
+    {
+      "id": "u0154",
+      "text": " in "
+    },
+    {
+      "id": "u0155",
+      "text": " stops the read regardless. If two instructions contradict each other, Claude may pick either one arbitrarily, which is acceptable for style guidance but not for a security boundary."
+    },
+    {
+      "id": "u0156",
+      "text": "Where an organization should put each kind of requirement"
+    },
+    {
+      "id": "u0157",
+      "text": "Concern"
+    },
+    {
+      "id": "u0158",
+      "text": "Configure in"
+    },
+    {
+      "id": "u0159",
+      "text": "Block specific tools, commands, or file paths"
+    },
+    {
+      "id": "u0160",
+      "text": "Managed settings: permissions.deny"
+    },
+    {
+      "id": "u0161",
+      "text": "Enforce sandbox isolation"
+    },
+    {
+      "id": "u0162",
+      "text": "Managed settings: sandbox.enabled"
+    },
+    {
+      "id": "u0163",
+      "text": "Login method and organization restrictions"
+    },
+    {
+      "id": "u0164",
+      "text": "Managed settings: forceLoginMethod, forceLoginOrgUUID"
+    },
+    {
+      "id": "u0165",
+      "text": "Code style and quality guidelines"
+    },
+    {
+      "id": "u0166",
+      "text": "Managed CLAUDE.md"
+    },
+    {
+      "id": "u0167",
+      "text": "Behavioral instructions for Claude"
+    },
+    {
+      "id": "u0168",
+      "text": "Managed CLAUDE.md"
+    },
+    {
+      "id": "u0169",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0170",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0171",
+      "text": "Security requires that Claude Code never reads "
+    },
+    {
+      "id": "u0172",
+      "text": " files on any developer machine, and nobody may opt out. Someone proposes adding \"Never read .env files\" to the managed policy CLAUDE.md, because it loads in every session and can't be excluded. What should the organization do?"
+    },
+    {
+      "id": "u0173",
+      "text": "Use the managed CLAUDE.md as proposed, because an instruction that can't be excluded is enforced in every session"
+    },
+    {
+      "id": "u0174",
+      "text": "Put the instruction in the committed project CLAUDE.md so it goes through code review and reaches every clone"
+    },
+    {
+      "id": "u0175",
+      "text": "Put the instruction in both the managed CLAUDE.md and the project CLAUDE.md so the two layers reinforce each other"
+    },
+    {
+      "id": "u0176",
+      "text": "Add a Read(./.env) rule to permissions.deny in managed settings, because a CLAUDE.md instruction guides Claude but doesn't block the read"
+    },
+    {
+      "id": "u0177",
+      "text": "Sources"
+    },
+    {
+      "id": "u0178",
+      "text": "Sources"
+    }
+  ]
+}

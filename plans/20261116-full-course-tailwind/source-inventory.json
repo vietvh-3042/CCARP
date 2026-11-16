@@ -1,0 +1,5233 @@
+[
+  {
+    "id": "1.1",
+    "title": "Translating business problems into Claude solutions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design",
+    "hash": "f6126f31e3718b01dd333ea414a4940b354aab807899920c9f5fa9ef35c68365",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 4,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56557,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56558,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56559,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.83% of exam9 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doMap a business process step by step an"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptProcess-first solution design — Start by mapping how t"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Map the business process before choosing a model2"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Map the business process before choosing a modelA business prob"
+      }
+    ]
+  },
+  {
+    "id": "1.2",
+    "title": "End-to-end agent architecture: the loop, tool execution and feedback",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/end-to-end-claude-architecture-input-processing-output-and-feedback-loops#continue",
+    "hash": "84b7f161368de43952b5d62d07d2836e0a2566a4a9e5c0ce4b387348eadec009",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56570,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56569,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56571,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.83% of exam8 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doTrace a request through the agent loop"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptThe agent loop — The cycle at the centre of every Clau"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.The agent loop from input to output2.Who executes"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.The agent loop from input to outputEvery Claude-based architect"
+      }
+    ]
+  },
+  {
+    "id": "1.3",
+    "title": "Workflow, agent and augmented LLM patterns for Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/augmented-llm-workflows-or-agents-choosing-the-base-pattern#continue",
+    "hash": "eebf72cd1dc35b5aaef226a8d0655250830fe1b1fc42db06db634f72ebf71313",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 4,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 7,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56657,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56658,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56659,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.83% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDescribe the augmented LLM and explain"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptWho controls the next step — Every pattern in this les"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.The augmented LLM as the building block2.Workflow"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.The augmented LLM as the building blockEvery architecture in th"
+      }
+    ]
+  },
+  {
+    "id": "1.4",
+    "title": "Multi-agent design: when to split and how to brief subagents",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/multi-agent-system-design-when-to-split-and-how-to-decompose#continue",
+    "hash": "c3b3506859d73dd56a88fd7e4f052e51e1aaa13d1883f9bc8a05b8f0b1e64ce3",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56645,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56646,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56647,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "15 min read2.83% of exam5 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide whether a task justifies more t"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptIsolated subagent context — A subagent works in its ow"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Start with one agent and split for a concrete rea"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Start with one agent and split for a concrete reasonA multi-age"
+      }
+    ]
+  },
+  {
+    "id": "1.4.2",
+    "title": "Configuring coordinators and subagents in Managed Agents, the Agent SDK and Claude Code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/multi-agent-orchestration-in-managed-agents-the-agent-sdk-and-claude-code",
+    "hash": "84b6eae12028d9ae2a0cfbfe5c3a14aec083255d3ba0fb700d536d225a890538",
+    "articleCount": 1,
+    "checkpointPanels": 5,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [],
+    "predictions": 0,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "13 min read2.83% of exam3 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doConfigure a coordinator and predefined"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Managed Agents: the multiagent block2.Predefined "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Managed Agents: the multiagent blockA coordinator works the sam"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Predefined and inline agents, and the limits on themEach subage"
+      }
+    ]
+  },
+  {
+    "id": "1.5",
+    "title": "Task decomposition patterns: chaining, routing, parallelization and orchestrator-workers",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/task-decomposition-with-workflow-patterns-chaining-routing-parallelization#continue",
+    "hash": "4496ec6f1add0dac4af6e2705910e5693be22e2cc43581944968e008fe52626a",
+    "articleCount": 1,
+    "checkpointPanels": 10,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56670,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56669,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56672,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "20 min read2.83% of exam11 sourcesPublished 19 Oct 2026✓Docs as o"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose between prompt chaining, routin"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptTask decomposition — Splitting one hard request into s"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Why decomposition improves results2.Prompt chaini"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Why decomposition improves resultsOne model call that has to do"
+      }
+    ]
+  },
+  {
+    "id": "1.6",
+    "title": "Business value pillars for Claude solutions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/business-value-pillars-for-claude-solutions-cost-and-efficiency#continue",
+    "hash": "3e647a8a206c78039b5c16c1011f721845f82bdb7f19050e5183b82336bdcaf9",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56684,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56682,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56683,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.83% of exam8 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doBuild a business case for a Claude sol"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptBusiness value pillars — The five outcomes a Claude so"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Five pillars as the skeleton of a business case2."
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Five pillars as the skeleton of a business caseA sponsor funds "
+      }
+    ]
+  },
+  {
+    "id": "2.1",
+    "title": "Choosing a Claude model: lineup, starting point and cost per task",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-a-claude-model-lineup-trade-offs-and-starting-points#continue",
+    "hash": "0e39ff53b03d7989392d89dde10d984d4f227a86b500910ce44e59bdccae4839",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      }
+    ],
+    "exams": [
+      {
+        "id": 56702,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56698,
+        "correctCount": 3,
+        "optionCount": 5
+      },
+      {
+        "id": 56696,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "17 min read2.6% of exam7 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doCompare Claude Fable 5.1, Opus 5.5, So"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptCost per solved task — The fair way to compare models "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.The current lineup and what separates the models2"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.The current lineup and what separates the modelsEach Claude mod"
+      }
+    ]
+  },
+  {
+    "id": "2.2",
+    "title": "System Prompts and Reusable Prompt Templates for Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/system-prompts-and-reusable-prompt-templates-for-claude#continue",
+    "hash": "885545a41cc39f853e40ff3d30239239b2965920f76fc96fcffd98c75ce8b5d4",
+    "articleCount": 1,
+    "checkpointPanels": 4,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56705,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "9 min read2.6% of exam3 sourcesPublished 4 Oct 2026✓Docs as of 30"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doSet a role for Claude in the system pr"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptRole-first system prompt — The system prompt is mainly"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Start the system prompt with a role2.Write instru"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Start the system prompt with a roleIn the Messages API, a syste"
+      }
+    ]
+  },
+  {
+    "id": "2.2.2",
+    "title": "Guardrails for Claude Apps: Jailbreaks, Prompt Injection, Hallucinations and Prompt Leaks",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/guardrails-for-claude-apps-jailbreaks-prompt-injection-hallucinations-and-prompt-leaks",
+    "hash": "07e0deac1276b31f7f749c95ba2edf2dd428b4494208d354bc11d787a6fe7caf",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      }
+    ],
+    "exams": [
+      {
+        "id": 56712,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56713,
+        "correctCount": 3,
+        "optionCount": 5
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "10 min read2.6% of exam3 sourcesPublished 4 Oct 2026✓Docs as of 3"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doTell direct jailbreaks apart from indi"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Guardrails when the user is the adversary2.Guardr"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Guardrails when the user is the adversaryA guardrail is any mea"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Guardrails for untrusted content Claude readsPredict firstYour "
+      }
+    ]
+  },
+  {
+    "id": "2.3",
+    "title": "Few-shot and chain-of-thought prompting for Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/zero-shot-and-few-shot-prompting-with-claude#continue",
+    "hash": "ce8d5b4a2997c36efddbb468a7e5deb0f9b037073a8b0887952907a53d13c231",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56717,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56719,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56721,
+        "correctCount": 3,
+        "optionCount": 6
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "17 min read2.6% of exam6 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide when a prompt needs zero, one o"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptShowing versus telling — Instructions tell Claude what"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Zero-shot, one-shot and few-shot prompting2.Craft"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Zero-shot, one-shot and few-shot promptingA zero-shot prompt is"
+      }
+    ]
+  },
+  {
+    "id": "2.4",
+    "title": "Context window budgeting: what counts and how to measure it",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/context-window-budgeting-what-counts-and-how-to-measure-it#continue",
+    "hash": "77afda651951b193c8265fdf775c31711e1e1c1e05e138af7b9ec971f0378ad0",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56731,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56734,
+        "correctCount": 3,
+        "optionCount": 6
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "13 min read2.6% of exam3 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doList every component of a request that"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptContext window as one shared budget — The context wind"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What fills the context window2.What happens at th"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What fills the context windowThe context window is the model's "
+      }
+    ]
+  },
+  {
+    "id": "2.4.2",
+    "title": "Compaction and context editing for long Claude sessions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/managing-long-conversations-compaction-context-editing-and-cache-trade-offs",
+    "hash": "6377388d55ad90ae771dc1dfe37b881b2b1eaad6612fe91258ebe4fee7a90dd1",
+    "articleCount": 1,
+    "checkpointPanels": 5,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56729,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "11 min read2.6% of exam4 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose between compaction on demand, c"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Compaction: replacing old turns with a summary2.C"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Compaction: replacing old turns with a summaryA long agent sess"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Context editing: clearing tool results and thinking by ruleCont"
+      }
+    ]
+  },
+  {
+    "id": "2.5",
+    "title": "Prompt reuse with caching, modular prompts and Agent Skills",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-caching-and-modular-prompt-layout#continue",
+    "hash": "1f400ecf550adb96244d5f9ee6b24d8428d45d7fec0ffb4534b7cdc86444ff93",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 9,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      }
+    ],
+    "exams": [
+      {
+        "id": 56745,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56742,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56747,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "20 min read2.6% of exam4 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain how prompt caching reuses an i"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptReusable stable prefix — Reuse works when the start of"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What prompt caching reuses and what it costs2.Aut"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What prompt caching reuses and what it costsMany production pro"
+      }
+    ]
+  },
+  {
+    "id": "3.1",
+    "title": "Capability bloat in agent tool configurations",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/capability-bloat-why-too-many-tools-degrade-an-agent#continue",
+    "hash": "95de7f106809b48df692885c241e4c64ab4d4b250534868cec2d00d735157bf7",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      }
+    ],
+    "exams": [
+      {
+        "id": 56754,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56757,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56762,
+        "correctCount": 3,
+        "optionCount": 6
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.38% of exam10 sourcesPublished 19 Oct 2026✓Docs as o"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain what an oversized tool set cos"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptCapability bloat — Capability bloat is when an agent i"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What too many tools cost an agent2.Diagnosing blo"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What too many tools cost an agentEvery tool definition you atta"
+      }
+    ]
+  },
+  {
+    "id": "3.2",
+    "title": "MCP authorization: discovery, client registration and scoped tokens",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/mcp-authorization-requirements-discovery-registration-and-token-binding#continue",
+    "hash": "502248edc96bf1a1af58e520cb46bd66af20d2e43bb96c516628c4ed1fd76b76",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "13 min read2.38% of exam3 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide whether an MCP connection shoul"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptAudience-bound access token — An MCP access token is i"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.The transport decides how an MCP server authentic"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.The transport decides how an MCP server authenticatesReviewing "
+      }
+    ]
+  },
+  {
+    "id": "3.2.2",
+    "title": "Who the agent acts as: per-user credentials and permission layers",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/finding-mcp-authorization-gaps-scopes-per-user-credentials-and-server-policy",
+    "hash": "bebce4a6ed3b68b82f2ff55e512dde66485eebb72255eced99b737e87436b27e",
+    "articleCount": 1,
+    "checkpointPanels": 7,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56771,
+        "correctCount": 3,
+        "optionCount": 6
+      },
+      {
+        "id": 56768,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56774,
+        "correctCount": 2,
+        "optionCount": 5
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "12 min read2.38% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain the security gaps created when"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Shared service identity versus acting on behalf o"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Shared service identity versus acting on behalf of each userEve"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Keeping credentials outside the agent's boundaryAn agent that r"
+      }
+    ]
+  },
+  {
+    "id": "3.3",
+    "title": "Accuracy-latency trade-offs: effort, fast mode, streaming and justified configs",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/effort-and-model-choice-trading-accuracy-for-latency-and-cost#continue",
+    "hash": "9f0952eda6f9268d3df2fe022f2dfa091ca8cd4560c52324a4e20792681d54df",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56777,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56778,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56779,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "17 min read2.38% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doSay which latency clock each lever mov"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptEffort as the accuracy-latency dial — Effort sets how "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Which latency clock each lever moves2.Starting fr"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Which latency clock each lever movesA latency complaint only ge"
+      }
+    ]
+  },
+  {
+    "id": "3.4",
+    "title": "Run-level telemetry and tagging for Claude agent fleets",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/monitoring-strategy-for-claude-agents-privacy-collectors-and-reporting-apis#continue",
+    "hash": "aa2c2efaf6dd832528da502d5a83dfe1fde5ec56cdb974c3b8f18cc98207d6c8",
+    "articleCount": 1,
+    "checkpointPanels": 7,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56803,
+        "correctCount": 3,
+        "optionCount": 5
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "15 min read2.38% of exam4 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain why request logs cannot tell y"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptRun-level telemetry — Telemetry that records an agent "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Why agent runs resist ordinary debugging2.Rolling"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Why agent runs resist ordinary debuggingA request log answers t"
+      }
+    ]
+  },
+  {
+    "id": "3.4.2",
+    "title": "Choosing a Claude monitoring strategy: OpenTelemetry, usage reports or a gateway",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-a-claude-monitoring-strategy-opentelemetry-usage-reports-or-a-gateway",
+    "hash": "f812ac5b4c0ceb199464179dfbfe2c708ec0b028eb0af8af9af14b9ea770271e",
+    "articleCount": 1,
+    "checkpointPanels": 5,
+    "types": [
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56805,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56804,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "10 min read2.38% of exam8 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide when a full OpenTelemetry pipel"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.When OpenTelemetry is more than you need2.Attribu"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.When OpenTelemetry is more than you needChoose a monitoring too"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Attributing spend with the Usage & Cost APIThe Usage & Cost API"
+      }
+    ]
+  },
+  {
+    "id": "3.5",
+    "title": "RAG ingestion: chunking, embeddings and contextual indexing",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/rag-pipeline-design-chunking-embeddings-and-hybrid-indexing#continue",
+    "hash": "386f71848561ff7a36c9ed062db2881e65b0ac8de1fd7f126be766af03ac9263",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56791,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "12 min read2.38% of exam4 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide whether a knowledge base needs "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptContextual retrieval — Before indexing, Claude writes "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Chunk size, boundaries and the context a chunk lo"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Chunk size, boundaries and the context a chunk losesPredict fir"
+      }
+    ]
+  },
+  {
+    "id": "3.5.2",
+    "title": "RAG query time: reranking, top-k and citable search results",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/contextual-retrieval-reranking-and-citable-search-results",
+    "hash": "42e1267183c8f96cee74dc570c2d08f73d68e3478c22251b19128bdaa857c956",
+    "articleCount": 1,
+    "checkpointPanels": 5,
+    "types": [
+      {
+        "number": 1,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56798,
+        "correctCount": 3,
+        "optionCount": 6
+      },
+      {
+        "id": 56794,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "10 min read2.38% of exam5 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doMerge the BM25 and vector rankings int"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Retrieve broadly, fuse, rerank and pass the top-k"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Retrieve broadly, fuse, rerank and pass the top-kAt query time,"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Passing chunks to Claude as citable search resultsChunks pasted"
+      }
+    ]
+  },
+  {
+    "id": "3.6",
+    "title": "Retrieval strategies matched to data shape and query pattern",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/retrieval-strategy-selection-full-context-embeddings-bm25-and-hybrid-search#continue",
+    "hash": "d6d343f6d738a396d2a02eec7dd1f89d78bb60128ec6b9f6caa9ded547274af3",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56816,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56817,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56818,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "18 min read2.38% of exam8 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide whether a corpus belongs in the"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptRetrieval matched to data shape — No retrieval method "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.First ask whether the corpus fits in the prompt2."
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.First ask whether the corpus fits in the promptPredict firstEve"
+      }
+    ]
+  },
+  {
+    "id": "3.7",
+    "title": "Choosing between MCP, direct tools and agent-to-agent integration",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-between-mcp-direct-tool-use-and-subagents#continue",
+    "hash": "fd52611cd5568e6d8a9df5404f7292935bca88bde6b2304e49425c9089ebdef5",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56826,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56827,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56825,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "22 min read2.38% of exam9 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose between a direct tool or CLI ca"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptMCP server as a shared integration point — An MCP serv"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Three ways to connect Claude to a system2.What MC"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Three ways to connect Claude to a systemEach time Claude needs "
+      }
+    ]
+  },
+  {
+    "id": "3.8",
+    "title": "Progressive discovery vs. monolithic context: tool search and when to use it",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/tool-search-vs-loading-every-tool-definition-up-front#continue",
+    "hash": "8a13aaaeb2f6e67d0925cd0edbffe00531d4dab7967fd2a829b7963ef66c10c2",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 6,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56839,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56837,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56838,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "17 min read2.38% of exam6 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doQuantify the per-request cost of loadi"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptProgressive discovery — Only lightweight entry points "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What a monolithic tool set costs before any work "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What a monolithic tool set costs before any work startsA monoli"
+      }
+    ]
+  },
+  {
+    "id": "4.1",
+    "title": "Evaluation metrics for Claude systems: accuracy, latency, cost, safety and security",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/latency-cost-safety-and-security-metrics#continue",
+    "hash": "5cc5319106ea81f7f5d015ac09f8cdd4fedada9dab354c54c12680be25e44aa0",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56849,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56851,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56854,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "20 min read2.67% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain why one Claude application nee"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptMultidimensional success criteria — A Claude applicati"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Why one metric never certifies a Claude system2.M"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Why one metric never certifies a Claude systemAn evaluation met"
+      }
+    ]
+  },
+  {
+    "id": "4.2",
+    "title": "Eval datasets and graders: designing a mixed-method test framework",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/evaluation-datasets-test-cases-edge-cases-and-volume#continue",
+    "hash": "f1c7c9af05acadf71a6b5fac9b0711451392c1254b81c6ba61dbf3707af9793a",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 9,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      }
+    ],
+    "exams": [
+      {
+        "id": 56861,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56862,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56863,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "18 min read2.67% of exam3 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doRewrite a vague success criterion so t"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptEval test case — The unit every evaluation is built fr"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Success criteria come before test cases2.Test cas"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Success criteria come before test casesAn evaluation dataset is"
+      }
+    ]
+  },
+  {
+    "id": "4.3",
+    "title": "A/B testing prompts: baselines, segments and versioned rollout",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/a-b-testing-prompt-and-model-changes-against-a-baseline#continue",
+    "hash": "1b0ca181b4554a0ee6704513130cc72d8d02400d600a6aad76ced0371bfdc081",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 8,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56873,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56874,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56878,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "18 min read2.67% of exam6 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doSet a baseline and a numeric target be"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptBaseline comparison — A change only counts as an impro"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Baselines and targets come before the change2.Off"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Baselines and targets come before the changeIterative improveme"
+      }
+    ]
+  },
+  {
+    "id": "4.4",
+    "title": "Diagnosing Claude system failures: hallucination, prompt, tool and model faults",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/diagnosing-prompt-failures-tool-misuse-and-model-mismatch#continue",
+    "hash": "2003668b9a842c8b55d3320f3f426ae8c86568f8c782d6c9e1c076b0d54791bb",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56885,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56887,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56886,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "17 min read2.67% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doConfirm a suspected hallucination in a"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptSymptom-to-layer diagnosis — A bad output is a symptom"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Four layers a failure can come from2.Confirming a"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Four layers a failure can come fromOnce a Claude-based system i"
+      }
+    ]
+  },
+  {
+    "id": "4.5",
+    "title": "Optimizing Claude cost and latency: free wins, batching and budgets",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-caching-and-free-cost-wins-on-claude#continue",
+    "hash": "d63b1ceba198f638776bd2b78ff4135ab2e6af5f54f641b15b9fbb8981300710",
+    "articleCount": 1,
+    "checkpointPanels": 10,
+    "types": [
+      {
+        "number": 9,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 10,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56909,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56911,
+        "correctCount": 3,
+        "optionCount": 6
+      },
+      {
+        "id": 56910,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "22 min read2.67% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doTell apart levers that cut cost withou"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptFree wins versus trade-offs — Some cost levers lower s"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Two kinds of cost levers2.Why caching dominates a"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Two kinds of cost leversEvery cost lever on the Claude Platform"
+      }
+    ]
+  },
+  {
+    "id": "4.6",
+    "title": "OpenTelemetry for Claude Code and the Agent SDK: signals, traces and content gates",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/opentelemetry-metrics-logs-and-traces-for-claude-agents#continue",
+    "hash": "3e84d867f46d8d4335690c48ce04b7e5d35120a84c228c69fe265b86d45c9039",
+    "articleCount": 1,
+    "checkpointPanels": 7,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 2,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56897,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56902,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "13 min read2.67% of exam3 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doWire metrics, log events and traces fr"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptThree opt-in OpenTelemetry signals — Claude Code and t"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Metrics, log events and traces answer different q"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Metrics, log events and traces answer different questionsMonito"
+      }
+    ]
+  },
+  {
+    "id": "4.6.2",
+    "title": "Organisation-wide monitoring: API traces, usage and cost reports, audit events",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/telemetry-content-gates-audit-events-and-the-usage-cost-api",
+    "hash": "273a26ff0ef3c6d42898b113b584f37b410ba5bcbedad6fd8b259eb6be296de3",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56905,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "12 min read2.67% of exam9 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doAdd a Claude API OpenTelemetry destina"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Tracing Messages API requests and Managed Agents "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Tracing Messages API requests and Managed Agents sessionsClaude"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Usage and cost of a Managed Agents sessionA single Managed Agen"
+      }
+    ]
+  },
+  {
+    "id": "5.1",
+    "title": "Input and output guardrails for Claude applications",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-level-guardrails-jailbreaks-prompt-injection-hallucinations-and-refusals#continue",
+    "hash": "c896493362ca3ee379683aacaefabb47d40e0c4359518b4bfa5445ecf87c5001",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 8,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56921,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56922,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56923,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "18 min read2.8% of exam5 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose guardrails from the threat mode"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptThreat-model-driven guardrails — Guardrails are chosen"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Start guardrail design from the threat model2.Gua"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Start guardrail design from the threat modelA guardrail is a co"
+      }
+    ]
+  },
+  {
+    "id": "5.1.2",
+    "title": "Least privilege and sandboxing for Claude agents",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/access-controls-for-claude-agents-permissions-sandboxing-and-audit",
+    "hash": "9a5e9f70853e3c511d93311aece277ccc6b17002d5916911ea37414fa931d4ea",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "11 min read2.8% of exam3 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doWrite permission rules for an agent st"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Least privilege: writing rules from deny2.Where c"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Least privilege: writing rules from denyEvery guardrail on the "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Where command-pattern rules stop protectingPredict firstA deny "
+      }
+    ]
+  },
+  {
+    "id": "5.2",
+    "title": "LLM failure modes: hallucination, knowledge limits, context rot and prompt injection",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/llm-limitations-hallucination-knowledge-gaps-context-limits-and-steerability#continue",
+    "hash": "680ac9fc95864766e22a023ac0ff32446fa54019bcdce862db0f09215c2d89d8",
+    "articleCount": 1,
+    "checkpointPanels": 10,
+    "types": [
+      {
+        "number": 10,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 96749,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56942,
+        "correctCount": 3,
+        "optionCount": 6
+      },
+      {
+        "id": 56933,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "20 min read2.8% of exam8 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain why language models produce co"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptFailure modes follow from how the model works — An LLM"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Where hallucination comes from and where it conce"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Where hallucination comes from and where it concentratesHalluci"
+      }
+    ]
+  },
+  {
+    "id": "5.3",
+    "title": "Human approval checkpoints in Claude Code and the Agent SDK",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/human-approval-checkpoints-in-claude-code#continue",
+    "hash": "541ca0b666f60c6dec387ce65ff00154ef5745836d9d1f157ce0d7b337fd1018",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56958,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56957,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 95984,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "15 min read2.8% of exam5 sourcesPublished 20 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose a Claude Code permission mode b"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptHuman approval checkpoint — A point in the permission "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Why an agent needs human approval checkpoints2.Pe"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Why an agent needs human approval checkpointsAn agent that can "
+      }
+    ]
+  },
+  {
+    "id": "5.3.2",
+    "title": "Managed Agents permission policies and tool confirmations",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/programmatic-approval-flows-agent-sdk-and-managed-agents",
+    "hash": "2e77b5e9889beaa94a2c43eaa0c359ac09d1c5b7bf34e0de317edfa36e0c0542",
+    "articleCount": 1,
+    "checkpointPanels": 5,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 3
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      }
+    ],
+    "exams": [],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "10 min read2.8% of exam4 sourcesPublished 20 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doSet always_allow, always_ask or auto o"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Three policies and their defaults2.The auto polic"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Three policies and their defaultsIn Managed Agents, a permissio"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.The auto policy: server-side judgement per callUnder auto, the "
+      }
+    ]
+  },
+  {
+    "id": "5.4",
+    "title": "HIPAA, BAAs and zero data retention for Claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/hipaa-compliance-on-claude-baa-hipaa-readiness-and-zdr#continue",
+    "hash": "2add4ac38da83a21c12a996b72bd2f3833788a9268fb1f536b6199be1f2f98d6",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      }
+    ],
+    "exams": [
+      {
+        "id": 56945,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56946,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "15 min read2.8% of exam4 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doSay who processes prompts and outputs "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptData processor — The party that handles your prompts a"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Who processes the data decides which controls app"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Who processes the data decides which controls applyEvery compli"
+      }
+    ]
+  },
+  {
+    "id": "5.4.2",
+    "title": "GDPR, data residency and FedRAMP for Claude deployments",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/gdpr-fedramp-and-data-residency-controls-for-claude",
+    "hash": "98c434ecbf8ccd0d09f3a1852e799487c1258a884acecb2c28caece23c248f7a",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56947,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "11 min read2.8% of exam8 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain where GDPR coverage for Claude"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.GDPR comes from the DPA in your contract2.Data re"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.GDPR comes from the DPA in your contractRegulations reach Claud"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Data residency: inference geo and workspace geoTwo independent "
+      }
+    ]
+  },
+  {
+    "id": "5.5",
+    "title": "Bias, fairness and honest outputs in Claude builds",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-bias-and-fairness-where-bias-comes-from-and-how-to-measure-it#continue",
+    "hash": "6817b69d4511311a0bdf8736165f32b4d81b22ab8c51e7171cc4d13e48bc71c3",
+    "articleCount": 1,
+    "checkpointPanels": 7,
+    "types": [
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56984,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56982,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56987,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "12 min read2.8% of exam6 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doTrace where bias can enter a Claude-ba"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptInherited bias — A Claude-based system reproduces what"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Where bias enters a Claude-based system2.Measurin"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Where bias enters a Claude-based systemEthical problems in an A"
+      }
+    ]
+  },
+  {
+    "id": "5.5.2",
+    "title": "AI disclosure, watermarks and Content Credentials",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-transparency-disclosure-watermarks-and-content-credentials",
+    "hash": "68b9c1f2fc354ce41e46655ce36f3ce74db1e59a81b0fc76e2ac522405ebc025",
+    "articleCount": 1,
+    "checkpointPanels": 3,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "6 min read2.8% of exam2 sourcesPublished 19 Oct 2026✓Docs as of 1"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doExplain why a Claude-based product mus"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Telling people when AI is involved2.How Claude ma"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Telling people when AI is involvedTransparency starts with a pl"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.How Claude marks text and filesClaude uses two complementary te"
+      }
+    ]
+  },
+  {
+    "id": "6.1",
+    "title": "Structured discovery and requirement gathering for Claude solutions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/writing-measurable-requirements-and-acceptance-tests-for-ai-solutions#continue",
+    "hash": "f3fa63ab9e5691fb96827041e5f278a5831f6c794cff5a879295c2f5cbf1d3fb",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      }
+    ],
+    "exams": [
+      {
+        "id": 56971,
+        "correctCount": 3,
+        "optionCount": 6
+      },
+      {
+        "id": 56969,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 56970,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.8% of exam9 sourcesPublished 19 Oct 2026✓Docs as of "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doRun a discovery session that captures "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptTestable requirement — A requirement worded precisely "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.The discovery brief: users, needs, experience, co"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.The discovery brief: users, needs, experience, constraintsStruc"
+      }
+    ]
+  },
+  {
+    "id": "6.2",
+    "title": "Communicating architecture trade-offs to stakeholders",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/explaining-claude-model-and-cost-trade-offs-to-stakeholders#continue",
+    "hash": "3f6d6fde22c6a70adb3fdc2858bd3a3bae210d9b21d670a36696ad0ea4bb7608",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 4,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 56999,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57000,
+        "correctCount": 2,
+        "optionCount": 5
+      },
+      {
+        "id": 57082,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "21 min read2.8% of exam10 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doPresent a model and effort choice to n"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptEvidence-backed, bounded recommendation — A trade-off "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Turning model trade-offs into a plain recommendat"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Turning model trade-offs into a plain recommendationEvery archi"
+      }
+    ]
+  },
+  {
+    "id": "6.3",
+    "title": "Stakeholder expectations: SLAs, limits and pilot feedback",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/stakeholder-expectations-and-slas-for-claude-solutions#continue",
+    "hash": "e126221cdc0e93de13c33c1fe96c7d6752e0d3d4ba417c93464fce9b80a1e72b",
+    "articleCount": 1,
+    "checkpointPanels": 9,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57010,
+        "correctCount": 3,
+        "optionCount": 5
+      },
+      {
+        "id": 57009,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57012,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.8% of exam13 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doState what the standard and Priority s"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptCeilings and targets, not guarantees — The service-lev"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What standard and Priority Tier actually promise2"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What standard and Priority Tier actually promiseStakeholders ra"
+      }
+    ]
+  },
+  {
+    "id": "6.4",
+    "title": "Architecture documentation for Claude solutions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/documenting-an-ai-solution-architecture-for-engineering-teams#continue",
+    "hash": "0acfbcf8eb978b454d78b9cb7fff131b86e41d00b63bc24e52c1918b71fb13d0",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 7,
+        "type": "order",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "steps", "prompt", "citation", "explanation"]
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57029,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57030,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57031,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "14 min read2.8% of exam11 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doList the components, data flows, model"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptArchitecture description — The document that tells eng"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What an architecture description must pin down2.W"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What an architecture description must pin downAn architecture d"
+      }
+    ]
+  },
+  {
+    "id": "6.4.2",
+    "title": "CLAUDE.md as implementation guidance",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/writing-implementation-guidance-with-claude-md",
+    "hash": "46872e976c8dcec96eb372ea0c440b10df33f3e94d2aeb3a172f147b35e64803",
+    "articleCount": 1,
+    "checkpointPanels": 3,
+    "types": [
+      {
+        "number": 1,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "8 min read2.8% of exam5 sourcesPublished 19 Oct 2026✓Docs as of 1"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doDecide what belongs in a CLAUDE.md and"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.What CLAUDE.md should contain2.Choosing the scope"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.What CLAUDE.md should containCLAUDE.md is the implementation gu"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Choosing the scope for each instructionCLAUDE.md files exist at"
+      }
+    ]
+  },
+  {
+    "id": "6.5",
+    "title": "AI solution lifecycle phases: discovery to retirement",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-solution-lifecycle-discovery-design-and-handoff#continue",
+    "hash": "f74e13f7c90428c60409675fb4046bd8f9c978da7972b34e2313f9f54930041b",
+    "articleCount": 1,
+    "checkpointPanels": 10,
+    "types": [
+      {
+        "number": 7,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 9,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 10,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 3
+      }
+    ],
+    "exams": [
+      {
+        "id": 57018,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57017,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57020,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 2,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "19 min read2.8% of exam11 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doName the phases an AI solution passes "
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptLifecycle ownership — An AI solution moves through dis"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Six phases, each handing an artifact forward2.Dis"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Six phases, each handing an artifact forwardAn AI solution is n"
+      }
+    ]
+  },
+  {
+    "id": "7.1",
+    "title": "Claude Code settings scopes, precedence and permission rules",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/claude-code-settings-scopes-and-managed-policy-delivery-for-teams#continue",
+    "hash": "67f552091ee0ec204a8e3149011e4f388b48fc3710c2f491cb6a46b2374b37d6",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57041,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57042,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "12 min read2.33% of exam4 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doPick the right settings file for a rul"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptSettings scope — Each Claude Code settings file has a "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Four settings scopes and who each one reaches2.Wh"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Four settings scopes and who each one reachesWhen a team uses C"
+      }
+    ]
+  },
+  {
+    "id": "7.1.2",
+    "title": "Managed policy for Claude Code: delivery, locks and model pins",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/claude-code-team-policy-permissions-mcp-servers-models-and-spend",
+    "hash": "5f5d05787eedb25f1e3fdbb7223e7a7a6c45c84cb8565ee91da2450dd60dea45",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57044,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "12 min read2.33% of exam3 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose a delivery mechanism for manage"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Delivering managed settings to every machine2.Whe"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Delivering managed settings to every machineManaged settings ar"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.When several managed sources compete: first-wins, merge and /st"
+      }
+    ]
+  },
+  {
+    "id": "7.2",
+    "title": "Explore, plan, implement, commit: the Claude Code loop",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompting-claude-code-verification-context-and-the-explore-plan-implement-loop#continue",
+    "hash": "006f35eba24a1d48635f706498419a41c5f66a5de8a3f476e31f9f033333adc1",
+    "articleCount": 1,
+    "checkpointPanels": 7,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 7,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57055,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "13 min read2.33% of exam4 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doRun a Claude Code task as four separat"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptExplore, plan, implement, commit — A Claude Code workf"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Explore, plan, implement, commit2.Matching the pe"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Explore, plan, implement, commitClaude Code is an agent. It rea"
+      }
+    ]
+  },
+  {
+    "id": "7.2.2",
+    "title": "Claude Code hooks, shared skills and CI automation",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/sharing-claude-code-workflows-claude-md-skills-hooks-and-ci",
+    "hash": "93b9cd7256ffd680b62a09e4a93bad515ba5e74b51ea51ddd25cb022a4aa78ac",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 1,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 4,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57053,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57056,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "15 min read2.33% of exam7 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doChoose the hook event and decision tha"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Hooks: actions that run every time2.Skills and MC"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Hooks: actions that run every timeAnything you write in a promp"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.Skills and MCP servers as shared team toolingEvery developer's "
+      }
+    ]
+  },
+  {
+    "id": "7.3",
+    "title": "Diagnose Claude Code configuration: what loaded and why",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/diagnosing-claude-code-configuration-mcp-and-hook-failures#continue",
+    "hash": "8b0633a48eadc0b68ee1cd4d926cb62a61d5f69ec0b9f87ab117140f36a09108",
+    "articleCount": 1,
+    "checkpointPanels": 8,
+    "types": [
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 5,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 6,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 4
+      },
+      {
+        "number": 8,
+        "type": "fill",
+        "kind": "check",
+        "keys": [
+          "id",
+          "code",
+          "kind",
+          "type",
+          "prompt",
+          "options",
+          "language",
+          "sourceUrl",
+          "answerIndex",
+          "explanation",
+          "docContentHash"
+        ],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57068,
+        "correctCount": 1,
+        "optionCount": 4
+      },
+      {
+        "id": 57067,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "13 min read2.33% of exam2 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doUse /memory, /hooks, /mcp, /permission"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-6 rounded-lg border-l-4 border-l-primary border-y border-r border-border bg-primary/5 p-4",
+        "text": "Key conceptDiagnose from what loaded, not from what you wrote — A"
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Start from the symptom, then ask what loaded2.Set"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Start from the symptom, then ask what loadedMost Claude Code co"
+      }
+    ]
+  },
+  {
+    "id": "7.3.2",
+    "title": "Claude Code errors, automatic retries and session recovery",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/reading-claude-code-errors-retries-and-multiagent-session-traces",
+    "hash": "01365a9754748f99a527a1a1dc177b5897efc860e61e4aa8640083bf70c1d397",
+    "articleCount": 1,
+    "checkpointPanels": 6,
+    "types": [
+      {
+        "number": 5,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 6,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 1,
+        "type": "match",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "pairs", "prompt", "citation", "explanation"],
+        "pairCount": 5
+      },
+      {
+        "number": 2,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      },
+      {
+        "number": 3,
+        "type": "choice",
+        "kind": "check",
+        "keys": ["id", "kind", "type", "prompt", "options", "citation", "answerIndex", "explanation"],
+        "options": 4
+      }
+    ],
+    "exams": [
+      {
+        "id": 57065,
+        "correctCount": 1,
+        "optionCount": 4
+      }
+    ],
+    "predictions": 1,
+    "articleChildren": [
+      {
+        "tag": "div",
+        "classes": "mt-4 flex flex-wrap items-center gap-1.5 border-b border-border pb-4",
+        "text": "10 min read2.33% of exam5 sourcesPublished 19 Oct 2026✓Docs as of"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-4 rounded-lg border border-border bg-muted/30 p-4 sm:mt-6",
+        "text": "What you will be able to doSort a Claude Code error message into "
+      },
+      {
+        "tag": "nav",
+        "classes": "mt-6 rounded-lg border border-border bg-muted/20 p-4",
+        "text": "In this lesson1.Sort the error into a category before acting2.Wha"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "1.Sort the error into a category before actingA Claude Code error"
+      },
+      {
+        "tag": "section",
+        "classes": "mt-12",
+        "text": "2.What Claude Code retries for you, and what it won'tPredict firs"
+      }
+    ]
+  }
+]

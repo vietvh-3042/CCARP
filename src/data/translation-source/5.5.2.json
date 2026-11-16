@@ -1,0 +1,347 @@
+{
+  "pageId": "5.5.2",
+  "title": "AI disclosure, watermarks and Content Credentials",
+  "titleVi": "Công khai việc sử dụng AI, dấu chìm và Content Credentials",
+  "units": [
+    {
+      "id": "description",
+      "text": "Address ethical AI considerations"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Explain why a Claude-based product must disclose AI involvement to its users"
+    },
+    {
+      "id": "u0002",
+      "text": "Distinguish Claude's embedded text watermarks from Content Credentials (C2PA) on files, including where each applies"
+    },
+    {
+      "id": "u0003",
+      "text": "Interpret a detected or missing Claude mark correctly, without treating it as proof of authorship or of human origin"
+    },
+    {
+      "id": "u0004",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0005",
+      "text": "Telling people when AI is involved"
+    },
+    {
+      "id": "u0006",
+      "text": "How Claude marks text and files"
+    },
+    {
+      "id": "u0007",
+      "text": "What a mark can and cannot prove"
+    },
+    {
+      "id": "u0008",
+      "text": "Telling people when AI is involved"
+    },
+    {
+      "id": "u0009",
+      "text": "Transparency starts with a plain fact: the people reading an output should know that AI helped produce it. Content that originates with AI is becoming common, and signals about where content came from give readers useful context for judging it. Whoever ships a Claude-based product is responsible for that disclosure. Saying the AI wrote something explains nothing and excuses nothing, because the builder owns the outcome."
+    },
+    {
+      "id": "u0010",
+      "text": "Disclosure works on two levels. The human-facing level is yours to design: a label in the interface, a line in a generated report, an onboarding note saying responses are AI-assisted. The machine-readable level is a mark embedded in the content itself, so software can check it after the content has left your product. Anthropic has signed the EU AI Act's Article 50(2) Code of Practice on Transparency of AI-Generated Content, which commits it to machine-readable marking of Claude output. That mark complements your disclosure and does not replace it, because readers do not see a mark."
+    },
+    {
+      "id": "u0011",
+      "text": "Checkpoint 1 of 3"
+    },
+    {
+      "id": "u0012",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0013",
+      "text": "A team ships a Claude-based tool that writes client reports. Anthropic now embeds machine-readable marks in Claude output, so the product manager suggests removing the \"AI-assisted\" line from each report. What is the right response?"
+    },
+    {
+      "id": "u0014",
+      "text": "Remove the line. Telling people about AI involvement is the model provider's responsibility, not the team's that ships the product."
+    },
+    {
+      "id": "u0015",
+      "text": "Keep the line. The embedded mark is for software to check, readers cannot see it, and telling people about AI involvement is still the team's job."
+    },
+    {
+      "id": "u0016",
+      "text": "Remove the line. Anthropic's Article 50(2) commitment to machine-readable marking already covers disclosure for every product built on Claude."
+    },
+    {
+      "id": "u0017",
+      "text": "Remove the line and add a clause to the terms of service saying Claude's watermark identifies AI-generated content."
+    },
+    {
+      "id": "u0018",
+      "text": "Sources"
+    },
+    {
+      "id": "u0019",
+      "text": "How Claude marks text and files"
+    },
+    {
+      "id": "u0020",
+      "text": "Claude uses two complementary techniques. Generated text carries an imperceptible watermark woven into the text itself. It does not change the meaning or readability, it travels with the text when copied, and it may survive some editing. The watermark is applied at the model level, so the text carries it whichever Claude product or surface produced it. Files that Claude generates in supported types, such as PNG or JPEG, carry a Content Credential: signed provenance metadata that follows the C2PA open standard."
+    },
+    {
+      "id": "u0021",
+      "text": "Claude's two marking techniques compared"
+    },
+    {
+      "id": "u0022",
+      "text": "Aspect"
+    },
+    {
+      "id": "u0023",
+      "text": "Text watermark"
+    },
+    {
+      "id": "u0024",
+      "text": "Content Credentials (C2PA)"
+    },
+    {
+      "id": "u0025",
+      "text": "Attached to"
+    },
+    {
+      "id": "u0026",
+      "text": "Generated text, woven into the words"
+    },
+    {
+      "id": "u0027",
+      "text": "Generated files of supported types, e.g. PNG or JPEG"
+    },
+    {
+      "id": "u0028",
+      "text": "Visible to readers"
+    },
+    {
+      "id": "u0029",
+      "text": "No, imperceptible"
+    },
+    {
+      "id": "u0030",
+      "text": "No, signed metadata"
+    },
+    {
+      "id": "u0031",
+      "text": "Where applied"
+    },
+    {
+      "id": "u0032",
+      "text": "Model level, on Claude Platform (API), Claude, Claude Code, Claude Cowork, Claude Tag, and cloud partners for supported models"
+    },
+    {
+      "id": "u0033",
+      "text": "Only where a platform offers Claude's file generation, e.g. the Claude apps and Claude Platform (API)"
+    },
+    {
+      "id": "u0034",
+      "text": "How it is checked"
+    },
+    {
+      "id": "u0035",
+      "text": "Watermark detection, in private preview for eligible organizations"
+    },
+    {
+      "id": "u0036",
+      "text": "Free Claude Content Checker"
+    },
+    {
+      "id": "u0037",
+      "text": "Main way it is lost"
+    },
+    {
+      "id": "u0038",
+      "text": "Heavy editing, paraphrasing, translation, very short passages"
+    },
+    {
+      "id": "u0039",
+      "text": "Metadata stripped by format conversion, re-saving or screenshots"
+    },
+    {
+      "id": "u0040",
+      "text": "Coverage depends on model and surface. Claude models launched in the EU on or after August 2, 2026 support marking at launch, and Anthropic is adding marking to earlier models. Marking applies wherever Claude is offered, worldwide. Through AWS, Google Cloud or Microsoft Foundry, supported models carry text watermarks, but Content Credentials only appear where that platform offers Claude's file generation. For example, a Bedrock-hosted app generating text gets watermarks, while C2PA depends on file generation being available. Watermark detection is in private preview for organizations that EU law requires to have it, such as regulators and fact-checkers, and for enterprises that must verify watermarking for their own compliance."
+    },
+    {
+      "id": "u0041",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0042",
+      "text": "Every Claude output on every cloud platform carries both a text watermark and Content Credentials."
+    },
+    {
+      "id": "u0043",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0045",
+      "text": "Checkpoint 2 of 3"
+    },
+    {
+      "id": "u0046",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0047",
+      "text": "Match each piece of content with the Claude marking you should expect to find on it"
+    },
+    {
+      "id": "u0048",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0049",
+      "text": "Text from a supported Claude model called through Amazon Bedrock"
+    },
+    {
+      "id": "u0050",
+      "text": "A JPEG that Claude generates in the Claude apps"
+    },
+    {
+      "id": "u0051",
+      "text": "Claude-generated text copied and pasted into another document"
+    },
+    {
+      "id": "u0052",
+      "text": "A screenshot of a PNG that Claude generated"
+    },
+    {
+      "id": "u0053",
+      "text": "A text watermark, but a Content Credential only where the platform offers Claude's file generation"
+    },
+    {
+      "id": "u0054",
+      "text": "Possibly no Content Credential, because screenshots can strip the provenance metadata"
+    },
+    {
+      "id": "u0055",
+      "text": "A signed C2PA Content Credential that the free Claude Content Checker can verify"
+    },
+    {
+      "id": "u0056",
+      "text": "A watermark that travels with the words and may survive some editing"
+    },
+    {
+      "id": "u0057",
+      "text": "Sources"
+    },
+    {
+      "id": "u0058",
+      "text": "What a mark can and cannot prove"
+    },
+    {
+      "id": "u0059",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0060",
+      "text": "A newsroom checks a submitted article and finds no Claude watermark. What can it conclude?"
+    },
+    {
+      "id": "u0061",
+      "text": "The article was written without AI"
+    },
+    {
+      "id": "u0062",
+      "text": "The article was written by a different AI model"
+    },
+    {
+      "id": "u0063",
+      "text": "Very little about AI involvement, because a missing mark does not rule it out"
+    },
+    {
+      "id": "u0064",
+      "text": "A detected mark is a signal, not a verdict. It shows the content may have been processed by Claude. It doesn't establish who authored it. People routinely use Claude to proofread, translate, summarise or convert files, so a marked output can carry ideas, text or data that came from someone else. Marked content may also have been edited, excerpted or combined with other material after Claude handled it."
+    },
+    {
+      "id": "u0065",
+      "text": "A missing mark proves even less. Claude output may carry no detectable mark for several reasons:"
+    },
+    {
+      "id": "u0066",
+      "text": "the model predates marking support"
+    },
+    {
+      "id": "u0067",
+      "text": "the text was heavily edited, paraphrased, translated or mixed into other writing"
+    },
+    {
+      "id": "u0068",
+      "text": "the passage is too short for a reliable signal"
+    },
+    {
+      "id": "u0069",
+      "text": "a file's metadata was stripped by conversion, re-saving or screenshots"
+    },
+    {
+      "id": "u0070",
+      "text": "the platform, feature or file type did not support that kind of mark"
+    },
+    {
+      "id": "u0071",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0072",
+      "text": "Use a mark as one input to a provenance decision, never the only one. A detected mark means Claude may have processed the content. A missing mark means nothing either way about whether AI was involved."
+    },
+    {
+      "id": "u0073",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0074",
+      "text": "A detected Claude watermark proves Claude is the original author of the content."
+    },
+    {
+      "id": "u0075",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0077",
+      "text": "Checkpoint 3 of 3"
+    },
+    {
+      "id": "u0078",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0079",
+      "text": "An academic integrity panel runs watermark detection on a student's English essay and gets a positive Claude result. The student says they wrote the essay in Spanish and used Claude only to translate it. What does the detection result establish?"
+    },
+    {
+      "id": "u0080",
+      "text": "Nothing at all, because translation strips the watermark and so the result must be a false positive"
+    },
+    {
+      "id": "u0081",
+      "text": "That Claude wrote the essay, so the student's account must be false"
+    },
+    {
+      "id": "u0082",
+      "text": "That Claude may have processed the text, which fits the student's account, so the panel must weigh other evidence to decide who wrote it"
+    },
+    {
+      "id": "u0083",
+      "text": "Authorship only after the panel also finds a C2PA Content Credential, since the watermark and the credential together prove Claude wrote it"
+    },
+    {
+      "id": "u0084",
+      "text": "Sources"
+    },
+    {
+      "id": "u0085",
+      "text": "Sources"
+    }
+  ]
+}

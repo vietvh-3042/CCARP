@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "Parallel agents expand investigative coverage, but duplicated context and coordination increase token use. More total computation can also make the complete run slower.",
+    "vi": "Tác tử song song mở rộng phạm vi tìm hiểu, nhưng ngữ cảnh lặp và công việc điều phối làm tăng lượng token. Tổng tính toán lớn hơn còn có thể khiến toàn bộ lượt chạy chậm hơn."
+  },
+  "exam-trap-2": {
+    "en": "Role handoffs discard useful working context. Prefer independently bounded features or areas, keeping implementation and its tests together when they rely on the same knowledge.",
+    "vi": "Bàn giao theo vai trò làm mất ngữ cảnh làm việc hữu ích. Nên chia theo tính năng hoặc khu vực độc lập, giữ phần triển khai và kiểm thử cùng nhau khi cần chung kiến thức."
+  },
+  "exam-trap-3": {
+    "en": "An absent tools list means inherited access, not restricted access. Specify the permitted reading tools explicitly when defining a reviewer that must remain read-only.",
+    "vi": "Thiếu danh sách tools nghĩa là thừa hưởng quyền truy cập, không phải bị hạn chế. Khi định nghĩa tác tử rà soát chỉ được đọc, hãy nêu rõ các công cụ đọc được phép."
+  }
+}

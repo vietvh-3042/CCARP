@@ -1,0 +1,611 @@
+{
+  "pageId": "1.4",
+  "title": "Multi-agent design: when to split and how to brief subagents",
+  "titleVi": "Thiết kế hệ thống đa tác tử: khi nào nên chia việc và cách giao nhiệm vụ cho tác tử con",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design multi-agent systems and orchestration strategies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide whether a task justifies more than one agent, naming the concrete reason and the token cost it adds"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain how a coordinator delegates to subagents with isolated context and receives only condensed results"
+    },
+    {
+      "id": "u0003",
+      "text": "Draw agent boundaries by context rather than by role"
+    },
+    {
+      "id": "u0004",
+      "text": "Write a self-contained subagent brief with an objective, an output format, a tool list and boundaries"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Isolated subagent context"
+    },
+    {
+      "id": "u0007",
+      "text": "A subagent works in its own conversation. Everything it reads and every tool call it makes stays there, and the coordinator gets back only the subagent's final message. This isolation is the main reason to split work across agents, and it is why each subagent needs a complete brief: it never sees what the coordinator knows."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Start with one agent and split for a concrete reason"
+    },
+    {
+      "id": "u0010",
+      "text": "The coordinator pattern and isolated subagent context"
+    },
+    {
+      "id": "u0011",
+      "text": "Fanning out independent subagents in parallel"
+    },
+    {
+      "id": "u0012",
+      "text": "Briefing a subagent that cannot see your context"
+    },
+    {
+      "id": "u0013",
+      "text": "Start with one agent and split for a concrete reason"
+    },
+    {
+      "id": "u0014",
+      "text": "A multi-agent system runs several Claude instances, each with its own conversation context, and coordinates them to finish one piece of work. The design question is not how to build one. It is whether you should. Anthropic sees teams use multi-agent systems in situations where a single agent would do better. Some spend months on elaborate architectures, only to find that better prompting of one agent got the same results."
+    },
+    {
+      "id": "u0015",
+      "text": "Splitting has a price. Each extra agent is another place to fail, another prompt to maintain and another source of unexpected behaviour. In Anthropic's testing, multi-agent implementations typically used "
+    },
+    {
+      "id": "u0016",
+      "text": "3-10x more tokens"
+    },
+    {
+      "id": "u0017",
+      "text": " than a single agent on the same task. The extra tokens come from three places: context duplicated across agents, coordination messages between agents, and summaries written for each handoff. Claude Managed Agents, a platform whose multiagent orchestration lets one agent coordinate others within a single session, makes the same point in configuration terms. There, an agent can write a dynamic workflow: a program that runs many agents in the background and combines their results. Every agent in such a run consumes tokens, so you set a session budget, a cap on the session's total spend that includes its workflow runs."
+    },
+    {
+      "id": "u0018",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0019",
+      "text": "A research task that took one agent 10 minutes is split across five parallel subagents. What usually happens?"
+    },
+    {
+      "id": "u0020",
+      "text": "It uses fewer tokens, because each subagent has a smaller context"
+    },
+    {
+      "id": "u0021",
+      "text": "It covers more ground but uses far more tokens, and the total time is often longer, not shorter"
+    },
+    {
+      "id": "u0022",
+      "text": "It finishes in about 2 minutes, because the work is divided five ways"
+    },
+    {
+      "id": "u0023",
+      "text": "Three situations reliably pay back that cost. Outside them, coordination usually costs more than it saves. The Managed Agents documentation describes the same territory: work spread across many surfaces, or several well-scoped tasks that feed one goal."
+    },
+    {
+      "id": "u0024",
+      "text": "The three reasons to split, the signal that points to each, and its main cost"
+    },
+    {
+      "id": "u0025",
+      "text": "Reason to split"
+    },
+    {
+      "id": "u0026",
+      "text": "Signal in a single agent"
+    },
+    {
+      "id": "u0027",
+      "text": "What it costs"
+    },
+    {
+      "id": "u0028",
+      "text": "Context pollution"
+    },
+    {
+      "id": "u0029",
+      "text": "A subtask fills the context with a lot of material (more than 1000 tokens) that the main task mostly doesn't need, such as full order history while diagnosing a technical issue"
+    },
+    {
+      "id": "u0030",
+      "text": "A handoff that can lose detail if the extraction criteria are unclear"
+    },
+    {
+      "id": "u0031",
+      "text": "Parallel breadth"
+    },
+    {
+      "id": "u0032",
+      "text": "The work splits into independent facets, such as research across many sources or tests for many components"
+    },
+    {
+      "id": "u0033",
+      "text": "Many more tokens, and often a longer total run"
+    },
+    {
+      "id": "u0034",
+      "text": "Specialisation"
+    },
+    {
+      "id": "u0035",
+      "text": "Too many tools (often 20+), tools from unrelated domains, or behavioural modes that conflict"
+    },
+    {
+      "id": "u0036",
+      "text": "Routing complexity: a misrouted request gets a poor result"
+    },
+    {
+      "id": "u0037",
+      "text": "Once you decide to split, draw the boundaries around context, not around the type of work. Splitting by role creates a \"telephone game\": a planner hands to an implementer, who hands to a tester, who hands to a reviewer, and every handoff loses detail. The tester doesn't know why the code was written the way it was. In one experiment with role-specialised agents, the agents spent more tokens coordinating than doing the work. Good boundaries include independent research paths (Asia versus Europe market trends), components with a clean API contract, and black-box verification that only runs tests. Bad boundaries include sequential phases of the same feature, tightly coupled components, and work that depends on shared state."
+    },
+    {
+      "id": "u0038",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0039",
+      "text": "When an answer proposes separate planner, implementer, tester and reviewer agents for one feature, it is splitting by role, which is usually the wrong choice. The agent that builds a feature should also write its tests, because it already has the context. Split only where context can be truly isolated."
+    },
+    {
+      "id": "u0040",
+      "text": "The coordinator's job of breaking work into pieces at runtime is the "
+    },
+    {
+      "id": "u0041",
+      "text": "Orchestrator-workers (dynamic decomposition)"
+    },
+    {
+      "id": "u0042",
+      "text": " pattern. In a multi-agent system, that orchestrator becomes a coordinator agent that hands each piece to a real subagent with its own context window."
+    },
+    {
+      "id": "u0043",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0044",
+      "text": "Splitting a task across parallel agents makes it finish faster and cost less."
+    },
+    {
+      "id": "u0045",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0047",
+      "text": "The cleanest design gives each type of work its own agent: planner, implementer, tester and reviewer."
+    },
+    {
+      "id": "u0048",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0050",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0051",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0052",
+      "text": "Match each signal in a single-agent system to what you should do about it"
+    },
+    {
+      "id": "u0053",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0054",
+      "text": "Context pollution"
+    },
+    {
+      "id": "u0055",
+      "text": "Parallel breadth"
+    },
+    {
+      "id": "u0056",
+      "text": "Specialisation"
+    },
+    {
+      "id": "u0057",
+      "text": "Keep one agent"
+    },
+    {
+      "id": "u0058",
+      "text": "A subtask pulls in more than 1000 tokens of material the main task mostly doesn't need, such as full order history while diagnosing a technical issue"
+    },
+    {
+      "id": "u0059",
+      "text": "The work splits into independent facets, such as research across many sources or tests for many components"
+    },
+    {
+      "id": "u0060",
+      "text": "None of these signals is present, and better prompting could get the same result"
+    },
+    {
+      "id": "u0061",
+      "text": "The agent has 20+ tools, tools from unrelated domains, or behavioural modes that conflict"
+    },
+    {
+      "id": "u0062",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0063",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0064",
+      "text": "A team designs a multi-agent system to build one checkout feature. It has a planner agent, an implementer agent, a tester agent and a reviewer agent, and each hands off to the next. What is the better design?"
+    },
+    {
+      "id": "u0065",
+      "text": "Merge the planner and reviewer, but keep the implementer and tester separate so the tests stay independent of the code"
+    },
+    {
+      "id": "u0066",
+      "text": "Keep the four agents: each role-specialised agent does better work in its own area"
+    },
+    {
+      "id": "u0067",
+      "text": "Keep the four roles but run them in parallel to cut the total run time"
+    },
+    {
+      "id": "u0068",
+      "text": "Let one agent implement the feature and write its tests, and split off only work whose context is truly isolated, such as a black-box verifier that just runs the tests"
+    },
+    {
+      "id": "u0069",
+      "text": "Sources"
+    },
+    {
+      "id": "u0070",
+      "text": "The coordinator pattern and isolated subagent context"
+    },
+    {
+      "id": "u0071",
+      "text": "In the coordinator pattern, one lead agent plans the work, sends each piece to a subagent, and puts the results together. What makes this useful is isolation. Each subagent starts with a fresh conversation, its intermediate tool calls and results stay inside it, and only its final message goes back to the parent. A research subagent can read dozens of files without any of that content building up in the main conversation. The parent receives a short summary, not every file the subagent read."
+    },
+    {
+      "id": "u0072",
+      "text": "A support agent shows why this matters. If every order lookup puts thousands of tokens of order history into context, the agent reasons worse about the customer's technical problem. Move the lookup into its own agent, and the main agent gets back 50-100 tokens of order status and date while its context stays focused. Isolation works best when the subtask produces a lot of material that the main task mostly doesn't need, and when there are clear criteria for what to extract."
+    },
+    {
+      "id": "u0073",
+      "text": "Isolation applies to the conversation, not to the environment. In Managed Agents, all agents in a session share the same sandbox, filesystem and vault credentials. Each one runs in its own session thread, an event stream with its own conversation history. A Managed Agents subagent's thread also stays available, so the coordinator can send it follow-up questions and the subagent remembers its earlier turns."
+    },
+    {
+      "id": "u0074",
+      "text": "A subagent is the right tool for one side task whose working material you want kept out of the main conversation. An agent-team teammate is a different arrangement: it is one of several coordinated sessions that share a task list and send each other messages, so it suits keeping many workers in sync, not hiding one investigation. A scripted workflow suits a job too large for a handful of subagents. None of these is a mechanism for trimming the transcript after the fact. The summary-only return is a property of the subagent itself."
+    },
+    {
+      "id": "u0075",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0076",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0077",
+      "text": "In a Managed Agents session, a coordinator hands a log investigation to a subagent. The subagent reads 40 log files, writes findings.md to disk and then reports a short summary. Which statement about the coordinator is accurate?"
+    },
+    {
+      "id": "u0078",
+      "text": "It gets only the subagent's summary in its conversation, but it can open findings.md, because all agents share the same sandbox and filesystem"
+    },
+    {
+      "id": "u0079",
+      "text": "It gets only the summary and cannot see findings.md, because each subagent runs in its own isolated sandbox"
+    },
+    {
+      "id": "u0080",
+      "text": "Its conversation now holds the contents of all 40 log files, because the subagent's tool results are added to the parent's context"
+    },
+    {
+      "id": "u0081",
+      "text": "It gets only the summary, and the subagent's thread closes once it reports, so the coordinator can't ask it follow-up questions"
+    },
+    {
+      "id": "u0082",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0083",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0084",
+      "text": "A code-review agent needs to investigate dozens of files to find the root cause of a bug, but you want to keep that investigation's file contents and intermediate reasoning out of the main conversation's context window, receiving only a concise final finding. Which capability best fits this need?"
+    },
+    {
+      "id": "u0085",
+      "text": "A subagent, since it runs in its own context window and returns only its final message to the parent conversation"
+    },
+    {
+      "id": "u0086",
+      "text": "An agent team teammate, since it runs in its own context window and reports progress back to the lead session"
+    },
+    {
+      "id": "u0087",
+      "text": "A hook that intercepts PostToolUse events and strips tool results from the transcript before they are stored"
+    },
+    {
+      "id": "u0088",
+      "text": "A saved workflow script, since it always executes with full filesystem access outside the conversation's context"
+    },
+    {
+      "id": "u0089",
+      "text": "Sources"
+    },
+    {
+      "id": "u0090",
+      "text": "Fanning out independent subagents in parallel"
+    },
+    {
+      "id": "u0091",
+      "text": "Subagents that don't depend on each other can run at the same time, so the batch finishes when the slowest one does, not after the sum of all their run times. In a code review, style-checker, security-scanner and test-coverage subagents can all examine the same pull request at once. To get that, the coordinator invokes all three in the same turn. If it calls them one after another, waiting for each result, you lose the parallelism. If you merge them into one subagent with a combined prompt, you lose both the parallelism and the focused instructions."
+    },
+    {
+      "id": "u0092",
+      "text": "Anthropic's multi-agent research system works the same way. A lead agent splits a query into facets, starts a subagent for each facet, and combines what they return. Exploring a larger search space this way improved accuracy substantially over a single agent. The overall cost picture still holds: parallel runs beat doing the same work in sequence, but they often take longer overall than one agent would, because there is much more total computation."
+    },
+    {
+      "id": "u0093",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0094",
+      "text": "Consider a multi-agent design you have seen or proposed. Are its subagents truly independent, so they could run in the same turn, or does each wait on the previous one's output? If they wait, are they sequential phases that belong in one agent?"
+    },
+    {
+      "id": "u0095",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0096",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0097",
+      "text": "Your code-review coordinator has style-checker, security-scanner and test-coverage subagents for one pull request. Right now it calls the style checker and waits for its report. Then it calls the scanner, and then the coverage subagent. Which change makes the review finish in the time of the slowest subagent?"
+    },
+    {
+      "id": "u0098",
+      "text": "Have the coordinator invoke all three subagents in the same turn, so they examine the pull request at once"
+    },
+    {
+      "id": "u0099",
+      "text": "Keep the calls in sequence but pass each subagent's findings to the next one, so the later subagents work faster"
+    },
+    {
+      "id": "u0100",
+      "text": "Merge the three into one subagent with a combined prompt, so there is only one handoff to wait for"
+    },
+    {
+      "id": "u0101",
+      "text": "Drop the subagents and use a single agent, because one agent always finishes sooner than any multi-agent setup"
+    },
+    {
+      "id": "u0102",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0103",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0104",
+      "text": "During a PR review you want a style-checker, a security-scanner, and a test-coverage subagent to each analyze the same pull request, with all three finishing in roughly the time of the slowest one rather than the sum of all three. What should you do?"
+    },
+    {
+      "id": "u0105",
+      "text": "Invoke all three subagents in the same turn so they run concurrently instead of one after another"
+    },
+    {
+      "id": "u0106",
+      "text": "Invoke the subagents one at a time in sequence so each one's findings inform the next agent's review"
+    },
+    {
+      "id": "u0107",
+      "text": "Merge the three subagent definitions into a single subagent with a combined system prompt"
+    },
+    {
+      "id": "u0108",
+      "text": "Run the review three times in the same session, switching the model between each pass"
+    },
+    {
+      "id": "u0109",
+      "text": "Sources"
+    },
+    {
+      "id": "u0110",
+      "text": "Briefing a subagent that cannot see your context"
+    },
+    {
+      "id": "u0111",
+      "text": "Isolation cuts both ways. A subagent doesn't see the coordinator's turns: not the user's request, the files already read, or decisions already made. It knows only its own system prompt, project-level context such as CLAUDE.md, and the task message it is given. If the coordinator writes \"now check the other module\", the subagent has no idea which module, what to look for, or what form the answer should take. Every brief has to stand on its own."
+    },
+    {
+      "id": "u0112",
+      "text": "A self-contained brief has four parts:"
+    },
+    {
+      "id": "u0113",
+      "text": "Objective"
+    },
+    {
+      "id": "u0114",
+      "text": ": the specific question or task, stated with any facts from the coordinator's context that the subagent needs."
+    },
+    {
+      "id": "u0115",
+      "text": "Output format"
+    },
+    {
+      "id": "u0116",
+      "text": ": exactly what to return. Isolation works best when the subtask has clear criteria for what to extract, because the subagent's final message is all the coordinator will see."
+    },
+    {
+      "id": "u0117",
+      "text": "Tools"
+    },
+    {
+      "id": "u0118",
+      "text": ": the minimum set the job needs, set on the subagent's definition."
+    },
+    {
+      "id": "u0119",
+      "text": "Boundaries"
+    },
+    {
+      "id": "u0120",
+      "text": ": what the subagent must not touch and when it should stop."
+    },
+    {
+      "id": "u0121",
+      "text": "A specialised subagent is only as good as its instructions. The prompt-engineering practices that improve a single agent apply to every subagent's system prompt. Write the definition's "
+    },
+    {
+      "id": "u0122",
+      "text": " with the same care. The coordinator reads it to decide when to call that subagent, and if it can't tell two subagents apart, requests get misrouted."
+    },
+    {
+      "id": "u0123",
+      "text": "Scoping tools is part of the brief, and how you restrict tools in general is covered in "
+    },
+    {
+      "id": "u0124",
+      "text": "Scoping tools per agent and matching the remedy to the pressure"
+    },
+    {
+      "id": "u0125",
+      "text": ". In a multi-agent design, set the "
+    },
+    {
+      "id": "u0126",
+      "text": " list on each specialist's definition. A doc-reviewer that should analyse documentation but never change it gets "
+    },
+    {
+      "id": "u0127",
+      "text": " and "
+    },
+    {
+      "id": "u0128",
+      "text": " and nothing else, with no "
+    },
+    {
+      "id": "u0129",
+      "text": " or "
+    },
+    {
+      "id": "u0130",
+      "text": ". That makes accidental modification impossible rather than merely discouraged. Leaving "
+    },
+    {
+      "id": "u0131",
+      "text": " out is not a cautious default. If you omit it, the subagent inherits every tool available to subagents."
+    },
+    {
+      "id": "u0132",
+      "text": "A coordinator has spent ten turns with a user narrowing a bug down to the payment retry logic. It then delegates with the brief \"Find the root cause.\" What will the subagent do?"
+    },
+    {
+      "id": "u0133",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0134",
+      "text": "Leaving the tools field off a subagent definition keeps it limited and safe."
+    },
+    {
+      "id": "u0135",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0137",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0138",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0139",
+      "text": "Halfway through a session, a coordinator delegates with the brief \"Review the docs we discussed and flag anything outdated.\" The doc-reviewer's definition has a description and a prompt but no tools field. Which assessment is correct?"
+    },
+    {
+      "id": "u0140",
+      "text": "The brief is fine, because project-level context such as CLAUDE.md passes the conversation along. To keep the reviewer from editing, adding \"do not modify files\" to its prompt is enough"
+    },
+    {
+      "id": "u0141",
+      "text": "The brief is too vague, because the subagent can't see which docs were discussed or what form the answer should take. Leaving out tools gives it every tool available to subagents, so list only Read and Grep"
+    },
+    {
+      "id": "u0142",
+      "text": "The brief is too vague, because the subagent can't see which docs were discussed. Leaving out tools is still fine, because without a tools list the subagent gets only read access"
+    },
+    {
+      "id": "u0143",
+      "text": "The brief is fine, because the subagent sees the coordinator's earlier turns. Leaving out tools is also fine, because a subagent gets no tools until you grant them"
+    },
+    {
+      "id": "u0144",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0145",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0146",
+      "text": "You are configuring a doc-reviewer subagent that should be able to analyze documentation for accuracy and clarity but must never modify files or execute commands, even accidentally. How should you define its tool access?"
+    },
+    {
+      "id": "u0147",
+      "text": "Set tools to only Read and Grep so it can examine content without any write or execution capability"
+    },
+    {
+      "id": "u0148",
+      "text": "Omit the tools field entirely so the subagent inherits the full set of tools from the parent agent"
+    },
+    {
+      "id": "u0149",
+      "text": "Include Edit and Write but add a PreToolUse hook that always denies the subagent's edit attempts"
+    },
+    {
+      "id": "u0150",
+      "text": "Set tools to Read, Grep, and Bash so it can run linting commands to double-check its findings"
+    },
+    {
+      "id": "u0151",
+      "text": "Sources"
+    },
+    {
+      "id": "u0152",
+      "text": "Sources"
+    }
+  ]
+}

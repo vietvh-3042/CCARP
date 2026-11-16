@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "A coordinator retains the referenced agent version it was configured with. Refresh its predefined_agents configuration explicitly to adopt a later helper version.",
+    "vi": "Tác tử điều phối giữ phiên bản tác tử được tham chiếu lúc cấu hình. Muốn dùng phiên bản trợ giúp mới hơn, phải cập nhật rõ cấu hình predefined_agents."
+  },
+  "exam-trap-2": {
+    "en": "Managed Agents allows one delegation tier. A helper that already coordinates other agents cannot be registered beneath another coordinator; that configuration is rejected.",
+    "vi": "Managed Agents chỉ cho phép một tầng giao việc. Tác tử trợ giúp vốn đã điều phối tác tử khác không thể được đăng ký dưới một tác tử điều phối nữa; cấu hình đó bị từ chối."
+  },
+  "nudge-1": {
+    "en": "To forbid undeclared helpers, disable inline_agents. A populated agent list avoids the empty-list validation error.",
+    "vi": "Muốn cấm các tác tử phụ chưa khai báo, hãy tắt inline_agents. Danh sách tác tử đã có phần tử sẽ tránh lỗi kiểm tra danh sách rỗng."
+  }
+}

@@ -1,0 +1,105 @@
+---
+import { lessonUrl, pageId } from "../lib/lesson-routes.mjs";
+import outline from "../data/course-outline.json";
+import { domains } from "../lib/course";
+import { ui, type Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  lessonId: string;
+  lessons: { id: string; title: string }[];
+}
+const { locale, lessonId, lessons } = Astro.props;
+const t = ui[locale];
+const ids = [...new Set(outline.map((item) => item.lessonId))];
+const published = new Map(lessons.map((lesson) => [lesson.id, lesson.title]));
+const linkClass =
+  "flex gap-2 rounded-lg p-2 text-sm leading-5 text-muted-foreground hover:bg-muted hover:text-foreground aria-[current=page]:bg-muted aria-[current=page]:font-semibold aria-[current=page]:text-foreground";
+const label = (entry: (typeof outline)[number]) =>
+  published.get(pageId(entry)) ?? (locale === "en" ? entry.title : entry.titleVi);
+---
+
+<aside
+  class="course-sidebar self-start md:sticky md:top-[106px] md:max-h-[calc(100dvh-144px)] md:overflow-y-auto md:pr-4 md:pb-3"
+  aria-label={t.course}
+>
+  <button
+    class="mobile-menu peer flex min-h-13 w-full items-center justify-between border-b border-border py-4 text-muted-foreground md:!hidden"
+    hidden
+    aria-expanded="false"
+    aria-controls="course-navigation">{t.menu}<span aria-hidden="true">☰</span></button
+  >
+  <nav
+    id="course-navigation"
+    class="course-navigation max-h-[65dvh] overflow-auto py-5 data-[collapsible=true]:hidden peer-aria-expanded:!block md:max-h-none md:overflow-visible md:py-0 md:data-[collapsible=true]:block"
+    aria-label={t.menu}
+  >
+    <p class="mx-2 mb-3 text-xs font-medium tracking-wide text-muted-foreground">
+      {`${ids.length} ${locale === "en" ? "LESSONS" : "BÀI HỌC"}`}
+    </p>
+    {
+      domains.map((domain, index) => (
+        <section class="domain-group mb-6">
+          <h2 class="mx-2 mb-1.5 text-[13px] leading-[18px] font-medium text-muted-foreground">
+            {t.chapter} {index + 1}: {domain[locale]}
+          </h2>
+          <ul>
+            {ids
+              .filter((id) => id.startsWith(`${index + 1}.`))
+              .map((id) => {
+                const entries = outline.filter((entry) => entry.lessonId === id);
+                return (
+                  <li>
+                    <a
+                      class={linkClass}
+                      href={lessonUrl(locale, pageId(entries[0]))}
+                      aria-current={lessonId === id ? "page" : undefined}
+                    >
+                      <span class="lesson-number shrink-0">{id}</span>
+                      <span>{label(entries[0])}</span>
+                    </a>
+                    {entries.length > 1 && (
+                      <ol class="lesson-parts ml-9 list-decimal text-xs leading-[17px] text-muted-foreground">
+                        {entries.map((entry) => (
+                          <li class="pl-0.5">
+                            <a
+                              class="block rounded-md px-1 py-1.5 hover:bg-muted hover:text-foreground aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
+                              href={lessonUrl(locale, pageId(entry))}
+                              aria-current={lessonId === pageId(entry) ? "page" : undefined}
+                            >
+                              {label(entry)}
+                            </a>
+                          </li>
+                        ))}
+                      </ol>
+                    )}
+                  </li>
+                );
+              })}
+          </ul>
+        </section>
+      ))
+    }
+  </nav>
+</aside>
+<script>
+  const button = document.querySelector<HTMLButtonElement>(".mobile-menu");
+  const navigation = document.querySelector<HTMLElement>("#course-navigation");
+  const close = () => button?.setAttribute("aria-expanded", "false");
+  if (button && navigation) {
+    button.hidden = false;
+    navigation.dataset.collapsible = "true";
+    button.addEventListener("click", () => {
+      button.setAttribute("aria-expanded", String(button.getAttribute("aria-expanded") !== "true"));
+    });
+    navigation.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        close();
+        button.focus();
+      }
+    });
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
+    });
+    navigation.querySelectorAll("a").forEach((link) => link.addEventListener("click", close));
+  }
+</script>

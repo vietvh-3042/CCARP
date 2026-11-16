@@ -1,0 +1,1071 @@
+{
+  "pageId": "2.5",
+  "title": "Prompt reuse with caching, modular prompts and Agent Skills",
+  "titleVi": "Tái sử dụng câu lệnh bằng bộ nhớ đệm, câu lệnh mô-đun và Agent Skills",
+  "units": [
+    {
+      "id": "description",
+      "text": "Implement prompt reuse strategies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Explain how prompt caching reuses an identical prefix and estimate its cost using write, hit and TTL pricing"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose between automatic caching and explicit cache_control breakpoints, and combine them within the four-slot limit"
+    },
+    {
+      "id": "u0003",
+      "text": "Diagnose cache misses caused by the 20-block lookback window or by content that changes ahead of the breakpoint"
+    },
+    {
+      "id": "u0004",
+      "text": "Order a prompt from most to least stable so that changes invalidate as little of the cache as possible"
+    },
+    {
+      "id": "u0005",
+      "text": "Write SKILL.md frontmatter that passes validation and triggers reliably, and structure a growing Skill for progressive disclosure"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Reusable stable prefix"
+    },
+    {
+      "id": "u0008",
+      "text": "Reuse works when the start of a request is byte-for-byte the same as an earlier one. Caching stores that prefix so later requests skip reprocessing it. Modular layout keeps the prefix identical by putting changing content last, and Skills keep reusable instructions out of the prefix until a task needs them."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "What prompt caching reuses and what it costs"
+    },
+    {
+      "id": "u0011",
+      "text": "Automatic caching and explicit cache_control breakpoints"
+    },
+    {
+      "id": "u0012",
+      "text": "How the lookback finds earlier cache entries"
+    },
+    {
+      "id": "u0013",
+      "text": "Modular prompt layout: stable modules first, variables last"
+    },
+    {
+      "id": "u0014",
+      "text": "Agent Skills: packaging repeated instructions as SKILL.md"
+    },
+    {
+      "id": "u0015",
+      "text": "Progressive disclosure: the three loading levels of a Skill"
+    },
+    {
+      "id": "u0016",
+      "text": "What prompt caching reuses and what it costs"
+    },
+    {
+      "id": "u0017",
+      "text": "Many production prompts open with the same few thousand tokens every time: tool definitions, a long system prompt, a block of examples, a reference document. Prompt caching lets later requests skip reprocessing that shared opening. When a request arrives with caching enabled, the system checks whether the prompt prefix up to a cache breakpoint is already cached from a recent query. On a hit it uses the cached version, which cuts processing time and cost. On a miss it processes the full prompt and caches the prefix once the response begins. The workloads that gain most are prompts with many examples, large background context, repetitive tasks with consistent instructions, and long multi-turn conversations."
+    },
+    {
+      "id": "u0018",
+      "text": "A cache entry lives for "
+    },
+    {
+      "id": "u0019",
+      "text": "5 minutes"
+    },
+    {
+      "id": "u0020",
+      "text": " by default, and every use refreshes it at no extra cost. A 1-hour TTL is available at 2x the base input price. The lifetime counts from the "
+    },
+    {
+      "id": "u0021",
+      "text": "start"
+    },
+    {
+      "id": "u0022",
+      "text": " of the request that writes or reads the entry, not from the end of its response. Generation time therefore uses up the window: if a response takes 4 minutes to stream, a follow-up that reuses the same prefix has to start within about 1 minute of that response finishing. With a 5-minute TTL, a slow agent loop or a user who pauses for a while finds the cache gone."
+    },
+    {
+      "id": "u0023",
+      "text": "Caching changes the price of input tokens. Writing to the cache costs more than plain input, and reading from it costs a small fraction of plain input. Cache hits are 0.05x the base input price on Claude Opus 5.5 and Claude Sonnet 5.5, 0.025x on Claude Fable 5.1 and Claude Mythos 5.1, and 0.1x on every other model. Breakpoints themselves cost nothing. You pay only for cache writes, cache reads and uncached input, so adding breakpoints does not raise the bill."
+    },
+    {
+      "id": "u0024",
+      "text": "Prompt caching prices per million tokens for current models"
+    },
+    {
+      "id": "u0025",
+      "text": "Model"
+    },
+    {
+      "id": "u0026",
+      "text": "Base input"
+    },
+    {
+      "id": "u0027",
+      "text": "5m cache write"
+    },
+    {
+      "id": "u0028",
+      "text": "1h cache write"
+    },
+    {
+      "id": "u0029",
+      "text": "Cache hits and refreshes"
+    },
+    {
+      "id": "u0030",
+      "text": "Claude Opus 5.5"
+    },
+    {
+      "id": "u0031",
+      "text": "$4 / MTok"
+    },
+    {
+      "id": "u0032",
+      "text": "$5 / MTok"
+    },
+    {
+      "id": "u0033",
+      "text": "$8 / MTok"
+    },
+    {
+      "id": "u0034",
+      "text": "$0.20 / MTok"
+    },
+    {
+      "id": "u0035",
+      "text": "Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0036",
+      "text": "$2 / MTok"
+    },
+    {
+      "id": "u0037",
+      "text": "$2.50 / MTok"
+    },
+    {
+      "id": "u0038",
+      "text": "$4 / MTok"
+    },
+    {
+      "id": "u0039",
+      "text": "$0.10 / MTok"
+    },
+    {
+      "id": "u0040",
+      "text": "Claude Haiku 5.5 (prompts up to 100,000 tokens)"
+    },
+    {
+      "id": "u0041",
+      "text": "$0.10 / MTok"
+    },
+    {
+      "id": "u0042",
+      "text": "$0.125 / MTok"
+    },
+    {
+      "id": "u0043",
+      "text": "$0.20 / MTok"
+    },
+    {
+      "id": "u0044",
+      "text": "$0.01 / MTok"
+    },
+    {
+      "id": "u0045",
+      "text": "Claude Fable 5.1"
+    },
+    {
+      "id": "u0046",
+      "text": "$10 / MTok"
+    },
+    {
+      "id": "u0047",
+      "text": "$12.50 / MTok"
+    },
+    {
+      "id": "u0048",
+      "text": "$20 / MTok"
+    },
+    {
+      "id": "u0049",
+      "text": "$0.25 / MTok"
+    },
+    {
+      "id": "u0050",
+      "text": "Here is the arithmetic for a 20,000-token system prompt on Sonnet 5.5. Sent uncached, it costs $0.04 per request. The first cached request writes it for $0.05, and each hit after that costs $0.002. The write premium pays for itself on the first reuse. Short prompts are a different story. Below a model's minimum cacheable length, a prefix is not cached even if it carries "
+    },
+    {
+      "id": "u0051",
+      "text": ". That minimum is 512 tokens on Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.1, and as high as 4,096 tokens on some older models such as Haiku 4.5."
+    },
+    {
+      "id": "u0052",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0053",
+      "text": "The 5-minute cache lifetime starts when the response finishes, so a long generation does not eat into it."
+    },
+    {
+      "id": "u0054",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0056",
+      "text": "Every extra cache_control breakpoint adds to the cost of a request."
+    },
+    {
+      "id": "u0057",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0059",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0060",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0061",
+      "text": "An agent sends a request that reads a cached system prompt with the default 5-minute TTL. Claude takes 3 minutes to stream the response. The agent wants its next request to reuse the same cached prefix. What happens?"
+    },
+    {
+      "id": "u0062",
+      "text": "The next request has a full 5 minutes after the response finishes, because the lifetime starts only once the response is complete."
+    },
+    {
+      "id": "u0063",
+      "text": "The cache cannot expire while a response is streaming, so the 3 minutes of generation do not count toward the lifetime."
+    },
+    {
+      "id": "u0064",
+      "text": "The next request must start within about 2 minutes of the response finishing, because the 5 minutes count from the start of the request that read the entry."
+    },
+    {
+      "id": "u0065",
+      "text": "The next request can reuse the prefix within 5 minutes, but only after paying the 2x refresh charge to extend the entry."
+    },
+    {
+      "id": "u0066",
+      "text": "Sources"
+    },
+    {
+      "id": "u0067",
+      "text": "Automatic caching and explicit cache_control breakpoints"
+    },
+    {
+      "id": "u0068",
+      "text": "Caching can be turned on in two ways. "
+    },
+    {
+      "id": "u0069",
+      "text": "Automatic caching"
+    },
+    {
+      "id": "u0070",
+      "text": " uses a single "
+    },
+    {
+      "id": "u0071",
+      "text": " field at the top level of the request. The system places the breakpoint on the last cacheable block and moves it forward as the conversation grows, so you never edit markers by hand. On each turn, everything up to the previous request's end is read from cache, and only the new assistant reply and user message are written. "
+    },
+    {
+      "id": "u0072",
+      "text": "Explicit breakpoints"
+    },
+    {
+      "id": "u0073",
+      "text": " put "
+    },
+    {
+      "id": "u0074",
+      "text": " on individual content blocks. That gives fine-grained control, for example caching sections that change at different rates."
+    },
+    {
+      "id": "u0075",
+      "text": "The two methods combine. A request can have at most "
+    },
+    {
+      "id": "u0076",
+      "text": "four"
+    },
+    {
+      "id": "u0077",
+      "text": " breakpoints, and the automatic one takes one of those slots. If four explicit block-level breakpoints are already present, the request fails with a 400 error because no slot is left for automatic caching. It also returns 400 if the last block already carries an explicit marker with a different TTL. If that marker has the same TTL, automatic caching does nothing extra. A common combination puts an explicit breakpoint on the system prompt and lets automatic caching follow the conversation."
+    },
+    {
+      "id": "u0078",
+      "text": "Explicit breakpoint on the system prompt plus top-level automatic caching for the conversation"
+    },
+    {
+      "id": "u0079",
+      "text": "json"
+    },
+    {
+      "id": "u0080",
+      "text": "Automatic caching runs on the same infrastructure as explicit breakpoints, so the same pricing, minimum token thresholds, ordering requirements and 20-block lookback window apply. For a 1-hour TTL, write "
+    },
+    {
+      "id": "u0081",
+      "text": " in the same field. Prompt caching, both automatic and explicit, is supported on all active Claude models."
+    },
+    {
+      "id": "u0082",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0083",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0084",
+      "text": "This request puts an explicit breakpoint on the system prompt and uses automatic caching to follow the conversation as it grows. Which top-level field turns on the automatic part?"
+    },
+    {
+      "id": "u0085",
+      "text": "cache_breakpoint"
+    },
+    {
+      "id": "u0086",
+      "text": "prompt_caching"
+    },
+    {
+      "id": "u0087",
+      "text": "cache_control"
+    },
+    {
+      "id": "u0088",
+      "text": "auto_cache"
+    },
+    {
+      "id": "u0089",
+      "text": "Sources"
+    },
+    {
+      "id": "u0090",
+      "text": "How the lookback finds earlier cache entries"
+    },
+    {
+      "id": "u0091",
+      "text": "A breakpoint marks the "
+    },
+    {
+      "id": "u0092",
+      "text": "end"
+    },
+    {
+      "id": "u0093",
+      "text": " of the prefix to look up, and most requests carry only one. When the exact prefix at the breakpoint has no entry, the system walks backward block by block. It looks for the longest prefix that an earlier request already wrote to the cache. That walk has a fixed reach of 20 positions."
+    },
+    {
+      "id": "u0094",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0095",
+      "text": "A conversation using one breakpoint on its final block wrote a cache entry at block 15 last turn. This turn the request has grown to 35 blocks, and blocks 1–15 are unchanged. What happens?"
+    },
+    {
+      "id": "u0096",
+      "text": "Cache miss, because automatic caching only keeps the most recent turn"
+    },
+    {
+      "id": "u0097",
+      "text": "Cache hit at block 15, because the early content is identical"
+    },
+    {
+      "id": "u0098",
+      "text": "Cache miss, because the backward search from block 35 never reaches block 15"
+    },
+    {
+      "id": "u0099",
+      "text": "Here is how that plays out over three turns. Turn 1 has 10 blocks with the breakpoint on block 10, and an entry is written there. Turn 2 has 15 blocks. Block 15 has no entry, so the walk goes back to block 10 and hits. Blocks 11–15 are processed fresh and a new entry is written at 15. Turn 3 jumps to 35 blocks, perhaps after a burst of tool calls. The walk from block 35 stops at block 16 and misses the block-15 entry by one position. Nothing has expired and nothing has been deleted. The entry is still there, but no lookup reaches it."
+    },
+    {
+      "id": "u0100",
+      "text": "The fix is a "
+    },
+    {
+      "id": "u0101",
+      "text": "second, explicit breakpoint"
+    },
+    {
+      "id": "u0102",
+      "text": " further back, at or near the last place a write happened. Each breakpoint starts its own 20-position lookback, so a breakpoint at block 15 finds the turn-2 entry. Agent loops that add many blocks per turn, such as tool calls and tool results, are where automatic caching alone runs into this window. Watch the cache-read counts as conversations get longer."
+    },
+    {
+      "id": "u0103",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0104",
+      "text": "A miss in a long conversation whose early content has not changed points to the lookback window, not to expired or deleted entries. Fix it by adding an explicit breakpoint closer to the last cache write. Moving the single breakpoint to the first block does not help."
+    },
+    {
+      "id": "u0105",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0106",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0107",
+      "text": "An agent loop puts a single explicit breakpoint on the final block of each request. After turns that add 25 or more tool-call and tool-result blocks, it gets cache misses, even though the early content has not changed. A teammate suggests replacing that breakpoint with top-level automatic caching. Will that stop the misses?"
+    },
+    {
+      "id": "u0108",
+      "text": "No. Automatic caching uses the same 20-block lookback window, so one breakpoint at the end still cannot reach an entry more than 20 positions back. Add an explicit breakpoint near the last cache write."
+    },
+    {
+      "id": "u0109",
+      "text": "No. The misses mean the earlier entries have expired, so the fix is to switch to the 1-hour TTL."
+    },
+    {
+      "id": "u0110",
+      "text": "Yes. Automatic caching moves the breakpoint forward every turn, so it always finds the previous turn's entry, however many blocks were added."
+    },
+    {
+      "id": "u0111",
+      "text": "Yes. The 20-position limit applies only to explicit block-level breakpoints, and automatic caching searches the whole prefix."
+    },
+    {
+      "id": "u0112",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0113",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0114",
+      "text": "A long agent session accumulates conversation turns using only automatic request-level caching. By turn 15, a cache entry exists at content block 12. By turn 25, the conversation has grown to 35 content blocks, and the current breakpoint sits on the last block. Cache reads stop matching even though the early conversation content hasn't changed. What is the best explanation and fix?"
+    },
+    {
+      "id": "u0115",
+      "text": "The cache lookup only scans 20 blocks backward from the breakpoint, so the block-12 entry falls outside that window; adding an explicit breakpoint further back re-establishes a match."
+    },
+    {
+      "id": "u0116",
+      "text": "Automatic caching only tracks the single most recent turn, so any conversation longer than two turns always misses on the earlier content regardless of breakpoint placement."
+    },
+    {
+      "id": "u0117",
+      "text": "Cache entries are deleted once a conversation exceeds 30 content blocks, so the session must be restarted to regain any caching benefit at all."
+    },
+    {
+      "id": "u0118",
+      "text": "The breakpoint must be placed on the first block of the conversation rather than the last, since caching always keys off the earliest, not most recent, content."
+    },
+    {
+      "id": "u0119",
+      "text": "Sources"
+    },
+    {
+      "id": "u0120",
+      "text": "Modular prompt layout: stable modules first, variables last"
+    },
+    {
+      "id": "u0121",
+      "text": "Caching only rewards content that stays identical from one request to the next, so the order of a prompt decides how much of it can be cached. Build the prompt from modules ranked by how rarely they change. Tool definitions come first, then system instructions, then reference context and examples, then the conversation. Per-request values go at the very end. The same rule applies to "
+    },
+    {
+      "id": "u0122",
+      "text": "reusable prompt templates with variables"
+    },
+    {
+      "id": "u0123",
+      "text": ": put the fixed template text ahead of every slot, so filling a variable only changes the tail."
+    },
+    {
+      "id": "u0124",
+      "text": "The API builds cache prefixes in a fixed hierarchy: "
+    },
+    {
+      "id": "u0125",
+      "text": "tools → system → messages"
+    },
+    {
+      "id": "u0126",
+      "text": ". A change at one level invalidates that level and everything after it, never what comes before. That is why order matters. An edited tool definition throws away the whole cache, while a change that only touches the messages level keeps tools and system cached."
+    },
+    {
+      "id": "u0127",
+      "text": "Which part of the cache each change invalidates"
+    },
+    {
+      "id": "u0128",
+      "text": "Change"
+    },
+    {
+      "id": "u0129",
+      "text": "Invalidates"
+    },
+    {
+      "id": "u0130",
+      "text": "Modifying tool definitions"
+    },
+    {
+      "id": "u0131",
+      "text": "Entire cache (tools, system, messages)"
+    },
+    {
+      "id": "u0132",
+      "text": "Toggling web search or citations"
+    },
+    {
+      "id": "u0133",
+      "text": "System and messages caches"
+    },
+    {
+      "id": "u0134",
+      "text": "Changing tool_choice"
+    },
+    {
+      "id": "u0135",
+      "text": "Messages cache"
+    },
+    {
+      "id": "u0136",
+      "text": "Changing disable_parallel_tool_use"
+    },
+    {
+      "id": "u0137",
+      "text": "Messages cache"
+    },
+    {
+      "id": "u0138",
+      "text": "Toggling images present/absent"
+    },
+    {
+      "id": "u0139",
+      "text": "Messages cache"
+    },
+    {
+      "id": "u0140",
+      "text": "Changing thinking parameters"
+    },
+    {
+      "id": "u0141",
+      "text": "Messages cache always; tool and system caches too on models that render the thinking configuration ahead of them"
+    },
+    {
+      "id": "u0142",
+      "text": "Forcing a particular tool with "
+    },
+    {
+      "id": "u0143",
+      "text": " is a request setting, but it still takes part in the hierarchy. It invalidates only the messages cache. Tools and the system prompt are still read from cache, and only the messages are reprocessed. Dynamic tool discovery fits this layout too. Some tool definitions can be marked as deferred: they are held back from the request, and so stay out of the system-prompt prefix, until the model runs a tool search and finds one it needs. The definition is then appended to the conversation history, after the cached prefix, so the prefix is left alone and the cache keeps hitting."
+    },
+    {
+      "id": "u0144",
+      "text": "The most common layout mistake is a variable sitting at the breakpoint. Picture blocks 1–5 holding a large static system context, and block 6 holding a timestamp plus the user message, with "
+    },
+    {
+      "id": "u0145",
+      "text": " on block 6. The timestamp changes on every request, so the prefix hash at block 6 changes too. The lookback then walks through blocks 5 to 1 and finds nothing, because no entry was ever written there. The lookback only finds entries that earlier requests wrote. It does not cache stable content that sits behind a breakpoint. Put the breakpoint on block 5, the end of the static modules, and move the timestamp after it."
+    },
+    {
+      "id": "u0146",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0147",
+      "text": "Changing tool_choice invalidates the whole cache, the same as editing the tools array."
+    },
+    {
+      "id": "u0148",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0152",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0153",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0154",
+      "text": "Match each change between two otherwise identical requests to the part of the prompt cache it invalidates."
+    },
+    {
+      "id": "u0155",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0156",
+      "text": "Editing the description of one tool in the tools array"
+    },
+    {
+      "id": "u0157",
+      "text": "Turning web search on for the next request"
+    },
+    {
+      "id": "u0158",
+      "text": "Changing tool_choice to force a particular tool"
+    },
+    {
+      "id": "u0159",
+      "text": "Tool search discovers a deferred tool and appends its definition to the conversation"
+    },
+    {
+      "id": "u0160",
+      "text": "Nothing in the cached prefix, because deferred tools are not part of it"
+    },
+    {
+      "id": "u0161",
+      "text": "The entire cache: tools, system and messages"
+    },
+    {
+      "id": "u0162",
+      "text": "The system and messages caches, while tools stay cached"
+    },
+    {
+      "id": "u0163",
+      "text": "Only the messages cache, while tools and system are still read from cache"
+    },
+    {
+      "id": "u0164",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0165",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0166",
+      "text": "An agentic workflow sends requests with a large tools array (15 tool definitions, cached), a cached system prompt, and growing conversation history. For one request, the developer adds tool_choice: {\"type\": \"tool\", \"name\": \"search\"} to force a specific tool call, while leaving the tools array, system prompt, and message content unchanged. What happens to prompt caching for this request?"
+    },
+    {
+      "id": "u0167",
+      "text": "Only the message-level cache is invalidated, so tokens up through the system prompt are still served from cache while the messages must be reprocessed."
+    },
+    {
+      "id": "u0168",
+      "text": "The entire cache is invalidated because tool_choice changes are treated the same as editing the tools array itself, forcing a full recomputation from the first block."
+    },
+    {
+      "id": "u0169",
+      "text": "Nothing is invalidated, because tool_choice is a request-level parameter that sits outside the cached tools, system, and messages hierarchy entirely."
+    },
+    {
+      "id": "u0170",
+      "text": "Only the tools-array cache is invalidated, but the system prompt and message cache remain valid since tool_choice only affects which tool definitions are considered."
+    },
+    {
+      "id": "u0171",
+      "text": "Sources"
+    },
+    {
+      "id": "u0172",
+      "text": "Agent Skills: packaging repeated instructions as SKILL.md"
+    },
+    {
+      "id": "u0173",
+      "text": "Caching makes a repeated prefix cheaper. Agent Skills tackle a different kind of repetition: the same procedure pasted into prompt after prompt. A Skill is a directory holding instructions, metadata and optional resources such as scripts and templates. Claude uses it automatically when a request is relevant to it. A prompt holds conversation-level instructions for a single task. A Skill is created once and loads on demand in every conversation where it applies. Anthropic provides pre-built Skills for PowerPoint, Excel, Word and PDF, and custom Skills package an organisation's own procedures."
+    },
+    {
+      "id": "u0174",
+      "text": "Every Skill needs a "
+    },
+    {
+      "id": "u0175",
+      "text": " file that starts with YAML frontmatter containing two required fields. The rules are strict, and a violation gets the Skill rejected:"
+    },
+    {
+      "id": "u0176",
+      "text": ": at most 64 characters; only lowercase letters, numbers and hyphens; no XML tags; must not contain the reserved words \"anthropic\" or \"claude\"."
+    },
+    {
+      "id": "u0177",
+      "text": ": non-empty; at most 1024 characters; no XML tags."
+    },
+    {
+      "id": "u0178",
+      "text": "No other field is required. There is no version suffix and no minimum description length."
+    },
+    {
+      "id": "u0179",
+      "text": "Which of these names would be rejected: "
+    },
+    {
+      "id": "u0180",
+      "text": "The description is how Claude decides to trigger the Skill. Claude matches each request against it, sometimes choosing among 100 or more available Skills. A good description therefore states "
+    },
+    {
+      "id": "u0181",
+      "text": "what"
+    },
+    {
+      "id": "u0182",
+      "text": " the Skill does and "
+    },
+    {
+      "id": "u0183",
+      "text": "when"
+    },
+    {
+      "id": "u0184",
+      "text": " to use it, including the words users actually type. \"Helps with documents\" names no task and no trigger, so it rarely matches. For names, a consistent gerund form such as "
+    },
+    {
+      "id": "u0185",
+      "text": " or "
+    },
+    {
+      "id": "u0186",
+      "text": " makes a library easier to scan. Avoid vague names such as "
+    },
+    {
+      "id": "u0187",
+      "text": " or "
+    },
+    {
+      "id": "u0188",
+      "text": "Frontmatter whose description says both what the Skill does and when to use it"
+    },
+    {
+      "id": "u0189",
+      "text": "yaml"
+    },
+    {
+      "id": "u0190",
+      "text": "Who can use a custom Skill depends on where it lives:"
+    },
+    {
+      "id": "u0191",
+      "text": "Where custom Skills live and who can use them"
+    },
+    {
+      "id": "u0192",
+      "text": "Surface"
+    },
+    {
+      "id": "u0193",
+      "text": "How a custom Skill is added"
+    },
+    {
+      "id": "u0194",
+      "text": "Who can use it"
+    },
+    {
+      "id": "u0195",
+      "text": "Claude API"
+    },
+    {
+      "id": "u0196",
+      "text": "Uploaded through the Skills API (/v1/skills), used via skill_id with the code execution tool"
+    },
+    {
+      "id": "u0197",
+      "text": "All members of the workspace"
+    },
+    {
+      "id": "u0198",
+      "text": "Claude Code"
+    },
+    {
+      "id": "u0199",
+      "text": "Directory with SKILL.md in ~/.claude/skills/ or .claude/skills/"
+    },
+    {
+      "id": "u0200",
+      "text": "Personal (~/.claude/skills/) or project (.claude/skills/)"
+    },
+    {
+      "id": "u0201",
+      "text": "claude.ai"
+    },
+    {
+      "id": "u0202",
+      "text": "Zip upload in Settings > Features"
+    },
+    {
+      "id": "u0203",
+      "text": "Only the uploading user; not shared organization-wide or centrally managed by admins"
+    },
+    {
+      "id": "u0204",
+      "text": "Skills give Claude both instructions and code, and a malicious Skill can direct tool calls or code execution that do not match its stated purpose. Install Skills only from trusted sources, and audit every bundled file before you share one."
+    },
+    {
+      "id": "u0205",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0206",
+      "text": "A Skill name may contain \"claude\" as long as it uses lowercase and hyphens."
+    },
+    {
+      "id": "u0207",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0209",
+      "text": "A custom Skill uploaded in claude.ai becomes available to the whole organisation."
+    },
+    {
+      "id": "u0210",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0212",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0213",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0214",
+      "text": "A team packages one custom Skill and makes it available in four places. For each place, who can use the Skill?"
+    },
+    {
+      "id": "u0215",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0216",
+      "text": "Uploaded through the Skills API (/v1/skills) and used via skill_id"
+    },
+    {
+      "id": "u0217",
+      "text": "Placed as a directory in ~/.claude/skills/ in Claude Code"
+    },
+    {
+      "id": "u0218",
+      "text": "Placed as a directory in .claude/skills/ in Claude Code"
+    },
+    {
+      "id": "u0219",
+      "text": "Uploaded as a zip in claude.ai Settings > Features"
+    },
+    {
+      "id": "u0220",
+      "text": "Only the developer whose personal Claude Code setup holds it"
+    },
+    {
+      "id": "u0221",
+      "text": "Anyone working in that project"
+    },
+    {
+      "id": "u0222",
+      "text": "Only the user who uploaded it; it is not shared organisation-wide and admins cannot manage it centrally"
+    },
+    {
+      "id": "u0223",
+      "text": "Every member of the workspace"
+    },
+    {
+      "id": "u0224",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0225",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0226",
+      "text": "While authoring a custom Skill, a developer sets the frontmatter to name: claude-pdf-helper and description: \"Helps with PDF forms.\" When Claude Code attempts to load the Skill, it is rejected. What is the most likely reason, based on the required field rules for SKILL.md?"
+    },
+    {
+      "id": "u0227",
+      "text": "The name contains the reserved word \"claude,\" which is not permitted in a Skill's name field alongside \"anthropic.\""
+    },
+    {
+      "id": "u0228",
+      "text": "The description is too short to pass validation, since descriptions must exceed 45 characters to be accepted as valid metadata."
+    },
+    {
+      "id": "u0229",
+      "text": "Skill names must include a version suffix such as -v1, and omitting one causes Claude Code to reject the frontmatter during discovery."
+    },
+    {
+      "id": "u0230",
+      "text": "The name field uses a hyphen, but Claude Code frontmatter only accepts underscores as word separators in the name value."
+    },
+    {
+      "id": "u0231",
+      "text": "Sources"
+    },
+    {
+      "id": "u0232",
+      "text": "Progressive disclosure: the three loading levels of a Skill"
+    },
+    {
+      "id": "u0233",
+      "text": "Skills avoid filling the context window because they load in stages instead of all at once. Claude works in a virtual machine with filesystem access. Each Skill sits on disk as a directory, and Claude reads a file only when it needs it."
+    },
+    {
+      "id": "u0234",
+      "text": "What loads when, and what it costs"
+    },
+    {
+      "id": "u0235",
+      "text": "Level"
+    },
+    {
+      "id": "u0236",
+      "text": "When loaded"
+    },
+    {
+      "id": "u0237",
+      "text": "Token cost"
+    },
+    {
+      "id": "u0238",
+      "text": "Content"
+    },
+    {
+      "id": "u0239",
+      "text": "Level 1: Metadata"
+    },
+    {
+      "id": "u0240",
+      "text": "Always (at startup)"
+    },
+    {
+      "id": "u0241",
+      "text": "~100 tokens per Skill"
+    },
+    {
+      "id": "u0242",
+      "text": "name and description from YAML frontmatter"
+    },
+    {
+      "id": "u0243",
+      "text": "Level 2: Instructions"
+    },
+    {
+      "id": "u0244",
+      "text": "When Skill is triggered"
+    },
+    {
+      "id": "u0245",
+      "text": "Under 5k tokens"
+    },
+    {
+      "id": "u0246",
+      "text": "SKILL.md body with instructions and guidance"
+    },
+    {
+      "id": "u0247",
+      "text": "Level 3+: Resources"
+    },
+    {
+      "id": "u0248",
+      "text": "As needed"
+    },
+    {
+      "id": "u0249",
+      "text": "None until accessed"
+    },
+    {
+      "id": "u0250",
+      "text": "Bundled files; reference files load when read, scripts run through bash and only their output enters context"
+    },
+    {
+      "id": "u0251",
+      "text": "Take a request to \"extract the text from this PDF and summarize it\". At startup the system prompt holds only the pdf-processing name and description. The request matches, so Claude runs "
+    },
+    {
+      "id": "u0252",
+      "text": " and the body enters context. Form filling is not needed, so FORMS.md is never read and costs nothing. Scripts go further still. When Claude runs "
+    },
+    {
+      "id": "u0253",
+      "text": ", the code never enters context, only its output, such as \"Validation passed\". Running a script is therefore cheaper than generating equivalent code on the fly, and more consistent too."
+    },
+    {
+      "id": "u0254",
+      "text": "These levels shape how a Skill should grow. Treat SKILL.md as a table of contents, and keep its body under 500 lines. As it nears that size, move detail into separate files that SKILL.md links to, such as FORMS.md, REFERENCE.md or examples.md. For Skills that span several domains, split the reference material by domain, for example "
+    },
+    {
+      "id": "u0255",
+      "text": " and "
+    },
+    {
+      "id": "u0256",
+      "text": ". A sales question then loads only the sales schema. Keep every reference "
+    },
+    {
+      "id": "u0257",
+      "text": "one level deep"
+    },
+    {
+      "id": "u0258",
+      "text": " from SKILL.md. When files point to further files, Claude may preview them with partial reads such as "
+    },
+    {
+      "id": "u0259",
+      "text": " and miss information. Give any reference file over 100 lines a table of contents at the top, so a partial read still shows everything it contains."
+    },
+    {
+      "id": "u0260",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0261",
+      "text": "Think of a procedure your team pastes into prompts today. What would go in the description, what in the SKILL.md body, and what would become a script whose output is all Claude needs to see?"
+    },
+    {
+      "id": "u0262",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0263",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0264",
+      "text": "Put in order what happens when a user with the custom pdf-processing Skill installed asks Claude to \"extract the text from this PDF and summarize it\"."
+    },
+    {
+      "id": "u0265",
+      "text": "The request matches the description, so Claude runs cat pdf-processing/SKILL.md and the body enters context"
+    },
+    {
+      "id": "u0266",
+      "text": "At startup, only the Skill's name and description sit in the system prompt"
+    },
+    {
+      "id": "u0267",
+      "text": "Claude completes the task using the instructions it loaded from SKILL.md"
+    },
+    {
+      "id": "u0268",
+      "text": "Claude finds that form filling is not needed, so FORMS.md is never read and costs no tokens"
+    },
+    {
+      "id": "u0269",
+      "text": "Check order"
+    },
+    {
+      "id": "u0270",
+      "text": "Sources"
+    },
+    {
+      "id": "u0271",
+      "text": "Sources"
+    }
+  ]
+}

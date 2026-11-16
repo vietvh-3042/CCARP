@@ -1,0 +1,64 @@
+---
+import { lessonUrl } from "../lib/lesson-routes.mjs";
+import { ui, type Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  lessonId?: string;
+}
+const { locale, lessonId } = Astro.props;
+const t = ui[locale];
+const alternate = locale === "en" ? "vi" : "en";
+const switchUrl = lessonId ? lessonUrl(alternate, lessonId) : `/${alternate}/`;
+---
+
+<header class="site-header text-sm sticky top-0 z-30 h-[66px] border-b border-border bg-background">
+  <div class="header-inner mx-auto flex h-full max-w-[1408px] items-center justify-between gap-6 px-5 md:px-4">
+    <div
+      class="header-brand flex items-center gap-2 whitespace-nowrap [&>span]:hidden min-[1450px]:[&>span]:inline [&>span]:text-xs"
+    >
+      <a class="brand text-xl font-bold tracking-tight text-primary" href={`/${locale}/`}>CertSafari</a><span
+        >{locale === "en" ? "Join 43.2K monthly active users" : "Cùng 43,2 nghìn người dùng mỗi tháng"}</span
+      >
+    </div>
+    <div class="header-controls flex items-center gap-4 min-[1450px]:gap-6">
+      <form
+        class="header-search hidden h-[38px] w-56 items-center gap-2 rounded-xl border border-border px-3 text-muted-foreground md:flex [&_input]:min-w-0 [&_input]:w-full [&_input]:bg-transparent [&_input]:text-sm [&_input]:placeholder:text-muted-foreground"
+        role="search"
+        action={`/${locale}/`}
+      >
+        <span aria-hidden="true">⌕</span><input
+          type="search"
+          name="q"
+          aria-label={locale === "en" ? "Search lessons" : "Tìm bài học"}
+          placeholder={locale === "en" ? "Search certifications..." : "Tìm chứng chỉ..."}
+        />
+      </form>
+      <nav
+        class="header-navigation hidden items-center gap-6 whitespace-nowrap font-semibold text-muted-foreground min-[1121px]:flex [&_a:hover]:text-foreground"
+        aria-label={t.home}
+      >
+        <details
+          class="vendor-menu relative [&_summary]:flex [&_summary]:list-none [&_summary]:items-center [&_summary]:gap-1 [&_a]:absolute [&_a]:top-9 [&_a]:left-0 [&_a]:rounded-md [&_a]:border [&_a]:border-border [&_a]:bg-popover [&_a]:px-5 [&_a]:py-3"
+        >
+          <summary>Vendor <span aria-hidden="true">⌄</span></summary><a href={`/${locale}/`}>Anthropic</a>
+        </details>
+        <a href="https://certsafari.com/exam-experiences" target="_blank" rel="noreferrer"
+          >{locale === "en" ? "Exam experiences" : "Kinh nghiệm thi"}</a
+        >
+        <a href="https://certsafari.com/donate" target="_blank" rel="noreferrer"
+          >{locale === "en" ? "Donate" : "Ủng hộ"} ♡</a
+        >
+        <a href="https://certsafari.com/" target="_blank" rel="noreferrer">Feedback</a>
+        <a href="https://certsafari.com/profile" target="_blank" rel="noreferrer">Profile</a>
+      </nav>
+      <a
+        class="language-switch rounded-md border border-border px-2 py-2 text-xs whitespace-nowrap text-muted-foreground hover:border-primary hover:text-foreground"
+        data-language-switch
+        href={switchUrl}
+        aria-label={`${t.switch}: ${alternate === "vi" ? "Tiếng Việt" : "English"}`}
+        lang={alternate}>{alternate === "vi" ? "Tiếng Việt" : "English"}</a
+      >
+      <span class="theme-icon hidden text-2xl text-muted-foreground md:inline" aria-hidden="true">☼</span>
+    </div>
+  </div>
+</header>

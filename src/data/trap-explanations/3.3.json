@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Effort is guidance, not a completeness guarantee. Maximum effort can add substantial expense for little improvement; choose a level supported by workload evaluations.",
+    "vi": "Effort là định hướng, không phải bảo đảm kết quả đầy đủ. Mức tối đa có thể tăng nhiều chi phí mà cải thiện ít; hãy chọn mức được đánh giá thực tế chứng minh là phù hợp."
+  },
+  "exam-trap-4": {
+    "en": "Reasoning effort and reply length are separate controls. Ask explicitly for concise output when brevity matters instead of relying on reduced thinking to shorten answers.",
+    "vi": "Mức suy luận và độ dài câu trả lời là hai điều khác nhau. Khi cần ngắn gọn, hãy yêu cầu trực tiếp thay vì trông chờ giảm suy nghĩ sẽ làm câu trả lời ngắn lại."
+  },
+  "exam-trap-2": {
+    "en": "The speedup comes from inference configuration, not replacement weights. Fast mode retains model intelligence while charging extra for the faster generation.",
+    "vi": "Tốc độ tăng nhờ cấu hình suy luận, không phải thay trọng số. Chế độ nhanh giữ nguyên trí tuệ mô hình và thu thêm phí cho việc sinh nhanh hơn."
+  },
+  "exam-trap-3": {
+    "en": "Streaming exposes tokens before generation finishes, improving the user's experience of waiting. It does not reduce the total computation needed to produce the reply.",
+    "vi": "Truyền dòng cho thấy token trước khi sinh xong, giúp người dùng đỡ cảm thấy phải chờ. Nó không giảm tổng tính toán cần để tạo câu trả lời."
+  }
+}

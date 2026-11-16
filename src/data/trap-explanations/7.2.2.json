@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Written guidance relies on model compliance. Enforce a prohibition with a PreToolUse hook that can reject the tool invocation before any destructive action executes.",
+    "vi": "Hướng dẫn bằng văn bản phụ thuộc vào việc mô hình tuân thủ. Hãy thực thi lệnh cấm bằng hook PreToolUse có thể từ chối lệnh gọi công cụ trước khi hành động phá hủy diễn ra."
+  },
+  "exam-trap-2": {
+    "en": "Hooks automate reactions to lifecycle events; they do not expose callable capabilities. An MCP server is the mechanism for making database queries available as tools.",
+    "vi": "Hook tự động phản ứng với sự kiện vòng đời, không cung cấp khả năng mới để gọi. Máy chủ MCP mới là cơ chế đưa truy vấn cơ sở dữ liệu thành công cụ khả dụng."
+  },
+  "exam-trap-3": {
+    "en": "An explicit workflow prompt starts Claude when the trigger fires. No mention is required, and output normally appears in the workflow run log.",
+    "vi": "Câu lệnh được khai báo trong luồng công việc khởi chạy Claude ngay khi điều kiện kích hoạt xảy ra. Không cần nhắc tên; đầu ra thường nằm trong nhật ký lần chạy."
+  },
+  "nudge-1": {
+    "en": "Check both the Bash matcher and the command pattern; a mismatch prevents the deny rule from applying.",
+    "vi": "Kiểm tra cả bộ khớp Bash và mẫu lệnh; nếu không khớp, quy tắc từ chối sẽ không được áp dụng."
+  }
+}

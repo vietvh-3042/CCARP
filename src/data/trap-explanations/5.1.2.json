@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "Command-text matching does not cover every equivalent invocation. Alternate executable paths or shell wrappers can evade the rule, making sandbox restrictions necessary defense in depth.",
+    "vi": "Khớp văn bản lệnh không bao quát mọi cách gọi tương đương. Đường dẫn thực thi khác hoặc lệnh bọc qua shell có thể lách quy tắc, nên cần thêm giới hạn vùng cách ly để phòng vệ nhiều lớp."
+  },
+  "exam-trap-2": {
+    "en": "Sandbox filesystem controls apply to Bash execution. Built-in tools have a separate permission layer, so blocking Read requires an appropriate tool permission rule.",
+    "vi": "Kiểm soát hệ thống tệp của vùng cách ly áp dụng cho thực thi Bash. Công cụ tích hợp có lớp quyền riêng, nên muốn chặn Read phải có quy tắc quyền công cụ tương ứng."
+  },
+  "nudge-1": {
+    "en": "Grant only the specific writable path or network domain a required command needs. Keep the remaining sandbox restrictions.",
+    "vi": "Chỉ cấp đúng đường dẫn được ghi hoặc tên miền mà lệnh cần dùng. Giữ các giới hạn còn lại của môi trường cách ly."
+  }
+}

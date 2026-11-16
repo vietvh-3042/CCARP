@@ -1,0 +1,667 @@
+{
+  "pageId": "2.3",
+  "title": "Few-shot and chain-of-thought prompting for Claude",
+  "titleVi": "Viết câu lệnh cho Claude bằng vài ví dụ và chuỗi suy luận",
+  "units": [
+    {
+      "id": "description",
+      "text": "Apply prompt engineering techniques"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide when a prompt needs zero, one or a few examples, and add them in that order"
+    },
+    {
+      "id": "u0002",
+      "text": "Write example sets that teach Claude the intended pattern instead of surface features"
+    },
+    {
+      "id": "u0003",
+      "text": "Prompt chain-of-thought in its basic, guided and structured forms"
+    },
+    {
+      "id": "u0004",
+      "text": "Choose between extended thinking and manual chain of thought for a given task"
+    },
+    {
+      "id": "u0005",
+      "text": "Lay out a prompt that combines long documents, instructions and a query"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Showing versus telling"
+    },
+    {
+      "id": "u0008",
+      "text": "Instructions tell Claude what you want. Examples show the output pattern, and chain-of-thought shows the reasoning path. You add each one only when telling alone has stopped producing consistent, correct results."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Zero-shot, one-shot and few-shot prompting"
+    },
+    {
+      "id": "u0011",
+      "text": "Crafting examples Claude learns the right lesson from"
+    },
+    {
+      "id": "u0012",
+      "text": "Chain-of-thought prompting in three forms"
+    },
+    {
+      "id": "u0013",
+      "text": "Extended thinking versus manual chain of thought"
+    },
+    {
+      "id": "u0014",
+      "text": "Placing long documents, examples and the query"
+    },
+    {
+      "id": "u0015",
+      "text": "Zero-shot, one-shot and few-shot prompting"
+    },
+    {
+      "id": "u0016",
+      "text": "A zero-shot prompt is made of instructions alone, and for many tasks that is all you need. Claude follows clear, explicit direction well. A zero-shot prompt succeeds when it states the output format and constraints, and when it explains the reason behind each rule. A rule like \"never use ellipses\" works better with its reason attached: the text will be read aloud by a text-to-speech engine that cannot pronounce them. Given the reason, Claude can also handle cases the rule never mentioned, because it is able to generalise from the explanation."
+    },
+    {
+      "id": "u0017",
+      "text": "Some requirements are easier to show than to describe, and that is when examples start to pay off. Typical cases are a summary style, a tone of voice, or a labelling convention with fine distinctions. Another is a set of instructions that keeps producing outputs that differ slightly from run to run. Putting example inputs with their outputs in the prompt is called one-shot prompting when there is one example and few-shot (or multishot) prompting when there are several. A few well-crafted examples improve both accuracy and consistency."
+    },
+    {
+      "id": "u0018",
+      "text": "When each level of prompting is the right choice"
+    },
+    {
+      "id": "u0019",
+      "text": "Approach"
+    },
+    {
+      "id": "u0020",
+      "text": "What the prompt contains"
+    },
+    {
+      "id": "u0021",
+      "text": "Use it when"
+    },
+    {
+      "id": "u0022",
+      "text": "Zero-shot"
+    },
+    {
+      "id": "u0023",
+      "text": "Explicit instructions, format, constraints and the reasons for them"
+    },
+    {
+      "id": "u0024",
+      "text": "The output can be fully described in words"
+    },
+    {
+      "id": "u0025",
+      "text": "One-shot"
+    },
+    {
+      "id": "u0026",
+      "text": "Instructions plus one example of the desired output"
+    },
+    {
+      "id": "u0027",
+      "text": "The format, tone or style is easier to show than describe"
+    },
+    {
+      "id": "u0028",
+      "text": "Few-shot"
+    },
+    {
+      "id": "u0029",
+      "text": "Instructions plus several varied examples"
+    },
+    {
+      "id": "u0030",
+      "text": "One example still leaves outputs inconsistent, or the task has subtle patterns and edge cases"
+    },
+    {
+      "id": "u0031",
+      "text": "Escalate one step at a time. Start with one example, and add more only if the output still doesn't match. Each example adds length, and as the next section explains, every detail in an example becomes something Claude may copy. Examples also extend beyond text. In one vision walkthrough, Claude misread a speedometer in km/h until example images were added to the prompt. Few-shot prompting with images doesn't always work, though, so test it on your own case."
+    },
+    {
+      "id": "u0032",
+      "text": "Few-shot examples are the standard fix when outputs drift in format or label spelling across similar inputs, such as a triage prompt that returns \"High\" on one ticket and \"high priority\" on the next. Asking Claude to explain its reasoning in prose does not fix this, because the problem is the output's shape, not its reasoning. Adding one untagged example after the instructions is the weakest version of the fix. A single example shows no variety, and without tags Claude cannot reliably tell the demonstration apart from the instructions. Several varied ticket-and-output pairs, each wrapped in example tags, teach the exact labels and layout you expect."
+    },
+    {
+      "id": "u0033",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0034",
+      "text": "Inconsistent label spelling and formatting is a reasoning problem, so asking Claude to explain its choice in prose will fix it."
+    },
+    {
+      "id": "u0035",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0037",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0038",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0039",
+      "text": "A zero-shot triage prompt gives the correct priority, but the label varies between tickets: \"High\" on one and \"high priority\" on the next. What is the most effective fix?"
+    },
+    {
+      "id": "u0040",
+      "text": "Have Claude explain in prose why it chose the priority before it gives the label"
+    },
+    {
+      "id": "u0041",
+      "text": "Add one example ticket and its output right after the instructions, without tags"
+    },
+    {
+      "id": "u0042",
+      "text": "Repeat the rule \"always use consistent labels\" in capital letters in the zero-shot prompt"
+    },
+    {
+      "id": "u0043",
+      "text": "Add several varied ticket-and-output pairs, each wrapped in example tags"
+    },
+    {
+      "id": "u0044",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0045",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0046",
+      "text": "A team's support-ticket triage prompt asks Claude to output a category label and priority score, but real outputs vary in formatting and label spelling across similar tickets. The team has not yet included any example outputs in the prompt. Which change is most likely to make outputs consistent?"
+    },
+    {
+      "id": "u0047",
+      "text": "Raise the temperature parameter so Claude explores a wider range of phrasing options before settling on the final label"
+    },
+    {
+      "id": "u0048",
+      "text": "Wrap three to five diverse ticket-and-output pairs in <example> tags so Claude can pattern-match on the intended format and labels"
+    },
+    {
+      "id": "u0049",
+      "text": "Add a single example ticket at the very end of the prompt, after the classification instructions, to anchor the closing tokens"
+    },
+    {
+      "id": "u0050",
+      "text": "Ask Claude to first summarize the ticket in prose, then separately explain why it did not select the other categories"
+    },
+    {
+      "id": "u0051",
+      "text": "Sources"
+    },
+    {
+      "id": "u0052",
+      "text": "Crafting examples Claude learns the right lesson from"
+    },
+    {
+      "id": "u0053",
+      "text": "Claude learns everything an example shows, including what you did not mean to teach. Modern Claude models pay very close attention to details in examples. A shared length, sentence structure or sentiment across your examples will be read as part of the pattern. Example sets should meet three requirements:"
+    },
+    {
+      "id": "u0054",
+      "text": "Relevant: they mirror your real use case closely, with the same kind of input and the same output shape."
+    },
+    {
+      "id": "u0055",
+      "text": "Diverse: they cover edge cases and vary enough that Claude does not pick up unintended patterns."
+    },
+    {
+      "id": "u0056",
+      "text": "Structured: each one is wrapped in example tags, and the set in examples tags, so Claude can tell demonstrations apart from instructions."
+    },
+    {
+      "id": "u0057",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0058",
+      "text": "A sentiment classifier's five examples are all short, positive product reviews with the same sentence structure. It now handles negative and mixed reviews poorly. What fixes it?"
+    },
+    {
+      "id": "u0059",
+      "text": "Replace some examples with negative, mixed and differently structured reviews"
+    },
+    {
+      "id": "u0060",
+      "text": "Move the examples below the classification instructions"
+    },
+    {
+      "id": "u0061",
+      "text": "Raise the example count to fifteen in the same style"
+    },
+    {
+      "id": "u0062",
+      "text": "A homogeneous example set fails in a specific way. It works on inputs that look like the examples and breaks on everything else. Adding more examples of the same kind makes the unwanted pattern stronger, so the count is not the fix. The fix is coverage: include each label, the hard boundary cases, and varied lengths and phrasings. Varied examples are most useful for nuanced or ambiguous cases, where the line between categories is hard to state in a written description alone."
+    },
+    {
+      "id": "u0063",
+      "text": "Moderation examples that cover both labels and very different kinds of content, from praise to threats to misinformation"
+    },
+    {
+      "id": "u0064",
+      "text": "text"
+    },
+    {
+      "id": "u0065",
+      "text": "Tags matter as much as content. If an example sits loose among the instructions, Claude may treat its specific values as requirements, or treat an instruction as sample data. Wrapping each example in its own tag removes that ambiguity. Using the same tag names in every prompt keeps the structure predictable. Examples are also the easiest place to tune behaviour: changing the examples in a moderation prompt changes what it allows and blocks, with no other edits."
+    },
+    {
+      "id": "u0066",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0067",
+      "text": "If a few-shot classifier is unreliable, adding more examples will fix it whatever those examples contain."
+    },
+    {
+      "id": "u0068",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0070",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0071",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0072",
+      "text": "Your team's moderation prompt has four varied, relevant comment-and-label pairs, but they are pasted in among the rules with no tags around them. What risk does this layout create?"
+    },
+    {
+      "id": "u0073",
+      "text": "None, because varied and relevant examples are enough for Claude to learn the right pattern"
+    },
+    {
+      "id": "u0074",
+      "text": "Claude will copy the example comments word for word into its output"
+    },
+    {
+      "id": "u0075",
+      "text": "Claude may treat specific values in the examples as requirements, or treat a rule as sample data"
+    },
+    {
+      "id": "u0076",
+      "text": "Claude will ignore the examples and act as if the prompt were zero-shot"
+    },
+    {
+      "id": "u0077",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0078",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0079",
+      "text": "While reviewing a few-shot prompt for a sentiment classifier, an engineer notices that all five included examples are short, positive-sentiment product reviews written in the same sentence structure. Model outputs on negative or mixed reviews are now unreliable. What is the most likely cause and fix?"
+    },
+    {
+      "id": "u0080",
+      "text": "The examples are not diverse enough and Claude has picked up unintended patterns from the repeated structure; add negative, mixed, and structurally varied examples"
+    },
+    {
+      "id": "u0081",
+      "text": "The examples are missing <thinking> tags, so Claude cannot reason step by step before assigning a sentiment label"
+    },
+    {
+      "id": "u0082",
+      "text": "The prompt is not using enough examples in total; increasing the count from five to fifteen will resolve the inconsistency regardless of content"
+    },
+    {
+      "id": "u0083",
+      "text": "The examples should be moved below the classification instructions instead of above them, since position determines whether Claude treats them as demonstrations"
+    },
+    {
+      "id": "u0084",
+      "text": "Sources"
+    },
+    {
+      "id": "u0085",
+      "text": "Chain-of-thought prompting in three forms"
+    },
+    {
+      "id": "u0086",
+      "text": "Chain-of-thought (CoT) prompting asks Claude to reason step by step before giving its answer. It helps because a model answering in a single pass has no room for scratch work, checking or changing course. When Claude reasons first, it restates the problem, tries approaches and checks intermediate results. This matters most for tasks whose answer depends on intermediate work that would otherwise be squeezed into the response or skipped: multi-step analysis, maths, and decisions that weigh several factors."
+    },
+    {
+      "id": "u0087",
+      "text": "The three common ways to prompt chain-of-thought"
+    },
+    {
+      "id": "u0088",
+      "text": "Form"
+    },
+    {
+      "id": "u0089",
+      "text": "What you add to the prompt"
+    },
+    {
+      "id": "u0090",
+      "text": "What it gives you"
+    },
+    {
+      "id": "u0091",
+      "text": "Basic"
+    },
+    {
+      "id": "u0092",
+      "text": "A phrase such as \"Think step-by-step\""
+    },
+    {
+      "id": "u0093",
+      "text": "Reasoning before the answer, but Claude chooses what to reason about"
+    },
+    {
+      "id": "u0094",
+      "text": "Guided"
+    },
+    {
+      "id": "u0095",
+      "text": "Named reasoning stages in order: first consider X, then Y, then write the output"
+    },
+    {
+      "id": "u0096",
+      "text": "Ensures that the specific factors you care about are considered"
+    },
+    {
+      "id": "u0097",
+      "text": "Structured"
+    },
+    {
+      "id": "u0098",
+      "text": "Guided stages, plus tags that separate reasoning (<thinking>) from the answer (<email>)"
+    },
+    {
+      "id": "u0099",
+      "text": "Reasoning your code can strip out, and an answer it can extract cleanly"
+    },
+    {
+      "id": "u0100",
+      "text": "Basic chain-of-thought: one closing sentence asks for reasoning before the email"
+    },
+    {
+      "id": "u0101",
+      "text": "text"
+    },
+    {
+      "id": "u0102",
+      "text": "Each form gives you more control than the one before. The basic form lets Claude decide what is worth thinking about. The guided form names the stages, for example the donor's giving history first, then the parts of the programme that fit them, then the email. Use it when the reasoning has to cover specific ground. The structured form adds output tags, which production pipelines usually need. A moderation filter can ask for its reasoning in thinking tags and its verdict in output tags, then parse only the verdict. In a vision example, the same thinking-then-answer layout fixed a dog count Claude had first got wrong."
+    },
+    {
+      "id": "u0103",
+      "text": "Why does the structured form matter more in an API pipeline than in a chat window?"
+    },
+    {
+      "id": "u0104",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0105",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0106",
+      "text": "Match each form of chain-of-thought prompting to what you add and what it gives you"
+    },
+    {
+      "id": "u0107",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0108",
+      "text": "Basic chain-of-thought"
+    },
+    {
+      "id": "u0109",
+      "text": "Guided chain-of-thought"
+    },
+    {
+      "id": "u0110",
+      "text": "Structured chain-of-thought"
+    },
+    {
+      "id": "u0111",
+      "text": "Name the reasoning stages and put the reasoning and the answer in separate tags. Your code can then remove the reasoning and extract only the answer."
+    },
+    {
+      "id": "u0112",
+      "text": "Name the reasoning stages in order, such as the donor's history first and then the parts of the programme that fit them. This makes sure the factors you care about get considered."
+    },
+    {
+      "id": "u0113",
+      "text": "Add a phrase such as \"Think step-by-step\". Claude reasons before it answers, but it decides for itself what to reason about."
+    },
+    {
+      "id": "u0114",
+      "text": "Sources"
+    },
+    {
+      "id": "u0115",
+      "text": "Extended thinking versus manual chain of thought"
+    },
+    {
+      "id": "u0116",
+      "text": "Extended thinking is built-in chain-of-thought. When it is active, Claude reasons in thinking content blocks that arrive before its text response. On models that support it, extended thinking is generally preferable to writing CoT instructions by hand. How you turn it on depends on the model. On Claude Opus 4.6 to 4.8 and Claude Sonnet 4.6, thinking stays off until you set adaptive thinking, which lets Claude decide when and how deeply to think. Claude Sonnet 5 has it on by default."
+    },
+    {
+      "id": "u0117",
+      "text": "Turning on adaptive thinking, with the summarised thinking returned and max_tokens raised to leave room for it"
+    },
+    {
+      "id": "u0118",
+      "text": "python"
+    },
+    {
+      "id": "u0119",
+      "text": "Manual CoT is still the right choice in two cases. The first is when extended thinking isn't available, such as on the free Claude.ai plan. The second is when you need reasoning you can review. A thinking block never contains the raw chain of thought. With display set to summarized it holds a summary of Claude's reasoning. With omitted, the default on many models, its thinking field comes back empty. Reasoning written in thinking tags as part of the response is exactly what Claude wrote, so an auditor can read it in full. The two approaches can also be combined: even with extended thinking on, explicit CoT instructions can still help on complex tasks."
+    },
+    {
+      "id": "u0120",
+      "text": "Thinking has costs, so it should not be on for every request. Thinking tokens are billed as output tokens even when the text is not returned, and they count toward max_tokens. They also add latency. You can steer thinking turn by turn. Adding \"Please think hard before responding.\" to a user message encourages it, and \"Answer directly without deliberating.\" discourages it. An agent harness can add the first phrase on planning steps and the second on routine confirmations. Steering phrases change model behaviour, so measure how often thinking triggers, token use, latency and answer quality before you ship them."
+    },
+    {
+      "id": "u0121",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0122",
+      "text": "Pick extended thinking when it is available and the task needs multistep reasoning. Pick manual CoT in tags when it is unavailable, or when someone has to read the full reasoning. A thinking block shows at most a summary."
+    },
+    {
+      "id": "u0123",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0124",
+      "text": "Thinking blocks contain Claude's full raw reasoning, so extended thinking always gives an auditable trail."
+    },
+    {
+      "id": "u0125",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0127",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0128",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0129",
+      "text": "You want this adaptive-thinking request to return Claude's thinking text in its thinking blocks, not an empty thinking field. Which display value goes in the blank?"
+    },
+    {
+      "id": "u0130",
+      "text": "omitted"
+    },
+    {
+      "id": "u0131",
+      "text": "summarized"
+    },
+    {
+      "id": "u0132",
+      "text": "raw"
+    },
+    {
+      "id": "u0133",
+      "text": "full"
+    },
+    {
+      "id": "u0134",
+      "text": "Sources"
+    },
+    {
+      "id": "u0135",
+      "text": "Placing long documents, examples and the query"
+    },
+    {
+      "id": "u0136",
+      "text": "Prompts that combine large documents with instructions and examples need a deliberate layout. Inputs of 20k+ tokens are where layout matters most; managing the limits themselves is covered under "
+    },
+    {
+      "id": "u0137",
+      "text": "context window budgeting"
+    },
+    {
+      "id": "u0138",
+      "text": ". Three practices apply:"
+    },
+    {
+      "id": "u0139",
+      "text": "Put the long documents near the top, above the query, instructions and examples. This improves performance on all models, so moving the question to the very top is the wrong direction."
+    },
+    {
+      "id": "u0140",
+      "text": "Wrap each document in document tags with source and document_content subtags, and nest them all inside a documents tag. Keep this structure rather than pasting raw text, because the tags let Claude tell the documents apart."
+    },
+    {
+      "id": "u0141",
+      "text": "Ask Claude to quote the relevant passages, in their own tag, before it does the task. This keeps it focused on the content that matters and ignoring the rest."
+    },
+    {
+      "id": "u0142",
+      "text": "Quoting first is the long-document version of chain-of-thought: the extracted quotes become the intermediate work the answer builds on. If answers keep missing details buried mid-document, quote grounding plus a documents-first layout is the fix. Cutting the input down to a single document is not, because the multi-document tag structure exists precisely so Claude can work across several sources in one prompt."
+    },
+    {
+      "id": "u0143",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0144",
+      "text": "Put the question first so Claude reads it before the long documents."
+    },
+    {
+      "id": "u0145",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0149",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0150",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0151",
+      "text": "An analyst's prompt combines about 60k tokens of supplier contracts with instructions, two tagged examples and the question \"Which contracts allow termination without notice?\" Answers keep missing clauses buried in the middle of the contracts. Which change follows the recommended layout?"
+    },
+    {
+      "id": "u0152",
+      "text": "Move the question to the very top so Claude reads it before the contracts"
+    },
+    {
+      "id": "u0153",
+      "text": "Keep the instructions first, then the contracts, and repeat the question after the examples"
+    },
+    {
+      "id": "u0154",
+      "text": "Put the contracts, each in document tags, at the top, above the instructions, examples and question, and have Claude quote the relevant clauses first"
+    },
+    {
+      "id": "u0155",
+      "text": "Send only one contract per prompt so that no details are buried"
+    },
+    {
+      "id": "u0156",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0157",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0158",
+      "text": "An engineer is building a Claude prompt that analyzes several long internal documents and answers a question about them. Responses sometimes ignore details buried in the middle of the documents. Which of the following changes are consistent with documented long-context prompting guidance? (Select all that apply.)"
+    },
+    {
+      "id": "u0159",
+      "text": "(Select "
+    },
+    {
+      "id": "u0160",
+      "text": "Place the long documents near the top of the prompt, above the query and instructions"
+    },
+    {
+      "id": "u0161",
+      "text": "Wrap each document in <document> tags with source and content subtags to structure the input clearly"
+    },
+    {
+      "id": "u0162",
+      "text": "Move the user's question to the very top of the prompt, before any document content, so it is processed first"
+    },
+    {
+      "id": "u0163",
+      "text": "Ask Claude to quote the relevant passages inside <quotes> tags before producing the final analysis"
+    },
+    {
+      "id": "u0164",
+      "text": "Reduce the number of documents to exactly one, since Claude cannot reliably compare multiple long documents in a single prompt"
+    },
+    {
+      "id": "u0165",
+      "text": "Remove all XML structure from the documents so Claude receives the raw text exactly as it would appear in the source files"
+    },
+    {
+      "id": "u0166",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0167",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0168",
+      "text": "Sources"
+    },
+    {
+      "id": "u0169",
+      "text": "Sources"
+    }
+  ]
+}

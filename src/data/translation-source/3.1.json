@@ -1,0 +1,1043 @@
+{
+  "pageId": "3.1",
+  "title": "Capability bloat in agent tool configurations",
+  "titleVi": "Tình trạng dư thừa năng lực trong cấu hình công cụ của tác tử",
+  "units": [
+    {
+      "id": "description",
+      "text": "Evaluate tool/agent configuration for capability bloat"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Explain what an oversized tool set costs an agent in context, attention and tool-selection accuracy"
+    },
+    {
+      "id": "u0002",
+      "text": "Read an agent configuration and find overlapping, unused or vaguely described tools and MCP servers the agent doesn't need"
+    },
+    {
+      "id": "u0003",
+      "text": "Merge overlapping tools into higher-level ones and namespace the remaining tools by service and resource"
+    },
+    {
+      "id": "u0004",
+      "text": "Limit each agent and subagent to the tools its role needs using tools, disallowedTools, mcpServers and permission modes"
+    },
+    {
+      "id": "u0005",
+      "text": "Pick between consolidation, scoping, tool search, prompt caching and context editing based on where the context pressure comes from"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Capability bloat"
+    },
+    {
+      "id": "u0008",
+      "text": "Capability bloat is when an agent is given more tools than its job needs: tools that overlap, sit unused, have vague descriptions, or come in from MCP servers it never calls. Every one of those definitions takes up context and is one more option Claude has to rule out, so the agent becomes less accurate at choosing a tool, not more capable."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "What too many tools cost an agent"
+    },
+    {
+      "id": "u0011",
+      "text": "Diagnosing bloat in a configuration"
+    },
+    {
+      "id": "u0012",
+      "text": "Consolidating and namespacing tools"
+    },
+    {
+      "id": "u0013",
+      "text": "Scoping tools to each agent's role"
+    },
+    {
+      "id": "u0014",
+      "text": "Matching the remedy to the source of pressure"
+    },
+    {
+      "id": "u0015",
+      "text": "What too many tools cost an agent"
+    },
+    {
+      "id": "u0016",
+      "text": "Every tool definition you attach is paid for in context before the agent reads the user's request. Claude sees each tool's name, description and input schema on every turn. Fifty tools can use 10–20K tokens. A typical multi-server setup that connects GitHub, Slack, Sentry, Grafana and Splunk can use about 55k tokens on definitions before Claude has done any work. Those tokens come out of the same window the task needs for files, tool results and reasoning."
+    },
+    {
+      "id": "u0017",
+      "text": "The cost goes beyond space. Context behaves like an attention budget, and every added token draws it down. As the token count rises, the model gets worse at recalling and reasoning over what's in the window. A tool catalogue the agent mostly ignores still takes attention on every request. In a long-running agent, those definitions compete with the growing pile of "
+    },
+    {
+      "id": "u0018",
+      "text": " blocks, and the agent can run out of context before it finishes the task."
+    },
+    {
+      "id": "u0019",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0020",
+      "text": "A team adds another 25 MCP tools to an agent that already has 30, on the theory that more capability means more tasks get solved. What is the most likely effect on tool use?"
+    },
+    {
+      "id": "u0021",
+      "text": "Tool selection gets less accurate, because the agent now has to choose among more than 30–50 loaded tools"
+    },
+    {
+      "id": "u0022",
+      "text": "No change in accuracy, because Claude ignores tools that aren't relevant to the request"
+    },
+    {
+      "id": "u0023",
+      "text": "Accuracy improves, because Claude has a better-fitting tool for more requests"
+    },
+    {
+      "id": "u0024",
+      "text": "The third cost is wrong choices. Claude picks the right tool less reliably once more than roughly 30–50 tools are loaded at the same time. Overlap makes this worse at any size: if two tools both look like they could answer a request, Claude can pick the wrong one, call the right one with the wrong parameters, or spend turns on a roundabout strategy. A wrong tool call costs a round trip, adds a misleading result to the history, and sometimes performs an action nobody wanted. That last case is why bloat matters for safety as well as cost."
+    },
+    {
+      "id": "u0025",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0026",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0027",
+      "text": "A long-running support agent has GitHub, Slack, Sentry, Grafana and Splunk MCP servers attached. On short requests it works well. On long multi-step investigations it often runs out of context before it finishes. What is the most likely reason the toolset contributes to this?"
+    },
+    {
+      "id": "u0028",
+      "text": "The toolset only matters if Claude calls the wrong tool; tools it never calls take up no context"
+    },
+    {
+      "id": "u0029",
+      "text": "The definitions cost tokens, but the context limit applies only to the user's messages and the model's reasoning, not to tools"
+    },
+    {
+      "id": "u0030",
+      "text": "It doesn't contribute: tool definitions are sent only on the first turn, so only the tool results fill the window later"
+    },
+    {
+      "id": "u0031",
+      "text": "The tool definitions sit in context on every turn and share the same window as the growing pile of tool_result blocks, leaving less room for the task"
+    },
+    {
+      "id": "u0032",
+      "text": "Sources"
+    },
+    {
+      "id": "u0033",
+      "text": "Diagnosing bloat in a configuration"
+    },
+    {
+      "id": "u0034",
+      "text": "A bloat review reads the configuration against the agent's real workflow and asks one question of every entry: what would break if this were gone? Four kinds of finding come up again and again."
+    },
+    {
+      "id": "u0035",
+      "text": "Overlapping tools."
+    },
+    {
+      "id": "u0036",
+      "text": " Two or more tools do much the same job, such as "
+    },
+    {
+      "id": "u0037",
+      "text": " and "
+    },
+    {
+      "id": "u0038",
+      "text": ", or separate get-by-id and list endpoints that are always called together."
+    },
+    {
+      "id": "u0039",
+      "text": "Unused tools."
+    },
+    {
+      "id": "u0040",
+      "text": " Definitions the agent never calls in its actual tasks. These are often whole MCP servers connected \"just in case\"."
+    },
+    {
+      "id": "u0041",
+      "text": "Vague descriptions."
+    },
+    {
+      "id": "u0042",
+      "text": " A tool whose purpose Claude can't tell apart from a neighbour's, or whose parameters it keeps getting wrong."
+    },
+    {
+      "id": "u0043",
+      "text": "Over-connected MCP servers."
+    },
+    {
+      "id": "u0044",
+      "text": " Servers picked up from project files, user settings, plugins or organisation connectors that this agent never meant to use."
+    },
+    {
+      "id": "u0045",
+      "text": "Transcripts and metrics are better evidence than reading the config. Record the total number of tool calls, token consumption and tool errors per task, and read the raw tool calls rather than only the agent's own account of what it did. The patterns that show up point to specific fixes. A run of tool errors for invalid parameters usually means a description needs to be clearer or needs examples. Tools that are always called in the same order are candidates for merging. Tools that never appear in any transcript are candidates for removal."
+    },
+    {
+      "id": "u0046",
+      "text": "Reading tool-call evidence for bloat"
+    },
+    {
+      "id": "u0047",
+      "text": "What you observe"
+    },
+    {
+      "id": "u0048",
+      "text": "Likely finding"
+    },
+    {
+      "id": "u0049",
+      "text": "First remedy to try"
+    },
+    {
+      "id": "u0050",
+      "text": "The same three tools are called in sequence on most tasks"
+    },
+    {
+      "id": "u0051",
+      "text": "Over-fragmented tools that wrap API endpoints one-to-one"
+    },
+    {
+      "id": "u0052",
+      "text": "Merge them into one higher-level tool"
+    },
+    {
+      "id": "u0053",
+      "text": "Frequent tool errors for invalid parameters"
+    },
+    {
+      "id": "u0054",
+      "text": "Vague or confusing description or schema"
+    },
+    {
+      "id": "u0055",
+      "text": "Rewrite the description and add examples"
+    },
+    {
+      "id": "u0056",
+      "text": "Claude alternates between two similar tools for the same request"
+    },
+    {
+      "id": "u0057",
+      "text": "Overlapping function or vague purpose"
+    },
+    {
+      "id": "u0058",
+      "text": "Merge the tools, or namespace them so their boundaries are clear"
+    },
+    {
+      "id": "u0059",
+      "text": "A connected server's tools never appear in transcripts"
+    },
+    {
+      "id": "u0060",
+      "text": "Unused capability"
+    },
+    {
+      "id": "u0061",
+      "text": "Disconnect the server, or deny its tools for this agent"
+    },
+    {
+      "id": "u0062",
+      "text": "Over-connection needs its own check, because MCP servers can come from several places at once. In the Agent SDK, "
+    },
+    {
+      "id": "u0063",
+      "text": " set to true uses only the servers passed in "
+    },
+    {
+      "id": "u0064",
+      "text": ", and ignores project "
+    },
+    {
+      "id": "u0065",
+      "text": ", user settings, plugin-provided servers and claude.ai connectors. If an agent's tool list contains servers nobody put in its options, they came in through one of those other routes."
+    },
+    {
+      "id": "u0066",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0067",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0068",
+      "text": "Match each pattern from an agent's transcripts and metrics to the first fix to try."
+    },
+    {
+      "id": "u0069",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0070",
+      "text": "The same three tools are called one after another on most tasks"
+    },
+    {
+      "id": "u0071",
+      "text": "Frequent tool errors for invalid parameters"
+    },
+    {
+      "id": "u0072",
+      "text": "Claude switches back and forth between two similar tools for the same request"
+    },
+    {
+      "id": "u0073",
+      "text": "A connected MCP server's tools never appear in any transcript"
+    },
+    {
+      "id": "u0074",
+      "text": "Namespace the tools by service or resource so the boundary between them is clear"
+    },
+    {
+      "id": "u0075",
+      "text": "Disconnect the server, or deny its tools for this agent"
+    },
+    {
+      "id": "u0076",
+      "text": "Rewrite the tool's description and add examples"
+    },
+    {
+      "id": "u0077",
+      "text": "Combine them into one higher-level tool"
+    },
+    {
+      "id": "u0078",
+      "text": "Sources"
+    },
+    {
+      "id": "u0079",
+      "text": "Consolidating and namespacing tools"
+    },
+    {
+      "id": "u0080",
+      "text": "Consolidation fixes overlap by building tools around tasks rather than endpoints. A common mistake is to write tools that simply wrap existing software functions or API endpoints one-to-one. The agent then has to chain them, reading every intermediate result into its context. A single tool can do several discrete operations or API calls internally and return only what the task needs."
+    },
+    {
+      "id": "u0081",
+      "text": "Endpoint-shaped tools merged into task-shaped ones"
+    },
+    {
+      "id": "u0082",
+      "text": "Instead of"
+    },
+    {
+      "id": "u0083",
+      "text": "Implement"
+    },
+    {
+      "id": "u0084",
+      "text": "What the agent no longer has to do"
+    },
+    {
+      "id": "u0085",
+      "text": "list_users, list_events, create_event"
+    },
+    {
+      "id": "u0086",
+      "text": "schedule_event"
+    },
+    {
+      "id": "u0087",
+      "text": "Find availability itself across three calls"
+    },
+    {
+      "id": "u0088",
+      "text": "read_logs"
+    },
+    {
+      "id": "u0089",
+      "text": "search_logs"
+    },
+    {
+      "id": "u0090",
+      "text": "Read entire logs to find the relevant lines"
+    },
+    {
+      "id": "u0091",
+      "text": "get_customer_by_id, list_transactions, list_notes"
+    },
+    {
+      "id": "u0092",
+      "text": "get_customer_context"
+    },
+    {
+      "id": "u0093",
+      "text": "Put a customer's recent history together from three results"
+    },
+    {
+      "id": "u0094",
+      "text": "list_contacts"
+    },
+    {
+      "id": "u0095",
+      "text": "search_contacts or message_contact"
+    },
+    {
+      "id": "u0096",
+      "text": "Scan every contact token by token"
+    },
+    {
+      "id": "u0097",
+      "text": "Consolidating pays off twice. There are fewer definitions in context, which keeps the agent further below the 30–50-tool range where selection starts to degrade. And work that used to be the agent's reasoning moves into the tool, so the agent has fewer chances to make a mistake. Give each surviving tool one clear purpose that differs from its neighbours. Tool boundaries should split work the way a person with the same resources would split it."
+    },
+    {
+      "id": "u0098",
+      "text": "Namespacing deals with the tools that rightly remain. When an agent can reach many servers, put related tools under shared prefixes: by service ("
+    },
+    {
+      "id": "u0099",
+      "text": ") and, within a service, by resource ("
+    },
+    {
+      "id": "u0100",
+      "text": "). Claude can then tell two search tools apart before it reads either description. Some MCP clients add prefixes by default. Whether the prefix goes at the start or the end of the name has had measurable effects on tool-use evaluations, and the effect differs between models. Choose the scheme by running your own evaluation, not by habit."
+    },
+    {
+      "id": "u0101",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0102",
+      "text": "Pick an agent you've built or reviewed. Which two of its tools are almost always called one after the other, and what would a single task-shaped tool replacing them be called?"
+    },
+    {
+      "id": "u0103",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0104",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0105",
+      "text": "Your team is adding namespaces to an agent's tools across Asana and Jira. One engineer wants service prefixes such as asana_projects_search. Another wants suffixes such as projects_search_asana. How should the team decide?"
+    },
+    {
+      "id": "u0106",
+      "text": "Run the team's own tool-use evaluations on both schemes with the model the agent uses, because the effect differs between models"
+    },
+    {
+      "id": "u0107",
+      "text": "Use suffixes, because Claude reads the action word first and that always gives more accurate tool selection"
+    },
+    {
+      "id": "u0108",
+      "text": "Pick either one, because Claude only reads the descriptions, so where the namespace goes has no measurable effect"
+    },
+    {
+      "id": "u0109",
+      "text": "Use prefixes, because some MCP clients add prefixes by default and that makes prefixes the correct scheme"
+    },
+    {
+      "id": "u0110",
+      "text": "Sources"
+    },
+    {
+      "id": "u0111",
+      "text": "Scoping tools to each agent's role"
+    },
+    {
+      "id": "u0112",
+      "text": "Scoping gives each agent or subagent only the tools its role needs. In the Agent SDK this is the subagent's "
+    },
+    {
+      "id": "u0113",
+      "text": " field, set in its own "
+    },
+    {
+      "id": "u0114",
+      "text": ". A subagent doesn't automatically get a narrower set than its parent: if you leave "
+    },
+    {
+      "id": "u0115",
+      "text": " out, it inherits every tool available to subagents. A code reviewer launched by a lead agent that has "
+    },
+    {
+      "id": "u0116",
+      "text": " and "
+    },
+    {
+      "id": "u0117",
+      "text": " therefore gets all three unless its own definition lists something narrower. Notes in CLAUDE.md and the parent's permission mode don't change the reviewer's tool set."
+    },
+    {
+      "id": "u0118",
+      "text": "A read-only reviewer subagent: its own tools field limits it to read and search, whatever tools the parent has"
+    },
+    {
+      "id": "u0119",
+      "text": "typescript"
+    },
+    {
+      "id": "u0120",
+      "text": "Removal works at server level too. "
+    },
+    {
+      "id": "u0121",
+      "text": " takes MCP patterns: "
+    },
+    {
+      "id": "u0122",
+      "text": " or "
+    },
+    {
+      "id": "u0123",
+      "text": " removes every tool from that server, and "
+    },
+    {
+      "id": "u0124",
+      "text": " removes every MCP tool from any server. A pattern like "
+    },
+    {
+      "id": "u0125",
+      "text": " strips a legacy server out of one agent while other agents keep it. "
+    },
+    {
+      "id": "u0126",
+      "text": " on an agent definition names the only servers that agent gets. Unused servers that no agent needs should be disconnected altogether."
+    },
+    {
+      "id": "u0127",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0128",
+      "text": "A headless CI agent is configured with allowedTools: [\"Read\", \"Glob\", \"Grep\"] and no other settings. Claude decides to call Bash. What happens?"
+    },
+    {
+      "id": "u0129",
+      "text": "Bash runs, because allowedTools only applies to file tools"
+    },
+    {
+      "id": "u0130",
+      "text": "Bash isn't pre-approved, so the call falls through to the permission mode and the canUseTool callback"
+    },
+    {
+      "id": "u0131",
+      "text": "Bash is unavailable, because allowedTools is the agent's complete tool list"
+    },
+    {
+      "id": "u0132",
+      "text": "Approving a tool and scoping a tool are separate controls. "
+    },
+    {
+      "id": "u0133",
+      "text": " approves tools in advance so they run without a prompt, but it doesn't stop Claude from calling other tools. The permission mode decides what happens to those other calls. In "
+    },
+    {
+      "id": "u0134",
+      "text": ", any call that needs approval and matches no allow rule goes to your "
+    },
+    {
+      "id": "u0135",
+      "text": " callback, which is no use in a CI job with nobody to answer. In "
+    },
+    {
+      "id": "u0136",
+      "text": ", any call that would have prompted is denied, and "
+    },
+    {
+      "id": "u0137",
+      "text": " is never called. An allowlist combined with "
+    },
+    {
+      "id": "u0138",
+      "text": " is the closed configuration a headless agent needs: listed tools run and everything else is refused."
+    },
+    {
+      "id": "u0139",
+      "text": "A closed, non-interactive tool surface: three tools pre-approved, every other tool call denied"
+    },
+    {
+      "id": "u0140",
+      "text": "javascript"
+    },
+    {
+      "id": "u0141",
+      "text": "The other modes go the opposite way. "
+    },
+    {
+      "id": "u0142",
+      "text": " lets tools run without prompts, apart from the few actions no mode auto-approves. Combined with a denylist such as "
+    },
+    {
+      "id": "u0143",
+      "text": " and "
+    },
+    {
+      "id": "u0144",
+      "text": ", it fails open: any tool you forgot to list runs freely. "
+    },
+    {
+      "id": "u0145",
+      "text": " approves file edits and filesystem operations automatically, which is exactly what a read-only agent must not do. "
+    },
+    {
+      "id": "u0146",
+      "text": " approves everything in advance. During a bloat review, each of these widens the surface rather than shrinking it."
+    },
+    {
+      "id": "u0147",
+      "text": "Skills count toward the surface as well. A skill is a reusable set of instructions kept in a "
+    },
+    {
+      "id": "u0148",
+      "text": " file inside a "
+    },
+    {
+      "id": "u0149",
+      "text": " folder. The file opens with frontmatter, a short block of "
+    },
+    {
+      "id": "u0150",
+      "text": " and "
+    },
+    {
+      "id": "u0151",
+      "text": " lines between "
+    },
+    {
+      "id": "u0152",
+      "text": " markers, followed by the instructions themselves. At session start Claude loads only a short listing of each skill's description; the full text loads when the skill is invoked, either by Claude when the description fits the request or by a person typing "
+    },
+    {
+      "id": "u0153",
+      "text": ". Every skill therefore adds an entry to that listing. The description and the optional "
+    },
+    {
+      "id": "u0154",
+      "text": " field (trigger phrases or example requests) are cut off together at 1,536 characters to limit context use. If a skill has side effects and a person should decide when it runs, set "
+    },
+    {
+      "id": "u0155",
+      "text": " in its frontmatter. Claude then won't load it automatically or preload it into subagents, and it runs only when someone types "
+    },
+    {
+      "id": "u0156",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0157",
+      "text": "Only configuration shrinks a tool surface. A CLAUDE.md note asking Claude to avoid certain tools leaves every definition in context and every tool callable. The things that remove capability are disconnecting a server, a "
+    },
+    {
+      "id": "u0158",
+      "text": " pattern, a narrower "
+    },
+    {
+      "id": "u0159",
+      "text": " list, "
+    },
+    {
+      "id": "u0160",
+      "text": " on the agent, "
+    },
+    {
+      "id": "u0161",
+      "text": " with an allowlist, and "
+    },
+    {
+      "id": "u0162",
+      "text": " on skills."
+    },
+    {
+      "id": "u0163",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0164",
+      "text": "Listing tools in allowedTools limits the agent to just those tools."
+    },
+    {
+      "id": "u0165",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0172",
+      "text": "A subagent automatically gets a restricted subset of its parent's tools."
+    },
+    {
+      "id": "u0173",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0180",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0181",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0182",
+      "text": "A lead agent has Write, Edit and Bash. This excerpt is from the code-reviewer subagent's own definition, and the reviewer must stay read-only whatever tools the parent holds. Which field goes in the blank?"
+    },
+    {
+      "id": "u0183",
+      "text": "mcpServers"
+    },
+    {
+      "id": "u0184",
+      "text": "tools"
+    },
+    {
+      "id": "u0185",
+      "text": "disallowedTools"
+    },
+    {
+      "id": "u0186",
+      "text": "allowedTools"
+    },
+    {
+      "id": "u0187",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0188",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0189",
+      "text": "A developer wants to build a code-review agent that must never edit files or run shell commands, even if Claude decides such actions would help, and must not fall back to interactive approval because it runs headless in CI. Which configuration achieves this?"
+    },
+    {
+      "id": "u0190",
+      "text": "Set allowedTools: [\"Read\", \"Glob\", \"Grep\"] with permissionMode: \"dontAsk\" so listed tools are approved and everything else is denied outright."
+    },
+    {
+      "id": "u0191",
+      "text": "Set disallowedTools: [\"Edit\", \"Write\", \"Bash\"] with permissionMode: \"bypassPermissions\" so denied tools are blocked while everything else runs freely."
+    },
+    {
+      "id": "u0192",
+      "text": "Set allowedTools: [\"Read\", \"Glob\", \"Grep\"] with permissionMode: \"default\" so unlisted tools fall through to the canUseTool callback for confirmation."
+    },
+    {
+      "id": "u0193",
+      "text": "Set permissionMode: \"acceptEdits\" with no allowedTools entries so file operations are pre-approved but Bash still prompts for confirmation."
+    },
+    {
+      "id": "u0194",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0195",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0196",
+      "text": "A lead agent has allowedTools: [\"Read\", \"Write\", \"Edit\", \"Bash\", \"Agent\"] for its own broad development work. The team also defines a code-reviewer subagent that should only ever read and search code, never write files or run shell commands, regardless of what the lead agent is permitted to do. How should the subagent be configured to enforce this?"
+    },
+    {
+      "id": "u0197",
+      "text": "Define the subagent with its own tools: [\"Read\", \"Glob\", \"Grep\"] field in its AgentDefinition, independent of the lead agent's allowedTools."
+    },
+    {
+      "id": "u0198",
+      "text": "Rely on the lead agent's allowedTools list, since subagents always inherit a strict subset of whatever tools the lead agent is permitted to use."
+    },
+    {
+      "id": "u0199",
+      "text": "Add a CLAUDE.md note describing the reviewer role as read-only, since subagents load the same tool permissions as the invoking session."
+    },
+    {
+      "id": "u0200",
+      "text": "Set the lead agent's permissionMode to \"plan\" whenever the code-reviewer subagent is invoked, which restricts only that subagent's tool access."
+    },
+    {
+      "id": "u0201",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0202",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0203",
+      "text": "During a capability-bloat review of an agent configuration, which of the following actions would correctly reduce the agent's unnecessary tool surface? (Select all that apply.)"
+    },
+    {
+      "id": "u0204",
+      "text": "(Select "
+    },
+    {
+      "id": "u0205",
+      "text": "Disconnect MCP servers whose tools are never used by the agent's actual triage workflow, removing them from the session entirely."
+    },
+    {
+      "id": "u0206",
+      "text": "Scope deny rules to specific MCP servers, e.g. disallowedTools: [\"mcp__legacy__*\"], rather than leaving all servers reachable."
+    },
+    {
+      "id": "u0207",
+      "text": "Set disable-model-invocation: true on any skill that performs a side-effecting action the user should trigger manually."
+    },
+    {
+      "id": "u0208",
+      "text": "Add a CLAUDE.md note asking Claude to avoid unrelated tools, while leaving every MCP server and tool definition connected."
+    },
+    {
+      "id": "u0209",
+      "text": "Set permissionMode: \"bypassPermissions\" so reviewers stop seeing repeated approval prompts while testing the workflow."
+    },
+    {
+      "id": "u0210",
+      "text": "Grant allowedTools: [\"*\"] alongside disallowedTools for specific dangerous calls, so most tools are pre-approved by default."
+    },
+    {
+      "id": "u0211",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0212",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0213",
+      "text": "Sources"
+    },
+    {
+      "id": "u0214",
+      "text": "Matching the remedy to the source of pressure"
+    },
+    {
+      "id": "u0215",
+      "text": "Each bloat remedy acts on a different source of pressure, so the diagnosis decides which one to use. Merging, namespacing and scoping change the set of tools an agent has. The context remedies leave the set alone and change where the tokens go. Choose by where your tokens, or your wrong tool calls, are actually coming from."
+    },
+    {
+      "id": "u0216",
+      "text": "Source of pressure against the remedy that targets it"
+    },
+    {
+      "id": "u0217",
+      "text": "Where the pressure comes from"
+    },
+    {
+      "id": "u0218",
+      "text": "Remedy"
+    },
+    {
+      "id": "u0219",
+      "text": "What it changes"
+    },
+    {
+      "id": "u0220",
+      "text": "Overlapping or vaguely bounded tools"
+    },
+    {
+      "id": "u0221",
+      "text": "Consolidate and namespace"
+    },
+    {
+      "id": "u0222",
+      "text": "Fewer, clearly separated tools, so selection gets easier"
+    },
+    {
+      "id": "u0223",
+      "text": "One role holding tools another role needs"
+    },
+    {
+      "id": "u0224",
+      "text": "Scope with tools, disallowedTools, mcpServers"
+    },
+    {
+      "id": "u0225",
+      "text": "Each agent loads and can call only its own tools"
+    },
+    {
+      "id": "u0226",
+      "text": "A large toolset (20+ tools) where most tools aren't needed on a given turn"
+    },
+    {
+      "id": "u0227",
+      "text": "Tool search"
+    },
+    {
+      "id": "u0228",
+      "text": "Definitions stay out of context until Claude searches for them"
+    },
+    {
+      "id": "u0229",
+      "text": "A large but stable toolset sent on many requests"
+    },
+    {
+      "id": "u0230",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0231",
+      "text": "Repeated definitions cost less; the token count is unchanged"
+    },
+    {
+      "id": "u0232",
+      "text": "Old tool_result blocks building up in a long conversation"
+    },
+    {
+      "id": "u0233",
+      "text": "Context editing"
+    },
+    {
+      "id": "u0234",
+      "text": "Stale results are trimmed from history"
+    },
+    {
+      "id": "u0235",
+      "text": "Chains of small tool calls that could run as one script"
+    },
+    {
+      "id": "u0236",
+      "text": "Programmatic tool calling"
+    },
+    {
+      "id": "u0237",
+      "text": "Intermediate results never enter the conversation"
+    },
+    {
+      "id": "u0238",
+      "text": "Programmatic tool calling replaces a chain of tool calls with one script. Instead of five round trips of "
+    },
+    {
+      "id": "u0239",
+      "text": " and "
+    },
+    {
+      "id": "u0240",
+      "text": ", Claude writes a single block of code that calls all five functions, and Anthropic's code execution sandbox runs it. Only the script's final output returns to the conversation; the intermediate results never enter the history. It fits repetitive chains of small calls that could run as a single batch, and it does nothing for an oversized toolset."
+    },
+    {
+      "id": "u0241",
+      "text": "Tool search fixes having too many definitions in context, not having tools that overlap. "
+    },
+    {
+      "id": "u0242",
+      "text": "Tool search (defer_loading, tool_reference, ENABLE_TOOL_SEARCH)"
+    },
+    {
+      "id": "u0243",
+      "text": " holds back deferred definitions until Claude searches for them. It costs a little latency, one extra turn to look a tool up, and saves a lot of baseline context. It's the right choice when the catalogue is genuinely large and each request needs only a few tools. It does nothing about two tools with blurred boundaries. When a search turns up both of them, Claude faces the same confusing choice as before, so overlap is still fixed by merging and namespacing."
+    },
+    {
+      "id": "u0244",
+      "text": "Prompt caching is the other remedy that's easy to misapply. It doesn't reduce the number of tokens in context. It reduces what you pay for them on later requests, so a large fixed toolset gets cheaper but takes up just as much of the window and the attention budget. Use it when the problem is cost. When the problem is selection accuracy or running out of context, merge, scope or defer instead."
+    },
+    {
+      "id": "u0245",
+      "text": "The remedies combine without conflict. A sensible order for a high-volume agent is to cache tool definitions from day one, add tool search once the toolset passes roughly 20 tools or baseline context use becomes noticeable, and add context editing when conversations get long enough that early results no longer matter. Merging and scoping come before all of these. A tool you removed costs nothing to defer, cache or trim."
+    },
+    {
+      "id": "u0246",
+      "text": "An agent has 12 tools, a fixed definition set, and keeps calling "
+    },
+    {
+      "id": "u0247",
+      "text": " when it should call "
+    },
+    {
+      "id": "u0248",
+      "text": ". Would turning on tool search help?"
+    },
+    {
+      "id": "u0249",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0250",
+      "text": "Turning on tool search fixes an agent that keeps picking the wrong one of two similar tools."
+    },
+    {
+      "id": "u0251",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0253",
+      "text": "Prompt caching a large toolset solves context bloat."
+    },
+    {
+      "id": "u0254",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0256",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0257",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0258",
+      "text": "A platform team reviews five agents. Each one has a different source of pressure. Pair each situation with the remedy that targets it."
+    },
+    {
+      "id": "u0259",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0260",
+      "text": "A 60-tool catalogue where each request needs only a few of the tools"
+    },
+    {
+      "id": "u0261",
+      "text": "A large, fixed toolset sent on thousands of requests, where cost is the concern"
+    },
+    {
+      "id": "u0262",
+      "text": "Hundreds of old tool_result blocks building up in a long conversation"
+    },
+    {
+      "id": "u0263",
+      "text": "Repeated chains of small tool calls that could run as one script"
+    },
+    {
+      "id": "u0264",
+      "text": "Two tools with blurred boundaries that Claude keeps confusing"
+    },
+    {
+      "id": "u0265",
+      "text": "Programmatic tool calling, so intermediate results never enter the conversation"
+    },
+    {
+      "id": "u0266",
+      "text": "Context editing, so stale results are trimmed from the history"
+    },
+    {
+      "id": "u0267",
+      "text": "Prompt caching, so the repeated definitions cost less while the token count stays the same"
+    },
+    {
+      "id": "u0268",
+      "text": "Tool search, so deferred definitions stay out of context until Claude searches for them"
+    },
+    {
+      "id": "u0269",
+      "text": "Merge the tools and add namespaces, so fewer and clearly separated tools are left to choose from"
+    },
+    {
+      "id": "u0270",
+      "text": "Sources"
+    },
+    {
+      "id": "u0271",
+      "text": "Sources"
+    }
+  ]
+}

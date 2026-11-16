@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "A cache hit changes token billing, not context occupancy. Both cached reads and newly cached input remain part of the model's window budget.",
+    "vi": "Trúng bộ nhớ đệm chỉ đổi cách tính phí token, không giảm chỗ chiếm trong ngữ cảnh. Cả phần đọc từ bộ nhớ đệm lẫn đầu vào mới ghi đệm đều tính vào cửa sổ."
+  },
+  "exam-trap-2": {
+    "en": "For Claude 4.5 and newer, excessive input alone causes rejection. An oversized output allowance can instead end generation with model_context_window_exceeded when the window fills.",
+    "vi": "Với Claude 4.5 trở đi, riêng đầu vào quá dài mới khiến yêu cầu bị từ chối. Hạn mức đầu ra quá lớn có thể khiến quá trình sinh kết thúc bằng model_context_window_exceeded khi cửa sổ đầy."
+  }
+}

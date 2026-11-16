@@ -1,0 +1,28 @@
+---
+import SiteLayout from "../layouts/site-layout.astro";
+---
+
+<SiteLayout
+  locale="en"
+  title="Choose your language"
+  description="Independent bilingual CCAR-P study guide in English and Vietnamese."
+>
+  <main
+    id="main"
+    class="language-home mx-auto min-h-[65dvh] max-w-[1064px] px-6 py-20 [&_h1]:my-6 [&_h1]:text-4xl [&_h1]:leading-tight [&_h1]:font-bold [&_p]:text-muted-foreground"
+  >
+    <p class="eyebrow text-xs font-semibold tracking-wide">CCAR-P STUDY / EN + VI</p><h1>
+      Learn in the language<br />you think in.
+    </h1><p>Học bằng ngôn ngữ bạn thấy gần gũi.</p><div class="language-options mt-8 flex flex-wrap gap-4">
+      <a
+        class="primary-button inline-flex min-h-11 items-center gap-8 rounded-md border border-primary bg-primary px-4 py-3 font-semibold text-primary-foreground hover:bg-primary/90"
+        href="/en/"
+        lang="en">English <span aria-hidden="true">↗</span></a
+      ><a
+        class="secondary-button inline-flex min-h-11 items-center gap-8 rounded-md border border-border px-4 py-3 font-semibold hover:border-primary"
+        href="/vi/"
+        lang="vi">Tiếng Việt <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </main>
+</SiteLayout>

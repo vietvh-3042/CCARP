@@ -1,0 +1,1135 @@
+{
+  "pageId": "4.5",
+  "title": "Optimizing Claude cost and latency: free wins, batching and budgets",
+  "titleVi": "Tối ưu chi phí và độ trễ của Claude: cải thiện không tốn thêm phí, xử lý theo lô và ngân sách",
+  "units": [
+    {
+      "id": "description",
+      "text": "Optimize token usage, latency, and cost-performance trade-offs"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Tell apart levers that cut cost without touching quality from levers that trade quality away, and apply them in that order"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain why prompt caching dominates agent-loop cost and choose the 5-minute or 1-hour cache duration from a workload's pauses"
+    },
+    {
+      "id": "u0003",
+      "text": "Trim per-call tokens through prompt hygiene, input trimming and context lifecycle levers, and know when those levers fail to pay"
+    },
+    {
+      "id": "u0004",
+      "text": "Route non-urgent work to the Message Batches API and know what it gives up"
+    },
+    {
+      "id": "u0005",
+      "text": "Bound spend with max_tokens, session and task budgets, and a low-effort-then-re-run policy"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Free wins versus trade-offs"
+    },
+    {
+      "id": "u0008",
+      "text": "Some cost levers lower spend without changing output quality (caching, token hygiene, batching), while others buy savings with quality (smaller model, lower effort, tight caps). Use up the free levers first, then spend quality only where evals show you can afford it."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Two kinds of cost levers"
+    },
+    {
+      "id": "u0011",
+      "text": "Why caching dominates agent-loop cost"
+    },
+    {
+      "id": "u0012",
+      "text": "Choosing the 5-minute or 1-hour cache from the pauses"
+    },
+    {
+      "id": "u0013",
+      "text": "Token hygiene: trimming what each call carries"
+    },
+    {
+      "id": "u0014",
+      "text": "Message Batches for work that can wait"
+    },
+    {
+      "id": "u0015",
+      "text": "Trade-off levers: effort and model tier"
+    },
+    {
+      "id": "u0016",
+      "text": "Bounding spend: max_tokens, budgets and re-running failures"
+    },
+    {
+      "id": "u0017",
+      "text": "Two kinds of cost levers"
+    },
+    {
+      "id": "u0018",
+      "text": "Every cost lever on the Claude Platform falls into one of two groups, and the groups should be pulled in order. The first group, the free wins, moves a workload closer to the cost-to-intelligence frontier: you pay less for the same output. The second group moves the workload along that frontier, so each dollar saved costs some quality. Free wins include prompt caching, token hygiene, a prompt audit against the model you are actually running, batch processing at 50% off for work that can wait up to 24 hours, and workspace spend limits as a backstop. The trade-offs are model choice, effort, output caps and session budgets, an elapsed-time clock, and multi-model architectures."
+    },
+    {
+      "id": "u0019",
+      "text": "The two groups of levers and what each costs you"
+    },
+    {
+      "id": "u0020",
+      "text": "Lever"
+    },
+    {
+      "id": "u0021",
+      "text": "Group"
+    },
+    {
+      "id": "u0022",
+      "text": "What you give up"
+    },
+    {
+      "id": "u0023",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0024",
+      "text": "Free win"
+    },
+    {
+      "id": "u0025",
+      "text": "Nothing in quality; a cache write costs 1.25x input for new content"
+    },
+    {
+      "id": "u0026",
+      "text": "Token hygiene"
+    },
+    {
+      "id": "u0027",
+      "text": "Free win"
+    },
+    {
+      "id": "u0028",
+      "text": "Nothing in quality, though one context-lifecycle lever cost more than it saved in a measured run"
+    },
+    {
+      "id": "u0029",
+      "text": "Message Batches"
+    },
+    {
+      "id": "u0030",
+      "text": "Free win"
+    },
+    {
+      "id": "u0031",
+      "text": "Latency: results can take up to 24 hours"
+    },
+    {
+      "id": "u0032",
+      "text": "Workspace spend limit"
+    },
+    {
+      "id": "u0033",
+      "text": "Free win (backstop)"
+    },
+    {
+      "id": "u0034",
+      "text": "Nothing; it caps runaway spend"
+    },
+    {
+      "id": "u0035",
+      "text": "Smaller model or lower effort"
+    },
+    {
+      "id": "u0036",
+      "text": "Trade-off"
+    },
+    {
+      "id": "u0037",
+      "text": "Some capability"
+    },
+    {
+      "id": "u0038",
+      "text": "Output caps, session budgets, elapsed-time clock"
+    },
+    {
+      "id": "u0039",
+      "text": "Trade-off"
+    },
+    {
+      "id": "u0040",
+      "text": "Runs that hit the limit may end unfinished or score lower"
+    },
+    {
+      "id": "u0041",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0042",
+      "text": "Across Anthropic's measured runs, which single lever usually cut cost the most?"
+    },
+    {
+      "id": "u0043",
+      "text": "Lowering effort"
+    },
+    {
+      "id": "u0044",
+      "text": "Batch processing"
+    },
+    {
+      "id": "u0045",
+      "text": "Moving to a smaller model"
+    },
+    {
+      "id": "u0046",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0047",
+      "text": "The order matters because the two groups fail differently. A free win that doesn't pay off leaves quality where it was. A trade-off that goes too far shows up as lower task success, and you only find out through evals. So the default advice for any workload on any model is to turn on caching and trim unneeded tokens first. Only when costs are still too high, with quality fine, do you try lower effort or a smaller model. All of Anthropic's figures here are internal and directional, so check every lever against your own workload."
+    },
+    {
+      "id": "u0048",
+      "text": "Checkpoint 1 of 10"
+    },
+    {
+      "id": "u0049",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0050",
+      "text": "Match each cost lever to what you give up when you use it"
+    },
+    {
+      "id": "u0051",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0052",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0053",
+      "text": "Message Batches API"
+    },
+    {
+      "id": "u0054",
+      "text": "Lower effort or a smaller model"
+    },
+    {
+      "id": "u0055",
+      "text": "Output caps and session budgets"
+    },
+    {
+      "id": "u0056",
+      "text": "Latency: results can take up to 24 hours"
+    },
+    {
+      "id": "u0057",
+      "text": "Some of the model's capability"
+    },
+    {
+      "id": "u0058",
+      "text": "No loss in quality; you pay a premium only to write new content to the cache"
+    },
+    {
+      "id": "u0059",
+      "text": "Runs that hit the limit may end unfinished or score lower"
+    },
+    {
+      "id": "u0060",
+      "text": "Sources"
+    },
+    {
+      "id": "u0061",
+      "text": "Why caching dominates agent-loop cost"
+    },
+    {
+      "id": "u0062",
+      "text": "Agent loops are expensive because every turn resends the entire conversation so far: system prompt, tool definitions and every prior turn. A 40-turn task sends its first turn 40 times, so cost grows with roughly the square of the number of turns. Caching doesn't stop the resending. It makes each resend cheap: the cached prefix is billed at the cache-read rate, and only new content pays the 1.25x write rate. On most models a read costs a tenth of the input price, on Claude Opus 5.5 and Claude Sonnet 5.5 a twentieth, and on Claude Fable 5.1 and Claude Mythos 5.1 a fortieth. Cached prefixes are also processed faster, so the same change cuts latency too. For the mechanics of stable prefixes, automatic caching and breakpoints, see "
+    },
+    {
+      "id": "u0063",
+      "text": "Prompt caching: stable prefix, automatic caching and breakpoints"
+    },
+    {
+      "id": "u0064",
+      "text": "Average token cost per task without caching, relative to the same runs with caching"
+    },
+    {
+      "id": "u0065",
+      "text": "Workload"
+    },
+    {
+      "id": "u0066",
+      "text": "Model"
+    },
+    {
+      "id": "u0067",
+      "text": "Without caching"
+    },
+    {
+      "id": "u0068",
+      "text": "SWE-bench Pro"
+    },
+    {
+      "id": "u0069",
+      "text": "Claude Opus 5.5"
+    },
+    {
+      "id": "u0070",
+      "text": "3.3 times the cost"
+    },
+    {
+      "id": "u0071",
+      "text": "SWE-bench Pro"
+    },
+    {
+      "id": "u0072",
+      "text": "Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0073",
+      "text": "3.1 times the cost"
+    },
+    {
+      "id": "u0074",
+      "text": "Claude Managed Agents task set (short sessions)"
+    },
+    {
+      "id": "u0075",
+      "text": "Claude Haiku 5.5"
+    },
+    {
+      "id": "u0076",
+      "text": "1.7 times the cost"
+    },
+    {
+      "id": "u0077",
+      "text": "Small bug-report triage agent"
+    },
+    {
+      "id": "u0078",
+      "text": "Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0079",
+      "text": "7.3 times the cost"
+    },
+    {
+      "id": "u0080",
+      "text": "The savings depend on turn count, because shorter loops re-read less, which is why the short Haiku sessions save the least. Your benchmark is the cache-read share of input. Over a full day of real traffic, agent loops read a median 84% of their input from the cache, and a well-built loop deep in a task pays full price on under 1% of its input. Below about 80%, something is breaking the cache."
+    },
+    {
+      "id": "u0081",
+      "text": "The thing that gets cached is a prefix, and it has to match byte for byte. Take a support bot that sends a 30,000-token product manual in its system prompt ahead of a short, different question on every request, with requests 30 to 90 seconds apart. Putting a cache breakpoint on the manual block means each request reads those 30,000 tokens from cache instead of processing them again. That cuts both cost and latency, and the gaps between requests are well inside the default 5-minute lifetime. Other changes don't help. Moving the manual after the question puts changing content in front of it, so no request shares a prefix. Rotating ten manual fragments splits the traffic across ten prefixes. Lowering max_tokens shortens output but leaves all 30,000 input tokens to be processed on every call."
+    },
+    {
+      "id": "u0082",
+      "text": "An explicit breakpoint on the system prompt, combined with automatic caching for the conversation"
+    },
+    {
+      "id": "u0083",
+      "text": "json"
+    },
+    {
+      "id": "u0084",
+      "text": "Checkpoint 2 of 10"
+    },
+    {
+      "id": "u0085",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0086",
+      "text": "A day of logs from your coding agent shows that only 62% of its input tokens are read from the prompt cache. Turns arrive a few seconds apart. What should you conclude?"
+    },
+    {
+      "id": "u0087",
+      "text": "The 5-minute lifetime is expiring between turns, so switch to the 1-hour cache duration"
+    },
+    {
+      "id": "u0088",
+      "text": "Something is breaking the cache, such as content that changes being placed ahead of the stable prefix, so look for it"
+    },
+    {
+      "id": "u0089",
+      "text": "This is normal, because agent loops resend the whole conversation and can't do much better than about two-thirds"
+    },
+    {
+      "id": "u0090",
+      "text": "Input is being processed in full because max_tokens is too high, so lower it"
+    },
+    {
+      "id": "u0091",
+      "text": "Checkpoint 3 of 10"
+    },
+    {
+      "id": "u0092",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0093",
+      "text": "A support-bot application sends the same 30,000-token product manual as part of the system prompt on every request, followed by a short unique user question. Requests arrive roughly every 30-90 seconds throughout the day. Which change most directly reduces both cost and latency for this workload without changing the model or the manual content?"
+    },
+    {
+      "id": "u0094",
+      "text": "Mark the manual text with an ephemeral cache_control breakpoint so repeated requests read it from cache instead of reprocessing it"
+    },
+    {
+      "id": "u0095",
+      "text": "Split the manual into ten smaller system prompts and rotate through them randomly so each individual prompt processes a bit faster"
+    },
+    {
+      "id": "u0096",
+      "text": "Move the manual text to the end of the user message instead of the system prompt so Claude reads it last during generation"
+    },
+    {
+      "id": "u0097",
+      "text": "Reduce max_tokens on every request so Claude spends less time generating the answer to the user's short question"
+    },
+    {
+      "id": "u0098",
+      "text": "Sources"
+    },
+    {
+      "id": "u0099",
+      "text": "Choosing the 5-minute or 1-hour cache from the pauses"
+    },
+    {
+      "id": "u0100",
+      "text": "The cache duration is a pricing choice, and the right answer comes from the gaps between consecutive requests, not from how long a session lasts. The default lifetime is 5 minutes, and it is refreshed at no extra cost whenever the cache is read. The 1-hour duration costs 2x the input price to write instead of 1.25x. A miss on either duration bills the whole prefix at the write price, not the read price. So the 1-hour cache earns its higher write price only when pauses long enough to expire a 5-minute entry come up often enough."
+    },
+    {
+      "id": "u0101",
+      "text": "Requesting the 1-hour duration with automatic caching"
+    },
+    {
+      "id": "u0102",
+      "text": "json"
+    },
+    {
+      "id": "u0103",
+      "text": "Picking the duration from the gaps between requests"
+    },
+    {
+      "id": "u0104",
+      "text": "Your gaps between requests"
+    },
+    {
+      "id": "u0105",
+      "text": "Model"
+    },
+    {
+      "id": "u0106",
+      "text": "Use"
+    },
+    {
+      "id": "u0107",
+      "text": "Turns arrive seconds apart"
+    },
+    {
+      "id": "u0108",
+      "text": "Any"
+    },
+    {
+      "id": "u0109",
+      "text": "5-minute default"
+    },
+    {
+      "id": "u0110",
+      "text": "About 1 gap in 20 or more falls between 5 minutes and an hour, and few run over an hour"
+    },
+    {
+      "id": "u0111",
+      "text": "Any"
+    },
+    {
+      "id": "u0112",
+      "text": "1-hour duration"
+    },
+    {
+      "id": "u0113",
+      "text": "About 60% or more of pauses longer than 5 minutes also run past an hour"
+    },
+    {
+      "id": "u0114",
+      "text": "Any"
+    },
+    {
+      "id": "u0115",
+      "text": "5-minute default"
+    },
+    {
+      "id": "u0116",
+      "text": "Only 1 or 2 gaps in 20 fall between 5 minutes and an hour, none over about half an hour"
+    },
+    {
+      "id": "u0117",
+      "text": "Claude Opus 5.5 and Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0118",
+      "text": "5-minute cache kept warm"
+    },
+    {
+      "id": "u0119",
+      "text": "A pause comes before every turn"
+    },
+    {
+      "id": "u0120",
+      "text": "Claude Opus 5.5 and Claude Sonnet 5.5"
+    },
+    {
+      "id": "u0121",
+      "text": "1-hour duration"
+    },
+    {
+      "id": "u0122",
+      "text": "Pauses run for minutes"
+    },
+    {
+      "id": "u0123",
+      "text": "Claude Fable 5.1"
+    },
+    {
+      "id": "u0124",
+      "text": "5-minute cache kept warm"
+    },
+    {
+      "id": "u0125",
+      "text": "Pauses run toward an hour"
+    },
+    {
+      "id": "u0126",
+      "text": "Claude Fable 5.1"
+    },
+    {
+      "id": "u0127",
+      "text": "1-hour duration"
+    },
+    {
+      "id": "u0128",
+      "text": "The 1-hour duration is not a free upgrade. With turns seconds apart, the default cost about 19% less than the 1-hour setting on Claude Sonnet 5.5. When gaps over an hour are common, both durations expire, and the 1-hour setting then rewrites the prefix at its higher write price. The 1-in-20 rule leaves a margin over the measured break-even of about 1 turn in 30. At 1 turn in 10, staying on the 5-minute setting cost 54% more."
+    },
+    {
+      "id": "u0129",
+      "text": "Keeping the 5-minute cache warm is the alternative to buying the hour. Take the previous request, set max_tokens to 0, drop stream, and change nothing in the prefix. Resend it with the original headers, including any anthropic-beta header. Send it within 4 minutes of the previous request's start and every 4 minutes after that, because the lifetime counts from when a request starts. It returns no output and costs little more than a cache read. A max_tokens: 0 request is rejected when it sets thinking.type: \"enabled\", structured outputs, a forced tool choice, or the top-level compaction parameter. For those workloads, buy the 1-hour duration instead."
+    },
+    {
+      "id": "u0130",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0131",
+      "text": "Think of a chat or review workflow you run where a person reads the output before replying. Roughly how many turns in 20 follow a pause of more than five minutes, and which row of the table does that put you in?"
+    },
+    {
+      "id": "u0132",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0133",
+      "text": "The 1-hour cache duration always lowers per-request cost, so long-running jobs should switch to it."
+    },
+    {
+      "id": "u0134",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0136",
+      "text": "Checkpoint 4 of 10"
+    },
+    {
+      "id": "u0137",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0138",
+      "text": "An overnight coding agent on Claude Sonnet 5.5 runs for three hours per task, with each turn sent a few seconds after the last one finishes. A teammate wants to switch it to the 1-hour cache because the sessions last far longer than 5 minutes. What should you do?"
+    },
+    {
+      "id": "u0139",
+      "text": "Keep the 5-minute default, because the gaps between requests are seconds long and the 1-hour cache costs more to write"
+    },
+    {
+      "id": "u0140",
+      "text": "Switch to the 1-hour duration, because each 5-minute miss bills the whole prefix at the write price"
+    },
+    {
+      "id": "u0141",
+      "text": "Keep the 5-minute cache and send a max_tokens: 0 keep-alive request every 4 minutes to cover the long session"
+    },
+    {
+      "id": "u0142",
+      "text": "Switch to the 1-hour duration, because a session longer than 5 minutes will keep expiring the default cache"
+    },
+    {
+      "id": "u0143",
+      "text": "Sources"
+    },
+    {
+      "id": "u0144",
+      "text": "Token hygiene: trimming what each call carries"
+    },
+    {
+      "id": "u0145",
+      "text": "Token hygiene means cutting tokens the task doesn't need from every call: redundant instructions, verbose tool output, and history that no longer matters. The prompt is the first place to look. Say what you mean concisely and drop unnecessary detail and repetition, but keep in mind that Claude knows nothing about your use case and won't fill gaps you leave in unclear instructions. On output, ask Claude directly to be concise. Fewer tokens processed and generated also means a faster response. A prompt audit against the model you are running belongs here too: instructions written for an older model can carry weight the current one doesn't need."
+    },
+    {
+      "id": "u0146",
+      "text": "Input trimming covers bulky inputs such as images and tool definitions. In a measured triage job, resizing images and deferring tool definitions with tool search took 26% off the cost of a 20-issue run and 21% off a longer run, on top of caching. Tool output is usually the largest bulk in a long agent session."
+    },
+    {
+      "id": "u0147",
+      "text": "Long agent sessions also need lifecycle levers, because history keeps growing even after its tool results stop being useful. Three work together:"
+    },
+    {
+      "id": "u0148",
+      "text": "Context editing"
+    },
+    {
+      "id": "u0149",
+      "text": " clears old tool results once the prompt passes a token threshold, keeping only recent tool uses. In one measured configuration it cleared at least 2,000 tokens once the prompt passed 20,000, keeping the three most recent tool uses."
+    },
+    {
+      "id": "u0150",
+      "text": "Compaction"
+    },
+    {
+      "id": "u0151",
+      "text": " acts once input reaches a set size (50,000 input tokens on one measured job). It shrinks earlier history so the session can go on without hitting the context window."
+    },
+    {
+      "id": "u0152",
+      "text": "The memory tool"
+    },
+    {
+      "id": "u0153",
+      "text": " writes state that must survive, such as learned patterns or progress, to durable storage, so clearing old context doesn't lose it."
+    },
+    {
+      "id": "u0154",
+      "text": "Two levers that sound similar don't address a filling context window. Lowering effort cuts the tokens of each response and makes tool calls fewer and terser. But the session still carries every earlier turn and tool result, so the window keeps filling. Raising effort to max removes the limit on token spending. The Message Batches API runs each request on its own as an asynchronous job, which can't carry a live agent session that needs one turn's result before it can take the next."
+    },
+    {
+      "id": "u0155",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0156",
+      "text": "Context lifecycle levers are not automatically free. Context editing cost more than it saved in Anthropic's measured run, because clearing content changes the prompt and invalidates the cached prefix after the cleared point. Measure the cost per task with and without it."
+    },
+    {
+      "id": "u0157",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0158",
+      "text": "Lowering effort keeps a long agent session's context window from filling up."
+    },
+    {
+      "id": "u0159",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0161",
+      "text": "Every token-hygiene lever is a guaranteed saving, so context editing should always be on."
+    },
+    {
+      "id": "u0162",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0164",
+      "text": "Checkpoint 5 of 10"
+    },
+    {
+      "id": "u0165",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0166",
+      "text": "Your team runs long agent sessions with prompt caching on and wants to enable context editing to clear old tool results. One engineer says it is token hygiene, so it can only lower the bill. What is the right approach?"
+    },
+    {
+      "id": "u0167",
+      "text": "Measure cost per task with and without it, because clearing content changes the prompt and invalidates the cached prefix after the cleared point"
+    },
+    {
+      "id": "u0168",
+      "text": "Turn it on for every long session, because token-hygiene levers are free wins that never raise cost"
+    },
+    {
+      "id": "u0169",
+      "text": "Lower effort instead, because terser responses keep the accumulated history from filling the context window"
+    },
+    {
+      "id": "u0170",
+      "text": "Move the sessions to the Message Batches API, because the 50% discount makes context growth irrelevant"
+    },
+    {
+      "id": "u0171",
+      "text": "Checkpoint 6 of 10"
+    },
+    {
+      "id": "u0172",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0173",
+      "text": "An agentic coding assistant runs long sessions that accumulate hundreds of tool calls, and the conversation regularly approaches the model's context window limit before the task is finished. Engineers want strategies that let the session continue productively without losing critical state. Which approaches address this goal?"
+    },
+    {
+      "id": "u0174",
+      "text": "(Select "
+    },
+    {
+      "id": "u0175",
+      "text": "Enable server-side compaction so earlier turns are automatically summarized once the conversation nears the context window limit"
+    },
+    {
+      "id": "u0176",
+      "text": "Configure context editing to clear old tool results once a token threshold is reached, keeping only recent tool use/result pairs"
+    },
+    {
+      "id": "u0177",
+      "text": "Use the memory tool to persist critical state to durable storage before old context is cleared, so a session recovers quickly"
+    },
+    {
+      "id": "u0178",
+      "text": "Lower the effort parameter to low so Claude generates shorter replies, preventing the context window from ever filling up"
+    },
+    {
+      "id": "u0179",
+      "text": "Switch the session to the Message Batches API so each turn runs as an independent asynchronous request with fresh context"
+    },
+    {
+      "id": "u0180",
+      "text": "Increase the effort parameter to max so Claude reasons more thoroughly and needs fewer total turns to finish the task"
+    },
+    {
+      "id": "u0181",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0182",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0183",
+      "text": "Sources"
+    },
+    {
+      "id": "u0184",
+      "text": "Message Batches for work that can wait"
+    },
+    {
+      "id": "u0185",
+      "text": "The Message Batches API halves the price of any workload where nobody is waiting on the answer. You submit many Messages requests together, each with its own custom_id and a standard params object. The system processes them asynchronously, and you poll for results. All usage is charged at 50% of standard prices. Most batches finish within an hour, but results are guaranteed only once every request is done or 24 hours have passed. The discount is paid for in latency."
+    },
+    {
+      "id": "u0186",
+      "text": "Consider a nightly job that scores 50,000 archived support tickets against a rubric, takes six hours on synchronous calls, and has no user waiting. Batching is the direct fix: same model, same prompts, half the price. A single batch holds up to 100,000 requests or 256 MB. Raising effort to max or turning on extended thinking would add tokens rather than cut them. Switching to the 1-hour cache only pays when there are pauses between 5 minutes and an hour, and it doesn't cut the price of every request."
+    },
+    {
+      "id": "u0187",
+      "text": "What batching changes about a request"
+    },
+    {
+      "id": "u0188",
+      "text": "Aspect"
+    },
+    {
+      "id": "u0189",
+      "text": "Behaviour in a batch"
+    },
+    {
+      "id": "u0190",
+      "text": "Price"
+    },
+    {
+      "id": "u0191",
+      "text": "50% of standard API prices for all usage"
+    },
+    {
+      "id": "u0192",
+      "text": "Completion"
+    },
+    {
+      "id": "u0193",
+      "text": "Most within 1 hour; batches expire if not done within 24 hours"
+    },
+    {
+      "id": "u0194",
+      "text": "Results retention"
+    },
+    {
+      "id": "u0195",
+      "text": "Available for 29 days after creation"
+    },
+    {
+      "id": "u0196",
+      "text": "stream: true"
+    },
+    {
+      "id": "u0197",
+      "text": "Rejected: results come back as a single file"
+    },
+    {
+      "id": "u0198",
+      "text": "speed (Fast mode)"
+    },
+    {
+      "id": "u0199",
+      "text": "Rejected: it tunes synchronous latency"
+    },
+    {
+      "id": "u0200",
+      "text": "max_tokens"
+    },
+    {
+      "id": "u0201",
+      "text": "Must be at least 1; max_tokens: 0 cache pre-warming is not supported"
+    },
+    {
+      "id": "u0202",
+      "text": "Spend limit"
+    },
+    {
+      "id": "u0203",
+      "text": "May go slightly over the Workspace's configured limit"
+    },
+    {
+      "id": "u0204",
+      "text": "Good fits include large-scale evaluations, content moderation, data analysis and bulk content generation. Bad fits are anything interactive. A user-facing chat needs the opposite: streaming, which shows output as it arrives and makes the application feel more responsive, and which a batch can't do."
+    },
+    {
+      "id": "u0205",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0206",
+      "text": "The Message Batches API speeds up a workload as well as making it cheaper."
+    },
+    {
+      "id": "u0207",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0209",
+      "text": "Checkpoint 7 of 10"
+    },
+    {
+      "id": "u0210",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0211",
+      "text": "You are moving a synchronous Messages workload onto the Message Batches API. Pair each setting or property with how it behaves inside a batch."
+    },
+    {
+      "id": "u0212",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0213",
+      "text": "stream: true"
+    },
+    {
+      "id": "u0214",
+      "text": "speed (Fast mode)"
+    },
+    {
+      "id": "u0215",
+      "text": "max_tokens: 0"
+    },
+    {
+      "id": "u0216",
+      "text": "Time to results"
+    },
+    {
+      "id": "u0217",
+      "text": "Rejected, because it tunes synchronous latency, which doesn't apply to asynchronous processing"
+    },
+    {
+      "id": "u0218",
+      "text": "Rejected, because batch results come back as a single file"
+    },
+    {
+      "id": "u0219",
+      "text": "Most batches finish within an hour, but results are guaranteed only once every request is done or 24 hours have passed"
+    },
+    {
+      "id": "u0220",
+      "text": "Not supported, so you can't pre-warm the cache inside a batch"
+    },
+    {
+      "id": "u0221",
+      "text": "Checkpoint 8 of 10"
+    },
+    {
+      "id": "u0222",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0223",
+      "text": "A team runs a nightly job that scores 50,000 archived support tickets against a rubric. The job has no interactive user waiting on results and currently completes in about six hours using standard synchronous API calls, at a cost the finance team has flagged as too high. What should the team do to reduce cost for this specific workload?"
+    },
+    {
+      "id": "u0224",
+      "text": "Submit the 50,000 requests through the Message Batches API, which processes them asynchronously at about half the cost of standard calls"
+    },
+    {
+      "id": "u0225",
+      "text": "Switch every request to use the 1-hour prompt cache TTL instead of the default 5-minute TTL, since it always lowers the per-request cost"
+    },
+    {
+      "id": "u0226",
+      "text": "Enable extended thinking on every request so the model reasons more carefully and produces fewer retries overall"
+    },
+    {
+      "id": "u0227",
+      "text": "Increase the effort parameter to max on every request so each ticket is scored in one pass with no follow-up calls"
+    },
+    {
+      "id": "u0228",
+      "text": "Sources"
+    },
+    {
+      "id": "u0229",
+      "text": "Trade-off levers: effort and model tier"
+    },
+    {
+      "id": "u0230",
+      "text": "Once the free wins are used up, lowering effort is the first trade-off to try when costs are too high and quality is fine. Effort sets how many tokens the model spends on its reply, its thinking and its tool calls; the full picture is in "
+    },
+    {
+      "id": "u0231",
+      "text": "Effort: the accuracy-latency dial within one model"
+    },
+    {
+      "id": "u0232",
+      "text": ". As a cost lever it saves a lot and costs real quality. At low, Claude Opus 5.5's typical task took 84% less time than at medium on DRACO, and scored 13.3 points lower. If quality drops after you lower effort, put it back before you look for another fix."
+    },
+    {
+      "id": "u0233",
+      "text": "Moving steps to a smaller model is the other trade-off; how to design tiered and multi-model systems is in "
+    },
+    {
+      "id": "u0234",
+      "text": "Model tiering and multi-model designs"
+    },
+    {
+      "id": "u0235",
+      "text": ". As an optimisation, measure it as cost per completed task, not cost per token. A cheaper model that fails more often and needs retries or fixes can cost more per finished task. For high-volume work whose outputs you can check, try Claude Haiku 5.5 first. If you aren't on the latest model, upgrading is close to free: in Anthropic's measurements each newer model solved at least as many tasks as the one before, usually for less per solved task."
+    },
+    {
+      "id": "u0236",
+      "text": "Checkpoint 9 of 10"
+    },
+    {
+      "id": "u0237",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0238",
+      "text": "The free wins are already in place. Pair each situation with the trade-off move the lesson recommends for it."
+    },
+    {
+      "id": "u0239",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0240",
+      "text": "Costs are still too high, but quality is fine"
+    },
+    {
+      "id": "u0241",
+      "text": "Quality dropped after you lowered effort"
+    },
+    {
+      "id": "u0242",
+      "text": "You are deciding whether to move a step to a cheaper model"
+    },
+    {
+      "id": "u0243",
+      "text": "High-volume work whose outputs you can check"
+    },
+    {
+      "id": "u0244",
+      "text": "You are not on the latest model"
+    },
+    {
+      "id": "u0245",
+      "text": "Compare cost per completed task, counting retries and fixes, not cost per token"
+    },
+    {
+      "id": "u0246",
+      "text": "Try Claude Haiku 5.5 first"
+    },
+    {
+      "id": "u0247",
+      "text": "Put effort back where it was before you look for another fix"
+    },
+    {
+      "id": "u0248",
+      "text": "Upgrade, since each newer model solved at least as many tasks, usually for less per solved task"
+    },
+    {
+      "id": "u0249",
+      "text": "Try lower effort on the model you already use"
+    },
+    {
+      "id": "u0250",
+      "text": "Sources"
+    },
+    {
+      "id": "u0251",
+      "text": "Bounding spend: max_tokens, budgets and re-running failures"
+    },
+    {
+      "id": "u0252",
+      "text": "max_tokens is a hard limit on total output, thinking plus response text, so it bounds the worst case. It doesn't set a target. Setting it too low is the common mistake: attempts end with stop_reason: max_tokens and the work is lost. The fix is to raise it to 64,000. In Anthropic's tests only 2 of about 14,000 turns went past that, and cost per solved task stayed about the same, because a model that doesn't need the room doesn't use it."
+    },
+    {
+      "id": "u0253",
+      "text": "Agent loops have a different risk: most runs are cheap, and a few are very expensive. Bound those with a Claude Managed Agents session budget, plus a workspace spend limit as the account-wide backstop. On newer models you can also give the model an explicit budget through task budgets, which are in beta. When the clock matters more than the bill, tell the model that time matters and show it the elapsed time. In Anthropic's tests that cut run time by 7% to 47% for a few points of score."
+    },
+    {
+      "id": "u0254",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0255",
+      "text": "On a checkable coding benchmark, compare two policies: run everything at high effort, or run everything at low and re-run only the failures at high. Which solved more tasks?"
+    },
+    {
+      "id": "u0256",
+      "text": "Low with failures re-run at high, at lower cost"
+    },
+    {
+      "id": "u0257",
+      "text": "Everything at high, at higher cost"
+    },
+    {
+      "id": "u0258",
+      "text": "They solved the same number, at the same cost"
+    },
+    {
+      "id": "u0259",
+      "text": "When you can check an outcome with tests or a verifier, the cheapest point on the effort curve isn't any fixed setting. Run everything cheaply and spend more only on the attempts that failed. On Claude Opus 5.5's SWE-bench Pro runs, 13% of tasks failed at low. Re-running those at high gave a slightly higher pass rate than running everything at high, for a little over half the cost. Adopt the policy for the savings, not the gain in pass rate: re-running the failures of an all-high run scores about the same."
+    },
+    {
+      "id": "u0260",
+      "text": "Re-run policies on the Claude Opus 5.5 SWE-bench Pro subset (re-run costs include the failed cheap attempts)"
+    },
+    {
+      "id": "u0261",
+      "text": "Policy"
+    },
+    {
+      "id": "u0262",
+      "text": "Tasks solved"
+    },
+    {
+      "id": "u0263",
+      "text": "Cost per task"
+    },
+    {
+      "id": "u0264",
+      "text": "low, failures re-run at high"
+    },
+    {
+      "id": "u0265",
+      "text": "About 97%"
+    },
+    {
+      "id": "u0266",
+      "text": "About $0.17 USD"
+    },
+    {
+      "id": "u0267",
+      "text": "medium, failures re-run at high"
+    },
+    {
+      "id": "u0268",
+      "text": "About 97%"
+    },
+    {
+      "id": "u0269",
+      "text": "About $0.24 USD"
+    },
+    {
+      "id": "u0270",
+      "text": "Everything at high"
+    },
+    {
+      "id": "u0271",
+      "text": "$0.29 USD"
+    },
+    {
+      "id": "u0272",
+      "text": "Why can't this policy be used on an open-ended task like drafting marketing copy?"
+    },
+    {
+      "id": "u0273",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0274",
+      "text": "Raising max_tokens to 64,000 makes every request more expensive."
+    },
+    {
+      "id": "u0275",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0277",
+      "text": "Checkpoint 10 of 10"
+    },
+    {
+      "id": "u0278",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0279",
+      "text": "Many of your coding agent's attempts end with stop_reason: max_tokens, and the work in them is lost. A colleague won't raise the limit, saying a higher max_tokens will make every request cost more. What should you do?"
+    },
+    {
+      "id": "u0280",
+      "text": "Raise max_tokens to 64,000, because it is a hard cap rather than a target and a model that doesn't need the room doesn't use it"
+    },
+    {
+      "id": "u0281",
+      "text": "Keep the current limit and add a workspace spend limit so truncated runs stop wasting money"
+    },
+    {
+      "id": "u0282",
+      "text": "Keep the current limit, because raising it to 64,000 bills every request for output up to the new cap"
+    },
+    {
+      "id": "u0283",
+      "text": "Keep the current limit and lower effort so each response fits inside it"
+    },
+    {
+      "id": "u0284",
+      "text": "Sources"
+    },
+    {
+      "id": "u0285",
+      "text": "Sources"
+    }
+  ]
+}

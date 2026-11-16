@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "Usage reports lag request completion, so rapid polling cannot reveal unprocessed data. Use the supported minute-level polling cadence rather than repeatedly fetching unchanged buckets.",
+    "vi": "Báo cáo sử dụng xuất hiện trễ hơn lúc yêu cầu hoàn tất, nên thăm dò dồn dập không lấy được dữ liệu chưa xử lý. Hãy thăm dò theo nhịp mỗi phút được hỗ trợ thay vì liên tục lấy cùng nhóm dữ liệu."
+  },
+  "exam-trap-2": {
+    "en": "An unsampled traceparent suppresses the request span and its descendants. Even sampled traces are delivered without a guarantee that every span arrives.",
+    "vi": "traceparent không bật lấy mẫu sẽ ngăn tạo span yêu cầu và các span con. Ngay cả dấu vết được lấy mẫu cũng không được bảo đảm chuyển đến đầy đủ mọi span."
+  }
+}

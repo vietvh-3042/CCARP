@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Sequential calls accumulate waiting time. Chaining can improve accuracy by narrowing each step's responsibility, but smaller individual prompts do not make the whole chain faster.",
+    "vi": "Các lần gọi nối tiếp cộng dồn thời gian chờ. Chia chuỗi có thể tăng độ chính xác nhờ thu hẹp nhiệm vụ từng bước, nhưng câu lệnh nhỏ hơn không làm cả chuỗi nhanh hơn."
+  },
+  "exam-trap-2": {
+    "en": "The benefit is broader exploration, not guaranteed speed or savings. Additional contexts and coordination consume more tokens and can lengthen the overall run.",
+    "vi": "Lợi ích là tìm hiểu rộng hơn, không phải bảo đảm nhanh hay rẻ hơn. Các ngữ cảnh bổ sung và việc điều phối tiêu tốn thêm token, có thể kéo dài toàn bộ lượt chạy."
+  },
+  "exam-trap-3": {
+    "en": "Use predefined parallel branches when the work breakdown is already known. Dynamic orchestration is useful when each input reveals a different set of subtasks.",
+    "vi": "Dùng các nhánh song song định sẵn khi đã biết cách chia việc. Điều phối động hữu ích khi mỗi đầu vào làm xuất hiện một tập tác vụ con khác nhau."
+  },
+  "exam-trap-4": {
+    "en": "Independent batch jobs cannot feed one another's next step. For tightly dependent tool iterations, execute the control flow through programmatic tool calling instead.",
+    "vi": "Các tác vụ theo lô độc lập không thể cung cấp đầu vào cho bước tiếp theo của nhau. Với vòng lặp công cụ phụ thuộc chặt, hãy dùng cơ chế gọi công cụ bằng chương trình."
+  }
+}

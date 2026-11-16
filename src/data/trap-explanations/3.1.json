@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "allowedTools grants advance approval rather than exclusive access. Other calls still follow permission handling; use dontAsk or explicit denials to close the tool surface.",
+    "vi": "allowedTools cấp phê duyệt trước chứ không giới hạn độc quyền truy cập. Lời gọi khác vẫn qua xử lý quyền; cần dontAsk hoặc lệnh cấm rõ ràng để khép phạm vi công cụ."
+  },
+  "exam-trap-2": {
+    "en": "Subagent permissions are not automatically narrowed by role. Without an explicit tools list, the subagent receives all tools available for subagents, including potentially writable ones.",
+    "vi": "Quyền của tác tử con không tự thu hẹp theo vai trò. Nếu thiếu danh sách tools rõ ràng, tác tử con nhận mọi công cụ dành cho tác tử con, có thể gồm công cụ ghi."
+  },
+  "exam-trap-3": {
+    "en": "Searching definitions changes loading, not tool design. Ambiguous alternatives can both be returned, so clarify their responsibilities through consolidation or better namespacing.",
+    "vi": "Tìm kiếm định nghĩa chỉ đổi cách nạp, không sửa thiết kế công cụ. Hai lựa chọn mơ hồ vẫn có thể cùng được trả về; cần gộp công cụ hoặc phân định rõ bằng không gian tên."
+  },
+  "exam-trap-4": {
+    "en": "Cached definitions still occupy the window and compete for tool selection. Caching reduces repeated billing without recovering task space or fixing a bloated catalogue.",
+    "vi": "Định nghĩa đã lưu đệm vẫn chiếm cửa sổ và gây cạnh tranh khi chọn công cụ. Lưu đệm giảm tiền cho nội dung lặp, nhưng không lấy lại chỗ cho tác vụ hay sửa danh mục quá lớn."
+  }
+}

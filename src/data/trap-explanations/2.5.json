@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Cache age is measured from request start, not response completion. Time spent generating a long reply reduces the remaining window for a follow-up cache hit.",
+    "vi": "Tuổi bộ nhớ đệm tính từ lúc bắt đầu yêu cầu, không phải khi trả lời xong. Thời gian sinh phản hồi dài làm ngắn khoảng còn lại để yêu cầu tiếp theo trúng bộ nhớ đệm."
+  },
+  "exam-trap-2": {
+    "en": "A breakpoint merely marks a caching boundary. The bill depends on tokens written, read or processed uncached, rather than the number of boundary markers.",
+    "vi": "Điểm ngắt chỉ đánh dấu ranh giới lưu đệm. Hóa đơn phụ thuộc token được ghi, đọc hoặc xử lý không qua bộ nhớ đệm, chứ không phụ thuộc số dấu ranh giới."
+  },
+  "exam-trap-3": {
+    "en": "Changing tool_choice affects reuse of messages, while changing tool definitions also invalidates earlier cache layers. Tool and system caches survive a tool_choice-only change.",
+    "vi": "Đổi tool_choice ảnh hưởng khả năng dùng lại phần tin nhắn; đổi định nghĩa công cụ còn làm mất hiệu lực các lớp đệm trước đó. Nếu chỉ đổi tool_choice, bộ nhớ đệm công cụ và hệ thống vẫn còn."
+  },
+  "exam-trap-4": {
+    "en": "Valid formatting does not override reserved-name restrictions. A Skill name containing either claude or anthropic is disallowed even when its casing and separators are correct.",
+    "vi": "Định dạng đúng không loại bỏ hạn chế về từ dành riêng. Tên Skill chứa claude hoặc anthropic vẫn không được phép dù viết hoa, viết thường và dấu phân cách đều đúng."
+  },
+  "exam-trap-5": {
+    "en": "Sharing follows the upload surface: a claude.ai custom Skill belongs to its uploader. Workspace distribution applies to Skills supplied through the Claude API.",
+    "vi": "Phạm vi chia sẻ phụ thuộc nơi tải lên: Skill tùy chỉnh trên claude.ai thuộc người tải lên. Việc phân phối trong không gian làm việc áp dụng cho Skill được cung cấp qua Claude API."
+  }
+}

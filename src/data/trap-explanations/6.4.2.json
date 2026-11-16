@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Imports reorganize instructions but still load their contents at startup. Path-scoped rules save initial context by waiting until relevant files are involved.",
+    "vi": "Nhập tệp chỉ tổ chức lại hướng dẫn; nội dung của chúng vẫn được nạp lúc khởi động. Quy tắc theo đường dẫn tiết kiệm ngữ cảnh ban đầu bằng cách chờ tới khi có tệp liên quan."
+  },
+  "exam-trap-2": {
+    "en": "Startup loading follows the working directory and its ancestors. Instructions in deeper folders are brought in only when Claude reads within those folders.",
+    "vi": "Lúc khởi động chỉ nạp hướng dẫn ở thư mục làm việc và các thư mục cha. Hướng dẫn trong thư mục sâu hơn chỉ được đưa vào khi Claude đọc bên trong thư mục đó."
+  },
+  "exam-trap-3": {
+    "en": "Saving the file does not refresh instructions automatically each turn. Reload them through /compact, open /memory, or begin a new session.",
+    "vi": "Lưu tệp không tự cập nhật hướng dẫn sau mỗi lượt. Hãy nạp lại bằng /compact, mở qua /memory hoặc bắt đầu phiên mới."
+  },
+  "nudge-1": {
+    "en": "After editing instructions during a session, reload them through /memory or compact the conversation before checking the result.",
+    "vi": "Sau khi sửa hướng dẫn trong phiên đang chạy, hãy nạp lại qua /memory hoặc thu gọn cuộc hội thoại rồi mới kiểm tra kết quả."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "exam-trap-2": {
+    "en": "Deferral hides a definition from initial context, not from the API request. Send complete definitions so server search can resolve and expand tool references.",
+    "vi": "Trì hoãn chỉ giấu định nghĩa khỏi ngữ cảnh ban đầu, không loại nó khỏi yêu cầu API. Vẫn phải gửi định nghĩa đầy đủ để tìm kiếm phía máy chủ phân giải và mở rộng tham chiếu công cụ."
+  },
+  "exam-trap-4": {
+    "en": "Automatic deferral has a threshold: eligible definitions must occupy at least 10% of the window. Smaller sets are loaded normally despite the auto setting.",
+    "vi": "Trì hoãn tự động có ngưỡng: các định nghĩa đủ điều kiện phải chiếm ít nhất 10% cửa sổ. Tập nhỏ hơn vẫn được nạp bình thường dù đã đặt auto."
+  },
+  "exam-trap-1": {
+    "en": "Caching discounts repeated definitions without removing their context footprint. Tool search addresses the loading problem; cached billing alone cannot restore room or improve tool discrimination.",
+    "vi": "Lưu đệm giảm phí định nghĩa lặp mà không xóa phần ngữ cảnh chúng chiếm. Tìm kiếm công cụ xử lý vấn đề nạp; chỉ giảm phí nhờ đệm không lấy lại chỗ hay giúp phân biệt công cụ tốt hơn."
+  },
+  "exam-trap-3": {
+    "en": "A deferred tool requires discovery before execution. Keep heavily used tools loaded to avoid repeatedly paying for a search step that adds little value.",
+    "vi": "Công cụ nạp trì hoãn cần được tìm trước khi thực thi. Hãy giữ sẵn công cụ dùng nhiều để tránh liên tục trả chi phí cho bước tìm kiếm ít giá trị."
+  }
+}

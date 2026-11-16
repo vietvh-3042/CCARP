@@ -1,0 +1,811 @@
+{
+  "pageId": "3.3",
+  "title": "Accuracy-latency trade-offs: effort, fast mode, streaming and justified configs",
+  "titleVi": "Đánh đổi giữa độ chính xác và độ trễ: mức nỗ lực, chế độ nhanh, truyền luồng và cấu hình có cơ sở",
+  "units": [
+    {
+      "id": "description",
+      "text": "Evaluate accuracy-latency trade-offs and justify configuration decisions"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Say which latency clock each lever moves: time to first token, output speed, or total elapsed time"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose a model tier and effort level for a latency-bound workload, and explain what is given up"
+    },
+    {
+      "id": "u0003",
+      "text": "Tell when fast mode, streaming or omitted thinking display fixes a latency complaint and when it cannot"
+    },
+    {
+      "id": "u0004",
+      "text": "Defend a configuration with an effort-and-model sweep compared on cost per solved task, including re-running failures"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Effort as the accuracy-latency dial"
+    },
+    {
+      "id": "u0007",
+      "text": "Effort sets how many output tokens one model spends on a request: its thinking, its tool calls and its text. Raising it buys accuracy with time and money, lowering it does the reverse, and none of it requires changing the model."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Which latency clock each lever moves"
+    },
+    {
+      "id": "u0010",
+      "text": "Starting from the fastest tier that is accurate enough"
+    },
+    {
+      "id": "u0011",
+      "text": "Effort: the accuracy-latency dial inside one model"
+    },
+    {
+      "id": "u0012",
+      "text": "Streaming, fast mode and hidden thinking: speed without less reasoning"
+    },
+    {
+      "id": "u0013",
+      "text": "Justifying the setting with a sweep on cost per solved task"
+    },
+    {
+      "id": "u0014",
+      "text": "Which latency clock each lever moves"
+    },
+    {
+      "id": "u0015",
+      "text": "A latency complaint only gets fixed when you know which clock it is about. Latency is the time the model takes to process a prompt and generate its output, and it depends on the size of the model, how complex the prompt is, and the infrastructure behind it. Users feel two things: the wait before anything appears, which is time to first token (TTFT), and the wait until the answer is finished. An agent run has a third clock, the elapsed time across all of its turns. "
+    },
+    {
+      "id": "u0016",
+      "text": "Latency metrics: which clock you measure"
+    },
+    {
+      "id": "u0017",
+      "text": " defines these clocks. What matters here is that every lever moves only some of them."
+    },
+    {
+      "id": "u0018",
+      "text": "Latency levers, the clock each one moves, and what it costs"
+    },
+    {
+      "id": "u0019",
+      "text": "Lever"
+    },
+    {
+      "id": "u0020",
+      "text": "Clock it moves"
+    },
+    {
+      "id": "u0021",
+      "text": "What you give up"
+    },
+    {
+      "id": "u0022",
+      "text": "Smaller model tier (e.g. Claude Haiku 5.5)"
+    },
+    {
+      "id": "u0023",
+      "text": "Total time and cost"
+    },
+    {
+      "id": "u0024",
+      "text": "Capability on hard tasks"
+    },
+    {
+      "id": "u0025",
+      "text": "Lower effort (output_config.effort)"
+    },
+    {
+      "id": "u0026",
+      "text": "Total time: fewer thinking, tool-call and text tokens"
+    },
+    {
+      "id": "u0027",
+      "text": "Some capability"
+    },
+    {
+      "id": "u0028",
+      "text": "Shorter prompts and outputs, max_tokens"
+    },
+    {
+      "id": "u0029",
+      "text": "Total time"
+    },
+    {
+      "id": "u0030",
+      "text": "Truncated output if the cap is too tight"
+    },
+    {
+      "id": "u0031",
+      "text": "Streaming"
+    },
+    {
+      "id": "u0032",
+      "text": "Time to first visible output only"
+    },
+    {
+      "id": "u0033",
+      "text": "Nothing; total time is unchanged"
+    },
+    {
+      "id": "u0034",
+      "text": "Fast mode (speed: \"fast\")"
+    },
+    {
+      "id": "u0035",
+      "text": "Output tokens per second, not TTFT"
+    },
+    {
+      "id": "u0036",
+      "text": "Premium pricing; intelligence unchanged"
+    },
+    {
+      "id": "u0037",
+      "text": "The levers fall into the same two groups described in "
+    },
+    {
+      "id": "u0038",
+      "text": "Free wins versus real trade-offs"
+    },
+    {
+      "id": "u0039",
+      "text": ". Streaming and trimming unneeded tokens make things faster without lowering quality. A smaller model, lower effort and tighter caps are real trade-offs, because they make things faster by doing less reasoning. Fast mode is a third kind. Accuracy stays the same and you pay more for the speed. If a proposal promises lower latency at the same price and the same accuracy, check which group its lever is actually in."
+    },
+    {
+      "id": "u0040",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0041",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0042",
+      "text": "A team wants lower latency. Match each lever to the clock it moves and what it costs."
+    },
+    {
+      "id": "u0043",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0044",
+      "text": "Streaming"
+    },
+    {
+      "id": "u0045",
+      "text": "Fast mode (speed: \"fast\")"
+    },
+    {
+      "id": "u0046",
+      "text": "Lower effort (output_config.effort)"
+    },
+    {
+      "id": "u0047",
+      "text": "Smaller model tier (e.g. Claude Haiku 5.5)"
+    },
+    {
+      "id": "u0048",
+      "text": "The same model spends fewer thinking, tool-call and text tokens, cutting total time at some cost in capability"
+    },
+    {
+      "id": "u0049",
+      "text": "Switches to a faster, cheaper model, cutting total time and cost but losing capability on hard tasks"
+    },
+    {
+      "id": "u0050",
+      "text": "Gets the first visible output to the user sooner; total generation time stays the same and you give up nothing"
+    },
+    {
+      "id": "u0051",
+      "text": "Generates more output tokens per second at premium pricing; intelligence does not change"
+    },
+    {
+      "id": "u0052",
+      "text": "Sources"
+    },
+    {
+      "id": "u0053",
+      "text": "Starting from the fastest tier that is accurate enough"
+    },
+    {
+      "id": "u0054",
+      "text": "For a workload limited by latency, choosing the model is the most direct lever. Anthropic's model guide gives two starting strategies. The cost-first one begins with the fastest, cheapest tier, Claude Haiku, tests the use case thoroughly, and upgrades only where there is a specific capability gap. That path is recommended for applications with tight latency requirements, cost-sensitive deployments and high-volume, straightforward tasks. The capability-first path begins with Claude Opus and works down. It fits complex reasoning and work where accuracy matters more than cost."
+    },
+    {
+      "id": "u0055",
+      "text": "Consider a support chat that has to reply within a second or two, classifies huge numbers of simple intents and has a tight budget. Every one of those constraints points to the Haiku tier. Intent classification does not need frontier reasoning, so the larger models would add latency and cost without a gain in accuracy that anyone would notice. The same tier is the guide's suggestion for real-time applications and sub-agent tasks. Its main speed control is effort, so the documented example of a request with a tight time limit pairs it with low effort:"
+    },
+    {
+      "id": "u0056",
+      "text": "A time-sensitive request: the fastest tier at its fastest effort level"
+    },
+    {
+      "id": "u0057",
+      "text": "python"
+    },
+    {
+      "id": "u0058",
+      "text": "Switching models is not always the first move. Effort is often a better lever than switching tiers, because it changes speed and cost while you keep the model your prompts were tuned for."
+    },
+    {
+      "id": "u0059",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0060",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0061",
+      "text": "Your support chat must reply within a second or two. It classifies a very large volume of simple intents, and the budget is tight. Which starting configuration fits these constraints best?"
+    },
+    {
+      "id": "u0062",
+      "text": "Run Claude Opus 5.5 in fast mode, so you get speed without giving up any accuracy"
+    },
+    {
+      "id": "u0063",
+      "text": "Start capability-first with Claude Opus 5.5, tune your prompts on it, and move down to cheaper tiers later"
+    },
+    {
+      "id": "u0064",
+      "text": "Start with Claude Haiku 5.5, test the use case thoroughly, and upgrade only where you find a specific capability gap"
+    },
+    {
+      "id": "u0065",
+      "text": "Use Claude Haiku 5.5 at max effort, so that every classification gets the deepest reasoning"
+    },
+    {
+      "id": "u0066",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0067",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0068",
+      "text": "A team is building a real-time customer support chat feature that must respond within one to two seconds, handles a very high volume of simple intent-classification queries, and has a tight cost budget. Which model should they start with to satisfy the latency and cost requirements while keeping accuracy at an acceptable level for this task?"
+    },
+    {
+      "id": "u0069",
+      "text": "Claude Opus 4.8"
+    },
+    {
+      "id": "u0070",
+      "text": "Claude Haiku 4.5"
+    },
+    {
+      "id": "u0071",
+      "text": "Claude Fable 5"
+    },
+    {
+      "id": "u0072",
+      "text": "Claude Sonnet 5"
+    },
+    {
+      "id": "u0073",
+      "text": "Sources"
+    },
+    {
+      "id": "u0074",
+      "text": "Effort: the accuracy-latency dial inside one model"
+    },
+    {
+      "id": "u0075",
+      "text": "Effort applies to every output token, not only to thinking. It sets the size of the response, the tool calls and their arguments, and the thinking when thinking is active. So it works whether or not thinking is on, and lower effort also means fewer, shorter tool calls. That matters for agents. In an agent, much of the elapsed time goes on tool round trips, so lowering effort shortens the run as well as each reply. You set effort with "
+    },
+    {
+      "id": "u0076",
+      "text": ", not inside the thinking object."
+    },
+    {
+      "id": "u0077",
+      "text": "Effort levels: thinking behaviour and typical use"
+    },
+    {
+      "id": "u0078",
+      "text": "Level"
+    },
+    {
+      "id": "u0079",
+      "text": "Thinking behaviour"
+    },
+    {
+      "id": "u0080",
+      "text": "Typical use"
+    },
+    {
+      "id": "u0081",
+      "text": "max"
+    },
+    {
+      "id": "u0082",
+      "text": "Thinks most readily, greatest depth, no limit on thinking length"
+    },
+    {
+      "id": "u0083",
+      "text": "Deepest reasoning; often costly for small gains"
+    },
+    {
+      "id": "u0084",
+      "text": "xhigh"
+    },
+    {
+      "id": "u0085",
+      "text": "Deeper than high, suited to extended exploration"
+    },
+    {
+      "id": "u0086",
+      "text": "Long-running agentic and coding tasks"
+    },
+    {
+      "id": "u0087",
+      "text": "high"
+    },
+    {
+      "id": "u0088",
+      "text": "Thinks on most requests that benefit; default on most models"
+    },
+    {
+      "id": "u0089",
+      "text": "Complex reasoning, difficult coding, agentic tasks"
+    },
+    {
+      "id": "u0090",
+      "text": "medium"
+    },
+    {
+      "id": "u0091",
+      "text": "Moderate thinking; may skip it for simple queries (default on Claude Opus 5.5 and Claude Haiku 5.5)"
+    },
+    {
+      "id": "u0092",
+      "text": "Agentic tasks balancing speed, cost and performance"
+    },
+    {
+      "id": "u0093",
+      "text": "low"
+    },
+    {
+      "id": "u0094",
+      "text": "Minimises thinking; skips it for simple tasks"
+    },
+    {
+      "id": "u0095",
+      "text": "Simple tasks needing best speed and lowest cost, such as subagents"
+    },
+    {
+      "id": "u0096",
+      "text": "For a swarm of parallel subagents doing simple lookups, "
+    },
+    {
+      "id": "u0097",
+      "text": " is the setting designed for the job. Each call finishes sooner and costs less, and a lookup has little to gain from more depth. The higher settings each fail for their own reason. "
+    },
+    {
+      "id": "u0098",
+      "text": " makes no promise of a better lookup. Effort is soft guidance, not a guarantee: at every level Claude still decides per request whether to think, and on most workloads max adds a lot of cost for relatively small quality gains. "
+    },
+    {
+      "id": "u0099",
+      "text": " is meant for long agentic tasks with large token budgets, the opposite of a quick lookup. And leaving the default "
+    },
+    {
+      "id": "u0100",
+      "text": " does nothing for a goal of minimising latency."
+    },
+    {
+      "id": "u0101",
+      "text": "Three details catch out people who configure effort. First, effort does not set how long the visible answer is. On Claude Opus 5, lowering effort does not reliably shorten the reply, so if you want shorter answers, ask for them in the prompt. Second, the resolved effort value is rendered into the prompt. Changing the top-level effort between requests therefore invalidates cache breakpoints, and the cache misses add latency back. Keep one level for each conversation, and use per-message effort (beta) where it is supported, because it keeps the cache. Third, if a lower setting gives shallow reasoning on a hard problem, the fix the documentation gives is to raise effort, not to prompt around the low setting."
+    },
+    {
+      "id": "u0102",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0103",
+      "text": "Setting effort to max guarantees the deepest reasoning and removes the risk of an incomplete result."
+    },
+    {
+      "id": "u0104",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0107",
+      "text": "Lowering effort is the way to make Claude's visible answers shorter."
+    },
+    {
+      "id": "u0108",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0111",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0112",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0113",
+      "text": "An orchestrator sends work to dozens of parallel subagents. Each one does a simple lookup, and the goal is to keep latency and cost as low as possible. Which effort setting should the subagent requests use?"
+    },
+    {
+      "id": "u0114",
+      "text": "low, because simple tasks that need the best speed and lowest cost are what it is designed for"
+    },
+    {
+      "id": "u0115",
+      "text": "Leave the default high, because changing effort per request breaks the prompt cache"
+    },
+    {
+      "id": "u0116",
+      "text": "xhigh, because subagents are agentic work and xhigh is meant for agentic tasks"
+    },
+    {
+      "id": "u0117",
+      "text": "max, because the deepest reasoning means no lookup comes back incomplete"
+    },
+    {
+      "id": "u0118",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0119",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0120",
+      "text": "On Claude Opus 5, users complain that the replies are too long. An engineer proposes lowering the top-level effort to low on every turn where a short answer is wanted. What should the team do instead?"
+    },
+    {
+      "id": "u0121",
+      "text": "Ask for shorter answers in the prompt and keep one top-level effort level for the whole conversation"
+    },
+    {
+      "id": "u0122",
+      "text": "Turn on streaming so the replies finish sooner and feel shorter"
+    },
+    {
+      "id": "u0123",
+      "text": "Go ahead with the plan, because effort is the direct control over how long the visible reply is"
+    },
+    {
+      "id": "u0124",
+      "text": "Move the effort setting inside the thinking object so that it limits only the reply text"
+    },
+    {
+      "id": "u0125",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0126",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0127",
+      "text": "An engineering team runs many parallel subagents performing simple lookups inside a larger agentic workflow. They want to minimize latency and token cost per subagent call without materially degrading the quality needed for those simple lookups. Which effort configuration decision best matches this need?"
+    },
+    {
+      "id": "u0128",
+      "text": "Set effort to low for the subagent calls, since low effort is designed for simple, high-volume tasks like subagent lookups where speed and cost outweigh marginal quality gains."
+    },
+    {
+      "id": "u0129",
+      "text": "Set effort to max for the subagent calls, since max effort guarantees the deepest reasoning available and removes any risk of a subagent returning an incomplete lookup result."
+    },
+    {
+      "id": "u0130",
+      "text": "Set effort to xhigh for the subagent calls, since xhigh is intended for long-horizon agentic work and will give each subagent the token budget needed for extended tool use."
+    },
+    {
+      "id": "u0131",
+      "text": "Leave effort at the high default for the subagent calls, since high effort is equivalent to omitting the parameter and requires no additional configuration changes."
+    },
+    {
+      "id": "u0132",
+      "text": "Sources"
+    },
+    {
+      "id": "u0133",
+      "text": "Streaming, fast mode and hidden thinking: speed without less reasoning"
+    },
+    {
+      "id": "u0134",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0135",
+      "text": "A product team turns on fast mode for Claude Opus 5.5. Users complain mainly about the pause before the first word appears. What will fast mode do for that complaint?"
+    },
+    {
+      "id": "u0136",
+      "text": "Little for the pause; it speeds up output tokens per second once generation starts"
+    },
+    {
+      "id": "u0137",
+      "text": "Remove the pause by switching to a smaller, quicker model"
+    },
+    {
+      "id": "u0138",
+      "text": "Remove most of the pause, because fast mode cuts time to first token"
+    },
+    {
+      "id": "u0139",
+      "text": "Streaming improves perceived latency, not real latency. The response is sent while it is still being generated, so users read text as it arrives and your application can update the UI or work in parallel. Total generation time does not change. That makes streaming the right answer to \"it feels frozen\" and the wrong answer to \"the batch job takes too long\"."
+    },
+    {
+      "id": "u0140",
+      "text": "Fast mode is for when generating the output is the bottleneck. It runs the same model weights at up to 2.5x higher output tokens per second, with no change to intelligence or capabilities. It costs a multiplier on standard rates. Fast mode is supported on Claude Opus 5.5, Claude Opus 5 and Claude Opus 4.8. You opt in with "
+    },
+    {
+      "id": "u0141",
+      "text": " and a beta header. The gain is most visible with streaming. It helps long generations such as a large refactor and does little for a short answer that sits waiting for its first token."
+    },
+    {
+      "id": "u0142",
+      "text": "Opting in to fast mode on a supported Opus model"
+    },
+    {
+      "id": "u0143",
+      "text": "python"
+    },
+    {
+      "id": "u0144",
+      "text": "Hard problems that need thinking have another lever: the thinking "
+    },
+    {
+      "id": "u0145",
+      "text": " field. With "
+    },
+    {
+      "id": "u0146",
+      "text": " the thinking still runs in full, but the thinking blocks come back with an empty thinking field. The signature field keeps the encrypted full thinking so a multi-turn conversation can continue. Its main benefit is a faster time to the first text token when streaming, because the server does not stream the reasoning text. Picture a valuation tool that solves multi-step problems with extended thinking, where users find the wait unacceptable. Omitting the display shortens the visible wait and keeps every bit of the reasoning. Turning thinking off, or capping "
+    },
+    {
+      "id": "u0147",
+      "text": " at a small fixed number for every request, would make the answers fast by making them worse on exactly the problems that need the reasoning. A larger budget does not lower latency at all."
+    },
+    {
+      "id": "u0148",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0149",
+      "text": "Fast mode is a smaller, less capable model, so turning it on trades accuracy for speed."
+    },
+    {
+      "id": "u0150",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0152",
+      "text": "Streaming lowers the total time a response takes to generate."
+    },
+    {
+      "id": "u0153",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0155",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0156",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0157",
+      "text": "A nightly batch job on Claude Opus 5.5 writes long migration reports, and nobody reads the output until the job is done. It now takes too long. Accuracy must not drop, and the budget can cover a higher per-token price. Which change fits best?"
+    },
+    {
+      "id": "u0158",
+      "text": "Lower the effort to low so the model spends fewer tokens on each report"
+    },
+    {
+      "id": "u0159",
+      "text": "Opt in to fast mode with speed=\"fast\" on the same model"
+    },
+    {
+      "id": "u0160",
+      "text": "Turn on streaming so each report is sent while it is still being generated"
+    },
+    {
+      "id": "u0161",
+      "text": "Switch to Claude Haiku 5.5 at low effort, the fastest tier at its fastest level"
+    },
+    {
+      "id": "u0162",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0163",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0164",
+      "text": "A financial analytics application uses extended thinking to solve complex multi-step valuation problems. Response latency has become unacceptable for end users, but outputs must remain highly accurate given the complexity of the problems. Which adjustment best balances these constraints?"
+    },
+    {
+      "id": "u0165",
+      "text": "Keep the existing thinking budget but set display to \"omitted\" so text streaming begins immediately, since full thinking tokens still execute but their streaming overhead is removed rather than the reasoning itself being cut."
+    },
+    {
+      "id": "u0166",
+      "text": "Disable extended thinking entirely and rely on the model's default response generation, since removing thinking removes the token cost associated with reasoning and thus removes the latency it causes."
+    },
+    {
+      "id": "u0167",
+      "text": "Reduce budget_tokens to a small fixed value such as 1,000 tokens for every request, since a small thinking budget guarantees fast responses regardless of how complex an individual valuation problem is."
+    },
+    {
+      "id": "u0168",
+      "text": "Increase budget_tokens well beyond the current setting and switch to summarized display, since a larger budget always produces proportionally lower latency once the model begins streaming its summarized reasoning."
+    },
+    {
+      "id": "u0169",
+      "text": "Sources"
+    },
+    {
+      "id": "u0170",
+      "text": "Justifying the setting with a sweep on cost per solved task"
+    },
+    {
+      "id": "u0171",
+      "text": "A configuration choice is defensible when it comes from your own eval run across effort levels and models. Settings carried over from an earlier model or picked by feel are not. Levels are recalibrated between model generations, so the guidance is to run a fresh effort sweep instead of reusing old settings. Compare the results on cost per completed task, not per token. A cheap configuration that fails half the time is not cheap."
+    },
+    {
+      "id": "u0172",
+      "text": "One internal agentic-coding sweep (370 repository tasks): pass rate against cost per attempt"
+    },
+    {
+      "id": "u0173",
+      "text": "Configuration"
+    },
+    {
+      "id": "u0174",
+      "text": "Solved"
+    },
+    {
+      "id": "u0175",
+      "text": "Cost per attempt"
+    },
+    {
+      "id": "u0176",
+      "text": "Claude Opus 5.5, low"
+    },
+    {
+      "id": "u0177",
+      "text": "$0.35 USD"
+    },
+    {
+      "id": "u0178",
+      "text": "Claude Opus 5.5, medium (default)"
+    },
+    {
+      "id": "u0179",
+      "text": "$0.84 USD"
+    },
+    {
+      "id": "u0180",
+      "text": "Claude Opus 5.5, high"
+    },
+    {
+      "id": "u0181",
+      "text": "$1.38 USD"
+    },
+    {
+      "id": "u0182",
+      "text": "Claude Opus 5.5, xhigh"
+    },
+    {
+      "id": "u0183",
+      "text": "$4.11 USD"
+    },
+    {
+      "id": "u0184",
+      "text": "Claude Sonnet 5.5, high (default)"
+    },
+    {
+      "id": "u0185",
+      "text": "$0.33 USD"
+    },
+    {
+      "id": "u0186",
+      "text": "Claude Sonnet 5.5, medium"
+    },
+    {
+      "id": "u0187",
+      "text": "$0.16 USD"
+    },
+    {
+      "id": "u0188",
+      "text": "Divide cost per attempt by pass rate for Opus 5.5 at medium and at xhigh. What does the extra 4.5 points of accuracy cost per solved task?"
+    },
+    {
+      "id": "u0189",
+      "text": "Re-running failures belongs in the sweep as a configuration of its own. When outputs can be checked, by tests or a verifier, you can run everything at low effort and re-run only the failures at high. In Anthropic's tests that cost about 40% less than running everything at high, at the same pass rate. It also helps latency: most tasks finish on the quick path, and only the hard ones pay for depth. These figures are internal and directional, so measure on your own workload."
+    },
+    {
+      "id": "u0190",
+      "text": "Agent runs need a bound on their elapsed time as well as on each turn. Output caps and session budgets, covered in "
+    },
+    {
+      "id": "u0191",
+      "text": "max_tokens, task budgets and re-running failures"
+    },
+    {
+      "id": "u0192",
+      "text": ", put a hard ceiling on how long a run can go. Telling the model that time matters and showing it the elapsed time cut run time by 7% to 47% in Anthropic's tests, for a few points of score. Multi-model setups add latency that has to go into the same comparison: an advisor adds about one or two extra frontier-model calls per task, each on the critical path. Inside a RAG pipeline, how many chunks you retrieve and whether you rerank them is the same trade between accuracy and time, explained in "
+    },
+    {
+      "id": "u0193",
+      "text": "Reranking and how many chunks to pass"
+    },
+    {
+      "id": "u0194",
+      "text": ". Those settings belong in the sweep too."
+    },
+    {
+      "id": "u0195",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0196",
+      "text": "For a workload you know, which would cost more: a 3-point drop in accuracy or a doubling of response time? What would you have to measure before you could defend either choice to a stakeholder?"
+    },
+    {
+      "id": "u0197",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0198",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0199",
+      "text": "After moving an agentic-coding workload from Claude Opus 5 to Claude Opus 5.5, an engineer wants to keep the old effort setting. They also want to choose between configurations by comparing price per token. Which approach can you actually defend to a stakeholder?"
+    },
+    {
+      "id": "u0200",
+      "text": "Keep the old effort setting, because an effort level gives the same amount of thinking on every model generation, and pick the configuration with the lowest price per token"
+    },
+    {
+      "id": "u0201",
+      "text": "Choose Claude Sonnet 5.5 at medium, because the lowest cost per attempt makes it the cheapest configuration overall"
+    },
+    {
+      "id": "u0202",
+      "text": "Run a fresh effort sweep across levels and models on your own evals, then compare the configurations on cost per completed task"
+    },
+    {
+      "id": "u0203",
+      "text": "Choose xhigh, because the configuration with the highest pass rate in any sweep is always the one to justify"
+    },
+    {
+      "id": "u0204",
+      "text": "Sources"
+    },
+    {
+      "id": "u0205",
+      "text": "Sources"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+---
+import { lessonUrl } from "../../lib/lesson-routes.mjs";
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/site-layout.astro";
+import LibraryProgress from "../../components/library-progress.astro";
+import library from "../../data/course-library.json";
+import { domains } from "../../lib/course";
+import { languages, ui } from "../../i18n";
+export function getStaticPaths() {
+  return languages.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+const { locale } = Astro.props;
+const t = ui[locale];
+const lessons = await getCollection("lessons", (item) => item.data.locale === locale);
+const published = new Map(lessons.map((lesson) => [lesson.data.lessonId, lesson.data]));
+---
+
+<SiteLayout locale={locale} title={t.home} description={t.intro}>
+  <main id="main" class="library-main mx-auto max-w-3xl px-4 py-10">
+    <nav
+      class="mb-6 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"
+      aria-label={locale === "en" ? "Breadcrumb" : "Đường dẫn"}
+    >
+      <a class="hover:text-primary" href={`/${locale}/`}>{locale === "en" ? "Home" : "Trang chủ"}</a><span
+        aria-hidden="true">/</span
+      >
+      <a class="hover:text-primary" href={`/${locale}/`}>Anthropic</a><span aria-hidden="true">/</span>
+      <a class="hover:text-primary" href={`/${locale}/`}>Anthropic Claude Certified Architect – Professional (CCAR-P)</a
+      ><span aria-hidden="true">/</span>
+      <span aria-current="page">{t.menu}</span>
+    </nav>
+    <h1 class="text-3xl font-bold text-foreground">{t.title}</h1>
+    <p class="mt-3 text-muted-foreground">
+      {
+        locale === "en"
+          ? "38 lessons, one per exam-guide subdomain, in the order the guide teaches them. Every claim is cited to the official documentation."
+          : "38 bài học theo thứ tự các mục trong hướng dẫn thi. Mọi nhận định đều dẫn nguồn từ tài liệu chính thức."
+      }
+    </p>
+    {
+      domains.map((domain, index) => {
+        const entries = library.filter((item) => item.domain === index + 1);
+        return (
+          <section class="library-domain mt-10" aria-labelledby={`domain-${index + 1}-heading`}>
+            <h2 id={`domain-${index + 1}-heading`} class="text-lg font-semibold">
+              {t.chapter} {index + 1}: {domain[locale]}
+            </h2>
+            <p class="mt-1 text-sm text-muted-foreground">
+              {entries.length}{" "}
+              {locale === "en"
+                ? `lessons · ${entries[0].examWeight}% of the exam`
+                : `bài học · ${entries[0].examWeight}% bài thi`}
+            </p>
+            <ol class="mt-4 space-y-3">
+              {entries.map((entry) => {
+                const lesson = published.get(entry.groupId);
+                return (
+                  <li class="lesson-group">
+                    <a
+                      class="lesson-card flex items-start gap-3 rounded-lg border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+                      href={`${lessonUrl(locale, entry.groupId)}#continue`}
+                      data-library-group={entry.groupId}
+                    >
+                      <svg viewBox="0 0 24 24" class="size-6 shrink-0 -rotate-90" aria-hidden="true">
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          fill="none"
+                          stroke-width="2.5"
+                          class="stroke-muted-foreground/25"
+                        />
+                        <circle
+                          data-progress-ring
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          fill="none"
+                          stroke-width="2.5"
+                          class="stroke-primary"
+                          stroke-dasharray="62.832"
+                          stroke-dashoffset="62.832"
+                        />
+                      </svg>
+                      <div class="min-w-0 flex-1">
+                        <h3 class="leading-snug font-medium">
+                          <span class="mr-2 font-mono text-sm text-muted-foreground tabular-nums">{entry.groupId}</span>
+                          {lesson?.title}
+                        </h3>
+                        <p class="sr-only">{locale === "en" ? entry.subdomain : lesson?.description}</p>
+                        <p class="mt-1 text-sm text-muted-foreground">
+                          {lesson && lesson.partCount > 1
+                            ? `${lesson.partCount} ${locale === "en" ? "pages" : "trang"} · `
+                            : ""}
+                          {entry.readMinutes} {locale === "en" ? "min read" : "phút đọc"}
+                          <span data-library-progress />
+                        </p>
+                      </div>
+                    </a>
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
+        );
+      })
+    }
+    <p class="mt-8 rounded-lg border border-border p-5 text-muted-foreground" hidden role="status" data-search-empty>
+      {locale === "en" ? "No published lessons match this search." : "Chưa có bài học nào khớp với tìm kiếm."}
+    </p>
+    <LibraryProgress locale={locale} />
+  </main>
+  <script>
+    const query = new URLSearchParams(location.search).get("q")?.trim().toLocaleLowerCase();
+    if (query) {
+      document.querySelectorAll<HTMLElement>(".lesson-group").forEach((group) => {
+        group.hidden = !group.textContent?.toLocaleLowerCase().includes(query);
+      });
+      document.querySelectorAll<HTMLElement>(".library-domain").forEach((domain) => {
+        domain.hidden = !domain.querySelector(".lesson-group:not([hidden])");
+      });
+      const empty = document.querySelector<HTMLElement>("[data-search-empty]");
+      if (empty) empty.hidden = !!document.querySelector(".lesson-group:not([hidden])");
+      const input = document.querySelector<HTMLInputElement>('input[name="q"]');
+      if (input) input.value = new URLSearchParams(location.search).get("q") ?? "";
+    }
+  </script>
+</SiteLayout>

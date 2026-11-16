@@ -1,0 +1,447 @@
+{
+  "pageId": "2.2.2",
+  "title": "Guardrails for Claude Apps: Jailbreaks, Prompt Injection, Hallucinations and Prompt Leaks",
+  "titleVi": "Biện pháp bảo vệ ứng dụng Claude: vượt rào, chèn lệnh, ảo giác và rò rỉ câu lệnh",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design system prompts, templates, and guardrails"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Tell direct jailbreaks apart from indirect prompt injection and pick the mitigations for each"
+    },
+    {
+      "id": "u0002",
+      "text": "Route untrusted third-party content and your own instructions to the right parts of a request"
+    },
+    {
+      "id": "u0003",
+      "text": "Add grounding guardrails that reduce hallucinated claims"
+    },
+    {
+      "id": "u0004",
+      "text": "Decide when leak-resistant prompting is worth its cost to performance"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Guardrails when the user is the adversary"
+    },
+    {
+      "id": "u0007",
+      "text": "Guardrails for untrusted content Claude reads"
+    },
+    {
+      "id": "u0008",
+      "text": "Guardrails against hallucination"
+    },
+    {
+      "id": "u0009",
+      "text": "Guardrails against prompt leaks, and their cost"
+    },
+    {
+      "id": "u0010",
+      "text": "Guardrails when the user is the adversary"
+    },
+    {
+      "id": "u0011",
+      "text": "A guardrail is any measure that keeps Claude within the behaviour you intend, even when something in its input tries to push it out. Anthropic separates the attacks into two threat models, and the right defence depends on which one you face. In the first, jailbreaks and direct prompt injection, the user of your application is the adversary and writes inputs designed to get around your rules. In the second, indirect prompt injection, the user is trusted, but Claude reads third-party content such as web pages, emails, documents or tool results, and that content contains adversarial instructions."
+    },
+    {
+      "id": "u0012",
+      "text": "The two threat models and their main defences"
+    },
+    {
+      "id": "u0013",
+      "text": "Aspect"
+    },
+    {
+      "id": "u0014",
+      "text": "Direct jailbreak / prompt injection"
+    },
+    {
+      "id": "u0015",
+      "text": "Indirect prompt injection"
+    },
+    {
+      "id": "u0016",
+      "text": "Who is the adversary"
+    },
+    {
+      "id": "u0017",
+      "text": "The application's user"
+    },
+    {
+      "id": "u0018",
+      "text": "A third party who controls content Claude reads"
+    },
+    {
+      "id": "u0019",
+      "text": "Where the attack arrives"
+    },
+    {
+      "id": "u0020",
+      "text": "The user's own input"
+    },
+    {
+      "id": "u0021",
+      "text": "Web pages, emails, documents, OCR text, tool results"
+    },
+    {
+      "id": "u0022",
+      "text": "Main defences"
+    },
+    {
+      "id": "u0023",
+      "text": "Input screening, input validation, a system prompt with refusal wording, handling repeat offenders"
+    },
+    {
+      "id": "u0024",
+      "text": "Untrusted content only in tool_result blocks, a stated policy, JSON encoding, least privilege, screening tool output"
+    },
+    {
+      "id": "u0025",
+      "text": "Against a hostile user, the defences are layered. A harmlessness screen runs a lightweight model such as Claude Haiku 4.5 on user input before it reaches the main conversation. It uses structured outputs (an "
+    },
+    {
+      "id": "u0026",
+      "text": " JSON schema with a single boolean such as "
+    },
+    {
+      "id": "u0027",
+      "text": ") so your code can branch on a value it can parse. Input validation filters out known injection patterns. An LLM given known jailbreak phrasing as examples can act as a general-purpose screen. In the system prompt itself, state the ethical and legal boundaries and tell Claude how to refuse. The docs' enterprise example lists values in a "
+    },
+    {
+      "id": "u0028",
+      "text": " block and then gives the exact sentence to use when a request conflicts with them. Finally, look at behaviour over time: consider throttling or banning users who keep trying to get around your guardrails."
+    },
+    {
+      "id": "u0029",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0030",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0031",
+      "text": "A team is designing guardrails for a public-facing chatbot that anticipates jailbreak attempts crafted by adversarial users trying to bypass content guidelines. They want a scalable, low-latency way to catch obviously harmful requests before they reach the main conversation. Which architecture pattern is most consistent with Anthropic's recommended approach?"
+    },
+    {
+      "id": "u0032",
+      "text": "Use a lightweight model like Claude Haiku 4.5 with a structured output schema to pre-screen user input for harmful intent before it reaches the main conversation"
+    },
+    {
+      "id": "u0033",
+      "text": "Route every user message through the largest available model twice, first as a screen and then as the actual response, to maximize screening accuracy regardless of latency cost"
+    },
+    {
+      "id": "u0034",
+      "text": "Rely exclusively on the main conversation's system prompt directives, since a strong role and refusal instructions alone are documented as sufficient without any separate screening step"
+    },
+    {
+      "id": "u0035",
+      "text": "Disable the chatbot's ability to refuse requests and instead filter all output on the client side after the full response has already been generated and displayed"
+    },
+    {
+      "id": "u0036",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0037",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0038",
+      "text": "You add a Claude Haiku 4.5 harmlessness screen in front of your main conversation. How do the docs recommend making its verdict reliable enough for your application to branch on?"
+    },
+    {
+      "id": "u0039",
+      "text": "Prefill the screen's response with \"{\""
+    },
+    {
+      "id": "u0040",
+      "text": "Run the screen with the same long system prompt as the main conversation"
+    },
+    {
+      "id": "u0041",
+      "text": "Ask the screen to explain its reasoning step by step before answering"
+    },
+    {
+      "id": "u0042",
+      "text": "Use structured outputs so the response is constrained to a simple classification"
+    },
+    {
+      "id": "u0043",
+      "text": "Sources"
+    },
+    {
+      "id": "u0044",
+      "text": "Guardrails for untrusted content Claude reads"
+    },
+    {
+      "id": "u0045",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0046",
+      "text": "Your agent fetches a web page for a trusted user. Where should the page's text go in the request?"
+    },
+    {
+      "id": "u0047",
+      "text": "In the system prompt, so Claude treats it as authoritative context"
+    },
+    {
+      "id": "u0048",
+      "text": "In a tool_result block"
+    },
+    {
+      "id": "u0049",
+      "text": "In a plain user text block, right after the user's question"
+    },
+    {
+      "id": "u0050",
+      "text": "With indirect injection, the guardrail is mostly about structure: make it easy for Claude to tell your instructions apart from content it is only reading. Put third-party content only in "
+    },
+    {
+      "id": "u0051",
+      "text": " blocks, because Claude is trained to be skeptical of instructions that appear there. Say what the content is and where it came from, for example \"the body of an inbound email from an unknown sender\", either in the tool description or in the result itself. Then state the policy in the system prompt, as in the snippet below."
+    },
+    {
+      "id": "u0052",
+      "text": "A system-prompt policy that tells Claude retrieved content is data, not commands"
+    },
+    {
+      "id": "u0053",
+      "text": "xml"
+    },
+    {
+      "id": "u0054",
+      "text": "Three more structural rules follow. First, JSON-encode untrusted strings rather than pasting them into free text. JSON escaping gives clear boundaries, so an attacker can't close a quote or tag and slip into the instruction context. Second, keep your own instructions out of tool results. Claude treats that content as untrusted, so your instructions there may be ignored or flagged as an injection. Send them in a user turn after the "
+    },
+    {
+      "id": "u0055",
+      "text": " block, or, on supported models, in a mid-conversation system message. Third, apply least privilege so a successful injection does little harm: don't give Claude secrets it doesn't need, run tools in sandboxes, and scope permissions narrowly. You can also screen tool output with the same Haiku classifier pattern you use for user input, asking whether instructions are present rather than whether they would succeed. Before deploying, red-team the agent with documents and emails that contain deliberate injection attempts."
+    },
+    {
+      "id": "u0056",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0057",
+      "text": "Putting your own follow-up instructions inside a tool_result block is a good way to make sure Claude sees them next to the data."
+    },
+    {
+      "id": "u0058",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0061",
+      "text": "Retrieved documents should go into the system prompt so Claude gives them full weight."
+    },
+    {
+      "id": "u0062",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0065",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0066",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0067",
+      "text": "A developer is building an email-triage agent that reads inbound email bodies via a tool and drafts replies. To harden it against embedded instructions in email bodies, which combination of design choices should the developer apply? (Select all that apply)"
+    },
+    {
+      "id": "u0068",
+      "text": "(Select "
+    },
+    {
+      "id": "u0069",
+      "text": "State a system prompt policy that content returned by tools is untrusted data and must never override the system prompt or the user's original request"
+    },
+    {
+      "id": "u0070",
+      "text": "JSON-encode the email body when passing it as a tool result so quotes or tags in the content cannot break out of the surrounding structure"
+    },
+    {
+      "id": "u0071",
+      "text": "Screen tool outputs with a lightweight classifier model before passing them to the main agent, and strip or flag content if an injection is suspected"
+    },
+    {
+      "id": "u0072",
+      "text": "Place the developer's own operating instructions inside the same tool_result block as the email body so both travel together in one message"
+    },
+    {
+      "id": "u0073",
+      "text": "Grant the agent broad, unscoped access to the user's full mailbox and account settings so it never needs to ask for additional permissions mid-task"
+    },
+    {
+      "id": "u0074",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0075",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0076",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0077",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0078",
+      "text": "Put the steps for screening a tool's output before Claude acts on it in order"
+    },
+    {
+      "id": "u0079",
+      "text": "Pass the raw output to a small Claude Haiku 4.5 classifier call constrained by a JSON schema"
+    },
+    {
+      "id": "u0080",
+      "text": "Run the tool and capture its raw output"
+    },
+    {
+      "id": "u0081",
+      "text": "Read the classifier's injection_suspected verdict"
+    },
+    {
+      "id": "u0082",
+      "text": "Return the raw content as a tool_result only if no injection is suspected; otherwise return an error or a stripped summary"
+    },
+    {
+      "id": "u0083",
+      "text": "Check order"
+    },
+    {
+      "id": "u0084",
+      "text": "Sources"
+    },
+    {
+      "id": "u0085",
+      "text": "Guardrails against hallucination"
+    },
+    {
+      "id": "u0086",
+      "text": "Not every guardrail is about attackers. Some keep Claude's claims tied to evidence. The simplest one is permission to be uncertain. Tell Claude explicitly that it may say it doesn't know, and give it the exact words to use when the material falls short. The docs' M&A-advisor prompt says to reply \"I don't have enough information to confidently assess this\" in that case, and the guidance says this alone can drastically reduce false information. For long documents (over 20k tokens), have Claude extract word-for-word quotes first and base its analysis only on those quotes."
+    },
+    {
+      "id": "u0087",
+      "text": "A template that makes Claude quote first and then analyse only what it quoted"
+    },
+    {
+      "id": "u0088",
+      "text": "text"
+    },
+    {
+      "id": "u0089",
+      "text": "Several other checks build on this. Verification with citations has Claude find a supporting quote for each claim after drafting, and retract any claim it can't support. Restricting outside knowledge tells Claude to use only the provided documents and not its general knowledge. Chain-of-thought verification asks for step-by-step reasoning so that faulty logic shows up. Best-of-N runs the same prompt several times and treats disagreement between the outputs as a warning sign. Iterative refinement feeds an output back in and asks Claude to verify it."
+    },
+    {
+      "id": "u0090",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0091",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0092",
+      "text": "A press-release template must contain only claims backed by the supplied product briefs. Which instruction matches the documented citation-verification pattern?"
+    },
+    {
+      "id": "u0093",
+      "text": "After drafting, find a direct quote for each claim, remove any claim without one, and mark the removal with empty [] brackets"
+    },
+    {
+      "id": "u0094",
+      "text": "Run the prompt once with a higher max_tokens so Claude has room to check itself"
+    },
+    {
+      "id": "u0095",
+      "text": "Prefill the response with the first sentence of the brief"
+    },
+    {
+      "id": "u0096",
+      "text": "Tell Claude to be confident and avoid hedging language"
+    },
+    {
+      "id": "u0097",
+      "text": "Sources"
+    },
+    {
+      "id": "u0098",
+      "text": "Guardrails against prompt leaks, and their cost"
+    },
+    {
+      "id": "u0099",
+      "text": "A prompt leak exposes information you meant to keep hidden in the prompt. The docs say plainly that no method is foolproof, and they warn that leak-proofing has a cost. Use leak-resistant techniques only when absolutely necessary, because the added complexity can lower performance on the rest of the task. If you do use them, test thoroughly to confirm output quality hasn't dropped."
+    },
+    {
+      "id": "u0100",
+      "text": "When protection is justified, the documented options are: keep key context in the system prompt, separate from user queries, and repeat the critical instruction in the User turn. The AnalyticsBot example does this. Its system prompt is still mostly a role prompt, it contains a proprietary formula with an instruction never to mention it, and it gives a fixed deflection if the user asks about its instructions. Outside the prompt, post-process Claude's output with regular expressions or keyword filters to catch leaks. Leave out proprietary details Claude doesn't need, since extra content distracts it from the no-leak instruction. Audit prompts and outputs regularly."
+    },
+    {
+      "id": "u0101",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0102",
+      "text": "Adding leak-proofing instructions to every prompt is free extra safety."
+    },
+    {
+      "id": "u0103",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0105",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0106",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0107",
+      "text": "A team plans to add elaborate anti-leak instructions to every prompt in its library by default. What does the guidance advise?"
+    },
+    {
+      "id": "u0108",
+      "text": "Do it: leak-resistant wording has no downside and makes prompts foolproof"
+    },
+    {
+      "id": "u0109",
+      "text": "Replace the system prompt with user-turn instructions so nothing can leak"
+    },
+    {
+      "id": "u0110",
+      "text": "Rely solely on output post-processing and drop the system prompt"
+    },
+    {
+      "id": "u0111",
+      "text": "Use leak-resistant techniques only when absolutely necessary, because added complexity can degrade performance on the task"
+    },
+    {
+      "id": "u0112",
+      "text": "Sources"
+    },
+    {
+      "id": "u0113",
+      "text": "Sources"
+    }
+  ]
+}

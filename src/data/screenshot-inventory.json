@@ -1,0 +1,479 @@
+[
+  {
+    "image": "images/domain1/1.1.png",
+    "lessonId": "1.1",
+    "part": 1,
+    "width": 2560,
+    "height": 12356,
+    "sha256": "b7d8366ac524d47326e7ea0369cc777f1d5b81ad1cbd0cda297b140b58c1e705",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain1/1.2.png",
+    "lessonId": "1.2",
+    "part": 1,
+    "width": 2560,
+    "height": 12462,
+    "sha256": "21d4766649dfcf00bf1db5dd5b5401b84d885c49eff2516bbfbcb910bbdc1711",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain1/1.3.png",
+    "lessonId": "1.3",
+    "part": 1,
+    "width": 2560,
+    "height": 12762,
+    "sha256": "ce0b8c91872b213a4be7291c2f6d0f5741a6ddacc66273ec40874e3d9b6aa0f0",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain1/1.4/1.4.1.png",
+    "lessonId": "1.4",
+    "part": 1,
+    "width": 2560,
+    "height": 9763,
+    "sha256": "2d7036dd6f4049f6f59e846445f67561686906e19e330833b6c478bcafa72c86",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain1/1.4/1.4.2.png",
+    "lessonId": "1.4",
+    "part": 2,
+    "width": 2560,
+    "height": 10693,
+    "sha256": "a128e6e8c287695ac7be0efbf702e2777904b1c67060c5dc13ca432fdf9ebb25",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain1/1.5.png",
+    "lessonId": "1.5",
+    "part": 1,
+    "width": 2560,
+    "height": 13858,
+    "sha256": "145e963426b6f893d11b14e13911aa8ca3032099b07a38b6de88445cc93fef26",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain1/1.6.png",
+    "lessonId": "1.6",
+    "part": 1,
+    "width": 2560,
+    "height": 12504,
+    "sha256": "f21158de4fc3362baf7d214bad6edb9e0ec98c7701319b20816afd7d2b89265f",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.1.png",
+    "lessonId": "2.1",
+    "part": 1,
+    "width": 2560,
+    "height": 11254,
+    "sha256": "db7aa85b3a32f58e99e64b25098ce60b66bb010b7ec0ab1e46cb878056dddc7e",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.2/2.2.1.png",
+    "lessonId": "2.2",
+    "part": 1,
+    "width": 2560,
+    "height": 7161,
+    "sha256": "774c94c4876c148189631e7f56799eb4cdac45c2c4254a2248d4db083dccbf94",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.2/2.2.2.png",
+    "lessonId": "2.2",
+    "part": 2,
+    "width": 2560,
+    "height": 8020,
+    "sha256": "eb717eb63f7643da6b6f802980946722d733518763f63cc3bff0fac414044ea3",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.3.png",
+    "lessonId": "2.3",
+    "part": 1,
+    "width": 2560,
+    "height": 11692,
+    "sha256": "25b9b195b1e77a313f6741501239de3b23a70eaae73092f4812023803053c669",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.4/2.4.1.png",
+    "lessonId": "2.4",
+    "part": 1,
+    "width": 2560,
+    "height": 10383,
+    "sha256": "4df8b830772d27b9d6b1c35ac02302768a7ff7d7423fe3a9e33ea5590f5c32e2",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.4/2.4.2.png",
+    "lessonId": "2.4",
+    "part": 2,
+    "width": 2560,
+    "height": 8713,
+    "sha256": "58571be4b01bd924681a483382297d386be6061daff7126eb5bd2bac04127dcc",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain2/2.5.png",
+    "lessonId": "2.5",
+    "part": 1,
+    "width": 2560,
+    "height": 13645,
+    "sha256": "1c25a3c58bacc948dd150341dd5639f6c220bb604c6a2bb523ff17fe5999e6ff",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.1.png",
+    "lessonId": "3.1",
+    "part": 1,
+    "width": 2560,
+    "height": 12587,
+    "sha256": "dac731a70bad7d882be3e924a6ba26f58913cc777fbe88bebffb7a8e816edc7d",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.2/3.2.1.png",
+    "lessonId": "3.2",
+    "part": 1,
+    "width": 2560,
+    "height": 9941,
+    "sha256": "67f96c6b6aa304b72790a55b544f9bbaa20bca409cd2af01d073b2e22f95df2f",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.2/3.2.2.png",
+    "lessonId": "3.2",
+    "part": 2,
+    "width": 2560,
+    "height": 9582,
+    "sha256": "b2b1ae5531c7834cd999ff1b71a4f85ad2a3752100daffaa3bc6752d4ab8cc8b",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.3.png",
+    "lessonId": "3.3",
+    "part": 1,
+    "width": 2560,
+    "height": 11658,
+    "sha256": "ab82e0d1cd25a68ec6a0aa9722cc3bb5414817009718d561d971c385d7a2e79c",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.4/3.4.1.png",
+    "lessonId": "3.4",
+    "part": 1,
+    "width": 2560,
+    "height": 10940,
+    "sha256": "7530e252df1196a4f2d57eb5353e680e07b93134ff5ca59a494e0c848273e5db",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.4/3.4.2.png",
+    "lessonId": "3.4",
+    "part": 2,
+    "width": 2560,
+    "height": 7913,
+    "sha256": "fff39cd179a8c377ccfcce3a3d6bd7562ef60b159719307241d297c585474d38",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.5/3.5.1.png",
+    "lessonId": "3.5",
+    "part": 1,
+    "width": 2560,
+    "height": 9030,
+    "sha256": "a7cba7af74d751510a8bc3f607f8f7526d2904895ab120059991ad3702d96e61",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.5/3.5.2.png",
+    "lessonId": "3.5",
+    "part": 2,
+    "width": 2560,
+    "height": 7621,
+    "sha256": "292c8bd9df6c1b73be1dab7176d3eb792f2f9a15ecdfa87184b6df5d1fd51666",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.6.png",
+    "lessonId": "3.6",
+    "part": 1,
+    "width": 2560,
+    "height": 11869,
+    "sha256": "556d7c245f48e3f67e4e26a913512543e1fc1cbbafc7202f544f80d25cb943ac",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.7.png",
+    "lessonId": "3.7",
+    "part": 1,
+    "width": 2560,
+    "height": 14869,
+    "sha256": "75f14a699262ff072a76fb5f74b7aacd43d8761e0bda79e28ed01f9c93f368fe",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain3/3.8.png",
+    "lessonId": "3.8",
+    "part": 1,
+    "width": 2560,
+    "height": 12384,
+    "sha256": "d707223709c8365fac99e88191689a184c1584bd9d901c2363d16aa12265525b",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.1.png",
+    "lessonId": "4.1",
+    "part": 1,
+    "width": 2560,
+    "height": 13331,
+    "sha256": "7a79119a2c0dd9f2ebdc4da1989741053257611c2112e241e7a944f29a722e80",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.2.png",
+    "lessonId": "4.2",
+    "part": 1,
+    "width": 2560,
+    "height": 11828,
+    "sha256": "31743d2c40762044e4dd27bcf0c52dce290638f758a872eba73329826ac4f050",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.3.png",
+    "lessonId": "4.3",
+    "part": 1,
+    "width": 2560,
+    "height": 12311,
+    "sha256": "b6a9395d5528997a634963048d7dc8eec443b247efb7cd6399c21b7d5e7fb3c9",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.4.png",
+    "lessonId": "4.4",
+    "part": 1,
+    "width": 2560,
+    "height": 11707,
+    "sha256": "25f1c2c18159f8c80dd83c0f3f02598ba4efb1a6e66147d3d96266e8e098ea92",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.5.png",
+    "lessonId": "4.5",
+    "part": 1,
+    "width": 2560,
+    "height": 14781,
+    "sha256": "9ad63c254f6d07cdfba22b2493b210aa94e70210282185a192091716f2396e97",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.6/4.6.1.png",
+    "lessonId": "4.6",
+    "part": 1,
+    "width": 2560,
+    "height": 10267,
+    "sha256": "e3b046f850675524cdf35bc7ba6e93684e6934327d8c8b3b487e810f96391252",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/domain4/4.6/4.6.2.png",
+    "lessonId": "4.6",
+    "part": 2,
+    "width": 2560,
+    "height": 8631,
+    "sha256": "36bea8b86e99f85eb0a83a9a111b44fb3553d613ba36c69df40085e94243bd07",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.1.1.png",
+    "lessonId": "5.1",
+    "part": 1,
+    "width": 2560,
+    "height": 12561,
+    "sha256": "39fb7af50ac75d39b92d2182fa955612fbac2ee9f4e2cb17fd30d88b3a042f2a",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.1.2.png",
+    "lessonId": "5.1",
+    "part": 2,
+    "width": 2560,
+    "height": 9745,
+    "sha256": "57a98cf658cabfd71a3de430b0410f78b87a9ce60a95c8a76411ce6a521421a6",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.2.png",
+    "lessonId": "5.2",
+    "part": 1,
+    "width": 2560,
+    "height": 14192,
+    "sha256": "5b6473253137e8fd6bee82fe7bdc64047e13a2435ff888355ab4202913356792",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.3.1.png",
+    "lessonId": "5.3",
+    "part": 1,
+    "width": 2560,
+    "height": 11402,
+    "sha256": "c27fbf772cfb93ffdd766ede2b8748d72178820e84a5516dff1e5d0d2a501475",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.3.2.png",
+    "lessonId": "5.3",
+    "part": 2,
+    "width": 2560,
+    "height": 7902,
+    "sha256": "625c3ba1595f36a58fcd59f745a5162c1b8bf0c7e1ffc894ffe295995c904ea0",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.4.1.png",
+    "lessonId": "5.4",
+    "part": 1,
+    "width": 2560,
+    "height": 11070,
+    "sha256": "9b735aa786045b553ac90afd73e8001274b0f840a3270dc949a0d071cc76344c",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.4.2.png",
+    "lessonId": "5.4",
+    "part": 2,
+    "width": 2560,
+    "height": 9371,
+    "sha256": "051135f7b9ede7e7f3c6bd514d7738497d7624e40bf6765c35edb3086b5fb1fc",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.5.1.png",
+    "lessonId": "5.5",
+    "part": 1,
+    "width": 2560,
+    "height": 8900,
+    "sha256": "49a184a22b1e34362631baa3bf10e0c1f65a1fabeef761a1dfac6d195850e382",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/5.5.2.png",
+    "lessonId": "5.5",
+    "part": 2,
+    "width": 2560,
+    "height": 5714,
+    "sha256": "56c8b2f00a7b1205515c6b1b2e76c17d71dcd7e2b7f00a5ded51c0618205282c",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/6.1.png",
+    "lessonId": "6.1",
+    "part": 1,
+    "width": 2560,
+    "height": 13381,
+    "sha256": "4b2b55186c6e268af8a349412a5e87735d086a313a31961556d24df88bab6d9f",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/6.2.png",
+    "lessonId": "6.2",
+    "part": 1,
+    "width": 2560,
+    "height": 13238,
+    "sha256": "72eb58eb6e32556f681c4bc259753750dc3297fb74ed8e99b872ee07eaa464a8",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/6.3.png",
+    "lessonId": "6.3",
+    "part": 1,
+    "width": 2560,
+    "height": 13283,
+    "sha256": "0bd087c0861630cd61101642d4e90c757243fd4203f74f8507f7173e180c81ef",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/6.4.1.png",
+    "lessonId": "6.4",
+    "part": 1,
+    "width": 2560,
+    "height": 9910,
+    "sha256": "4f07ec2f0c03c2a1009fefa7b84210a34074b58f3c87066ae6eceb812a8afb3a",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/6.4.2.png",
+    "lessonId": "6.4",
+    "part": 2,
+    "width": 2560,
+    "height": 7490,
+    "sha256": "04941df17a2ee5ac72e5ccd7bcbee783b2e5c04cd1d907ce4362aa1021f489ef",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/6.5.png",
+    "lessonId": "6.5",
+    "part": 1,
+    "width": 2560,
+    "height": 13709,
+    "sha256": "0809edcd5e97a95e9d6b9dc36eccf2e36dba0b3632c101eb41d954bc9b2c0f6c",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/7.1.1.png",
+    "lessonId": "7.1",
+    "part": 1,
+    "width": 2560,
+    "height": 8543,
+    "sha256": "894cba1830a9c4bfbec2f0c46e944da4afd98711612d5da855a70b3151a8b072",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/7.1.2.png",
+    "lessonId": "7.1",
+    "part": 2,
+    "width": 2560,
+    "height": 9955,
+    "sha256": "6f690e4774ecbec5196ab39c3e3c76aec50f7c08a81b8450c0450a9cfbf2fda3",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/7.2.1.png",
+    "lessonId": "7.2",
+    "part": 1,
+    "width": 2560,
+    "height": 10608,
+    "sha256": "b446831cb500ee74cea7a3c7a23a800b927a1d9425c0ccfc11598652343e08f6",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/7.2.2.png",
+    "lessonId": "7.2",
+    "part": 2,
+    "width": 2560,
+    "height": 11241,
+    "sha256": "4f537ed02eb6ec8ed22b7d17fd7b266d15b3700094c768f8e00c0ac36578857b",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/7.3.1.png",
+    "lessonId": "7.3",
+    "part": 1,
+    "width": 2560,
+    "height": 10260,
+    "sha256": "e04de5136939a0fb44df09a407c1e7f80e282051dc2b85c4e0ebf90aa20e945d",
+    "status": "source-verified"
+  },
+  {
+    "image": "images/7.3.2.png",
+    "lessonId": "7.3",
+    "part": 2,
+    "width": 2560,
+    "height": 8119,
+    "sha256": "6f356c700df9309fc77590bfc9917e4480875b8d356caabcef09c7635b5fc1b3",
+    "status": "source-verified"
+  }
+]

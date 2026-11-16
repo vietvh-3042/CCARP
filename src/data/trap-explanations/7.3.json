@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "Reading a settings file does not establish precedence. A local setting can override a project value, just as project settings override user-level values.",
+    "vi": "Đọc được tệp thiết lập không có nghĩa mọi giá trị trong đó được ưu tiên. Thiết lập cục bộ có thể ghi đè giá trị dự án, tương tự thiết lập dự án ghi đè giá trị người dùng."
+  },
+  "exam-trap-2": {
+    "en": "A connected server has already started. For an empty tool list, reconnect first, then inspect server stderr in debug logs rather than assuming startup or approval failure.",
+    "vi": "Máy chủ đã kết nối tức là đã khởi động. Khi danh sách công cụ rỗng, hãy kết nối lại trước rồi xem stderr của máy chủ trong nhật ký gỡ lỗi, thay vì mặc định lỗi khởi động hoặc chấp thuận."
+  },
+  "exam-trap-3": {
+    "en": "Matchers require exact case, and unmatched patterns are silent. A lowercase bash matcher will not select Bash events or necessarily produce a warning.",
+    "vi": "Bộ khớp phân biệt chữ hoa chữ thường; mẫu không khớp bị bỏ qua âm thầm. Mẫu bash viết thường không chọn được sự kiện Bash và không nhất thiết phát cảnh báo."
+  }
+}

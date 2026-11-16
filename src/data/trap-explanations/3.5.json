@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "Queries and stored chunks have different retrieval roles. Set input_type to query or document so Voyage applies the matching instruction rather than using an undifferentiated embedding.",
+    "vi": "Câu hỏi và đoạn lưu trữ có vai trò truy xuất khác nhau. Đặt input_type là query hoặc document để Voyage áp dụng chỉ dẫn tương ứng, thay vì tạo biểu diễn không phân biệt vai trò."
+  },
+  "exam-trap-2": {
+    "en": "Context enriches lexical lookup as well as vectors. Prefix both indexes with it while retaining the chunk's text, enabling additional matches without losing original exact terms.",
+    "vi": "Ngữ cảnh bổ trợ cả tra cứu từ vựng lẫn vectơ. Hãy thêm vào đầu dữ liệu cho cả hai chỉ mục nhưng giữ văn bản đoạn gốc, để tăng khả năng khớp mà không mất từ chính xác ban đầu."
+  },
+  "exam-trap-3": {
+    "en": "Useful context explains the individual chunk's place in its document. Repeating one broad summary misses those distinctions and delivered little benefit in the reported tests.",
+    "vi": "Ngữ cảnh hữu ích giải thích vị trí của từng đoạn trong tài liệu. Lặp lại một bản tóm tắt chung làm mất khác biệt đó và mang lại ít lợi ích trong các thử nghiệm được nêu."
+  }
+}

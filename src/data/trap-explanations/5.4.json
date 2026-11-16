@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "HIPAA readiness and zero retention are separate controls. The error's wording does not require ZDR; resolving an eligibility failure means removing the unsupported feature.",
+    "vi": "Trạng thái sẵn sàng HIPAA và không lưu giữ dữ liệu là hai cơ chế riêng. Cách viết thông báo lỗi không bắt buộc có ZDR; muốn xử lý lỗi điều kiện sử dụng phải bỏ tính năng không được hỗ trợ."
+  },
+  "exam-trap-2": {
+    "en": "ZDR does not block every ineligible feature request. Such requests can proceed under feature-specific retention, unlike the rejection enforced by HIPAA readiness.",
+    "vi": "ZDR không chặn mọi yêu cầu dùng tính năng không đủ điều kiện. Những yêu cầu đó vẫn có thể được xử lý theo chính sách lưu giữ riêng của tính năng, khác với cơ chế từ chối của trạng thái sẵn sàng HIPAA."
+  },
+  "exam-trap-3": {
+    "en": "BAA coverage is limited by organization and eligible features. Console use is excluded, and Enterprise coverage requires the Primary Owner to activate HIPAA.",
+    "vi": "Phạm vi BAA giới hạn theo tổ chức và tính năng đủ điều kiện. Console không được bao phủ; với Enterprise, Chủ sở hữu chính phải kích hoạt HIPAA mới có phạm vi bảo vệ này."
+  },
+  "exam-trap-4": {
+    "en": "Enabling HIPAA readiness cannot be undone. A temporary Covered Model pilot instead needs the workspace's retention override, without permanently changing the organization's readiness state.",
+    "vi": "Không thể hoàn tác việc bật trạng thái sẵn sàng HIPAA. Thử nghiệm Covered Model tạm thời cần dùng thiết lập ghi đè thời gian lưu giữ của không gian làm việc, thay vì thay đổi vĩnh viễn trạng thái của tổ chức."
+  }
+}

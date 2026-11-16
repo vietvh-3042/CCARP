@@ -1,0 +1,907 @@
+{
+  "pageId": "7.3",
+  "title": "Diagnose Claude Code configuration: what loaded and why",
+  "titleVi": "Chẩn đoán cấu hình Claude Code: những gì đã được nạp và lý do",
+  "units": [
+    {
+      "id": "description",
+      "text": "Support debugging and operational issue resolution"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Use /memory, /hooks, /mcp, /permissions, /status and /doctor to see what a Claude Code session actually loaded before changing anything"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain why a settings value, memory file, permission rule or hook can be present on disk yet have no effect"
+    },
+    {
+      "id": "u0003",
+      "text": "Tell apart a failed, an unapproved and a connected-but-zero-tools MCP server, and apply the right fix to each"
+    },
+    {
+      "id": "u0004",
+      "text": "Isolate a configuration fault with safe mode and with a clean configuration directory"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Diagnose from what loaded, not from what you wrote"
+    },
+    {
+      "id": "u0007",
+      "text": "A file on disk only tells you what someone meant to configure. Before you edit anything, ask the running session what it actually loaded and which source won. Then narrow down the cause by turning customizations off."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Start from the symptom, then ask what loaded"
+    },
+    {
+      "id": "u0010",
+      "text": "Settings, memory files and permission rules that silently miss"
+    },
+    {
+      "id": "u0011",
+      "text": "Hooks that never fire"
+    },
+    {
+      "id": "u0012",
+      "text": "Three MCP failure states and their fixes"
+    },
+    {
+      "id": "u0013",
+      "text": "Isolate the cause with safe mode or a clean config directory"
+    },
+    {
+      "id": "u0014",
+      "text": "Start from the symptom, then ask what loaded"
+    },
+    {
+      "id": "u0015",
+      "text": "Most Claude Code complaints like \"it ignores my settings\" come down to one of three things: the configuration was never read, it was read and then overridden, or it was read and matched nothing. Re-reading your own JSON can't tell these apart, because the file looks correct in all three cases. The session can tell them apart, since each kind of customization has a slash command that reports what is in effect right now."
+    },
+    {
+      "id": "u0016",
+      "text": "Commands that report what the current session loaded"
+    },
+    {
+      "id": "u0017",
+      "text": "Command"
+    },
+    {
+      "id": "u0018",
+      "text": "What it shows"
+    },
+    {
+      "id": "u0019",
+      "text": "/memory"
+    },
+    {
+      "id": "u0020",
+      "text": "Memory file locations across user and project scopes, plus the auto memory folder and toggle"
+    },
+    {
+      "id": "u0021",
+      "text": "/skills"
+    },
+    {
+      "id": "u0022",
+      "text": "Available skills from project, user, and plugin sources"
+    },
+    {
+      "id": "u0023",
+      "text": "/hooks"
+    },
+    {
+      "id": "u0024",
+      "text": "Active hook configurations"
+    },
+    {
+      "id": "u0025",
+      "text": "/mcp"
+    },
+    {
+      "id": "u0026",
+      "text": "Connected MCP servers and their status"
+    },
+    {
+      "id": "u0027",
+      "text": "/permissions"
+    },
+    {
+      "id": "u0028",
+      "text": "Resolved allow and deny rules currently in effect"
+    },
+    {
+      "id": "u0029",
+      "text": "/status"
+    },
+    {
+      "id": "u0030",
+      "text": "Active settings sources, including whether managed settings are in effect"
+    },
+    {
+      "id": "u0031",
+      "text": "/doctor"
+    },
+    {
+      "id": "u0032",
+      "text": "Setup checkup: invalid settings files, unused extensions, duplicate subagent names, with proposed fixes"
+    },
+    {
+      "id": "u0033",
+      "text": "/debug [issue]"
+    },
+    {
+      "id": "u0034",
+      "text": "Turns on debug logging and asks Claude to diagnose from the log and settings paths"
+    },
+    {
+      "id": "u0035",
+      "text": "Pick the command that matches the symptom. If a hook never fires, open "
+    },
+    {
+      "id": "u0036",
+      "text": ". If a deny rule doesn't block, open "
+    },
+    {
+      "id": "u0037",
+      "text": ". If you can't tell which layer is responsible, "
+    },
+    {
+      "id": "u0038",
+      "text": " lists every settings source, including managed settings that no user file can override. A blank or unexpected result is your first real clue: you now know whether the problem is about loading, precedence or matching."
+    },
+    {
+      "id": "u0039",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0040",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0041",
+      "text": "Something in your Claude Code configuration isn't taking effect. Match each slash command to what it reports about the running session."
+    },
+    {
+      "id": "u0042",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0043",
+      "text": "/hooks"
+    },
+    {
+      "id": "u0044",
+      "text": "/permissions"
+    },
+    {
+      "id": "u0045",
+      "text": "/status"
+    },
+    {
+      "id": "u0046",
+      "text": "/mcp"
+    },
+    {
+      "id": "u0047",
+      "text": "/doctor"
+    },
+    {
+      "id": "u0048",
+      "text": "The hook configurations that are active right now. Open it first when a hook never fires."
+    },
+    {
+      "id": "u0049",
+      "text": "The resolved allow and deny rules in effect. Open it first when a deny rule doesn't block."
+    },
+    {
+      "id": "u0050",
+      "text": "A setup checkup that flags invalid settings files, unused extensions and duplicate subagent names, and proposes fixes"
+    },
+    {
+      "id": "u0051",
+      "text": "Every active settings source, including whether managed settings that no user file can override are in effect"
+    },
+    {
+      "id": "u0052",
+      "text": "Which MCP servers are connected and the status of each"
+    },
+    {
+      "id": "u0053",
+      "text": "Sources"
+    },
+    {
+      "id": "u0054",
+      "text": "Settings, memory files and permission rules that silently miss"
+    },
+    {
+      "id": "u0055",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0056",
+      "text": "An admin sets a key in the project's .claude/settings.json. One engineer's sessions keep behaving as if a different value were set, and /status shows the project settings are being read. Where is the most likely cause?"
+    },
+    {
+      "id": "u0057",
+      "text": "The same key is set in the engineer's .claude/settings.local.json"
+    },
+    {
+      "id": "u0058",
+      "text": "The project settings only apply to directories created after the key was added"
+    },
+    {
+      "id": "u0059",
+      "text": "The engineer's shell doesn't export a matching environment variable, so the project file is never consulted"
+    },
+    {
+      "id": "u0060",
+      "text": "Precedence explains most \"ignored\" settings values."
+    },
+    {
+      "id": "u0061",
+      "text": " The order is "
+    },
+    {
+      "id": "u0062",
+      "text": ", then the project "
+    },
+    {
+      "id": "u0063",
+      "text": ", then the user "
+    },
+    {
+      "id": "u0064",
+      "text": ". A value one engineer keeps in their local file wins over what the team committed, and "
+    },
+    {
+      "id": "u0065",
+      "text": " will still list the project file as active. A second common mistake is putting configuration in the wrong file. "
+    },
+    {
+      "id": "u0066",
+      "text": " holds app state and UI toggles, while permissions, hooks and env belong in "
+    },
+    {
+      "id": "u0067",
+      "text": ". A rule added to the first file is never applied."
+    },
+    {
+      "id": "u0068",
+      "text": "Memory files can be correct and still not be loaded yet."
+    },
+    {
+      "id": "u0069",
+      "text": " When Claude seems to ignore guidance, open "
+    },
+    {
+      "id": "u0070",
+      "text": " to see which files the session knows about. Writing that guidance well is covered under "
+    },
+    {
+      "id": "u0071",
+      "text": "CLAUDE.md as implementation guidance"
+    },
+    {
+      "id": "u0072",
+      "text": ". Two loading rules catch people out. A subdirectory's CLAUDE.md loads on demand, not at session start, so it only appears once Claude reads a file in that subdirectory. Subagents are the other case: the built-in Explore and Plan agents skip CLAUDE.md at startup, so restate a critical instruction in the delegating prompt. A custom subagent that sets "
+    },
+    {
+      "id": "u0073",
+      "text": " skips it too."
+    },
+    {
+      "id": "u0074",
+      "text": "Permission rules fail by not matching, not by erroring."
+    },
+    {
+      "id": "u0075",
+      "text": " How "
+    },
+    {
+      "id": "u0076",
+      "text": "permission rules: allow, ask and deny"
+    },
+    {
+      "id": "u0077",
+      "text": " are written is covered elsewhere. For diagnosis, the key fact is that a Bash rule matches the literal command string. "
+    },
+    {
+      "id": "u0078",
+      "text": " therefore doesn't block "
+    },
+    {
+      "id": "u0079",
+      "text": " or "
+    },
+    {
+      "id": "u0080",
+      "text": ", and nothing warns you. Check "
+    },
+    {
+      "id": "u0081",
+      "text": " for the resolved rules. When you need a hard guarantee, use a PreToolUse hook or the sandbox instead of a string pattern."
+    },
+    {
+      "id": "u0082",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0083",
+      "text": "If /status shows the project settings.json is being read, every value in it must be in effect."
+    },
+    {
+      "id": "u0084",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0093",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0094",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0095",
+      "text": "Your team's deny rule "
+    },
+    {
+      "id": "u0096",
+      "text": " shows up in /permissions. Claude still deleted files by running "
+    },
+    {
+      "id": "u0097",
+      "text": ", and no warning appeared. What should you do?"
+    },
+    {
+      "id": "u0098",
+      "text": "Look in the debug log for the error the rule raised when it failed to match"
+    },
+    {
+      "id": "u0099",
+      "text": "Enforce the block with a PreToolUse hook or the sandbox instead of a command-string pattern"
+    },
+    {
+      "id": "u0100",
+      "text": "Move the rule from settings.json to ~/.claude.json so that it applies globally"
+    },
+    {
+      "id": "u0101",
+      "text": "Restart the session, because a rule listed in /permissions but not enforced was never fully loaded"
+    },
+    {
+      "id": "u0102",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0103",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0104",
+      "text": "/memory lists the project CLAUDE.md, and the main conversation follows its rule \"never touch the generated/ folder\". When you hand a search to the built-in Explore agent, that agent ignores the rule. What fixes this?"
+    },
+    {
+      "id": "u0105",
+      "text": "Copy the rule into ~/.claude.json so that every agent reads it"
+    },
+    {
+      "id": "u0106",
+      "text": "Move the rule into a CLAUDE.md inside generated/ so that it loads when that folder is read"
+    },
+    {
+      "id": "u0107",
+      "text": "Run /memory again so that the subagent picks up the file"
+    },
+    {
+      "id": "u0108",
+      "text": "Restate the rule in the prompt you use to delegate the task to Explore"
+    },
+    {
+      "id": "u0109",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0110",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0111",
+      "text": "An admin sets model: claude-opus-4-8 in the project's .claude/settings.json so the whole team defaults to Opus. One engineer's sessions keep starting on Sonnet instead, and /status confirms project settings are being read. What is the most likely explanation?"
+    },
+    {
+      "id": "u0112",
+      "text": "The engineer has the same model key set in .claude/settings.local.json, which overrides the project-level settings.json."
+    },
+    {
+      "id": "u0113",
+      "text": "The ANTHROPIC_MODEL environment variable is not exported in the engineer's shell, so Claude Code has no way to read the project default at all."
+    },
+    {
+      "id": "u0114",
+      "text": "The engineer's Claude Code version predates support for the model field in settings.json, so the key is silently ignored."
+    },
+    {
+      "id": "u0115",
+      "text": "Model defaults set in settings.json only apply to new projects created after the setting is added, not to existing project directories."
+    },
+    {
+      "id": "u0116",
+      "text": "Sources"
+    },
+    {
+      "id": "u0117",
+      "text": "Hooks that never fire"
+    },
+    {
+      "id": "u0118",
+      "text": "A hook that never runs usually produces no error at all, which is why it is hard to spot. The mechanics of "
+    },
+    {
+      "id": "u0119",
+      "text": "hooks: actions that always run"
+    },
+    {
+      "id": "u0120",
+      "text": " are covered elsewhere. For debugging, start with "
+    },
+    {
+      "id": "u0121",
+      "text": ". If the hook is missing from that list, it wasn't loaded. If it is listed but never fires, its matcher matches nothing."
+    },
+    {
+      "id": "u0122",
+      "text": "These causes come up again and again:"
+    },
+    {
+      "id": "u0123",
+      "text": "Standalone file:"
+    },
+    {
+      "id": "u0124",
+      "text": " the hook sits in its own file. Project and user hooks go under the "
+    },
+    {
+      "id": "u0125",
+      "text": " key in "
+    },
+    {
+      "id": "u0126",
+      "text": "; only plugins load a separate "
+    },
+    {
+      "id": "u0127",
+      "text": "Array matcher:"
+    },
+    {
+      "id": "u0128",
+      "text": " the matcher is a JSON array instead of one string. Claude Code flags this as an invalid setting at startup and in "
+    },
+    {
+      "id": "u0129",
+      "text": ". Under PreToolUse or PermissionRequest it also stops every other hook in that file from loading."
+    },
+    {
+      "id": "u0130",
+      "text": "Lowercase name:"
+    },
+    {
+      "id": "u0131",
+      "text": " matches nothing, because matching is case-sensitive and tool names are capitalized ("
+    },
+    {
+      "id": "u0132",
+      "text": "Comma separator on an old version:"
+    },
+    {
+      "id": "u0133",
+      "text": " before v2.1.191, "
+    },
+    {
+      "id": "u0134",
+      "text": " was evaluated literally and never matched. "
+    },
+    {
+      "id": "u0135",
+      "text": " works on every version."
+    },
+    {
+      "id": "u0136",
+      "text": "Misspelled tool name:"
+    },
+    {
+      "id": "u0137",
+      "text": " the matcher matches nothing, so the hook fails silently."
+    },
+    {
+      "id": "u0138",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0139",
+      "text": "An array matcher under PreToolUse doesn't just break one hook. It stops that file's other hooks from loading as well, so one bad entry can look like every hook failing at once."
+    },
+    {
+      "id": "u0140",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0141",
+      "text": "A hook with a matcher like \"bash\" would at least log an error if it were wrong."
+    },
+    {
+      "id": "u0142",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0147",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0148",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0149",
+      "text": "A teammate's hooks never run. Match each hook setup to what Claude Code does with it."
+    },
+    {
+      "id": "u0150",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0151",
+      "text": "\"matcher\": \"bash\""
+    },
+    {
+      "id": "u0152",
+      "text": "\"matcher\": [\"Edit\", \"Write\"] under PreToolUse"
+    },
+    {
+      "id": "u0153",
+      "text": "\"matcher\": \"Edit,Write\" on a version before v2.1.191"
+    },
+    {
+      "id": "u0154",
+      "text": "\"matcher\": \"Edit|Write\""
+    },
+    {
+      "id": "u0155",
+      "text": "Project hooks kept in their own hooks file instead of under the \"hooks\" key in settings.json"
+    },
+    {
+      "id": "u0156",
+      "text": "The hook loads but matches no tool, because matching is case-sensitive. No error is shown."
+    },
+    {
+      "id": "u0157",
+      "text": "It is flagged as an invalid setting, and none of the other hooks in that file load either"
+    },
+    {
+      "id": "u0158",
+      "text": "They are never loaded, because only plugins load a separate hooks/hooks.json"
+    },
+    {
+      "id": "u0159",
+      "text": "The comma is evaluated literally, so the matcher never matches"
+    },
+    {
+      "id": "u0160",
+      "text": "It matches both Edit and Write on every version"
+    },
+    {
+      "id": "u0161",
+      "text": "Sources"
+    },
+    {
+      "id": "u0162",
+      "text": "Three MCP failure states and their fixes"
+    },
+    {
+      "id": "u0163",
+      "text": "\"The MCP server isn't working\" can mean three different states, and each has a different fix. "
+    },
+    {
+      "id": "u0164",
+      "text": " shows which one you are in. Apply the fix for that state; a fix for one of the others won't help."
+    },
+    {
+      "id": "u0165",
+      "text": "MCP server states in /mcp, what each means, and the fix"
+    },
+    {
+      "id": "u0166",
+      "text": "What /mcp shows"
+    },
+    {
+      "id": "u0167",
+      "text": "What it means"
+    },
+    {
+      "id": "u0168",
+      "text": "Fix"
+    },
+    {
+      "id": "u0169",
+      "text": "failed"
+    },
+    {
+      "id": "u0170",
+      "text": "The server process didn't start; relative paths in command or args are a frequent cause, because they resolve against the launch directory"
+    },
+    {
+      "id": "u0171",
+      "text": "Use absolute paths for local scripts; executables on PATH like npx or uvx work as-is"
+    },
+    {
+      "id": "u0172",
+      "text": "Not listed / disabled (project server)"
+    },
+    {
+      "id": "u0173",
+      "text": "The one-time approval prompt for a server in .mcp.json was dismissed"
+    },
+    {
+      "id": "u0174",
+      "text": "Approve it from /mcp"
+    },
+    {
+      "id": "u0175",
+      "text": "connected, zero tools"
+    },
+    {
+      "id": "u0176",
+      "text": "The server started but isn't returning a tool list"
+    },
+    {
+      "id": "u0177",
+      "text": "Select Reconnect; if still zero, run claude --debug=mcp and read the server's stderr in ~/.claude/debug/<session-id>.txt"
+    },
+    {
+      "id": "u0178",
+      "text": "The zero-tools state is the one people misdiagnose most often."
+    },
+    {
+      "id": "u0179",
+      "text": " A connected server has already started, so path fixes and re-approval are both aimed at problems you don't have. The useful evidence is the server's own stderr, which only shows up in the debug log. Safe mode doesn't apply here either: it turns MCP servers off entirely, so a server that shows as connected is not running under safe mode."
+    },
+    {
+      "id": "u0180",
+      "text": "A server that never appears at all usually means the config file wasn't read. Project servers belong in "
+    },
+    {
+      "id": "u0181",
+      "text": " at the repository root, not under "
+    },
+    {
+      "id": "u0182",
+      "text": ", and they must sit under "
+    },
+    {
+      "id": "u0183",
+      "text": " rather than a VS Code-style "
+    },
+    {
+      "id": "u0184",
+      "text": " key. "
+    },
+    {
+      "id": "u0185",
+      "text": " doesn't read an "
+    },
+    {
+      "id": "u0186",
+      "text": " key at all. If a server starts but is missing environment variables, set them per server inside its "
+    },
+    {
+      "id": "u0187",
+      "text": " entry."
+    },
+    {
+      "id": "u0188",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0189",
+      "text": "A server that is connected but lists zero tools needs an absolute path or a fresh approval."
+    },
+    {
+      "id": "u0190",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0193",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0194",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0195",
+      "text": "Each line below describes an MCP server that isn't working. Match each one to the fix that addresses it."
+    },
+    {
+      "id": "u0196",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0197",
+      "text": "/mcp shows the server as failed, and its command uses a relative path to a local script"
+    },
+    {
+      "id": "u0198",
+      "text": "A project server in .mcp.json shows as disabled because its one-time approval prompt was dismissed"
+    },
+    {
+      "id": "u0199",
+      "text": "/mcp shows the server as connected, but it lists zero tools"
+    },
+    {
+      "id": "u0200",
+      "text": "The server is defined under an mcpServers key in settings.json and never appears in /mcp"
+    },
+    {
+      "id": "u0201",
+      "text": "Move the definition to .mcp.json at the repository root, because settings.json doesn't read mcpServers"
+    },
+    {
+      "id": "u0202",
+      "text": "Use an absolute path for the script, because relative paths resolve against the directory Claude Code was launched from"
+    },
+    {
+      "id": "u0203",
+      "text": "Approve the server from /mcp"
+    },
+    {
+      "id": "u0204",
+      "text": "Select Reconnect. If it still lists zero, run claude --debug=mcp and read the server's stderr in the debug log"
+    },
+    {
+      "id": "u0205",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0206",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0207",
+      "text": "A team's project relies on an internal MCP server for ticket lookups. Running /mcp shows the server status as connected, but Claude reports it has no tools available from that server and cannot look up tickets. What is the correct next step to diagnose the failure?"
+    },
+    {
+      "id": "u0208",
+      "text": "Select Reconnect for the server from /mcp, and if the tool count stays at zero, run claude --debug mcp to see the server's stderr output."
+    },
+    {
+      "id": "u0209",
+      "text": "Edit .mcp.json to change the server's command from a relative path to an absolute path, since a relative path always prevents any tools from loading."
+    },
+    {
+      "id": "u0210",
+      "text": "Approve the server from /mcp again, since project-scoped MCP servers silently stop returning tools after the one-time approval expires."
+    },
+    {
+      "id": "u0211",
+      "text": "Restart Claude Code with claude --safe-mode, since a server that reports zero tools while connected is always disabled under safe mode."
+    },
+    {
+      "id": "u0212",
+      "text": "Sources"
+    },
+    {
+      "id": "u0213",
+      "text": "Isolate the cause with safe mode or a clean config directory"
+    },
+    {
+      "id": "u0214",
+      "text": "Isolation is for when the reporting commands look normal but the problem persists. Safe mode is the quick first step. Start with "
+    },
+    {
+      "id": "u0215",
+      "text": ", or set "
+    },
+    {
+      "id": "u0216",
+      "text": ", and CLAUDE.md, skills, plugins, hooks, MCP servers, and custom commands and agents all stay unloaded. Authentication, model selection, built-in tools and permissions keep working. If the problem goes away, one of the disabled customizations is responsible. The same test works for runaway CPU or memory: if usage drops in safe mode, start looking at plugins, MCP servers and hooks."
+    },
+    {
+      "id": "u0217",
+      "text": "A clean configuration directory goes further and tells you which layer is at fault. Create an empty directory, then start Claude Code there with its config pointed at a fresh location and only user settings sources enabled:"
+    },
+    {
+      "id": "u0218",
+      "text": "Step 1: create and enter an empty working directory (Bash or Zsh)"
+    },
+    {
+      "id": "u0219",
+      "text": "bash"
+    },
+    {
+      "id": "u0220",
+      "text": "Step 2: launch with a clean configuration directory"
+    },
+    {
+      "id": "u0221",
+      "text": "bash"
+    },
+    {
+      "id": "u0222",
+      "text": "Then reproduce the problem. If it's gone, the cause is in your user or project configuration. Copy "
+    },
+    {
+      "id": "u0223",
+      "text": " and the files in "
+    },
+    {
+      "id": "u0224",
+      "text": " into the clean directory one at a time until the problem comes back. If none of them brings it back, move to the project directory and launch without "
+    },
+    {
+      "id": "u0225",
+      "text": ". If the problem persists even in the clean setup, the cause is outside user and project configuration. Run "
+    },
+    {
+      "id": "u0226",
+      "text": " to check for managed settings, then look at your shell's environment variables."
+    },
+    {
+      "id": "u0227",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0228",
+      "text": "Safe mode leaves permissions and model selection active. If a problem is still there in safe mode, which reporting command from the first section would you open next, and why?"
+    },
+    {
+      "id": "u0229",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0230",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0231",
+      "text": "Safe mode made the problem go away. You now want to find out which configuration layer causes it, so you launch from an empty directory with a fresh config location. Which value completes the launch command?"
+    },
+    {
+      "id": "u0232",
+      "text": "local"
+    },
+    {
+      "id": "u0233",
+      "text": "project"
+    },
+    {
+      "id": "u0234",
+      "text": "user"
+    },
+    {
+      "id": "u0235",
+      "text": "managed"
+    },
+    {
+      "id": "u0236",
+      "text": "Sources"
+    },
+    {
+      "id": "u0237",
+      "text": "Sources"
+    }
+  ]
+}

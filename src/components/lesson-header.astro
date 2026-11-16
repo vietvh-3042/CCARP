@@ -1,0 +1,126 @@
+---
+import outline from "../data/course-outline.json";
+import { domainLabel } from "../lib/course";
+import { ui, type Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  lessonId: string;
+  checkpointCount: number;
+  groupId?: string;
+  domain?: number;
+  part?: number;
+  partCount?: number;
+  lessonNumber?: number;
+  readMinutes?: number;
+  examWeight?: number | string;
+  sourceCount?: number;
+  publishedAt?: string | Date;
+  docsAsOf?: string | Date;
+}
+const {
+  locale,
+  title,
+  description,
+  lessonId,
+  checkpointCount,
+  groupId = lessonId.split(".").slice(0, 2).join("."),
+  domain = Number(groupId.split(".")[0]),
+  part = Number(lessonId.split(".")[2] ?? 1),
+  partCount = outline.filter((entry) => entry.lessonId === groupId).length,
+  lessonNumber = [...new Set(outline.map((entry) => entry.lessonId))].indexOf(groupId) + 1,
+  readMinutes,
+  examWeight,
+  sourceCount,
+  publishedAt,
+  docsAsOf,
+} = Astro.props;
+const t = ui[locale];
+const groups = new Set(outline.map((entry) => entry.lessonId)).size;
+const dateLabel = (value: string | Date) => {
+  const date = new Date(
+    typeof value === "string" && /^[0-9]{1,2} [A-Za-z]{3} [0-9]{4}$/.test(value) ? `${value} UTC` : value,
+  );
+  return Number.isNaN(date.getTime())
+    ? String(value)
+    : new Intl.DateTimeFormat(locale === "vi" ? "vi-VN" : "en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(date);
+};
+const badge = "rounded-full bg-muted px-2.5 py-0.5 text-xs leading-[18px] font-medium text-muted-foreground";
+---
+
+<header class="lesson-header">
+  <nav
+    class="breadcrumbs mb-6 flex flex-wrap items-center gap-1.5 text-xs leading-5 text-muted-foreground md:text-sm [&_a:hover]:underline"
+    aria-label={locale === "en" ? "Breadcrumb" : "Đường dẫn"}
+  >
+    <a href={`/${locale}/`}>{locale === "en" ? "Home" : "Trang chủ"}</a><span>/</span>
+    <a href={`/${locale}/`}>Anthropic</a><span>/</span>
+    <a href={`/${locale}/`}>Anthropic Claude Certified Architect – Professional (CCAR-P)</a><span>/</span>
+    <a href={`/${locale}/`}>{t.menu}</a>
+  </nav>
+  <p class="lesson-kicker mb-2 text-xs text-muted-foreground md:text-sm">
+    <strong class="font-medium">{t.chapter} {domain}: {domainLabel(domain, locale)}</strong>
+    {
+      lessonNumber > 0 && (
+        <span> · {locale === "en" ? `Lesson ${lessonNumber} of ${groups}` : `Bài ${lessonNumber}/${groups}`}</span>
+      )
+    }
+    {partCount > 1 && <span> · {locale === "en" ? `Part ${part}/${partCount}` : `Phần ${part}/${partCount}`}</span>}
+  </p>
+  <h1 class="mb-2 text-[28px] leading-9 font-bold text-balance md:text-4xl md:leading-[45px]">{title}</h1>
+  <p class="lesson-description mb-[26px] text-sm leading-5 text-muted-foreground">{description}</p>
+  <div
+    class="checkpoint-meter flex min-h-[38px] items-center gap-3.5 rounded-full border border-border px-3 py-2 text-xs text-muted-foreground md:px-4"
+  >
+    <strong class="mr-auto font-semibold text-foreground md:text-sm"
+      >{locale === "en" ? "Checkpoints" : "Câu kiểm tra"}</strong
+    >
+    <span
+      class="checkpoint-dots flex flex-wrap gap-1.5 [&_i]:block [&_i]:size-2 [&_i]:rounded-full [&_i]:border [&_i]:border-muted-foreground [&_a]:block [&_a]:size-2 [&_a]:shrink-0 [&_a]:rounded-full [&_a]:border [&_a]:border-muted-foreground [&_a[data-solved=true]]:border-primary [&_a[data-solved=true]]:bg-primary"
+      aria-hidden="true"
+    >
+      {Array.from({ length: checkpointCount }, () => <i />)}
+    </span><span data-checkpoint-summary>0/{checkpointCount}</span>
+  </div>
+  <div class="lesson-badges mt-4 mb-6 flex flex-wrap gap-1.5 border-b border-border pb-4">
+    {
+      readMinutes !== undefined && (
+        <span class={badge}>{locale === "en" ? `${readMinutes} min read` : `Đọc trong ${readMinutes} phút`}</span>
+      )
+    }
+    {
+      examWeight !== undefined && (
+        <span class={badge}>
+          {examWeight}% {locale === "en" ? "of exam" : "bài thi"}
+        </span>
+      )
+    }
+    {
+      sourceCount !== undefined && (
+        <span class={badge}>
+          {sourceCount} {locale === "en" ? "sources" : "nguồn"}
+        </span>
+      )
+    }
+    {
+      publishedAt && (
+        <span class={badge}>
+          {locale === "en" ? "Published" : "Đăng ngày"} {dateLabel(publishedAt)}
+        </span>
+      )
+    }
+    {
+      docsAsOf && (
+        <span class="docs-date rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-xs text-primary">
+          ✓ {locale === "en" ? "Docs as of" : "Tài liệu đến"} {dateLabel(docsAsOf)}
+        </span>
+      )
+    }
+  </div>
+</header>

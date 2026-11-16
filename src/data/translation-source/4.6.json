@@ -1,0 +1,903 @@
+{
+  "pageId": "4.6",
+  "title": "OpenTelemetry for Claude Code and the Agent SDK: signals, traces and content gates",
+  "titleVi": "OpenTelemetry cho Claude Code và Agent SDK: tín hiệu, dấu vết thực thi và kiểm soát nội dung",
+  "units": [
+    {
+      "id": "description",
+      "text": "Monitor system performance using logging and observability tools"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Wire metrics, log events and traces from Claude Code or the Agent SDK to an OTLP collector, and explain why enabling telemetry alone exports nothing"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose a backend type suited to each signal and control metric attributes such as session.id to manage cardinality"
+    },
+    {
+      "id": "u0003",
+      "text": "Read a trace to find where a run spent its time and tokens, including subagent spans"
+    },
+    {
+      "id": "u0004",
+      "text": "State what telemetry redacts by default and which variable reveals prompts, responses, tool details, tool output or raw API bodies"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Three opt-in OpenTelemetry signals"
+    },
+    {
+      "id": "u0007",
+      "text": "Claude Code and the Agent SDK emit three separate signals: metrics (counters), log events (one structured record per thing that happened) and traces (timed spans). Each signal has its own exporter variable, and a signal with no exporter never leaves the process, whatever else you turn on."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Metrics, log events and traces answer different questions"
+    },
+    {
+      "id": "u0010",
+      "text": "Controlling what metrics carry"
+    },
+    {
+      "id": "u0011",
+      "text": "Reading a trace: spans across a run and its subagents"
+    },
+    {
+      "id": "u0012",
+      "text": "Telemetry content gates: redacted by default"
+    },
+    {
+      "id": "u0013",
+      "text": "Metrics, log events and traces answer different questions"
+    },
+    {
+      "id": "u0014",
+      "text": "Monitoring an agent in production comes down to three questions. How much are we using, and what does it cost? What exactly happened on this request? Where did this run spend its time? Claude Code and the Agent SDK answer each one with a different OpenTelemetry signal, and each signal has its own exporter. "
+    },
+    {
+      "id": "u0015",
+      "text": "Metrics"
+    },
+    {
+      "id": "u0016",
+      "text": " are counters for tokens, cost, sessions, lines of code and tool decisions, so they suit totals and rates. "
+    },
+    {
+      "id": "u0017",
+      "text": "Log events"
+    },
+    {
+      "id": "u0018",
+      "text": " are structured records for each prompt, API request, API error and tool result, so they answer \"what happened\". "
+    },
+    {
+      "id": "u0019",
+      "text": "Traces"
+    },
+    {
+      "id": "u0020",
+      "text": " are spans for each interaction, model request, tool call and hook, so they show where the time went."
+    },
+    {
+      "id": "u0021",
+      "text": "Each signal, how it is enabled, and the backend types it suits"
+    },
+    {
+      "id": "u0022",
+      "text": "Signal"
+    },
+    {
+      "id": "u0023",
+      "text": "Enable with"
+    },
+    {
+      "id": "u0024",
+      "text": "Suited backends"
+    },
+    {
+      "id": "u0025",
+      "text": "Metrics"
+    },
+    {
+      "id": "u0026",
+      "text": "OTEL_METRICS_EXPORTER (otlp, prometheus, console, none)"
+    },
+    {
+      "id": "u0027",
+      "text": "Time series databases for rate calculations and aggregated metrics; columnar stores for complex queries and unique-user analysis"
+    },
+    {
+      "id": "u0028",
+      "text": "Log events"
+    },
+    {
+      "id": "u0029",
+      "text": "OTEL_LOGS_EXPORTER (otlp, console, none)"
+    },
+    {
+      "id": "u0030",
+      "text": "Log aggregation systems for full-text search and log analysis; columnar stores for structured event analysis"
+    },
+    {
+      "id": "u0031",
+      "text": "Traces (beta)"
+    },
+    {
+      "id": "u0032",
+      "text": "OTEL_TRACES_EXPORTER plus CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1"
+    },
+    {
+      "id": "u0033",
+      "text": "Distributed tracing systems for span visualization, request waterfalls and latency analysis"
+    },
+    {
+      "id": "u0034",
+      "text": "A full-featured observability platform can hold all three. It earns its place when you need to correlate them, for example to jump from a cost spike in a metric to the events and spans behind it."
+    },
+    {
+      "id": "u0035",
+      "text": "Exporting takes several switches, and each one is a place for a CI rollout to go silently wrong. "
+    },
+    {
+      "id": "u0036",
+      "text": " turns collection on, but it does not choose an exporter. The metrics and logs exporters are optional, and with neither set, nothing reaches the collector. If you pick "
+    },
+    {
+      "id": "u0037",
+      "text": ", you also need a protocol, because Claude Code has no default OTLP protocol. You need an endpoint too. "
+    },
+    {
+      "id": "u0038",
+      "text": " carries whatever credential your collector expects. It is not an Anthropic key. "
+    },
+    {
+      "id": "u0039",
+      "text": " matters only for traces, because metrics and log events do not need it. The console exporter is a debugging aid, not a prerequisite."
+    },
+    {
+      "id": "u0040",
+      "text": "A settings-file env block that sends metrics and log events to a gRPC OTLP collector"
+    },
+    {
+      "id": "u0041",
+      "text": "json"
+    },
+    {
+      "id": "u0042",
+      "text": "The Agent SDK reads the same variables. In production, set them in the process environment: every "
+    },
+    {
+      "id": "u0043",
+      "text": " call picks them up with no code change. Pass them per call through "
+    },
+    {
+      "id": "u0044",
+      "text": " only when different agents in one process need different telemetry. That option behaves differently in the two SDKs. In Python, "
+    },
+    {
+      "id": "u0045",
+      "text": " is merged on top of the inherited environment. In TypeScript, it replaces the inherited environment, so spread "
+    },
+    {
+      "id": "u0046",
+      "text": " into it or you lose "
+    },
+    {
+      "id": "u0047",
+      "text": " and your API key. The default metrics interval is 60 seconds and the default logs interval is 5 seconds. Shorten both while debugging, and reset them for production."
+    },
+    {
+      "id": "u0048",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0049",
+      "text": "Setting CLAUDE_CODE_ENABLE_TELEMETRY=1 is enough for Claude Code to start sending data to the team's collector."
+    },
+    {
+      "id": "u0050",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0058",
+      "text": "Checkpoint 1 of 7"
+    },
+    {
+      "id": "u0059",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0060",
+      "text": "An on-call engineer has three questions about a production agent. Match each OpenTelemetry signal to the question it answers."
+    },
+    {
+      "id": "u0061",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0062",
+      "text": "Metrics"
+    },
+    {
+      "id": "u0063",
+      "text": "Log events"
+    },
+    {
+      "id": "u0064",
+      "text": "Traces (beta)"
+    },
+    {
+      "id": "u0065",
+      "text": "How many tokens did the team use this week, and what did it cost?"
+    },
+    {
+      "id": "u0066",
+      "text": "Where did this run spend its time across model requests, tool calls and hooks?"
+    },
+    {
+      "id": "u0067",
+      "text": "What exactly happened on this request: which prompt, which API error, which tool result?"
+    },
+    {
+      "id": "u0068",
+      "text": "Checkpoint 2 of 7"
+    },
+    {
+      "id": "u0069",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0070",
+      "text": "This settings-file env block should send both metrics and log events to a gRPC OTLP collector. Without the blanked key, log events never leave the process. Which key fills the blank?"
+    },
+    {
+      "id": "u0071",
+      "text": "OTEL_LOGS_EXPORTER"
+    },
+    {
+      "id": "u0072",
+      "text": "OTEL_TRACES_EXPORTER"
+    },
+    {
+      "id": "u0073",
+      "text": "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA"
+    },
+    {
+      "id": "u0074",
+      "text": "OTEL_LOG_USER_PROMPTS"
+    },
+    {
+      "id": "u0075",
+      "text": "Checkpoint 3 of 7"
+    },
+    {
+      "id": "u0076",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0077",
+      "text": "A platform engineer sets CLAUDE_CODE_ENABLE_TELEMETRY=1 on every CI runner but the team's OTLP collector never receives any spans, metrics, or logs from Claude Code jobs. No other telemetry variables were configured. What is the most likely cause of the missing data?"
+    },
+    {
+      "id": "u0078",
+      "text": "The collector rejects every signal until CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1 is also set, regardless of which exporters are chosen"
+    },
+    {
+      "id": "u0079",
+      "text": "Telemetry is enabled but no exporter was selected, so OTEL_METRICS_EXPORTER and OTEL_LOGS_EXPORTER default to producing no export at all"
+    },
+    {
+      "id": "u0080",
+      "text": "The CLI only emits telemetry once the console exporter has been configured first as a required local fallback"
+    },
+    {
+      "id": "u0081",
+      "text": "The organization's Admin API key must be exported through OTEL_EXPORTER_OTLP_HEADERS before the CLI will emit any signal"
+    },
+    {
+      "id": "u0082",
+      "text": "Sources"
+    },
+    {
+      "id": "u0083",
+      "text": "Controlling what metrics carry"
+    },
+    {
+      "id": "u0084",
+      "text": "Metric cost in most backends depends on cardinality: every distinct combination of attribute values is its own time series. Short-lived CLI sessions make this worse, because "
+    },
+    {
+      "id": "u0085",
+      "text": " is on metric datapoints by default. A thousand CI jobs therefore produce a thousand separate series for the same counter. The fix is to remove the attribute, not to change how often you flush. Setting "
+    },
+    {
+      "id": "u0086",
+      "text": " removes "
+    },
+    {
+      "id": "u0087",
+      "text": " (and "
+    },
+    {
+      "id": "u0088",
+      "text": " on cloud sessions) and leaves every other datapoint attribute alone, so the remaining breakdowns still work. A longer "
+    },
+    {
+      "id": "u0089",
+      "text": " only sends the same series less often."
+    },
+    {
+      "id": "u0090",
+      "text": "Metric attribute switches and their defaults"
+    },
+    {
+      "id": "u0091",
+      "text": "Variable"
+    },
+    {
+      "id": "u0092",
+      "text": "Adds"
+    },
+    {
+      "id": "u0093",
+      "text": "Default"
+    },
+    {
+      "id": "u0094",
+      "text": "OTEL_METRICS_INCLUDE_SESSION_ID"
+    },
+    {
+      "id": "u0095",
+      "text": "session.id, and ccr.session.id on cloud sessions"
+    },
+    {
+      "id": "u0096",
+      "text": "true"
+    },
+    {
+      "id": "u0097",
+      "text": "OTEL_METRICS_INCLUDE_ACCOUNT_UUID"
+    },
+    {
+      "id": "u0098",
+      "text": "user.account_uuid and user.account_id"
+    },
+    {
+      "id": "u0099",
+      "text": "true"
+    },
+    {
+      "id": "u0100",
+      "text": "OTEL_METRICS_INCLUDE_RESOURCE_ATTRIBUTES"
+    },
+    {
+      "id": "u0101",
+      "text": "Keys from OTEL_RESOURCE_ATTRIBUTES on metric datapoints"
+    },
+    {
+      "id": "u0102",
+      "text": "true"
+    },
+    {
+      "id": "u0103",
+      "text": "OTEL_METRICS_INCLUDE_VERSION"
+    },
+    {
+      "id": "u0104",
+      "text": "app.version"
+    },
+    {
+      "id": "u0105",
+      "text": "false"
+    },
+    {
+      "id": "u0106",
+      "text": "OTEL_METRICS_INCLUDE_ENTRYPOINT"
+    },
+    {
+      "id": "u0107",
+      "text": "app.entrypoint"
+    },
+    {
+      "id": "u0108",
+      "text": "false"
+    },
+    {
+      "id": "u0109",
+      "text": "Attribution works in the other direction. In an Agent SDK service, "
+    },
+    {
+      "id": "u0110",
+      "text": " (for example "
+    },
+    {
+      "id": "u0111",
+      "text": ") and "
+    },
+    {
+      "id": "u0112",
+      "text": " such as "
+    },
+    {
+      "id": "u0113",
+      "text": " or "
+    },
+    {
+      "id": "u0114",
+      "text": " let you split usage per deployment or per customer. Every resource attribute is still a dimension, though, so a per-user ID carries the same cardinality cost as a session ID. Metrics export with delta temporality by default. Set "
+    },
+    {
+      "id": "u0115",
+      "text": " if your backend expects cumulative."
+    },
+    {
+      "id": "u0116",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0117",
+      "text": "Raising OTEL_METRIC_EXPORT_INTERVAL reduces the number of time series a metrics backend stores."
+    },
+    {
+      "id": "u0118",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0125",
+      "text": "Checkpoint 4 of 7"
+    },
+    {
+      "id": "u0126",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0127",
+      "text": "A platform team's metrics backend bill has grown sharply. Each of roughly a thousand short-lived CI jobs a day shows up as its own time series for the same Claude Code token counter. The team still wants to break usage down by deployment.environment, which they set through OTEL_RESOURCE_ATTRIBUTES. Which single change cuts the series count without losing that breakdown?"
+    },
+    {
+      "id": "u0128",
+      "text": "Set OTEL_METRICS_INCLUDE_RESOURCE_ATTRIBUTES=false"
+    },
+    {
+      "id": "u0129",
+      "text": "Raise OTEL_METRIC_EXPORT_INTERVAL from 60000 to 300000 so the series are flushed less often"
+    },
+    {
+      "id": "u0130",
+      "text": "Set OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=cumulative"
+    },
+    {
+      "id": "u0131",
+      "text": "Set OTEL_METRICS_INCLUDE_SESSION_ID=false"
+    },
+    {
+      "id": "u0132",
+      "text": "Checkpoint 5 of 7"
+    },
+    {
+      "id": "u0133",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0134",
+      "text": "A metrics backend's bill spikes because every exported time series carries a unique session.id, fragmenting cardinality across thousands of short-lived CLI sessions. The team still needs cost and token totals broken down by model. Which change addresses the cardinality problem without losing the model breakdown?"
+    },
+    {
+      "id": "u0135",
+      "text": "Set OTEL_METRICS_INCLUDE_SESSION_ID=false so session.id is dropped from exported metrics while other attributes like model remain"
+    },
+    {
+      "id": "u0136",
+      "text": "Disable the metrics exporter entirely and reconstruct cost and token totals later from the Usage and Cost Admin API"
+    },
+    {
+      "id": "u0137",
+      "text": "Increase OTEL_METRIC_EXPORT_INTERVAL to reduce how often metrics are flushed, which lowers the number of unique series produced"
+    },
+    {
+      "id": "u0138",
+      "text": "Switch the Usage API bucket_width parameter from 1h to 1d so the Admin API aggregates sessions before they reach the metrics backend"
+    },
+    {
+      "id": "u0139",
+      "text": "Sources"
+    },
+    {
+      "id": "u0140",
+      "text": "Reading a trace: spans across a run and its subagents"
+    },
+    {
+      "id": "u0141",
+      "text": "A trace turns one turn of the agent loop into a tree. The root is "
+    },
+    {
+      "id": "u0142",
+      "text": ", which runs from the prompt arriving to the response. Under it, each call to the Claude API is a "
+    },
+    {
+      "id": "u0143",
+      "text": " span, and each tool invocation is a "
+    },
+    {
+      "id": "u0144",
+      "text": " span. A tool span has two children: "
+    },
+    {
+      "id": "u0145",
+      "text": " for the permission wait and "
+    },
+    {
+      "id": "u0146",
+      "text": " for the work itself. That split is the first thing to check when a turn feels slow. A long wait span means a person was approving a prompt, not that the tool was slow. A subagent is a separate agent that the main session spawns, with its own model requests and tool calls, and the Agent tool is the tool call that starts one. The subagent's own "
+    },
+    {
+      "id": "u0147",
+      "text": " and "
+    },
+    {
+      "id": "u0148",
+      "text": " spans nest under that Agent tool's span."
+    },
+    {
+      "id": "u0149",
+      "text": "claude_code.llm_request attributes that locate time, tokens and the issuing agent"
+    },
+    {
+      "id": "u0150",
+      "text": "Attribute"
+    },
+    {
+      "id": "u0151",
+      "text": "What it tells you"
+    },
+    {
+      "id": "u0152",
+      "text": "duration_ms / ttft_ms"
+    },
+    {
+      "id": "u0153",
+      "text": "Wall-clock duration including retries / time to first token"
+    },
+    {
+      "id": "u0154",
+      "text": "attempt, error_class"
+    },
+    {
+      "id": "u0155",
+      "text": "Total attempts made; a short error class such as api_timeout or server_overload"
+    },
+    {
+      "id": "u0156",
+      "text": "input_tokens, output_tokens"
+    },
+    {
+      "id": "u0157",
+      "text": "Token counts; input_tokens excludes prompt-cache reads and writes"
+    },
+    {
+      "id": "u0158",
+      "text": "cache_read_tokens, cache_creation_tokens"
+    },
+    {
+      "id": "u0159",
+      "text": "Tokens read from and written to the prompt cache"
+    },
+    {
+      "id": "u0160",
+      "text": "agent_id, parent_agent_id"
+    },
+    {
+      "id": "u0161",
+      "text": "Which subagent issued the request and which agent spawned it; both absent on the main session"
+    },
+    {
+      "id": "u0162",
+      "text": "query_source_safe"
+    },
+    {
+      "id": "u0163",
+      "text": "Bounded name of the issuer, such as repl_main_thread or agent.builtin.general-purpose"
+    },
+    {
+      "id": "u0164",
+      "text": "stop_reason"
+    },
+    {
+      "id": "u0165",
+      "text": "end_turn, tool_use, max_tokens, refusal and so on"
+    },
+    {
+      "id": "u0166",
+      "text": "To find the expensive part of a multi-agent run, group "
+    },
+    {
+      "id": "u0167",
+      "text": " spans by "
+    },
+    {
+      "id": "u0168",
+      "text": " and sum their token attributes. Add "
+    },
+    {
+      "id": "u0169",
+      "text": " to "
+    },
+    {
+      "id": "u0170",
+      "text": " when you want the full input size, because "
+    },
+    {
+      "id": "u0171",
+      "text": " leaves cache reads out. A high "
+    },
+    {
+      "id": "u0172",
+      "text": " count next to a long "
+    },
+    {
+      "id": "u0173",
+      "text": " points to retries rather than a slow model. "
+    },
+    {
+      "id": "u0174",
+      "text": " means the output was cut off. Hook spans ("
+    },
+    {
+      "id": "u0175",
+      "text": ") wrap each hook execution and appear only under detailed beta tracing ("
+    },
+    {
+      "id": "u0176",
+      "text": " plus "
+    },
+    {
+      "id": "u0177",
+      "text": "). That mode also changes where telemetry goes: Claude Code exports logs and traces to "
+    },
+    {
+      "id": "u0178",
+      "text": " instead of through the logs and traces exporters, so they can stop arriving at the collector you configured."
+    },
+    {
+      "id": "u0179",
+      "text": "Checkpoint 6 of 7"
+    },
+    {
+      "id": "u0180",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0181",
+      "text": "Users say one agent turn took about 40 seconds. In the trace, the claude_code.tool span for a Bash call lasts 39 seconds. Its claude_code.tool.blocked_on_user child takes 37 seconds and its claude_code.tool.execution child takes 2 seconds. What is the most likely cause of the delay?"
+    },
+    {
+      "id": "u0182",
+      "text": "A person took a long time to approve the tool's permission prompt"
+    },
+    {
+      "id": "u0183",
+      "text": "The model request behind the tool call was retried several times"
+    },
+    {
+      "id": "u0184",
+      "text": "The model's output was cut off by max_tokens, so the turn stalled"
+    },
+    {
+      "id": "u0185",
+      "text": "The Bash command itself ran slowly, so the tool needs optimizing"
+    },
+    {
+      "id": "u0186",
+      "text": "Sources"
+    },
+    {
+      "id": "u0187",
+      "text": "Telemetry content gates: redacted by default"
+    },
+    {
+      "id": "u0188",
+      "text": "By default, telemetry records the shape of the work and not its content. Prompts are reduced to their length, and the interaction span's "
+    },
+    {
+      "id": "u0189",
+      "text": " attribute reads "
+    },
+    {
+      "id": "u0190",
+      "text": ". Assistant responses are reduced to their length too. Tool arguments, tool output and raw file contents are left out. Each kind of content has its own gate, and the gates send data only to the endpoint you configure, never to Anthropic. That still means a collector you run will be holding source code and secrets once a gate is open. One field is present without any gate: under OAuth, "
+    },
+    {
+      "id": "u0191",
+      "text": " appears in telemetry attributes, so filter it in your backend if that matters to you."
+    },
+    {
+      "id": "u0192",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0193",
+      "text": "A team sets OTEL_LOG_USER_PROMPTS=1 to audit what developers ask Claude Code, and leaves every other content variable unset. What do assistant_response events now carry?"
+    },
+    {
+      "id": "u0194",
+      "text": "The full response text as well, because the responses gate falls back to the prompts gate"
+    },
+    {
+      "id": "u0195",
+      "text": "Only the response length, because responses have their own gate"
+    },
+    {
+      "id": "u0196",
+      "text": "Nothing at all, because assistant_response events need tracing enabled"
+    },
+    {
+      "id": "u0197",
+      "text": "Content gates, from narrowest to widest"
+    },
+    {
+      "id": "u0198",
+      "text": "Variable"
+    },
+    {
+      "id": "u0199",
+      "text": "What it reveals"
+    },
+    {
+      "id": "u0200",
+      "text": "OTEL_LOG_USER_PROMPTS=1"
+    },
+    {
+      "id": "u0201",
+      "text": "Prompt text on user_prompt events (in both prompt and prompt_text) and on the claude_code.interaction span"
+    },
+    {
+      "id": "u0202",
+      "text": "OTEL_LOG_ASSISTANT_RESPONSES=1"
+    },
+    {
+      "id": "u0203",
+      "text": "Response text on assistant_response events; inherits OTEL_LOG_USER_PROMPTS when unset"
+    },
+    {
+      "id": "u0204",
+      "text": "OTEL_LOG_TOOL_DETAILS=1"
+    },
+    {
+      "id": "u0205",
+      "text": "Tool parameters and input: Bash commands, file paths, URLs, MCP server and tool names, skill names; real names on cost and token counters"
+    },
+    {
+      "id": "u0206",
+      "text": "OTEL_LOG_TOOL_CONTENT=1"
+    },
+    {
+      "id": "u0207",
+      "text": "A tool.output span event with file contents, Bash output and MCP/WebFetch/WebSearch results; requires tracing"
+    },
+    {
+      "id": "u0208",
+      "text": "OTEL_LOG_RAW_API_BODIES"
+    },
+    {
+      "id": "u0209",
+      "text": "Full Messages API request and response JSON, including the entire conversation history; 1 for inline, file:<dir> for untruncated bodies on disk"
+    },
+    {
+      "id": "u0210",
+      "text": "Two details catch out redaction rules. First, masking prompt text in a collector has to cover both "
+    },
+    {
+      "id": "u0211",
+      "text": " and "
+    },
+    {
+      "id": "u0212",
+      "text": ". Second, under detailed beta tracing the "
+    },
+    {
+      "id": "u0213",
+      "text": " span carries model output in "
+    },
+    {
+      "id": "u0214",
+      "text": ", and that attribute follows "
+    },
+    {
+      "id": "u0215",
+      "text": ", not the responses gate. Raw API bodies are the widest gate: turning them on counts as consent to everything the prompt, tool-detail and tool-content gates would reveal. Inline content is truncated at "
+    },
+    {
+      "id": "u0216",
+      "text": ", which defaults to 61440 UTF-16 code units (60 KB) so values fit backends that cap attributes at 64 KB."
+    },
+    {
+      "id": "u0217",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0218",
+      "text": "Managed settings are the settings an administrator deploys and enforces across all Claude Code users; developer-set values are the ones individuals choose themselves. When managed settings set OTEL_EXPORTER_OTLP_ENDPOINT, Claude Code removes every developer-set per-signal endpoint, so a developer's endpoint never wins. Exporter selectors are not removed. They follow normal per-key precedence, so a developer's own selector value can still switch a signal to none or console unless you set the selectors in managed settings as well."
+    },
+    {
+      "id": "u0219",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0220",
+      "text": "Turning on OTEL_LOG_USER_PROMPTS exports prompts only; responses stay redacted until their own flag is set."
+    },
+    {
+      "id": "u0221",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0226",
+      "text": "Checkpoint 7 of 7"
+    },
+    {
+      "id": "u0227",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0228",
+      "text": "A security team will open only the content gate each audit needs, so the collector holds as little source code and as few secrets as possible. Match each gate to what it adds to telemetry."
+    },
+    {
+      "id": "u0229",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0230",
+      "text": "OTEL_LOG_USER_PROMPTS=1"
+    },
+    {
+      "id": "u0231",
+      "text": "OTEL_LOG_TOOL_DETAILS=1"
+    },
+    {
+      "id": "u0232",
+      "text": "OTEL_LOG_TOOL_CONTENT=1"
+    },
+    {
+      "id": "u0233",
+      "text": "OTEL_LOG_RAW_API_BODIES"
+    },
+    {
+      "id": "u0234",
+      "text": "Tool parameters and input, such as Bash commands, file paths, URLs and MCP server and tool names"
+    },
+    {
+      "id": "u0235",
+      "text": "Prompt text on user_prompt events and on the claude_code.interaction span"
+    },
+    {
+      "id": "u0236",
+      "text": "Full Messages API request and response JSON, including the entire conversation history"
+    },
+    {
+      "id": "u0237",
+      "text": "A tool.output span event with file contents and Bash output, available only when tracing is on"
+    },
+    {
+      "id": "u0238",
+      "text": "Sources"
+    },
+    {
+      "id": "u0239",
+      "text": "Sources"
+    }
+  ]
+}

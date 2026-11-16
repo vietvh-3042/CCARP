@@ -1,0 +1,771 @@
+{
+  "pageId": "3.4",
+  "title": "Run-level telemetry and tagging for Claude agent fleets",
+  "titleVi": "Thu thập dữ liệu vận hành và gắn nhãn theo từng lần chạy cho các nhóm tác tử Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Analyze observability challenges and select monitoring strategies at scale"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Explain why request logs cannot tell you why an agent run failed, and which spans and attributes can"
+    },
+    {
+      "id": "u0002",
+      "text": "Roll out one OpenTelemetry collector configuration to every machine through managed settings, and know which keys developers can still override"
+    },
+    {
+      "id": "u0003",
+      "text": "Tag telemetry with tenant, team and deployment attributes, and turn off the identity attributes your dashboards don't use"
+    },
+    {
+      "id": "u0004",
+      "text": "Decide which content gates are worth turning on for a whole fleet, given what each one exposes"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Run-level telemetry"
+    },
+    {
+      "id": "u0007",
+      "text": "Telemetry that records an agent turn as a tree: one parent span for the turn, with child spans for each model request, tool call and subagent. You can then see how a run unfolded and where it went wrong, which a flat list of API calls cannot show."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Why agent runs resist ordinary debugging"
+    },
+    {
+      "id": "u0010",
+      "text": "Rolling the collector config out through managed settings"
+    },
+    {
+      "id": "u0011",
+      "text": "Tagging telemetry per tenant, team and deployment"
+    },
+    {
+      "id": "u0012",
+      "text": "Which content is worth collecting at scale"
+    },
+    {
+      "id": "u0013",
+      "text": "Why agent runs resist ordinary debugging"
+    },
+    {
+      "id": "u0014",
+      "text": "A request log answers the wrong question for an agent. One prompt to an agent can turn into a dozen model requests, several tool calls, a wait for a human to approve a permission, and a subagent that makes its own requests. Each step depends on what the model chose in the step before, so running the same prompt twice can follow a different path. A log with one row per API call shows that request 7 returned "
+    },
+    {
+      "id": "u0015",
+      "text": ". It cannot show which turn request 7 belonged to, which agent sent it, or that the tool call before it waited four minutes for approval."
+    },
+    {
+      "id": "u0016",
+      "text": "Tracing puts those relationships back. Each turn becomes a "
+    },
+    {
+      "id": "u0017",
+      "text": " span. Model calls and tool calls nest under it, and a tool span has separate children for the permission wait and for the execution itself. When the Agent tool starts a subagent, the subagent's own request and tool spans nest under the tool call that started it."
+    },
+    {
+      "id": "u0018",
+      "text": "The span tree for one Claude Code or Agent SDK turn"
+    },
+    {
+      "id": "u0019",
+      "text": "text"
+    },
+    {
+      "id": "u0020",
+      "text": "Attributes on the "
+    },
+    {
+      "id": "u0021",
+      "text": " span tell you where in a multi-agent run a request came from. "
+    },
+    {
+      "id": "u0022",
+      "text": " identifies the subagent or teammate that sent the request, and "
+    },
+    {
+      "id": "u0023",
+      "text": " identifies the agent that spawned that one. "
+    },
+    {
+      "id": "u0024",
+      "text": " gives a bounded name for the subsystem that sent it, such as "
+    },
+    {
+      "id": "u0025",
+      "text": " or "
+    },
+    {
+      "id": "u0026",
+      "text": ". The same span also records "
+    },
+    {
+      "id": "u0027",
+      "text": " (how many attempts the request took), "
+    },
+    {
+      "id": "u0028",
+      "text": ", and, when the request failed, an "
+    },
+    {
+      "id": "u0029",
+      "text": " such as "
+    },
+    {
+      "id": "u0030",
+      "text": " or "
+    },
+    {
+      "id": "u0031",
+      "text": ". Together these separate a run that ran out of output tokens from one that kept retrying an overloaded endpoint."
+    },
+    {
+      "id": "u0032",
+      "text": "Claude Managed Agents gives you a similar view with no code. The session viewer in the Claude Console has a timeline with one lane per thread. Its Tools tab lists each configured tool with call counts, failures and median duration, so a tool that fails on every third call stands out. If you also want the API's own spans in your backend, add an OpenTelemetry destination in the Console. To nest those spans under your application's spans, call the SDK from inside one of your spans: the API reads the W3C "
+    },
+    {
+      "id": "u0033",
+      "text": " header. Two delivery rules affect your queries. Delivery is at least once, so remove duplicates using the trace ID and span ID. Delivery is also best effort, so a lost span is never sent again."
+    },
+    {
+      "id": "u0034",
+      "text": "Checkpoint 1 of 7"
+    },
+    {
+      "id": "u0035",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0036",
+      "text": "A tool call in an agent turn sat idle for four minutes before it ran. In the span tree for one Claude Code or Agent SDK turn, which span under claude_code.tool records that wait for permission approval?"
+    },
+    {
+      "id": "u0037",
+      "text": "claude_code.llm_request"
+    },
+    {
+      "id": "u0038",
+      "text": "claude_code.tool.blocked_on_user"
+    },
+    {
+      "id": "u0039",
+      "text": "claude_code.hook"
+    },
+    {
+      "id": "u0040",
+      "text": "claude_code.interaction"
+    },
+    {
+      "id": "u0041",
+      "text": "Checkpoint 2 of 7"
+    },
+    {
+      "id": "u0042",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0043",
+      "text": "A multi-agent run stalled. You need to tell whether a model request kept retrying an overloaded endpoint or just ran out of output tokens. What should you check?"
+    },
+    {
+      "id": "u0044",
+      "text": "Only stop_reason on the claude_code.interaction span, because it summarizes every request in the turn"
+    },
+    {
+      "id": "u0045",
+      "text": "The attempt count and error_class on the claude_code.llm_request span, for example attempt above 1 with error_class server_overload"
+    },
+    {
+      "id": "u0046",
+      "text": "The request log row for the call, because it shows the HTTP status of each request"
+    },
+    {
+      "id": "u0047",
+      "text": "agent_id and parent_agent_id on the claude_code.llm_request span, because they record why the request failed"
+    },
+    {
+      "id": "u0048",
+      "text": "Sources"
+    },
+    {
+      "id": "u0049",
+      "text": "Rolling the collector config out through managed settings"
+    },
+    {
+      "id": "u0050",
+      "text": "Claude Code exports three signals, metrics, log events and traces, and each answers a different question (see "
+    },
+    {
+      "id": "u0051",
+      "text": "Metrics, log events and traces: three signals, three questions"
+    },
+    {
+      "id": "u0052",
+      "text": "). The problem at scale is getting hundreds of machines to send all three to the same collector in the same way. If developers set the variables in their own shell profiles, one typo or one forgotten export creates a silent gap. Instead, put the configuration in the "
+    },
+    {
+      "id": "u0053",
+      "text": " block of the administrator-managed "
+    },
+    {
+      "id": "u0054",
+      "text": ", so it reaches every machine without any setup by each developer."
+    },
+    {
+      "id": "u0055",
+      "text": "Telemetry variables set once in managed settings"
+    },
+    {
+      "id": "u0056",
+      "text": "json"
+    },
+    {
+      "id": "u0057",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0058",
+      "text": "Managed settings pin "
+    },
+    {
+      "id": "u0059",
+      "text": " to the central collector. A developer sets "
+    },
+    {
+      "id": "u0060",
+      "text": " in their own settings. Where do that developer's metrics go?"
+    },
+    {
+      "id": "u0061",
+      "text": "To the developer's console, because exporter selectors follow normal per-key precedence"
+    },
+    {
+      "id": "u0062",
+      "text": "To the central collector, because managed settings override every telemetry key"
+    },
+    {
+      "id": "u0063",
+      "text": "Nowhere, because Claude Code refuses to start when the settings conflict"
+    },
+    {
+      "id": "u0064",
+      "text": "Managed transport settings take priority over the matching developer settings. Setting "
+    },
+    {
+      "id": "u0065",
+      "text": " removes every per-signal endpoint a developer has set, so nobody can send one signal to a different collector. Setting "
+    },
+    {
+      "id": "u0066",
+      "text": " does the same for protocols. Credentials go further. When managed settings supply "
+    },
+    {
+      "id": "u0067",
+      "text": " or a client key or certificate, Claude Code also removes every endpoint a developer has set. Otherwise your token could be sent to a collector you did not choose."
+    },
+    {
+      "id": "u0068",
+      "text": "Exporter selectors are the gap. "
+    },
+    {
+      "id": "u0069",
+      "text": " and "
+    },
+    {
+      "id": "u0070",
+      "text": " follow normal per-key precedence, so any you leave out of managed settings can be changed on each machine. A selector set to "
+    },
+    {
+      "id": "u0071",
+      "text": " is the clearest case of telemetry that never arrives. The output appears in that developer's terminal and nowhere else, so the observability team gets no central view. Export intervals belong in managed settings too. Shorten them while debugging, then reset them for production, where the metric default is 60 seconds."
+    },
+    {
+      "id": "u0072",
+      "text": "Agent SDK deployments have a matching rule. The recommended approach for production is to set the variables in the process environment: the shell, container or orchestrator. Every "
+    },
+    {
+      "id": "u0073",
+      "text": " call then picks them up with no code change."
+    },
+    {
+      "id": "u0074",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0075",
+      "text": "Pinning the OTLP endpoint in managed settings guarantees that every machine's metrics reach the central collector."
+    },
+    {
+      "id": "u0076",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0082",
+      "text": "Checkpoint 3 of 7"
+    },
+    {
+      "id": "u0083",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0084",
+      "text": "Suppose your managed settings supply OTEL_EXPORTER_OTLP_HEADERS with the organization's bearer token. One developer has set OTEL_EXPORTER_OTLP_LOGS_ENDPOINT in their own settings to point at a personal collector. What does Claude Code do with that developer's logs endpoint?"
+    },
+    {
+      "id": "u0085",
+      "text": "It keeps it but sends the logs without the managed headers, because per-signal settings override the general ones"
+    },
+    {
+      "id": "u0086",
+      "text": "It keeps it unless OTEL_LOGS_EXPORTER is also set in managed settings, because endpoints follow the exporter selector's precedence"
+    },
+    {
+      "id": "u0087",
+      "text": "It removes it, so the organization's token can't be sent to a collector that managed settings didn't choose"
+    },
+    {
+      "id": "u0088",
+      "text": "It keeps it, because only a managed OTEL_EXPORTER_OTLP_ENDPOINT removes developer-set endpoints"
+    },
+    {
+      "id": "u0089",
+      "text": "Sources"
+    },
+    {
+      "id": "u0090",
+      "text": "Tagging telemetry per tenant, team and deployment"
+    },
+    {
+      "id": "u0091",
+      "text": "Fleet telemetry is useful only if you can split it into groups. A cost spike across 400 developers means little until you know which team, which service or which customer caused it. Two standard variables add that context to every signal: "
+    },
+    {
+      "id": "u0092",
+      "text": " names the agent, and "
+    },
+    {
+      "id": "u0093",
+      "text": " carries comma-separated "
+    },
+    {
+      "id": "u0094",
+      "text": " pairs such as "
+    },
+    {
+      "id": "u0095",
+      "text": ". The keys are your own choice, so a platform team can add whatever its finance reports group by, such as department or cost center."
+    },
+    {
+      "id": "u0096",
+      "text": "In a multi-tenant service, the tags change with each request. The Agent SDK accepts the variables through per-call options, so you can tag each run with the user and tenant who triggered it. Values come from the request, so URL-encode them. In TypeScript, "
+    },
+    {
+      "id": "u0097",
+      "text": " replaces the inherited environment rather than merging with it. Spread "
+    },
+    {
+      "id": "u0098",
+      "text": " into it first, or the agent loses "
+    },
+    {
+      "id": "u0099",
+      "text": " and its API key."
+    },
+    {
+      "id": "u0100",
+      "text": "The "
+    },
+    {
+      "id": "u0101",
+      "text": " comment in the example below stands for the variables that turn telemetry on and say where it goes: "
+    },
+    {
+      "id": "u0102",
+      "text": ", one exporter selector per signal ("
+    },
+    {
+      "id": "u0103",
+      "text": ", and for traces "
+    },
+    {
+      "id": "u0104",
+      "text": " plus "
+    },
+    {
+      "id": "u0105",
+      "text": "), and the transport settings "
+    },
+    {
+      "id": "u0106",
+      "text": " and "
+    },
+    {
+      "id": "u0107",
+      "text": ". In Python, the per-call "
+    },
+    {
+      "id": "u0108",
+      "text": " is merged on top of the inherited environment, so these can also come from the process environment and the per-call dict then needs only the tags."
+    },
+    {
+      "id": "u0109",
+      "text": "Tagging each agent run with the end user and tenant from the incoming request (Python)"
+    },
+    {
+      "id": "u0110",
+      "text": "python"
+    },
+    {
+      "id": "u0111",
+      "text": "Claude Code adds your resource attributes to every metric datapoint by default, which is what makes splitting metrics by team possible. It also adds identity attributes you may not need. "
+    },
+    {
+      "id": "u0112",
+      "text": " and the account attributes are on by default, so a fleet sending them gets new attribute values on its metrics with every session and every developer. If your dashboards only ever group by team, turn off the flags they don't use. That keeps the number of distinct time series, and the backend storage bill, from growing with headcount."
+    },
+    {
+      "id": "u0113",
+      "text": "Attribute flags on Claude Code metrics and their defaults"
+    },
+    {
+      "id": "u0114",
+      "text": "Variable"
+    },
+    {
+      "id": "u0115",
+      "text": "Adds"
+    },
+    {
+      "id": "u0116",
+      "text": "Default"
+    },
+    {
+      "id": "u0117",
+      "text": "OTEL_METRICS_INCLUDE_RESOURCE_ATTRIBUTES"
+    },
+    {
+      "id": "u0118",
+      "text": "Keys from OTEL_RESOURCE_ATTRIBUTES on metric datapoints"
+    },
+    {
+      "id": "u0119",
+      "text": "true"
+    },
+    {
+      "id": "u0120",
+      "text": "OTEL_METRICS_INCLUDE_SESSION_ID"
+    },
+    {
+      "id": "u0121",
+      "text": "session.id (and ccr.session.id on cloud sessions)"
+    },
+    {
+      "id": "u0122",
+      "text": "true"
+    },
+    {
+      "id": "u0123",
+      "text": "OTEL_METRICS_INCLUDE_ACCOUNT_UUID"
+    },
+    {
+      "id": "u0124",
+      "text": "user.account_uuid and user.account_id"
+    },
+    {
+      "id": "u0125",
+      "text": "true"
+    },
+    {
+      "id": "u0126",
+      "text": "OTEL_METRICS_INCLUDE_VERSION"
+    },
+    {
+      "id": "u0127",
+      "text": "app.version"
+    },
+    {
+      "id": "u0128",
+      "text": "false"
+    },
+    {
+      "id": "u0129",
+      "text": "OTEL_METRICS_INCLUDE_ENTRYPOINT"
+    },
+    {
+      "id": "u0130",
+      "text": "app.entrypoint"
+    },
+    {
+      "id": "u0131",
+      "text": "false"
+    },
+    {
+      "id": "u0132",
+      "text": "OTEL_METRICS_INCLUDE_REPOSITORY"
+    },
+    {
+      "id": "u0133",
+      "text": "vcs.* repository identity"
+    },
+    {
+      "id": "u0134",
+      "text": "false"
+    },
+    {
+      "id": "u0135",
+      "text": "API-side spans are separated by workspace instead. A Console destination covers All workspaces, Selected workspaces, or All except the ones you list. The API sends each span to every enabled destination that covers the workspace where the request ran. With separate production and staging workspaces, a destination set to Selected can send only production traffic to the expensive backend."
+    },
+    {
+      "id": "u0136",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0137",
+      "text": "Per-session identifiers are opt-in, so metrics stay small unless you add attributes yourself."
+    },
+    {
+      "id": "u0138",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0144",
+      "text": "Checkpoint 4 of 7"
+    },
+    {
+      "id": "u0145",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0146",
+      "text": "Your multi-tenant service runs one agent per incoming request. Each run's telemetry must carry the end user and tenant who triggered it. Which variable name completes this per-call option?"
+    },
+    {
+      "id": "u0147",
+      "text": "OTEL_EXPORTER_OTLP_HEADERS"
+    },
+    {
+      "id": "u0148",
+      "text": "OTEL_SERVICE_NAME"
+    },
+    {
+      "id": "u0149",
+      "text": "OTEL_RESOURCE_ATTRIBUTES"
+    },
+    {
+      "id": "u0150",
+      "text": "OTEL_METRICS_INCLUDE_RESOURCE_ATTRIBUTES"
+    },
+    {
+      "id": "u0151",
+      "text": "Checkpoint 5 of 7"
+    },
+    {
+      "id": "u0152",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0153",
+      "text": "Your fleet's dashboards group Claude Code metrics only by a team key set in OTEL_RESOURCE_ATTRIBUTES. Even so, the backend's time-series count and storage bill keep growing with every new developer and session. Which change fixes this without losing the team split?"
+    },
+    {
+      "id": "u0154",
+      "text": "Set OTEL_METRICS_INCLUDE_RESOURCE_ATTRIBUTES to false"
+    },
+    {
+      "id": "u0155",
+      "text": "Nothing needs to change, because session.id and account attributes are opt-in and the growth must come from your own tags"
+    },
+    {
+      "id": "u0156",
+      "text": "Set OTEL_METRICS_INCLUDE_VERSION and OTEL_METRICS_INCLUDE_ENTRYPOINT to false"
+    },
+    {
+      "id": "u0157",
+      "text": "Set OTEL_METRICS_INCLUDE_SESSION_ID and OTEL_METRICS_INCLUDE_ACCOUNT_UUID to false"
+    },
+    {
+      "id": "u0158",
+      "text": "Checkpoint 6 of 7"
+    },
+    {
+      "id": "u0159",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0160",
+      "text": "An enterprise is rolling out centrally managed OpenTelemetry export for Claude Code across 400 engineers on Kubernetes, and the observability team wants configuration that scales without per-developer setup and keeps backend storage costs predictable. Which combination of practices should they adopt? (Select all that apply)"
+    },
+    {
+      "id": "u0161",
+      "text": "(Select "
+    },
+    {
+      "id": "u0162",
+      "text": "Set the telemetry environment variables in the administrator-managed settings.json rather than relying on each developer's shell profile"
+    },
+    {
+      "id": "u0163",
+      "text": "Add custom OTEL_RESOURCE_ATTRIBUTES such as department and cost_center so spend and usage can be sliced by team in the backend"
+    },
+    {
+      "id": "u0164",
+      "text": "Turn off OTEL_METRICS_INCLUDE_SESSION_ID and similar cardinality flags that are not needed for the team's dashboards to limit unique time-series growth"
+    },
+    {
+      "id": "u0165",
+      "text": "Set OTEL_METRICS_EXPORTER=console on every developer machine so metrics are visible locally without needing a central collector"
+    },
+    {
+      "id": "u0166",
+      "text": "Require every developer to manually export the same OTEL_EXPORTER_OTLP_ENDPOINT in their personal shell profile so settings stay consistent"
+    },
+    {
+      "id": "u0167",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0168",
+      "text": "0 of 3 selected"
+    },
+    {
+      "id": "u0169",
+      "text": "Sources"
+    },
+    {
+      "id": "u0170",
+      "text": "Which content is worth collecting at scale"
+    },
+    {
+      "id": "u0171",
+      "text": "Content is redacted by default, and each gate you open exposes more of every session on every machine (see "
+    },
+    {
+      "id": "u0172",
+      "text": "Telemetry content gates (redacted by default)"
+    },
+    {
+      "id": "u0173",
+      "text": "). The decision at scale is about exposure, not capability. One developer turning on prompt logging affects one person's sessions. The same gate in managed settings sends every engineer's prompts to a shared backend that many people can query."
+    },
+    {
+      "id": "u0174",
+      "text": "Some data reaches your backend even with every gate closed. Under OAuth, "
+    },
+    {
+      "id": "u0175",
+      "text": " is a telemetry attribute. It goes only to your collector, never to Anthropic, but your backend now stores it, so filter it there if your policy requires. The widest gate, "
+    },
+    {
+      "id": "u0176",
+      "text": ", emits full request and response bodies, including the entire conversation history. Turning it on counts as consenting to everything the prompt, tool-detail and tool-content gates would reveal. It is rarely the right choice for a whole fleet."
+    },
+    {
+      "id": "u0177",
+      "text": "A narrower choice usually meets the real need. A security team auditing which commands ran needs "
+    },
+    {
+      "id": "u0178",
+      "text": ", sent as log events to a SIEM, not prompt text. Even that exposes a lot: fields such as "
+    },
+    {
+      "id": "u0179",
+      "text": " are emitted untruncated, and commands can contain secrets."
+    },
+    {
+      "id": "u0180",
+      "text": "An audit pipeline: log events with tool details only, sent to a SIEM"
+    },
+    {
+      "id": "u0181",
+      "text": "json"
+    },
+    {
+      "id": "u0182",
+      "text": "Gates that interact are easy to get wrong. When "
+    },
+    {
+      "id": "u0183",
+      "text": " is unset, it takes the value of "
+    },
+    {
+      "id": "u0184",
+      "text": ", so opening prompts also opens responses unless you set the response gate to "
+    },
+    {
+      "id": "u0185",
+      "text": ". If you collect prompts and strip them later in the collector, delete both attributes that carry the text, "
+    },
+    {
+      "id": "u0186",
+      "text": " and "
+    },
+    {
+      "id": "u0187",
+      "text": ". A rule that names only one leaves the prompt in storage."
+    },
+    {
+      "id": "u0188",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0189",
+      "text": "Raw API body logging is a separate debugging switch that leaves the prompt and tool content gates in force."
+    },
+    {
+      "id": "u0190",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0194",
+      "text": "Checkpoint 7 of 7"
+    },
+    {
+      "id": "u0195",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0196",
+      "text": "A security team needs to audit which commands ran on every developer machine, with log events going to their SIEM, without collecting what developers typed to Claude. Which gate completes this managed-settings pipeline?"
+    },
+    {
+      "id": "u0197",
+      "text": "OTEL_LOG_RAW_API_BODIES"
+    },
+    {
+      "id": "u0198",
+      "text": "OTEL_LOG_USER_PROMPTS"
+    },
+    {
+      "id": "u0199",
+      "text": "OTEL_LOG_TOOL_DETAILS"
+    },
+    {
+      "id": "u0200",
+      "text": "OTEL_LOG_TOOL_CONTENT"
+    },
+    {
+      "id": "u0201",
+      "text": "Sources"
+    },
+    {
+      "id": "u0202",
+      "text": "Sources"
+    }
+  ]
+}

@@ -1,0 +1,819 @@
+{
+  "pageId": "6.2",
+  "title": "Communicating architecture trade-offs to stakeholders",
+  "titleVi": "Trình bày những đánh đổi về kiến trúc với các bên liên quan",
+  "units": [
+    {
+      "id": "description",
+      "text": "Communicate architectural decisions and trade-offs"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Present a model and effort choice to non-technical stakeholders as one plain recommendation with its price attached"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain why cost per completed task, not per-token price, is the figure to compare, and which savings cost no quality"
+    },
+    {
+      "id": "u0003",
+      "text": "State what each extra layer of complexity, including multiple agents, buys and costs, so the simpler design becomes the agreed default"
+    },
+    {
+      "id": "u0004",
+      "text": "Back a recommendation with results from your own evaluation instead of vendor benchmarks"
+    },
+    {
+      "id": "u0005",
+      "text": "Describe residual risk as specific, bounded and mitigated, never as zero"
+    },
+    {
+      "id": "u0006",
+      "text": "Explain context-management, thinking-mode and hosting choices to engineers without technical errors"
+    },
+    {
+      "id": "u0007",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0008",
+      "text": "Evidence-backed, bounded recommendation"
+    },
+    {
+      "id": "u0009",
+      "text": "A trade-off is communicated well when it comes with one recommended option, the price it pays in cost, speed, quality or risk, evidence from your own evaluation on your own workload, and limits on what can go wrong. Vendor figures tell you what to test, but they are not your evidence."
+    },
+    {
+      "id": "u0010",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0011",
+      "text": "Turning model trade-offs into a plain recommendation"
+    },
+    {
+      "id": "u0012",
+      "text": "Why per-token price misleads, and which savings are free"
+    },
+    {
+      "id": "u0013",
+      "text": "Putting a price on each extra layer of complexity"
+    },
+    {
+      "id": "u0014",
+      "text": "Backing the recommendation with your own evaluation"
+    },
+    {
+      "id": "u0015",
+      "text": "Making residual risk legible and bounded"
+    },
+    {
+      "id": "u0016",
+      "text": "Explaining a mechanism choice to the engineering team"
+    },
+    {
+      "id": "u0017",
+      "text": "Turning model trade-offs into a plain recommendation"
+    },
+    {
+      "id": "u0018",
+      "text": "Every architectural decision in a Claude solution trades a few things against each other: capability, speed, cost and risk. The person who approves the budget does not need the whole trade-off space. They need one recommendation, what it costs, and the condition that would change it. Engineers need the same decision explained through its mechanism. Communicating a trade-off means saying both versions accurately, and the model choice is usually the first place this comes up."
+    },
+    {
+      "id": "u0019",
+      "text": "Each Claude model balances capabilities, speed and cost differently, as covered in "
+    },
+    {
+      "id": "u0020",
+      "text": "Claude model lineup and its intelligence/speed/cost trade-offs"
+    },
+    {
+      "id": "u0021",
+      "text": ". For an executive audience, turn those three axes into one sentence that has a reason and an exit condition. For example: \"We start the ticket-triage step on Claude Haiku 5.5 because it is high-volume, straightforward work where latency and price matter most. We move up a tier only if our tests show a specific capability gap.\" That sentence follows the cost-first path: begin with Haiku 5.5, test thoroughly, and upgrade only where a gap appears. The capability-first path suits complex reasoning or high-autonomy agentic work. It reads differently: start on Claude Opus 5.5 because accuracy outweighs cost here, then lower effort or downgrade once the workflow is tuned."
+    },
+    {
+      "id": "u0022",
+      "text": "Present effort as the first dial, before any model switch. Several Claude models expose an effort parameter that trades intelligence for latency and cost within the same model. When a stakeholder says the system costs too much, the honest first answer is \"we lower effort and re-measure\", not \"we move to a cheaper model\". Speed can also be bought outright. Fast mode on Opus 5.5, Opus 5 and Opus 4.8 delivers up to 2.5x higher output speed at premium pricing. Put it to stakeholders as a direct exchange of money for response time."
+    },
+    {
+      "id": "u0023",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0024",
+      "text": "Take a model decision you have recently made or seen made. Can you state it in one sentence that names the model, the reason, and the measured result that would make you change it?"
+    },
+    {
+      "id": "u0025",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0026",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0027",
+      "text": "An executive approves the budget for a ticket-triage system on Claude Opus 5.5. The system's quality is fine, but they say it costs too much. What should your first recommendation be?"
+    },
+    {
+      "id": "u0028",
+      "text": "Move the workload to Claude Haiku 5.5, because it has the lowest price"
+    },
+    {
+      "id": "u0029",
+      "text": "Lower the effort level on the current model and re-measure cost and quality"
+    },
+    {
+      "id": "u0030",
+      "text": "Drop down one model tier now, and adjust effort later if quality slips"
+    },
+    {
+      "id": "u0031",
+      "text": "Turn on fast mode so each request finishes sooner and costs less"
+    },
+    {
+      "id": "u0032",
+      "text": "Sources"
+    },
+    {
+      "id": "u0033",
+      "text": "Why per-token price misleads, and which savings are free"
+    },
+    {
+      "id": "u0034",
+      "text": "Stakeholders who compare models tend to reach for the price list, and the per-token rate is the wrong number to compare. As "
+    },
+    {
+      "id": "u0035",
+      "text": "Cost per solved task (not price per token)"
+    },
+    {
+      "id": "u0036",
+      "text": " establishes, the relevant figure is what it costs to get a task done. Explain it in business terms. A model with cheaper tokens that needs more turns, more thinking or more retries can cost more per finished ticket than a pricier model that gets it right the first time. More capable models often take fewer turns and less thinking time, so their cost per task is often lower, especially at lower effort levels."
+    },
+    {
+      "id": "u0037",
+      "text": "Savings come in two kinds, and stakeholders should never have to guess which kind they are being offered. Following "
+    },
+    {
+      "id": "u0038",
+      "text": "Free wins versus real trade-offs"
+    },
+    {
+      "id": "u0039",
+      "text": ", some levers cut spend without touching quality, and others buy savings with intelligence. Present free wins as things you will do anyway, with no approval needed. Present each trade-off with its quality price stated next to the saving."
+    },
+    {
+      "id": "u0040",
+      "text": "Cost levers and what to tell stakeholders about each"
+    },
+    {
+      "id": "u0041",
+      "text": "Lever"
+    },
+    {
+      "id": "u0042",
+      "text": "Does it cost quality?"
+    },
+    {
+      "id": "u0043",
+      "text": "How to say it to stakeholders"
+    },
+    {
+      "id": "u0044",
+      "text": "Prompt caching, token trimming"
+    },
+    {
+      "id": "u0045",
+      "text": "No"
+    },
+    {
+      "id": "u0046",
+      "text": "We are doing this regardless; it is pure saving"
+    },
+    {
+      "id": "u0047",
+      "text": "Batch processing at 50% off"
+    },
+    {
+      "id": "u0048",
+      "text": "No, but results can take up to 24 hours"
+    },
+    {
+      "id": "u0049",
+      "text": "Cheaper for any work that can wait a day; not for live users"
+    },
+    {
+      "id": "u0050",
+      "text": "Workspace spend limits"
+    },
+    {
+      "id": "u0051",
+      "text": "No"
+    },
+    {
+      "id": "u0052",
+      "text": "A ceiling on monthly spend, not a quality change"
+    },
+    {
+      "id": "u0053",
+      "text": "Lower effort"
+    },
+    {
+      "id": "u0054",
+      "text": "Can cost quality"
+    },
+    {
+      "id": "u0055",
+      "text": "Cheaper and faster; we restore effort if quality drops"
+    },
+    {
+      "id": "u0056",
+      "text": "Low effort, re-run failures at high"
+    },
+    {
+      "id": "u0057",
+      "text": "Same pass rate in Anthropic's tests, but needs a verifier"
+    },
+    {
+      "id": "u0058",
+      "text": "About 40% cheaper if outputs can be checked automatically"
+    },
+    {
+      "id": "u0059",
+      "text": "Showing the model elapsed time"
+    },
+    {
+      "id": "u0060",
+      "text": "A few points of score"
+    },
+    {
+      "id": "u0061",
+      "text": "Agent runs finish sooner at a small, measured quality cost"
+    },
+    {
+      "id": "u0062",
+      "text": "Smaller model"
+    },
+    {
+      "id": "u0063",
+      "text": "Can cost quality"
+    },
+    {
+      "id": "u0064",
+      "text": "Only if our eval shows it still clears the bar"
+    },
+    {
+      "id": "u0065",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0066",
+      "text": "When someone is choosing or switching models, the right comparison is cost per completed task. A cheaper rate per token is not a saving until it has been measured against how many tasks actually get finished."
+    },
+    {
+      "id": "u0067",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0068",
+      "text": "The model with the lowest per-token price is the cheapest option to recommend."
+    },
+    {
+      "id": "u0069",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0073",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0074",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0075",
+      "text": "A finance lead notices that one Claude model's per-token rate is a fraction of the rate of the model you run now. They ask you to switch to save money. What should you compare before you recommend the switch?"
+    },
+    {
+      "id": "u0076",
+      "text": "The cost per completed task for each model, measured on your own workload"
+    },
+    {
+      "id": "u0077",
+      "text": "The fast-mode premium of each model, because response speed drives total spend"
+    },
+    {
+      "id": "u0078",
+      "text": "Nothing more, because a lower per-token rate always means lower spend at the same quality"
+    },
+    {
+      "id": "u0079",
+      "text": "The input and output per-token rates of both models, weighted by the expected monthly token volume"
+    },
+    {
+      "id": "u0080",
+      "text": "Sources"
+    },
+    {
+      "id": "u0081",
+      "text": "Putting a price on each extra layer of complexity"
+    },
+    {
+      "id": "u0082",
+      "text": "Architects are rarely asked to justify a simpler design, but they should be ready to justify every layer they add. Matching complexity to the requirement is the principle in "
+    },
+    {
+      "id": "u0083",
+      "text": "Start simple: match complexity to the requirement"
+    },
+    {
+      "id": "u0084",
+      "text": ". The communication skill is to make the price of each layer visible, so stakeholders agree to the simple version by default rather than being sold the impressive one. Agentic systems often trade latency and cost for better task performance. That sentence is the one to put in front of a steering committee: the extra capability is real, and so is the bill."
+    },
+    {
+      "id": "u0085",
+      "text": "Describe the options as a ladder. Each step up has a cost you can name:"
+    },
+    {
+      "id": "u0086",
+      "text": "A single LLM call with retrieval and in-context examples is enough for many applications and is the cheapest to run and debug."
+    },
+    {
+      "id": "u0087",
+      "text": "A workflow runs LLMs and tools through predefined code paths. It adds predictability for well-defined tasks."
+    },
+    {
+      "id": "u0088",
+      "text": "An agent directs its own process and tool use. It adds flexibility, and with it latency, cost and less predictable behaviour."
+    },
+    {
+      "id": "u0089",
+      "text": "A framework on top of any of these can hide the underlying prompts and responses, which makes failures harder to debug."
+    },
+    {
+      "id": "u0090",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0091",
+      "text": "A product owner wants research reports produced by several agents working in parallel, \"so they come back faster\". Compared with a single agent, what does the parallel multi-agent design mainly buy?"
+    },
+    {
+      "id": "u0092",
+      "text": "More thorough coverage of a large information space, often with a longer total run time"
+    },
+    {
+      "id": "u0093",
+      "text": "Lower total token spend, because each agent has a smaller context"
+    },
+    {
+      "id": "u0094",
+      "text": "Faster end-to-end completion, because the work is split across agents running at once"
+    },
+    {
+      "id": "u0095",
+      "text": "Multi-agent designs need the most careful framing, because stakeholders tend to assume they mean speed. "
+    },
+    {
+      "id": "u0096",
+      "text": "When to split into multiple agents"
+    },
+    {
+      "id": "u0097",
+      "text": " covers the qualifying conditions. What stakeholders need to hear is the exchange. Parallel agents buy breadth: they can search a larger space than one agent within its context limits. They pay for it in tokens, typically 3 to 10 times more for equivalent tasks, because context is duplicated across agents and coordination and handoff summaries add their own messages. Despite the parallelism, the total run often takes longer than a single agent because there is so much more computation. The engineering cost is ongoing too. Every added agent is another potential point of failure, another set of prompts to maintain and another source of unexpected behaviour. Teams have spent months building multi-agent architectures, only to find that better prompting on one agent matched the result."
+    },
+    {
+      "id": "u0098",
+      "text": "A cheaper multi-model variant is worth separating from a full multi-agent build, because its purpose is cost rather than breadth. It pairs a lower-cost model with a frontier model so that most tokens are billed at the lower rate. One version is an executor that escalates hard decisions to an advisor model. Another is an orchestrator that hands bulk work to lower-cost workers. Pitch it as a cost play, with the same rule as every other layer: it goes in only if a measurement says it pays."
+    },
+    {
+      "id": "u0099",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0100",
+      "text": "Splitting work across parallel agents is the way to deliver results faster."
+    },
+    {
+      "id": "u0101",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0105",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0106",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0107",
+      "text": "You are walking a steering committee up the complexity ladder. Match each layer to the benefit or price you would name for it."
+    },
+    {
+      "id": "u0108",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0109",
+      "text": "Single LLM call with retrieval and in-context examples"
+    },
+    {
+      "id": "u0110",
+      "text": "Workflow"
+    },
+    {
+      "id": "u0111",
+      "text": "Agent"
+    },
+    {
+      "id": "u0112",
+      "text": "Framework layered on top"
+    },
+    {
+      "id": "u0113",
+      "text": "Directs its own process and tool use, which adds flexibility along with latency, cost and less predictable behaviour"
+    },
+    {
+      "id": "u0114",
+      "text": "Runs LLMs and tools through predefined code paths, which makes well-defined tasks predictable"
+    },
+    {
+      "id": "u0115",
+      "text": "Can hide the underlying prompts and responses, so failures are harder to debug"
+    },
+    {
+      "id": "u0116",
+      "text": "Enough for many applications, and the cheapest option to run and debug"
+    },
+    {
+      "id": "u0117",
+      "text": "Sources"
+    },
+    {
+      "id": "u0118",
+      "text": "Backing the recommendation with your own evaluation"
+    },
+    {
+      "id": "u0119",
+      "text": "A recommendation is only as credible as the evidence behind it, and vendor numbers are the weakest evidence you can put in front of a stakeholder. Anthropic presents its own measurements of cost and quality levers as Anthropic-internal and directional, not guarantees. Published comparisons are useful for deciding what to test. One vendor result is that Sonnet 5 with a Fable 5 advisor scored within 10% of Fable 5 on SWE-bench Pro at 63% of the price. That figure is a reason to try the advisor pattern on your workload. It does not show that the pattern will pay on your workload."
+    },
+    {
+      "id": "u0120",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0121",
+      "text": "A CFO asks why you recommend Opus over Sonnet for contract review. Which evidence should carry the recommendation?"
+    },
+    {
+      "id": "u0122",
+      "text": "Both models' results on a curated set of your own contracts, scored against success criteria your team defined"
+    },
+    {
+      "id": "u0123",
+      "text": "Opus's lead on a widely cited public benchmark"
+    },
+    {
+      "id": "u0124",
+      "text": "Anthropic's published measurements of cost per solved task across models"
+    },
+    {
+      "id": "u0125",
+      "text": "Public benchmarks fail in a specific way at the top of the range. Powerful models such as Opus and Fable can solve almost all of the questions, so the benchmark saturates and stops telling them apart. A custom evaluation does not saturate. It is a curated set of problems drawn from production, including the difficult cases your current tools fall short on, scored against criteria your team sets. That is where frontier models separate from each other, and it is the result a stakeholder can check against the business they know."
+    },
+    {
+      "id": "u0126",
+      "text": "Building that evidence follows a short method, and the evaluation set is the step that matters most:"
+    },
+    {
+      "id": "u0127",
+      "text": "Build benchmark tests specific to your use case."
+    },
+    {
+      "id": "u0128",
+      "text": "Run them with your actual prompts and data."
+    },
+    {
+      "id": "u0129",
+      "text": "Compare candidates on accuracy, response quality and handling of edge cases."
+    },
+    {
+      "id": "u0130",
+      "text": "Weigh that performance against cost, expressed per completed task."
+    },
+    {
+      "id": "u0131",
+      "text": "Present the result as the reason for the decision, not as an appendix. \"Opus cleared our quality bar on the contract set and Sonnet did not, so Opus\" is a recommendation. The reverse case is just as persuasive: if the smaller model clears the bar, its price and speed win. The same logic decides when to go up a tier. If your evals show Opus struggling on some tasks, Fable is the next step, and the evidence for that step is your eval, not a benchmark table. Your evals also help with diagnosis. A team that starts on a small model can find it harder to tell model failures from setup failures. A head-to-head eval run on the same harness separates the two, so a poor result is not blamed on the wrong thing."
+    },
+    {
+      "id": "u0132",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0133",
+      "text": "Anthropic's published cost and quality measurements are enough evidence to justify a model choice for your workload."
+    },
+    {
+      "id": "u0134",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0136",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0137",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0138",
+      "text": "Before you put a model recommendation for contract review in front of the CFO, you need to build your own evidence. Put the steps of that evaluation method in order."
+    },
+    {
+      "id": "u0139",
+      "text": "Build benchmark tests specific to the contract-review use case"
+    },
+    {
+      "id": "u0140",
+      "text": "Compare the candidate models on accuracy, response quality and handling of edge cases"
+    },
+    {
+      "id": "u0141",
+      "text": "Run those tests with your actual prompts and contract data"
+    },
+    {
+      "id": "u0142",
+      "text": "Weigh that performance against cost, expressed per completed task"
+    },
+    {
+      "id": "u0143",
+      "text": "Check order"
+    },
+    {
+      "id": "u0144",
+      "text": "Sources"
+    },
+    {
+      "id": "u0145",
+      "text": "Making residual risk legible and bounded"
+    },
+    {
+      "id": "u0146",
+      "text": "\"There is no risk\" is the one risk statement an architect should never make. It is not true of any LLM system, and it leaves the approver nothing to check. A useful risk statement names the specific failure, bounds how bad it can get, and says how you would find out. Approvers can accept a risk they can see the edges of. They cannot accept an unknown."
+    },
+    {
+      "id": "u0147",
+      "text": "Four questions turn a vague worry into a bounded statement:"
+    },
+    {
+      "id": "u0148",
+      "text": "Untrusted content: what inputs come from outside the trust boundary?"
+    },
+    {
+      "id": "u0149",
+      "text": "Actions: what can the system write, edit, delete or call?"
+    },
+    {
+      "id": "u0150",
+      "text": "Blast radius: what is the worst outcome you can construct?"
+    },
+    {
+      "id": "u0151",
+      "text": "Observability: how quickly would something unexpected surface?"
+    },
+    {
+      "id": "u0152",
+      "text": "Anthropic's incident-response agent shows what the answers look like. Its inputs were internal logs and internal Slack, so an injection would need an insider or a compromised account. It could read widely but only write new documents and Slack messages, with no edits, deletes or permission changes. The worst outcome the team could construct was some mildly sensitive log lines posted into an incident channel that was already locked down. Every action landed in the SIEM, where anything unexpected would surface in minutes. The conclusion was stated as bounded, not absent: the agent was not risk-free, but it had a bounded write surface with full audit coverage, which was a risk profile the team accepted."
+    },
+    {
+      "id": "u0153",
+      "text": "A bound only holds as long as you re-check it. When the same agent moved from Claude Opus 4 to Claude Opus 4.5, with no new tools, permissions or prompts, the smarter model decided mid-incident to ask another agent to write a production fix. The bound held because that fix went to a pull request that a human reviewed before it shipped. Tell stakeholders this up front. A model upgrade is a change to the risk profile, and the controls that bound it, such as human review on code changes, are part of the design rather than optional extras."
+    },
+    {
+      "id": "u0154",
+      "text": "Cost risk is bounded the same way. A Claude Managed Agents session budget limits what a single runaway agent run can spend, and workspace spend limits act as the backstop across the whole workspace. \"The worst month cannot exceed the workspace limit\" is a statement a finance approver can sign off. \"Costs should stay reasonable\" is not."
+    },
+    {
+      "id": "u0155",
+      "text": "Rewrite this line from a design review so it bounds the risk instead of denying it: \"The support agent can't do any damage.\""
+    },
+    {
+      "id": "u0156",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0157",
+      "text": "A design is ready for approval once you can tell stakeholders it carries no risk."
+    },
+    {
+      "id": "u0158",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0160",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0161",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0162",
+      "text": "A security approver signed off on an agent's bounded risk statement six months ago. The team now plans to move it to a newer, smarter Claude model and change nothing else: no new tools, permissions or prompts. How should you present the upgrade?"
+    },
+    {
+      "id": "u0163",
+      "text": "As a cost decision only, because session budgets and workspace spend limits already cover any new behaviour"
+    },
+    {
+      "id": "u0164",
+      "text": "As a model swap that leaves the approved risk profile unchanged, because tools, permissions and prompts all stay the same"
+    },
+    {
+      "id": "u0165",
+      "text": "As a reason to withdraw the agent's write access, because a smarter model can no longer be bounded"
+    },
+    {
+      "id": "u0166",
+      "text": "As a change to the risk profile: re-check the bound before shipping, and keep controls such as human review of code changes as part of the design"
+    },
+    {
+      "id": "u0167",
+      "text": "Sources"
+    },
+    {
+      "id": "u0168",
+      "text": "Explaining a mechanism choice to the engineering team"
+    },
+    {
+      "id": "u0169",
+      "text": "The technical audience needs the same decision explained through mechanism, and here precision is the trade-off. If you misdescribe a feature in a design walkthrough, the team builds the wrong thing. Three choices come up often in long-running agent work, and in each one the wrong explanation sounds plausible."
+    },
+    {
+      "id": "u0170",
+      "text": "Compaction and context editing both keep a long session inside the context window, but they work differently and in different places. Compaction runs on the server. When the conversation approaches the context window limit, it automatically summarises the whole conversation, so the session continues without client-side bookkeeping. Context editing is configured from the client and clears specific content, such as old tool results. Neither one requires the Batch API, and neither one is tied to a particular model tier. For a multi-hour coding agent, describe compaction as \"keeps the active context small automatically\" and context editing as \"drops stale tool output we choose to drop\". Pair either one with a memory tool when facts must survive summarisation."
+    },
+    {
+      "id": "u0171",
+      "text": "Which thinking modes are available depends on the model generation, so the explanation has to name models. Extended thinking is the older manual mode, set with a token budget. Claude 4.7 and later models reject it with a 400 error. On those models, Claude Opus 4.8 included, adaptive thinking is the only mode, and the model decides when and how much to think. On Claude 4.5 and earlier models that support thinking, Claude Haiku 4.5 included, extended thinking is the only mode, and adaptive thinking is not available. A team building on both models needs two code paths. A team planning to send extended-thinking requests to Opus 4.8 should budget for that change now, not find it at the first failed request."
+    },
+    {
+      "id": "u0172",
+      "text": "Choosing between Claude Managed Agents and the Claude Agent SDK is a decision about who runs the infrastructure, not about capability. Both work with the same concepts: agents, tools and sessions. The SDK runs in a process you operate, with custom tools defined in your code. Managed Agents is a pre-built agent harness running on Anthropic's infrastructure, aimed at long-running tasks and asynchronous work. Sessions run in an Anthropic-managed cloud sandbox, or in a self-hosted one if you configure that, and the agent definition is stored and versioned on the server. When the requirement is a continuously running agent with no sandbox or session infrastructure for your team to operate, the honest justification is that Anthropic runs the sandbox and session state. It is not that the SDK lacks features."
+    },
+    {
+      "id": "u0173",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0174",
+      "text": "Extended thinking with a token budget still works on Claude Opus 4.8 alongside adaptive thinking."
+    },
+    {
+      "id": "u0175",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0177",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0178",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0179",
+      "text": "Your team is moving a coding agent from Claude Haiku 4.5 to Claude Opus 5.5. The agent's requests currently use extended thinking with a token budget, and the team plans to keep sending them unchanged. What should you tell the engineers in the design walkthrough?"
+    },
+    {
+      "id": "u0180",
+      "text": "Target Claude Opus 4.8 instead, because it still accepts extended thinking with a budget alongside adaptive thinking"
+    },
+    {
+      "id": "u0181",
+      "text": "Nothing needs to change, because the available thinking modes depend on model tier, and Opus-tier models support both modes"
+    },
+    {
+      "id": "u0182",
+      "text": "Nothing needs to change, because the newer model treats the extended-thinking token budget as a cap on adaptive thinking"
+    },
+    {
+      "id": "u0183",
+      "text": "Plan the change now: Opus 5.5 rejects extended-thinking requests with a 400 error, so those calls must move to adaptive thinking, where the model decides when and how much to think"
+    },
+    {
+      "id": "u0184",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0185",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0186",
+      "text": "A long-running autonomous coding agent keeps exceeding the model's context window during multi-hour sessions. You are choosing between server-side compaction and context editing to fix this, and need to explain the distinction to your team. Which statement is accurate?"
+    },
+    {
+      "id": "u0187",
+      "text": "Compaction automatically summarizes earlier parts of the conversation as the context window fills up, while context editing applies configurable strategies such as clearing old tool results or managing thinking blocks"
+    },
+    {
+      "id": "u0188",
+      "text": "Compaction deletes tool results outright with no summarization, while context editing rewrites the entire conversation into a shorter prompt using a separate summarization model call you must trigger manually"
+    },
+    {
+      "id": "u0189",
+      "text": "Context editing only works with Claude Haiku 4.5, while compaction is restricted to Claude Opus 4.8, so the model choice determines which technique is available"
+    },
+    {
+      "id": "u0190",
+      "text": "Compaction and context editing both require the Batch API, so a synchronous long-running agent session cannot use either technique to manage context growth"
+    },
+    {
+      "id": "u0191",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0192",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0193",
+      "text": "You're advising a team building agents on both Claude Opus 4.8 and Claude Haiku 4.5, and need to explain how their thinking modes differ so the team can budget development time correctly. Select the two accurate statements."
+    },
+    {
+      "id": "u0194",
+      "text": "(Select "
+    },
+    {
+      "id": "u0195",
+      "text": "On Claude Opus 4.8, adaptive thinking is the only thinking mode, so the model itself decides when and how much to think rather than exposing a separate extended-thinking toggle"
+    },
+    {
+      "id": "u0196",
+      "text": "Claude Haiku 4.5 supports extended thinking, giving visibility into the model's step-by-step reasoning before its final answer, but does not support adaptive thinking"
+    },
+    {
+      "id": "u0197",
+      "text": "Claude Opus 4.8 supports both extended thinking and adaptive thinking simultaneously, letting a single request combine both reasoning modes for maximum transparency"
+    },
+    {
+      "id": "u0198",
+      "text": "Adaptive thinking is exclusive to Claude Haiku 4.5, while every other current model relies solely on extended thinking for step-by-step reasoning"
+    },
+    {
+      "id": "u0199",
+      "text": "Neither extended thinking nor adaptive thinking is available on any current Claude model; both were fully retired ahead of the Claude 5 generation"
+    },
+    {
+      "id": "u0200",
+      "text": "Check answer"
+    },
+    {
+      "id": "u0201",
+      "text": "0 of 2 selected"
+    },
+    {
+      "id": "u0202",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0203",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0204",
+      "text": "Your company wants to launch a production agent that must run continuously for long, asynchronous sessions without your team operating any sandbox or session infrastructure. During a design walkthrough, you must explain why you chose Managed Agents over the Claude Agent SDK. Which explanation is correct?"
+    },
+    {
+      "id": "u0205",
+      "text": "Managed Agents runs on Anthropic-managed infrastructure with a hosted sandbox per session and an Anthropic-hosted event log, removing the operational burden of running sandboxes and session state for long-running asynchronous work."
+    },
+    {
+      "id": "u0206",
+      "text": "The Agent SDK cannot call custom tools or connect to MCP servers, which prevents it from supporting production workflows that require external integrations, so Managed Agents must be used because it provides full tool, MCP server, and external API connectivity."
+    },
+    {
+      "id": "u0207",
+      "text": "Managed Agents supports subagents and hooks, so it can delegate tasks to child agents and run custom lifecycle callbacks, while the Agent SDK is limited to a single flat agent loop that cannot create subagents or trigger hooks."
+    },
+    {
+      "id": "u0208",
+      "text": "The Agent SDK requires Claude Code to be installed as a separate CLI dependency, so using Managed Agents avoids the need for any Anthropic tooling on your own infrastructure because it runs entirely on Anthropic's managed platform."
+    },
+    {
+      "id": "u0209",
+      "text": "Sources"
+    },
+    {
+      "id": "u0210",
+      "text": "Sources"
+    }
+  ]
+}

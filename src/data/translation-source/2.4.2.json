@@ -1,0 +1,631 @@
+{
+  "pageId": "2.4.2",
+  "title": "Compaction and context editing for long Claude sessions",
+  "titleVi": "Nén và chỉnh sửa ngữ cảnh cho các phiên làm việc dài với Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Optimize context windows and manage token usage"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Choose between compaction on demand, compaction at a token threshold, and client-side SDK compaction"
+    },
+    {
+      "id": "u0002",
+      "text": "Configure tool result clearing and thinking block clearing with triggers and keep rules"
+    },
+    {
+      "id": "u0003",
+      "text": "Preview the effect of context editing with the token counting endpoint"
+    },
+    {
+      "id": "u0004",
+      "text": "Weigh context saved against prompt cache hits lost, and place cache breakpoints so compaction doesn't re-cache the system prompt"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Compaction: replacing old turns with a summary"
+    },
+    {
+      "id": "u0007",
+      "text": "Context editing: clearing tool results and thinking by rule"
+    },
+    {
+      "id": "u0008",
+      "text": "Context management versus the prompt cache"
+    },
+    {
+      "id": "u0009",
+      "text": "Compaction: replacing old turns with a summary"
+    },
+    {
+      "id": "u0010",
+      "text": "A long agent session keeps growing until it either runs out of room or degrades well before that, as accuracy falls with length ("
+    },
+    {
+      "id": "u0011",
+      "text": "Context limits and context rot"
+    },
+    {
+      "id": "u0012",
+      "text": "). Compaction deals with both. It replaces the older turns with a summary Claude writes, so the task can keep going in a small active context. For conversations that regularly approach the limit, server-side compaction is the main strategy. It is in beta for Claude 4.6 and later models and Claude Mythos Preview."
+    },
+    {
+      "id": "u0013",
+      "text": "Three ways to compact, and when each wins"
+    },
+    {
+      "id": "u0014",
+      "text": "Aspect"
+    },
+    {
+      "id": "u0015",
+      "text": "Compaction on demand"
+    },
+    {
+      "id": "u0016",
+      "text": "Compaction at a token threshold"
+    },
+    {
+      "id": "u0017",
+      "text": "Your own summarizer (client)"
+    },
+    {
+      "id": "u0018",
+      "text": "Who decides when"
+    },
+    {
+      "id": "u0019",
+      "text": "You, by sending a request"
+    },
+    {
+      "id": "u0020",
+      "text": "The API, when input tokens reach the trigger you set"
+    },
+    {
+      "id": "u0021",
+      "text": "You"
+    },
+    {
+      "id": "u0022",
+      "text": "Code you write"
+    },
+    {
+      "id": "u0023",
+      "text": "A compaction loop that requests the summary and swaps it in"
+    },
+    {
+      "id": "u0024",
+      "text": "One parameter on your ordinary requests"
+    },
+    {
+      "id": "u0025",
+      "text": "The summarization call, its prompt, and the history rewrite"
+    },
+    {
+      "id": "u0026",
+      "text": "Runs in the background"
+    },
+    {
+      "id": "u0027",
+      "text": "Yes"
+    },
+    {
+      "id": "u0028",
+      "text": "No: it runs inside the request that reaches the threshold"
+    },
+    {
+      "id": "u0029",
+      "text": "Yes, in your own code"
+    },
+    {
+      "id": "u0030",
+      "text": "Choose it when"
+    },
+    {
+      "id": "u0031",
+      "text": "You must control timing, can't pause for a summary, or must keep recent turns and their thinking"
+    },
+    {
+      "id": "u0032",
+      "text": "You want the API to manage context inside ordinary requests"
+    },
+    {
+      "id": "u0033",
+      "text": "You already run a summarizer that replaces the whole history"
+    },
+    {
+      "id": "u0034",
+      "text": "Use on-demand compaction wherever it's available. It is the only server option where kept turns keep their thinking on models that preserve thinking. With threshold compaction, any turns you re-insert on Fable 5.1, Opus 5.5, Sonnet 5.5 or Haiku 5.5 must have their thinking removed. Either way, compaction is an extra sampling step, and it counts toward rate limits and billing."
+    },
+    {
+      "id": "u0035",
+      "text": "Client-side SDK compaction is the alternative. Server-side compaction is generally preferred over it. It runs in the TypeScript and Ruby SDKs through "
+    },
+    {
+      "id": "u0036",
+      "text": " with a "
+    },
+    {
+      "id": "u0037",
+      "text": " setting. After each response the SDK adds "
+    },
+    {
+      "id": "u0038",
+      "text": ". Once that total passes "
+    },
+    {
+      "id": "u0039",
+      "text": " (100,000 by default), it injects a summary request and replaces the entire history with the summary. In the documented example, that takes the history from about 100k tokens to roughly 2–3k. A lower threshold means more frequent compactions and a smaller context. You can also set a cheaper "
+    },
+    {
+      "id": "u0040",
+      "text": " for writing summaries, or your own "
+    },
+    {
+      "id": "u0041",
+      "text": ", as long as it wraps the summary in "
+    },
+    {
+      "id": "u0042",
+      "text": " tags."
+    },
+    {
+      "id": "u0043",
+      "text": "That sum can go wrong with server-side tools. After a web search, "
+    },
+    {
+      "id": "u0044",
+      "text": " can include reads from several internal calls the tool made. A real context of 63,000 tokens then shows up as 334,400, and compaction fires far too early. Check the true length with the token counting endpoint, or avoid SDK compaction in workflows that use server tools heavily. Compaction suits long multi-file tasks and research runs with measurable progress and artifacts saved outside the conversation. It's a poor fit when the task needs precise recall of early details or exact state across many variables."
+    },
+    {
+      "id": "u0045",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0046",
+      "text": "The client-side SDK's token total is a reliable measure of context length, including when server-side tools are in use."
+    },
+    {
+      "id": "u0047",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0051",
+      "text": "Checkpoint 1 of 5"
+    },
+    {
+      "id": "u0052",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0053",
+      "text": "Match each way to compact a long session with the situation it fits best"
+    },
+    {
+      "id": "u0054",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0055",
+      "text": "Compaction on demand"
+    },
+    {
+      "id": "u0056",
+      "text": "Compaction at a token threshold"
+    },
+    {
+      "id": "u0057",
+      "text": "Your own summarizer (client)"
+    },
+    {
+      "id": "u0058",
+      "text": "Client-side SDK compaction"
+    },
+    {
+      "id": "u0059",
+      "text": "Your application must control when compaction happens, can't pause while a summary is written, or must keep recent turns along with their thinking"
+    },
+    {
+      "id": "u0060",
+      "text": "You want the API to compact inside ordinary requests once input tokens reach a trigger you set, by adding one parameter"
+    },
+    {
+      "id": "u0061",
+      "text": "A TypeScript or Ruby tool_runner adds up the usage fields after each response and swaps in a summary once context_token_threshold is passed"
+    },
+    {
+      "id": "u0062",
+      "text": "You already run a summarization call that replaces the whole history with its summary"
+    },
+    {
+      "id": "u0063",
+      "text": "Checkpoint 2 of 5"
+    },
+    {
+      "id": "u0064",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0065",
+      "text": "A TypeScript agent uses tool_runner with compaction_control at the default threshold and calls web search heavily. Compaction keeps firing after a few turns, even though the conversation itself is only about 60k tokens. What is the most likely cause?"
+    },
+    {
+      "id": "u0066",
+      "text": "The SDK's total includes cache_read_input_tokens, which add up reads from the search tool's internal calls and make the context look much larger than it is"
+    },
+    {
+      "id": "u0067",
+      "text": "The SDK adds max_tokens to the input, so any request whose input plus max_tokens passes 100k triggers compaction"
+    },
+    {
+      "id": "u0068",
+      "text": "Cached prefix tokens don't count toward the window, but the SDK counts them anyway, so prompt caching should be turned off"
+    },
+    {
+      "id": "u0069",
+      "text": "Web search results stay in the history in full, so the context really is over 100k tokens and compaction is working as intended"
+    },
+    {
+      "id": "u0070",
+      "text": "Sources"
+    },
+    {
+      "id": "u0071",
+      "text": "Context editing: clearing tool results and thinking by rule"
+    },
+    {
+      "id": "u0072",
+      "text": "Context editing works by removal, not summarization. You set rules, and once a threshold is crossed the API clears specific content before the prompt reaches Claude. There are two server-side strategies. You can configure each one on its own or combine them."
+    },
+    {
+      "id": "u0073",
+      "text": "Tool result clearing"
+    },
+    {
+      "id": "u0074",
+      "text": ") is meant for agents that make heavy use of tools. A file Claude read twenty turns ago has usually done its job already. When the trigger fires, the API clears the oldest tool results first, in chronological order, and puts placeholder text in each one's place. Set "
+    },
+    {
+      "id": "u0075",
+      "text": " to true to also clear the tool call parameters."
+    },
+    {
+      "id": "u0076",
+      "text": "Tool result clearing with a trigger, a keep rule, a minimum clear size and an excluded tool"
+    },
+    {
+      "id": "u0077",
+      "text": "python"
+    },
+    {
+      "id": "u0078",
+      "text": "Thinking block clearing"
+    },
+    {
+      "id": "u0079",
+      "text": ") controls thinking from earlier assistant turns through "
+    },
+    {
+      "id": "u0080",
+      "text": ". Use "
+    },
+    {
+      "id": "u0081",
+      "text": " to keep the last N turns, or "
+    },
+    {
+      "id": "u0082",
+      "text": " to keep everything. If you don't set it, the default follows the model: Opus 4.5+, Sonnet 4.6+, Haiku 5.5+ and the Fable and Mythos models keep all turns, while older Opus, Sonnet and Haiku models keep only the last turn."
+    },
+    {
+      "id": "u0083",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0084",
+      "text": "With tool result clearing on, the API clears old tool results before Claude sees the prompt. Should your application now delete those results from its own stored history to stay in sync?"
+    },
+    {
+      "id": "u0085",
+      "text": "Only if clear_tool_inputs is true"
+    },
+    {
+      "id": "u0086",
+      "text": "Yes, otherwise the next request resends the cleared content and fails"
+    },
+    {
+      "id": "u0087",
+      "text": "No, the client keeps the full unmodified history and the API applies the edits each time"
+    },
+    {
+      "id": "u0088",
+      "text": "Your stored history stays complete. On Fable 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5, server-side context management never invalidates thinking blocks. Editing earlier turns yourself on the client can invalidate the thinking in every later assistant turn. Clearing also works with the memory tool: when context nears the clearing threshold, Claude gets an automatic warning and can write what matters to memory files before the results disappear. To see the effect before turning a rule on, pass the same "
+    },
+    {
+      "id": "u0089",
+      "text": " to the token counting endpoint. It returns the count after clearing next to the original."
+    },
+    {
+      "id": "u0090",
+      "text": "Token counting with context management: 70,000 tokens before clearing, 25,000 after"
+    },
+    {
+      "id": "u0091",
+      "text": "json"
+    },
+    {
+      "id": "u0092",
+      "text": "Checkpoint 3 of 5"
+    },
+    {
+      "id": "u0093",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0094",
+      "text": "Your Opus 5.5 coding agent reads dozens of large files, and those old file reads are crowding the window. The web search results it gathered must stay word for word, and you don't want any thinking blocks invalidated. Which setup fits?"
+    },
+    {
+      "id": "u0095",
+      "text": "Add clear_thinking_20251015 with keep set to the last turn so old thinking makes room for the file reads"
+    },
+    {
+      "id": "u0096",
+      "text": "Add clear_tool_uses_20250919 with a trigger and keep rule, and list web_search in exclude_tools"
+    },
+    {
+      "id": "u0097",
+      "text": "Turn on compaction at a token threshold so older turns, search results included, are replaced with a summary"
+    },
+    {
+      "id": "u0098",
+      "text": "Have the client delete old file-read tool results from its stored history before each request"
+    },
+    {
+      "id": "u0099",
+      "text": "Sources"
+    },
+    {
+      "id": "u0100",
+      "text": "Context management versus the prompt cache"
+    },
+    {
+      "id": "u0101",
+      "text": "Prompt caching reuses an identical prompt prefix ("
+    },
+    {
+      "id": "u0102",
+      "text": "Prompt caching"
+    },
+    {
+      "id": "u0103",
+      "text": "). Compaction and context editing both change the prompt partway through, and cache hits stop at the first change. Each clearing or compaction saves context and costs you a cache write. That trade only pays off when the edit is big enough to justify it."
+    },
+    {
+      "id": "u0104",
+      "text": "How each context-management action affects the cache, and the setting that controls the trade-off"
+    },
+    {
+      "id": "u0105",
+      "text": "Action"
+    },
+    {
+      "id": "u0106",
+      "text": "Cache effect"
+    },
+    {
+      "id": "u0107",
+      "text": "How to tune it"
+    },
+    {
+      "id": "u0108",
+      "text": "Tool result clearing"
+    },
+    {
+      "id": "u0109",
+      "text": "Invalidates cached prefixes when content is cleared; cache write on each clear"
+    },
+    {
+      "id": "u0110",
+      "text": "Set clear_at_least so every invalidation removes enough tokens to justify it"
+    },
+    {
+      "id": "u0111",
+      "text": "Thinking block clearing"
+    },
+    {
+      "id": "u0112",
+      "text": "Kept blocks preserve the cache; clearing invalidates it at the clearing point"
+    },
+    {
+      "id": "u0113",
+      "text": "Set keep: \"all\" to favour cache hits, a small thinking_turns value to favour window space"
+    },
+    {
+      "id": "u0114",
+      "text": "Compaction"
+    },
+    {
+      "id": "u0115",
+      "text": "The summary is new content that must be written to the cache"
+    },
+    {
+      "id": "u0116",
+      "text": "Put a cache_control breakpoint at the end of the system prompt so it stays cached separately"
+    },
+    {
+      "id": "u0117",
+      "text": "Compaction shows why breakpoint placement matters. Without a breakpoint of its own, the system prompt is invalidated along with everything else when compaction rewrites the conversation, and has to be re-cached alongside the summary. With a "
+    },
+    {
+      "id": "u0118",
+      "text": " breakpoint on the last block of the system prompt, the system prompt is still read from cache after compaction, and only the summary is written as a new entry."
+    },
+    {
+      "id": "u0119",
+      "text": "The same rule applies to any request with a large fixed preamble. Put static content first (tool definitions, system instructions, examples) and mark the end of it with "
+    },
+    {
+      "id": "u0120",
+      "text": ". Take a support agent with a 6,000-token policy prompt and a user message that changes every time. The breakpoint goes on the final block of the policy text. A breakpoint on the user message would create a new cache entry that no later request matches. Putting one on every block doesn't help either, because the changing part can never be a shared prefix."
+    },
+    {
+      "id": "u0121",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0122",
+      "text": "Clearing thinking blocks is free context: it saves tokens with no other cost."
+    },
+    {
+      "id": "u0123",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0127",
+      "text": "Checkpoint 4 of 5"
+    },
+    {
+      "id": "u0128",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0129",
+      "text": "After a teammate adds clear_thinking_20251015 with keep set to {type: \"thinking_turns\", value: 1} to a long Opus 5.5 session, the window stays smaller but cache hits drop and input costs go up. What explains this, and what is the trade-off?"
+    },
+    {
+      "id": "u0130",
+      "text": "Thinking blocks are never part of the cached prefix, so the clearing rule can't be the cause. Something else in the prompt must have changed."
+    },
+    {
+      "id": "u0131",
+      "text": "Clearing earlier thinking invalidates the prompt cache at the point where it is cleared. Setting keep to \"all\" brings back cache hits but uses more window space."
+    },
+    {
+      "id": "u0132",
+      "text": "The client still sends the full history, including the cleared thinking, so the prefix the API sees no longer matches. Deleting those blocks on the client would restore the cache."
+    },
+    {
+      "id": "u0133",
+      "text": "Server-side clearing invalidates the signatures on later thinking blocks, so every later turn has to be re-sent without caching."
+    },
+    {
+      "id": "u0134",
+      "text": "Checkpoint 5 of 5"
+    },
+    {
+      "id": "u0135",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0136",
+      "text": "A team is building a customer support agent that sends a 6,000-token static system prompt containing product policies and tone guidelines, followed by a short per-request user message that always differs. Both latency and cost matter, and the team wants to maximize the prompt cache hit rate across thousands of daily requests. Where should they place the cache_control breakpoint?"
+    },
+    {
+      "id": "u0137",
+      "text": "On the final block of the static system prompt, so the stable policy and tone text is cached and reused across every request"
+    },
+    {
+      "id": "u0138",
+      "text": "On the user message block, so each incoming request establishes a brand-new cache entry that later turns can build upon"
+    },
+    {
+      "id": "u0139",
+      "text": "On the tools array only, leaving the system prompt uncached because tool schemas change more often than policy text"
+    },
+    {
+      "id": "u0140",
+      "text": "On every content block in the request, including the user message, so the entire prompt becomes eligible for caching"
+    },
+    {
+      "id": "u0141",
+      "text": "Sources"
+    },
+    {
+      "id": "u0142",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0143",
+      "text": "Measure how much context a tool result clearing rule would save, before you turn it on in production"
+    },
+    {
+      "id": "u0144",
+      "text": "Take a long agent transcript and call the token counting endpoint on it with no context_management."
+    },
+    {
+      "id": "u0145",
+      "text": "Why: "
+    },
+    {
+      "id": "u0146",
+      "text": "This gives the baseline input size the agent sends now."
+    },
+    {
+      "id": "u0147",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0148",
+      "text": "An input_tokens value for the full history."
+    },
+    {
+      "id": "u0149",
+      "text": "Call client.beta.messages.count_tokens again with betas=[\"context-management-2025-06-27\"] and a clear_tool_uses_20250919 edit with an input_tokens trigger and a tool_uses keep value."
+    },
+    {
+      "id": "u0150",
+      "text": "Why: "
+    },
+    {
+      "id": "u0151",
+      "text": "The endpoint previews the prompt after clearing without running a real request."
+    },
+    {
+      "id": "u0152",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0153",
+      "text": "A response with input_tokens after clearing and context_management.original_input_tokens before it."
+    },
+    {
+      "id": "u0154",
+      "text": "Subtract the two values, and compare the savings with the clear_at_least you plan to set."
+    },
+    {
+      "id": "u0155",
+      "text": "Why: "
+    },
+    {
+      "id": "u0156",
+      "text": "Each clear invalidates the cached prefix, so a clear should remove enough tokens to be worth a cache write."
+    },
+    {
+      "id": "u0157",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0158",
+      "text": "A savings figure that tells you whether to raise the trigger or the minimum clear size."
+    },
+    {
+      "id": "u0159",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0161",
+      "text": "Sources"
+    }
+  ]
+}

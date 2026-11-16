@@ -1,0 +1,783 @@
+{
+  "pageId": "4.2",
+  "title": "Eval datasets and graders: designing a mixed-method test framework",
+  "titleVi": "Bộ dữ liệu đánh giá và bộ chấm điểm: thiết kế khung kiểm thử kết hợp nhiều phương pháp",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design evaluation datasets and test frameworks using mixed methodologies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Rewrite a vague success criterion so that it is specific, measurable, achievable and relevant enough to test"
+    },
+    {
+      "id": "u0002",
+      "text": "Build an evaluation dataset that mirrors real traffic and then deliberately adds edge cases"
+    },
+    {
+      "id": "u0003",
+      "text": "Explain why many automated cases run over repeated trials beat a few hand-graded ones"
+    },
+    {
+      "id": "u0004",
+      "text": "Choose between code, LLM and human graders for a given criterion, and combine them in one framework"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Eval test case"
+    },
+    {
+      "id": "u0007",
+      "text": "The unit every evaluation is built from. It holds an input fed to the model, the model's output, a golden answer to compare against, and a score from a grader. You design the dataset by choosing the inputs and golden answers, and you design the framework by choosing how each output is scored."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Success criteria come before test cases"
+    },
+    {
+      "id": "u0010",
+      "text": "Test cases that mirror real traffic, then edge cases"
+    },
+    {
+      "id": "u0011",
+      "text": "Volume, automation and repeated trials"
+    },
+    {
+      "id": "u0012",
+      "text": "Code-graded, LLM-graded and human-graded evals"
+    },
+    {
+      "id": "u0013",
+      "text": "Combining graders in one framework"
+    },
+    {
+      "id": "u0014",
+      "text": "Success criteria come before test cases"
+    },
+    {
+      "id": "u0015",
+      "text": "An evaluation dataset is only useful if it measures something definite. Before anyone writes a test case, the team needs success criteria that say what good output looks like, because every case and every grader exists to check one of them. Choosing which dimensions matter, such as accuracy, latency, cost or safety, belongs to "
+    },
+    {
+      "id": "u0016",
+      "text": "defining evaluation metrics"
+    },
+    {
+      "id": "u0017",
+      "text": ". This lesson starts one step later: the shape a criterion needs before a dataset can test it."
+    },
+    {
+      "id": "u0018",
+      "text": "A criterion is testable when it has four properties:"
+    },
+    {
+      "id": "u0019",
+      "text": "Specific"
+    },
+    {
+      "id": "u0020",
+      "text": ": it names the behaviour. \"Accurate sentiment classification\" is specific; \"good performance\" is not."
+    },
+    {
+      "id": "u0021",
+      "text": "Measurable"
+    },
+    {
+      "id": "u0022",
+      "text": ": it uses a number, or a qualitative scale applied consistently alongside numbers. Even safety can be counted, for example fewer than 0.1% of outputs out of 10,000 trials flagged for toxicity."
+    },
+    {
+      "id": "u0023",
+      "text": "Achievable"
+    },
+    {
+      "id": "u0024",
+      "text": ": the target comes from industry benchmarks, prior experiments or expert knowledge, and stays within what current frontier models can do."
+    },
+    {
+      "id": "u0025",
+      "text": "Relevant"
+    },
+    {
+      "id": "u0026",
+      "text": ": it fits the application's purpose. Citation accuracy can be critical for a medical app and matter much less for a casual chatbot."
+    },
+    {
+      "id": "u0027",
+      "text": "A rewrite shows the difference. \"The model should classify sentiments well\" fails all four. The good version asks for an F1 score of at least 0.85 on a held-out test set of 10,000 diverse Twitter posts, a 5% improvement over the current baseline. That criterion already describes a dataset: how big it is, where it comes from, and that it is held out. A criterion written this way tells you what to build next."
+    },
+    {
+      "id": "u0028",
+      "text": "Run the same check on a draft like \"summaries should be concise and helpful.\" Rewritten as \"average at least 4 out of 5 on a completeness rubric across a 500-claim sample,\" it becomes a number you can check on every run, and it holds up: a rubric scale is a legitimate qualitative measure, and an average leaves room for imperfect individual outputs. Three other rewrites look like progress but still fail. \"Sound less robotic\" is a preference with no measurement attached. \"A perfect 5 from every reviewer\" is measurable but not achievable, because it demands flawless agreement that no baseline supports. \"Every summary signed off by a senior reviewer\" is a review process, not a criterion, and it puts a human into the grading of every run."
+    },
+    {
+      "id": "u0029",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0030",
+      "text": "Pick a feature you are building. Can you write its main success criterion so that it names a dataset size, a number to reach, and the baseline that number improves on?"
+    },
+    {
+      "id": "u0031",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0032",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0033",
+      "text": "A support-bot team's draft success criterion reads \"replies should be friendly and helpful.\" Which rewrite is a testable criterion that an evaluation dataset can check on every run?"
+    },
+    {
+      "id": "u0034",
+      "text": "Every reply must receive a perfect 5 out of 5 from every reviewer on the team."
+    },
+    {
+      "id": "u0035",
+      "text": "Every reply must be approved by a team lead before the prompt change ships."
+    },
+    {
+      "id": "u0036",
+      "text": "Replies average at least 4 out of 5 on an empathy rubric across 300 held-out customer inquiries."
+    },
+    {
+      "id": "u0037",
+      "text": "Replies should sound warmer and less scripted than they do today."
+    },
+    {
+      "id": "u0038",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0039",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0040",
+      "text": "A team is defining the success criteria for a new claims-summarization feature before building the evaluation dataset. The current draft criterion reads: \"the summaries should be concise and helpful.\" Which revised criterion best follows the SMART framework for evaluation design?"
+    },
+    {
+      "id": "u0041",
+      "text": "Require summaries to average at least 4 out of 5 on a completeness rubric across a 500-claim sample"
+    },
+    {
+      "id": "u0042",
+      "text": "Require summaries to earn a perfect 5 out of 5 completeness score from every adjuster in the sample"
+    },
+    {
+      "id": "u0043",
+      "text": "Require summaries to sound less robotic and read more naturally to the adjusters who review them"
+    },
+    {
+      "id": "u0044",
+      "text": "Require every summary to be signed off by a senior adjuster before it counts as acceptable"
+    },
+    {
+      "id": "u0045",
+      "text": "Sources"
+    },
+    {
+      "id": "u0046",
+      "text": "Test cases that mirror real traffic, then edge cases"
+    },
+    {
+      "id": "u0047",
+      "text": "Your criteria tell you what to test, and production tells you what mix of inputs to test it on. A dataset of only easy, well-formed inputs will score well and predict little. Automated evals can create false confidence when they don't match real usage patterns. So the first job is to reproduce the inputs the system actually receives: the same document types, lengths, phrasing and noise, in roughly the same proportions."
+    },
+    {
+      "id": "u0048",
+      "text": "Next, add edge cases on purpose. They are rare in any sample, and failures tend to hide there. The standard categories are:"
+    },
+    {
+      "id": "u0049",
+      "text": "irrelevant or nonexistent input data"
+    },
+    {
+      "id": "u0050",
+      "text": "overly long input data or user input"
+    },
+    {
+      "id": "u0051",
+      "text": "poor, harmful or irrelevant user input, in chat use cases"
+    },
+    {
+      "id": "u0052",
+      "text": "ambiguous cases where even humans would find it hard to agree on an assessment"
+    },
+    {
+      "id": "u0053",
+      "text": "A sentiment dataset: ordinary tweets with human labels, plus edge cases for sarcasm and mixed sentiment, marked in comments"
+    },
+    {
+      "id": "u0054",
+      "text": "python"
+    },
+    {
+      "id": "u0055",
+      "text": "Each task has its own edge cases. A summarization set adds multitopic articles and misleading headlines. An FAQ consistency set adds typos, long rambling questions and irrelevant personal details. A medical-privacy set adds health information that is explicit, hypothetical (\"if my friend Alice, born on…\") and implicit (\"the same medication as his father\"). Every case also needs a golden answer. That is either a mandatory exact match, or an example of a perfect answer that gives the grader something to compare against."
+    },
+    {
+      "id": "u0056",
+      "text": "Take a clause-extraction feature tested only on clean, standard commercial leases. Adding more clean leases gives more statistical confidence about a category that was never the risk. Translating the set into other languages measures a capability that production may not use. Having experts re-label the existing leases improves label quality but adds no coverage. What improves prediction is adding the malformed, scanned and non-standard contracts that production actually sees, stratified so that each type sits alongside the standard leases."
+    },
+    {
+      "id": "u0057",
+      "text": "After launch, real failures are the best source of new cases. Every bug that becomes a test case guards against that bug coming back, so the dataset tracks production more closely over time."
+    },
+    {
+      "id": "u0058",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0059",
+      "text": "Adding more of the cases a dataset already has is the best way to make it more predictive."
+    },
+    {
+      "id": "u0060",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0062",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0063",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0064",
+      "text": "This sentiment dataset deliberately includes a sarcastic tweet as an edge case. Which golden label belongs in the blank so that the case tests what it is meant to test?"
+    },
+    {
+      "id": "u0065",
+      "text": "negative"
+    },
+    {
+      "id": "u0066",
+      "text": "positive"
+    },
+    {
+      "id": "u0067",
+      "text": "neutral"
+    },
+    {
+      "id": "u0068",
+      "text": "mixed"
+    },
+    {
+      "id": "u0069",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0070",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0071",
+      "text": "An invoice-extraction eval scores 97% on 800 clean, digitally generated PDFs. Production also receives scanned faxes, multi-page invoices and some files with missing fields, and users say the feature fails often. Which change would most improve how well the eval predicts production results?"
+    },
+    {
+      "id": "u0072",
+      "text": "Have finance experts re-verify the golden answers on the existing 800 invoices"
+    },
+    {
+      "id": "u0073",
+      "text": "Translate the existing invoices into other languages to test robustness"
+    },
+    {
+      "id": "u0074",
+      "text": "Add scanned, multi-page and incomplete invoices in roughly their production proportions, plus deliberate edge cases"
+    },
+    {
+      "id": "u0075",
+      "text": "Add 2,000 more clean, digitally generated PDFs to tighten the confidence interval on the score"
+    },
+    {
+      "id": "u0076",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0077",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0078",
+      "text": "An evaluation team is assembling test cases for a clause-extraction feature used on uploaded contracts. The current dataset contains only well-formatted, standard commercial leases. Following evaluation design best practices, which addition would most improve the test set's ability to predict real-world failures?"
+    },
+    {
+      "id": "u0079",
+      "text": "A stratified set of malformed, scanned, and non-standard contracts added alongside the standard leases to mirror production documents"
+    },
+    {
+      "id": "u0080",
+      "text": "A larger number of well-formatted standard leases, so the existing category has more statistical confidence behind its accuracy score"
+    },
+    {
+      "id": "u0081",
+      "text": "A set of contracts translated into several languages, so multilingual fluency can be scored alongside extraction accuracy"
+    },
+    {
+      "id": "u0082",
+      "text": "A panel of legal experts who re-extract clauses from the existing standard leases to double-check the original human labels"
+    },
+    {
+      "id": "u0083",
+      "text": "Sources"
+    },
+    {
+      "id": "u0084",
+      "text": "Volume, automation and repeated trials"
+    },
+    {
+      "id": "u0085",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0086",
+      "text": "A team has budget for one of two eval designs for a support bot. Which gives the more useful signal while they iterate on the prompt?"
+    },
+    {
+      "id": "u0087",
+      "text": "200 cases graded by experts, run once per release"
+    },
+    {
+      "id": "u0088",
+      "text": "50 cases, each graded carefully by a domain expert"
+    },
+    {
+      "id": "u0089",
+      "text": "1,000 cases graded automatically, with slightly noisier scores per case"
+    },
+    {
+      "id": "u0090",
+      "text": "Many automated cases beat a few hand-graded ones, and the reason is cost over time. Writing questions and golden answers is usually a one-time cost. Grading is paid again every time the eval runs, and a useful eval runs constantly: on each prompt change, each model upgrade, each release. Hand grading makes every run slow and expensive. Automated grading lets you run hundreds of cases on every change. If no dataset exists, Claude can help generate the questions."
+    },
+    {
+      "id": "u0091",
+      "text": "Automation is decided when you write the question, not when you grade it. Structure cases so the output can be checked mechanically: multiple choice, string match, code-graded or LLM-graded. An eval that asks how many legs an animal has, and tells Claude to output only a number, can be graded by exact match, including the tricky case of a fox that regrows a lost leg plus an extra one. The same question asked open-ended would need a person to read every answer."
+    },
+    {
+      "id": "u0092",
+      "text": "A single run is also not enough. Each attempt at a task is a "
+    },
+    {
+      "id": "u0093",
+      "text": "trial"
+    },
+    {
+      "id": "u0094",
+      "text": ", and model outputs vary between runs, so one pass over the suite is one sample of a non-deterministic system. Running multiple trials per task gives more consistent results, which means a change of a few points is less likely to be noise. Some criteria need repetition anyway. A toxicity target stated over 10,000 trials, or a requirement that the same question asked twice gets a semantically similar answer, cannot be checked with one output per input."
+    },
+    {
+      "id": "u0095",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0096",
+      "text": "A small set of carefully hand-graded cases gives a better eval than a large automatically graded one."
+    },
+    {
+      "id": "u0097",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0099",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0100",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0101",
+      "text": "After a prompt tweak, a code-graded suite of 400 cases goes from 81% to 84% on a single pass over each version. Before crediting the tweak, what should the team do?"
+    },
+    {
+      "id": "u0102",
+      "text": "Run multiple trials per task for both prompt versions and compare the aggregated results"
+    },
+    {
+      "id": "u0103",
+      "text": "Accept the gain, because 400 automatically graded cases are enough that a single pass is reliable"
+    },
+    {
+      "id": "u0104",
+      "text": "Switch to expert human grading for both versions so the 3-point difference is scored exactly"
+    },
+    {
+      "id": "u0105",
+      "text": "Make every grader exact-match so scoring is deterministic, then compare the two single runs again"
+    },
+    {
+      "id": "u0106",
+      "text": "Sources"
+    },
+    {
+      "id": "u0107",
+      "text": "Code-graded, LLM-graded and human-graded evals"
+    },
+    {
+      "id": "u0108",
+      "text": "Use the cheapest grader that can reliably judge the criterion. Code-based grading is the best method whenever the eval can be designed to allow it, because it is fast and highly reliable. Model-based grading covers what code cannot judge. Human grading can judge almost anything, but it is slow and expensive, so avoid designing evals that depend on it where you can."
+    },
+    {
+      "id": "u0109",
+      "text": "The three grader types compared"
+    },
+    {
+      "id": "u0110",
+      "text": "Grader"
+    },
+    {
+      "id": "u0111",
+      "text": "Typical methods"
+    },
+    {
+      "id": "u0112",
+      "text": "Strengths"
+    },
+    {
+      "id": "u0113",
+      "text": "Weaknesses"
+    },
+    {
+      "id": "u0114",
+      "text": "Best fit"
+    },
+    {
+      "id": "u0115",
+      "text": "Code-based"
+    },
+    {
+      "id": "u0116",
+      "text": "String match (exact, regex, fuzzy), binary tests, static analysis, outcome verification"
+    },
+    {
+      "id": "u0117",
+      "text": "Fast, cheap, objective, reproducible, easy to debug"
+    },
+    {
+      "id": "u0118",
+      "text": "Brittle to valid variations; lacking in nuance"
+    },
+    {
+      "id": "u0119",
+      "text": "Categorical or short, well-defined answers"
+    },
+    {
+      "id": "u0120",
+      "text": "Model-based (LLM)"
+    },
+    {
+      "id": "u0121",
+      "text": "Rubric-based scoring, natural language assertions, pairwise comparison, multi-judge consensus"
+    },
+    {
+      "id": "u0122",
+      "text": "Flexible, scalable, captures nuance, handles freeform output"
+    },
+    {
+      "id": "u0123",
+      "text": "Non-deterministic; more expensive than code; requires calibration with human graders"
+    },
+    {
+      "id": "u0124",
+      "text": "Tone, open-ended answers, subtle policy checks"
+    },
+    {
+      "id": "u0125",
+      "text": "Human"
+    },
+    {
+      "id": "u0126",
+      "text": "SME review, spot-check sampling, inter-annotator agreement"
+    },
+    {
+      "id": "u0127",
+      "text": "Gold standard quality; matches expert user judgment"
+    },
+    {
+      "id": "u0128",
+      "text": "Expensive, slow, often needs human experts at scale"
+    },
+    {
+      "id": "u0129",
+      "text": "Calibrating LLM graders; subjective outputs"
+    },
+    {
+      "id": "u0130",
+      "text": "Code graders come in more than one form, and each answers a different question. "
+    },
+    {
+      "id": "u0131",
+      "text": "Exact match"
+    },
+    {
+      "id": "u0132",
+      "text": " checks whether the output equals the correct answer after whitespace and case are normalized, which suits categorical labels. "
+    },
+    {
+      "id": "u0133",
+      "text": "Cosine similarity"
+    },
+    {
+      "id": "u0134",
+      "text": " between sentence embeddings checks whether paraphrased versions of a question get semantically similar answers, so it measures consistency, not correctness. "
+    },
+    {
+      "id": "u0135",
+      "text": "ROUGE-L"
+    },
+    {
+      "id": "u0136",
+      "text": " measures the longest common subsequence between a generated summary and a reference summary."
+    },
+    {
+      "id": "u0137",
+      "text": "An exact-match grader: normalize, then compare against the golden answer"
+    },
+    {
+      "id": "u0138",
+      "text": "python"
+    },
+    {
+      "id": "u0139",
+      "text": "LLM graders take two common forms. A "
+    },
+    {
+      "id": "u0140",
+      "text": "Likert scale"
+    },
+    {
+      "id": "u0141",
+      "text": " grader asks a model to rate an output from 1 to 5 against a target, such as how empathetic a customer-service reply is. It suits nuanced qualities like empathy, professionalism or patience that traditional metrics struggle to measure. A "
+    },
+    {
+      "id": "u0142",
+      "text": "binary"
+    },
+    {
+      "id": "u0143",
+      "text": " grader asks a yes/no question, such as \"does this response contain personal health information?\". It can catch implicit or subtle cases that rule-based checks miss. In both forms the grader prompt should demand a constrained output (\"Output only the number\", \"Output only 'yes' or 'no'\") so the verdict can be parsed in code. It is generally best practice to grade with a different model from the one that produced the output."
+    },
+    {
+      "id": "u0144",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0145",
+      "text": "Match the grader to what the criterion asks. An HR-policy bot that answers \"How many paid sick days?\" with short, well-defined facts should be graded by exact or normalized string match against an answer key that is updated whenever the policy changes. Cosine similarity against earlier responses only shows the bot is consistent, so an answer that is wrong every time scores perfectly. A 1–5 professionalism rating measures tone, not facts. A weekly human review of a sample is slow, covers only part of the traffic, and cannot keep up with frequent updates."
+    },
+    {
+      "id": "u0146",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0147",
+      "text": "High cosine similarity between a model's answers shows those answers are correct."
+    },
+    {
+      "id": "u0148",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0150",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0151",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0152",
+      "text": "Match each grader to the evaluation job it is best suited for in a mixed-method framework."
+    },
+    {
+      "id": "u0153",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0154",
+      "text": "Exact match (code-based)"
+    },
+    {
+      "id": "u0155",
+      "text": "Cosine similarity (code-based)"
+    },
+    {
+      "id": "u0156",
+      "text": "Likert-scale LLM grader"
+    },
+    {
+      "id": "u0157",
+      "text": "Human SME review"
+    },
+    {
+      "id": "u0158",
+      "text": "Rating how empathetic or professional a customer-service reply is, from 1 to 5"
+    },
+    {
+      "id": "u0159",
+      "text": "Calibrating the model-based graders against expert judgment"
+    },
+    {
+      "id": "u0160",
+      "text": "Checking that paraphrased versions of the same question get semantically similar answers"
+    },
+    {
+      "id": "u0161",
+      "text": "Checking categorical labels such as positive, negative, neutral or mixed against a golden answer"
+    },
+    {
+      "id": "u0162",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0163",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0164",
+      "text": "A team is designing a test framework for a Claude-based tool that answers factual questions about internal HR policies using short, well-defined answers (e.g., \"What is the maximum number of paid sick days?\"). To keep pace with frequent policy updates, which grading approach best supports automation while remaining accurate?"
+    },
+    {
+      "id": "u0165",
+      "text": "Grade each response with exact-match or normalized string comparison against a maintained answer key"
+    },
+    {
+      "id": "u0166",
+      "text": "Have a rotating group of HR staff manually review a sample of transcripts each week and flag incorrect answers"
+    },
+    {
+      "id": "u0167",
+      "text": "Ask a separate Claude call to rate each response on a 1-5 scale for how professional it sounds to an employee"
+    },
+    {
+      "id": "u0168",
+      "text": "Run each response through a cosine-similarity check against prior responses to the same question as a proxy for correctness"
+    },
+    {
+      "id": "u0169",
+      "text": "Sources"
+    },
+    {
+      "id": "u0170",
+      "text": "Combining graders in one framework"
+    },
+    {
+      "id": "u0171",
+      "text": "Most applications need to be evaluated on several success criteria at once, and that is why mixed methods exist. The sentiment model from the earlier criterion is judged on F1, the share of non-toxic outputs, how severe its errors are, and response time, all on the same held-out set. No single grader checks all four, so one task usually carries several graders, each checking one part of the output."
+    },
+    {
+      "id": "u0172",
+      "text": "There are three ways to combine those graders into one verdict. "
+    },
+    {
+      "id": "u0173",
+      "text": "Weighted"
+    },
+    {
+      "id": "u0174",
+      "text": " scoring requires the combined scores to reach a threshold. "
+    },
+    {
+      "id": "u0175",
+      "text": "Binary"
+    },
+    {
+      "id": "u0176",
+      "text": " scoring requires every grader to pass. A "
+    },
+    {
+      "id": "u0177",
+      "text": "hybrid"
+    },
+    {
+      "id": "u0178",
+      "text": " mixes the two, for example making a privacy check a hard gate while weighting tone and completeness together. Graders can also look at different evidence. A flight-booking agent may say \"Your flight has been booked\" in its transcript, but the outcome is whether a reservation actually exists in the database. A code check on the outcome catches what a rubric reading the transcript would accept."
+    },
+    {
+      "id": "u0179",
+      "text": "In a mixed framework, humans do a specific job: calibration. LLM graders are non-deterministic and need checking against human graders before their scores can be trusted, so systematic human review is best spent on calibrating LLM graders and on subjective outputs where human consensus is the reference standard. Descript's video-editing agent followed this path. It moved from manual grading to LLM graders using criteria defined by the product team, with periodic human calibration. The result is a stack where code checks what is checkable, LLMs judge what needs nuance, and a small, regular human sample keeps the LLM judges honest."
+    },
+    {
+      "id": "u0180",
+      "text": "A medical chatbot must never reveal patient health information, must answer in a fixed format, and should sound reassuring. Which grader would you put on each requirement?"
+    },
+    {
+      "id": "u0181",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0182",
+      "text": "Once an LLM grader exists, human review is no longer needed."
+    },
+    {
+      "id": "u0183",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0185",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0186",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0187",
+      "text": "A support-bot task has a privacy grader, a tone grader and a completeness grader. Pair each way of turning their scores into one verdict with how that verdict behaves."
+    },
+    {
+      "id": "u0188",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0189",
+      "text": "Weighted"
+    },
+    {
+      "id": "u0190",
+      "text": "Binary"
+    },
+    {
+      "id": "u0191",
+      "text": "Hybrid"
+    },
+    {
+      "id": "u0192",
+      "text": "The case fails if any single grader fails, however well the others score"
+    },
+    {
+      "id": "u0193",
+      "text": "The privacy check must pass on its own, while tone and completeness are combined toward a threshold"
+    },
+    {
+      "id": "u0194",
+      "text": "A strong tone score can make up for a weak completeness score, as long as the combined score reaches the threshold"
+    },
+    {
+      "id": "u0195",
+      "text": "Sources"
+    },
+    {
+      "id": "u0196",
+      "text": "Sources"
+    }
+  ]
+}

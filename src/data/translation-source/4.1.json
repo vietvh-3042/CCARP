@@ -1,0 +1,811 @@
+{
+  "pageId": "4.1",
+  "title": "Evaluation metrics for Claude systems: accuracy, latency, cost, safety and security",
+  "titleVi": "Chỉ số đánh giá hệ thống Claude: độ chính xác, độ trễ, chi phí, an toàn và bảo mật",
+  "units": [
+    {
+      "id": "description",
+      "text": "Define evaluation metrics"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Explain why one Claude application needs several metrics, and name the failure each metric catches that the others miss"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose the accuracy metric that fits the output: exact match or F1 for fixed labels, cosine similarity for consistency, ROUGE-L for summaries checked against references"
+    },
+    {
+      "id": "u0003",
+      "text": "Write a latency criterion that names its clock (time to first token, total response time or end-to-end task time) and uses a percentile rather than a mean"
+    },
+    {
+      "id": "u0004",
+      "text": "Turn cost, safety and security goals into computed rates with pass/fail thresholds, including a checkable definition of a successful attack"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Multidimensional success criteria"
+    },
+    {
+      "id": "u0007",
+      "text": "A Claude application passes only when it meets a separate, computable threshold on each dimension it is judged on, such as accuracy, latency, cost, safety and security. A single score can't do this, because a system can do well on one dimension while failing another."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Why one metric never certifies a Claude system"
+    },
+    {
+      "id": "u0010",
+      "text": "Matching the accuracy metric to the shape of the output"
+    },
+    {
+      "id": "u0011",
+      "text": "Latency: name the clock and the percentile"
+    },
+    {
+      "id": "u0012",
+      "text": "Cost per task as a pass/fail metric"
+    },
+    {
+      "id": "u0013",
+      "text": "Quantifying safety and security as checkable rates"
+    },
+    {
+      "id": "u0014",
+      "text": "Why one metric never certifies a Claude system"
+    },
+    {
+      "id": "u0015",
+      "text": "An evaluation metric is a number computed from a model's outputs on a test set and compared against a threshold. It tells you whether a prompt, model or configuration is ready to ship. You need it because \"the model should classify sentiments well\" can't be checked. \"F1 of at least 0.85 on 10,000 held-out posts\" can. The success criteria themselves are agreed during discovery ("
+    },
+    {
+      "id": "u0016",
+      "text": "Measurable success criteria"
+    },
+    {
+      "id": "u0017",
+      "text": "). Here the job is the next step: turning each criterion into a formula that a script can compute on every run."
+    },
+    {
+      "id": "u0018",
+      "text": "Each metric is blind to some kind of failure. A classifier can label every ticket correctly and still take too long for a live chat. It can be fast and correct but cost more per ticket than the process it replaces. It can be fast, correct and cheap but answer in toxic language now and then. Or it can pass on every ordinary input and still leak details it was told to keep private. That is why the reference example of a good criterion is several thresholds on one held-out set, not one number: an F1 of at least 0.85, 99.5% non-toxic outputs, 90% of errors being an inconvenience rather than egregious, and 95% of responses under 200ms."
+    },
+    {
+      "id": "u0019",
+      "text": "The five metric dimensions, a computable form of each, and the failure that only that dimension catches"
+    },
+    {
+      "id": "u0020",
+      "text": "Dimension"
+    },
+    {
+      "id": "u0021",
+      "text": "Computable metric with threshold"
+    },
+    {
+      "id": "u0022",
+      "text": "Failure only this dimension catches"
+    },
+    {
+      "id": "u0023",
+      "text": "Accuracy"
+    },
+    {
+      "id": "u0024",
+      "text": "F1 score of at least 0.85 on a held-out test set; exact-match accuracy"
+    },
+    {
+      "id": "u0025",
+      "text": "Wrong answers delivered quickly, cheaply and politely"
+    },
+    {
+      "id": "u0026",
+      "text": "Latency"
+    },
+    {
+      "id": "u0027",
+      "text": "95% of response times under 200ms"
+    },
+    {
+      "id": "u0028",
+      "text": "Correct answers that arrive too late for a real-time user"
+    },
+    {
+      "id": "u0029",
+      "text": "Cost"
+    },
+    {
+      "id": "u0030",
+      "text": "Cost per task or per classification against a budget or baseline"
+    },
+    {
+      "id": "u0031",
+      "text": "A configuration that is accurate and fast but too expensive to run at the expected volume"
+    },
+    {
+      "id": "u0032",
+      "text": "Safety"
+    },
+    {
+      "id": "u0033",
+      "text": "Less than 0.1% of 10,000 trials flagged for toxicity by the content filter"
+    },
+    {
+      "id": "u0034",
+      "text": "Correct content in harmful or inappropriate language"
+    },
+    {
+      "id": "u0035",
+      "text": "Security"
+    },
+    {
+      "id": "u0036",
+      "text": "Share of test inputs where the model uses or shares details it was told to keep private"
+    },
+    {
+      "id": "u0037",
+      "text": "An application that behaves on ordinary input but is turned against its own instructions"
+    },
+    {
+      "id": "u0038",
+      "text": "For agents, the dimensions also stack inside a single task. Each check on an agent's work is a grader: logic that scores one aspect of its performance. A support agent's task can count as solved only if the ticket is resolved (a state check, which inspects the environment after the run), the conversation finished in under 10 turns (a transcript constraint, a limit on what the conversation log may contain, such as the number of turns), and the tone was appropriate (an LLM rubric, a model scoring the output against written criteria). You also choose how a task's grader scores combine. Weighted scoring passes when the combined score clears a threshold. Binary scoring requires every grader to pass. A hybrid mixes the two."
+    },
+    {
+      "id": "u0039",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0040",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0041",
+      "text": "A support-ticket classifier has failed in production. Match each failure to the metric dimension that would have caught it before launch."
+    },
+    {
+      "id": "u0042",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0043",
+      "text": "Accuracy"
+    },
+    {
+      "id": "u0044",
+      "text": "Latency"
+    },
+    {
+      "id": "u0045",
+      "text": "Cost"
+    },
+    {
+      "id": "u0046",
+      "text": "Safety"
+    },
+    {
+      "id": "u0047",
+      "text": "Security"
+    },
+    {
+      "id": "u0048",
+      "text": "Answers are correct, but now and then they use toxic language"
+    },
+    {
+      "id": "u0049",
+      "text": "Labels are correct and fast, but each ticket costs more to process than the routing method it replaced"
+    },
+    {
+      "id": "u0050",
+      "text": "Replies are fast, cheap and polite, but tickets keep getting the wrong label"
+    },
+    {
+      "id": "u0051",
+      "text": "It handles ordinary input fine, but reveals details it was told to keep private"
+    },
+    {
+      "id": "u0052",
+      "text": "Every label is correct, but it arrives too late for a live chat user"
+    },
+    {
+      "id": "u0053",
+      "text": "Sources"
+    },
+    {
+      "id": "u0054",
+      "text": "Matching the accuracy metric to the shape of the output"
+    },
+    {
+      "id": "u0055",
+      "text": "\"Accuracy\" is not one metric. The right one depends on what a correct output looks like, so start with the output's shape. When the answer comes from a fixed set of labels, such as five ticket categories or positive/negative/neutral/mixed sentiment, correctness is binary, and code can grade it without any judgement. Exact match compares the output with the labelled answer after normalising whitespace and case. Accuracy is the share of matches. When the classes are imbalanced or some errors matter more than others, precision, recall and F1 from the same comparisons tell you more than raw accuracy."
+    },
+    {
+      "id": "u0056",
+      "text": "Exact-match grading of a labelled sentiment set: normalise, compare, then average into an accuracy score"
+    },
+    {
+      "id": "u0057",
+      "text": "python"
+    },
+    {
+      "id": "u0058",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0059",
+      "text": "A team has 200 long reports, each paired with a human-written reference summary. They want an automated score for how much of the reference's key content each model summary keeps, and in what order. Which metric fits?"
+    },
+    {
+      "id": "u0060",
+      "text": "Cosine similarity across several summaries generated from the same report"
+    },
+    {
+      "id": "u0061",
+      "text": "Exact-match accuracy against the reference summary"
+    },
+    {
+      "id": "u0062",
+      "text": "ROUGE-L between the model summary and the reference summary"
+    },
+    {
+      "id": "u0063",
+      "text": "Free-form text breaks exact match, because two good summaries almost never match character for character. For summarisation against reference summaries, use ROUGE-L. It measures the length of the longest common subsequence shared by the model's summary and the reference, so it rewards both overlapping content and the order in which ideas appear. A typical test set is a few hundred articles, each with a reference summary."
+    },
+    {
+      "id": "u0064",
+      "text": "Consistency is a separate question from correctness. If a user asks the same thing twice in different words, they should get answers that mean the same thing. To measure this, encode the outputs for groups of paraphrased questions with a sentence-embedding model and compute cosine similarity. Values near 1 mean the answers agree. This metric says nothing about whether the answers are right: a model that gives the same wrong label to every paraphrase scores perfectly."
+    },
+    {
+      "id": "u0065",
+      "text": "Some qualities, such as coherence, tone or translation quality, have no reference you can match against. For these, use a qualitative scale applied the same way every time: a Likert prompt such as \"Rate coherence from 1 (nonsensical) to 5 (perfectly logical)\", scored by an LLM grader or by experts with a rubric. Don't use one on a categorical task. Asking a second model to rate how well a label \"matches\" adds cost and non-determinism to a check that string comparison settles exactly."
+    },
+    {
+      "id": "u0066",
+      "text": "Accuracy metrics by output shape"
+    },
+    {
+      "id": "u0067",
+      "text": "Output shape"
+    },
+    {
+      "id": "u0068",
+      "text": "Metric"
+    },
+    {
+      "id": "u0069",
+      "text": "What a high score means"
+    },
+    {
+      "id": "u0070",
+      "text": "One label from a fixed set"
+    },
+    {
+      "id": "u0071",
+      "text": "Exact-match accuracy; precision, recall, F1"
+    },
+    {
+      "id": "u0072",
+      "text": "The predicted label equals the human label"
+    },
+    {
+      "id": "u0073",
+      "text": "Summary with a reference"
+    },
+    {
+      "id": "u0074",
+      "text": "ROUGE-L"
+    },
+    {
+      "id": "u0075",
+      "text": "Key information from the reference appears in a coherent order"
+    },
+    {
+      "id": "u0076",
+      "text": "Answers to paraphrased versions of one question"
+    },
+    {
+      "id": "u0077",
+      "text": "Cosine similarity of sentence embeddings"
+    },
+    {
+      "id": "u0078",
+      "text": "Answers are semantically consistent (not necessarily correct)"
+    },
+    {
+      "id": "u0079",
+      "text": "Open-ended quality with no reference"
+    },
+    {
+      "id": "u0080",
+      "text": "Likert scale or expert rubric"
+    },
+    {
+      "id": "u0081",
+      "text": "Graders consistently rate the output highly on the defined criterion"
+    },
+    {
+      "id": "u0082",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0083",
+      "text": "Cosine similarity between answers to paraphrased questions shows the model is answering correctly."
+    },
+    {
+      "id": "u0084",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0086",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0087",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0088",
+      "text": "Your team ran 50 groups of paraphrased questions through a ticket classifier that picks one of five categories. The answers within each group have a mean cosine similarity of 0.98, and a teammate says this shows the classifier is accurate enough to ship. What is the right conclusion?"
+    },
+    {
+      "id": "u0089",
+      "text": "The classifier gives the correct category about 98% of the time, so the accuracy criterion is met"
+    },
+    {
+      "id": "u0090",
+      "text": "The score doesn't count because cosine similarity needs a reference answer, so ROUGE-L against labelled categories should replace it"
+    },
+    {
+      "id": "u0091",
+      "text": "Correctness should be confirmed by having an LLM grader rate on a 1–5 Likert scale how well each category fits the ticket"
+    },
+    {
+      "id": "u0092",
+      "text": "The answers are consistent across paraphrases, but correctness still needs exact-match accuracy or F1 against the human-labelled categories"
+    },
+    {
+      "id": "u0093",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0094",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0095",
+      "text": "A fintech company built an automated support-ticket triage system that assigns each incoming ticket to exactly one of five fixed categories (billing, fraud, account access, technical issue, other). The team wants to measure how well the model performs this core categorization task using a labeled test set of 5,000 tickets, with automated, unambiguous grading. Which evaluation approach should the team use?"
+    },
+    {
+      "id": "u0096",
+      "text": "Score each output against the labeled category using exact-match accuracy or an F1 score computed from the confusion matrix"
+    },
+    {
+      "id": "u0097",
+      "text": "Encode each ticket's paraphrased variants with a sentence-embedding model and average the pairwise cosine similarity of the outputs"
+    },
+    {
+      "id": "u0098",
+      "text": "Compute the ROUGE-L score between each model output and a reference summary written by a support lead"
+    },
+    {
+      "id": "u0099",
+      "text": "Ask a second Claude model to rate each categorization on a 1-5 Likert scale for how well it matches the expected category"
+    },
+    {
+      "id": "u0100",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0101",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0102",
+      "text": "A documentation team built a tool that condenses long internal incident reports into short summaries. They have 200 incident reports paired with human-written reference summaries and want an automated metric that captures both the overlap of key information and the ordering of ideas between the model's summary and the reference. Which metric is best suited to this evaluation?"
+    },
+    {
+      "id": "u0103",
+      "text": "ROUGE-L score measuring the longest common subsequence between the model's summary and the reference summary"
+    },
+    {
+      "id": "u0104",
+      "text": "Exact-match accuracy comparing the model's summary character-for-character against the reference summary"
+    },
+    {
+      "id": "u0105",
+      "text": "Cosine similarity between embeddings of ten independently generated summaries of the same report"
+    },
+    {
+      "id": "u0106",
+      "text": "A binary classifier that flags whether the summary contains any personally identifiable information"
+    },
+    {
+      "id": "u0107",
+      "text": "Sources"
+    },
+    {
+      "id": "u0108",
+      "text": "Latency: name the clock and the percentile"
+    },
+    {
+      "id": "u0109",
+      "text": "A latency target means nothing until you say when the clock starts and when it stops. A Claude system has three clocks worth separating, and they can move independently:"
+    },
+    {
+      "id": "u0110",
+      "text": "Time to first token (TTFT)"
+    },
+    {
+      "id": "u0111",
+      "text": " runs from sending the prompt to receiving the first token of the response. It is what a user notices when responses are streamed, because text starts appearing even while generation continues."
+    },
+    {
+      "id": "u0112",
+      "text": "Total response time"
+    },
+    {
+      "id": "u0113",
+      "text": " runs until the last token arrives. An agent eval records it as "
+    },
+    {
+      "id": "u0114",
+      "text": ", alongside "
+    },
+    {
+      "id": "u0115",
+      "text": ". This is the clock that matters when nothing downstream can act until the full output has been parsed, such as a classifier whose label sits at the end of its reasoning."
+    },
+    {
+      "id": "u0116",
+      "text": "End-to-end task time"
+    },
+    {
+      "id": "u0117",
+      "text": " covers a whole agent run across many turns and tool calls. It grows with "
+    },
+    {
+      "id": "u0118",
+      "text": " and "
+    },
+    {
+      "id": "u0119",
+      "text": " even when each individual call is fast."
+    },
+    {
+      "id": "u0120",
+      "text": "Tracked metrics on an agent eval task: transcript size next to three separate latency measurements"
+    },
+    {
+      "id": "u0121",
+      "text": "yaml"
+    },
+    {
+      "id": "u0122",
+      "text": "The clocks pull against each other, so an SLA that names none of them can be met while users still complain. Streaming improves TTFT but leaves total response time unchanged. Telling an agent that time matters and showing it the elapsed time cut run time by 7% to 47% in Anthropic's tests, at the cost of a few points of score. That trade is visible only if task time and accuracy are both being measured."
+    },
+    {
+      "id": "u0123",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0124",
+      "text": "A voice agent must answer the vast majority of turns within a strict budget, but occasional slow turns during traffic spikes are tolerable. Which metric definition expresses that?"
+    },
+    {
+      "id": "u0125",
+      "text": "95th-percentile response time, e.g. 95% of responses under 200ms"
+    },
+    {
+      "id": "u0126",
+      "text": "Mean response time over the last month"
+    },
+    {
+      "id": "u0127",
+      "text": "Requests completed per minute at peak load"
+    },
+    {
+      "id": "u0128",
+      "text": "Write the threshold as a percentile. \"95% of responses under 200ms\" puts the budget and the allowed exceptions in a single sentence: 5% of turns may run slow during a spike, and the rest may not. A mean can't express that. A month of 150ms average can hide a fifth of voice turns stalling, and one extreme outlier can push an otherwise healthy average over its target. Average output token count and requests per minute are not latency metrics at all. The first measures response size and the second measures capacity. Pick the percentile and the budget from the application's real-time requirements: a voice turn and an overnight batch job are not held to the same number."
+    },
+    {
+      "id": "u0129",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0130",
+      "text": "Time to first token tells you how long the user waits for the whole answer."
+    },
+    {
+      "id": "u0131",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0133",
+      "text": "An average response time target is the right way to guarantee responsiveness with tolerance for spikes."
+    },
+    {
+      "id": "u0134",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0136",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0137",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0138",
+      "text": "A ticket classifier runs with stream=False, and its label comes at the end of its reasoning, so the router can't act until the whole response has arrived. The team wants its eval to track the latency clock that users of this router actually wait on. Which metric fills the blank?"
+    },
+    {
+      "id": "u0139",
+      "text": "time_to_last_token"
+    },
+    {
+      "id": "u0140",
+      "text": "output_tokens_per_sec"
+    },
+    {
+      "id": "u0141",
+      "text": "time_to_first_token"
+    },
+    {
+      "id": "u0142",
+      "text": "n_turns"
+    },
+    {
+      "id": "u0143",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0144",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0145",
+      "text": "A voice-based customer service agent needs to feel responsive in real time. The team defines a success criterion stating that the vast majority of user turns must receive a response within a strict time budget, while still tolerating occasional slower responses during traffic spikes. Which latency metric definition best matches this success criterion?"
+    },
+    {
+      "id": "u0146",
+      "text": "The 95th-percentile response time across production queries, with a target such as 95% of responses under 200ms"
+    },
+    {
+      "id": "u0147",
+      "text": "The mean response time averaged across all queries over the previous calendar month"
+    },
+    {
+      "id": "u0148",
+      "text": "The total number of output tokens generated per response, averaged across the test set"
+    },
+    {
+      "id": "u0149",
+      "text": "The number of API requests successfully completed per minute during peak load"
+    },
+    {
+      "id": "u0150",
+      "text": "Sources"
+    },
+    {
+      "id": "u0151",
+      "text": "Cost per task as a pass/fail metric"
+    },
+    {
+      "id": "u0152",
+      "text": "Cost should be an eval metric with a threshold, computed on the same runs as accuracy. Don't treat it as a bill you check afterwards. The unit is the task, not the token: a cheaper model that needs more turns or more retries can cost more for each problem it solves ("
+    },
+    {
+      "id": "u0153",
+      "text": "Cost per solved task (not price per token)"
+    },
+    {
+      "id": "u0154",
+      "text": "). The response's "
+    },
+    {
+      "id": "u0155",
+      "text": " block reports input, output and cache token counts. Multiply them by the per-token prices, then divide total spend by the number of tasks in the run."
+    },
+    {
+      "id": "u0156",
+      "text": "A cost threshold is relative to something. The ticket-routing example sets two thresholds side by side: 95% accuracy over 100 tests, and a 50% average reduction in cost per classification compared with the current routing method. In the insurance-claims cookbook, a baseline agent scored 10/10 at about $0.29 per task. Because a mislabelled claim costs more than the inference saved, the team kept the accuracy requirement at 10/10 and treated cost as the number to push down. A configuration that saves money but drops a case fails, however cheap it is."
+    },
+    {
+      "id": "u0157",
+      "text": "Why would a single eval run be weak evidence that a cheaper configuration meets its cost threshold?"
+    },
+    {
+      "id": "u0158",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0159",
+      "text": "When comparing configurations, the one with the lower price per token is the cheaper one."
+    },
+    {
+      "id": "u0160",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0165",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0166",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0167",
+      "text": "An insurance-claims agent's baseline scores 10/10 on its eval at about $0.29 per task. The team will not accept less than 10/10, and wants to lower cost. Three candidate configurations ran on the same eval. Which one passes?"
+    },
+    {
+      "id": "u0168",
+      "text": "Candidate Y has the lowest cost of the three at $0.12 per task, but scores 9/10."
+    },
+    {
+      "id": "u0169",
+      "text": "Candidate X uses the model with the lowest per-token price. It needs more turns per claim and scores 10/10 at $0.33 per task."
+    },
+    {
+      "id": "u0170",
+      "text": "None of them yet. Cost should be judged afterwards from the monthly bill, not from the eval runs."
+    },
+    {
+      "id": "u0171",
+      "text": "Candidate Z scores 10/10 at $0.22 per task."
+    },
+    {
+      "id": "u0172",
+      "text": "Sources"
+    },
+    {
+      "id": "u0173",
+      "text": "Quantifying safety and security as checkable rates"
+    },
+    {
+      "id": "u0174",
+      "text": "\"The assistant should be safe\" is a hope, not a criterion. Even fuzzy goals like ethics and safety can be expressed as rates: the share of outputs, over a stated number of trials, that a stated detector flags. A good safety criterion names three things: the detector (a content filter), the sample size (10,000 trials) and the ceiling (fewer than 0.1% flagged). Severity needs the same treatment. \"90% of errors would cause inconvenience, not egregious error\" is computable only once you have written down what counts as inconvenient and what counts as egregious."
+    },
+    {
+      "id": "u0175",
+      "text": "A security metric is computed the same way. The difference is that you first have to define what counts as a successful attack, specifically enough that code or a grader can decide it. Start from the threat model, because there are two. In jailbreaks and direct prompt injection, the user is the adversary and writes inputs meant to get around your guardrails. In indirect prompt injection, the user is trusted, but Claude reads third-party content (web pages, emails, documents, tool results) that contains adversarial instructions. Each one needs its own adversarial test set and its own success condition. The metric is then the attack success rate: the share of attack attempts that meet that condition."
+    },
+    {
+      "id": "u0176",
+      "text": "Write success conditions as observable outcomes, never as \"the model seemed manipulated\":"
+    },
+    {
+      "id": "u0177",
+      "text": "A harmlessness screen is a model call that labels incoming input as harmful or not before it reaches the main conversation. Structured outputs force it to return a fixed label, such as a boolean "
+    },
+    {
+      "id": "u0178",
+      "text": ", so code can compare it with the known answer. An attack succeeds when a known-harmful input comes back labelled safe."
+    },
+    {
+      "id": "u0179",
+      "text": "For data handling, an attack succeeds when the output uses or shares a detail the instructions said to withhold."
+    },
+    {
+      "id": "u0180",
+      "text": "For agents, an attack succeeds when the end state shows the forbidden effect, checked against environment state rather than the transcript's wording."
+    },
+    {
+      "id": "u0181",
+      "text": "The authentication-bypass task below shows the agent version. Its graders spell out what \"secure\" means: deterministic tests that reject empty and null passwords, a static security scan with "
+    },
+    {
+      "id": "u0182",
+      "text": ", and a state check that the security log recorded an "
+    },
+    {
+      "id": "u0183",
+      "text": " event. If any of them fails, the fix fails, however convincing the agent's explanation sounds."
+    },
+    {
+      "id": "u0184",
+      "text": "An agent eval task whose graders define security success as passing tests, a clean security scan and an auth_blocked log event"
+    },
+    {
+      "id": "u0185",
+      "text": "yaml"
+    },
+    {
+      "id": "u0186",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0187",
+      "text": "Pick one guardrail in a system you know. What exactly would have to appear in the output, a log or the environment for you to record an attack against it as successful?"
+    },
+    {
+      "id": "u0188",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0189",
+      "text": "Safety is a qualitative judgement and can't be given a numeric pass/fail threshold."
+    },
+    {
+      "id": "u0190",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0192",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0193",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0194",
+      "text": "An agent's auth-bypass fix should count as secure only if the environment shows the attack was actually blocked. A convincing explanation in the transcript must not be enough. Which grader type completes this task?"
+    },
+    {
+      "id": "u0195",
+      "text": "deterministic_tests"
+    },
+    {
+      "id": "u0196",
+      "text": "llm_rubric"
+    },
+    {
+      "id": "u0197",
+      "text": "state_check"
+    },
+    {
+      "id": "u0198",
+      "text": "transcript"
+    },
+    {
+      "id": "u0199",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0200",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0201",
+      "text": "Which of these safety criteria could an eval script check as pass/fail on every run?"
+    },
+    {
+      "id": "u0202",
+      "text": "Fewer than 0.1% of outputs should be toxic"
+    },
+    {
+      "id": "u0203",
+      "text": "Fewer than 0.1% of outputs across 10,000 trials are flagged for toxicity by the content filter"
+    },
+    {
+      "id": "u0204",
+      "text": "The assistant's outputs should be safe and appropriate for all users"
+    },
+    {
+      "id": "u0205",
+      "text": "An LLM grader rates the safety of each output on a 1–5 Likert scale"
+    },
+    {
+      "id": "u0206",
+      "text": "Sources"
+    },
+    {
+      "id": "u0207",
+      "text": "Sources"
+    }
+  ]
+}

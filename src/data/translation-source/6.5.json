@@ -1,0 +1,1075 @@
+{
+  "pageId": "6.5",
+  "title": "AI solution lifecycle phases: discovery to retirement",
+  "titleVi": "Các giai đoạn vòng đời giải pháp AI: từ khảo sát đến ngừng vận hành",
+  "units": [
+    {
+      "id": "description",
+      "text": "Support lifecycle phases"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Name the phases an AI solution passes through and the artifact each phase hands to the next"
+    },
+    {
+      "id": "u0002",
+      "text": "Place success criteria and an evaluation set in discovery, and keep later-phase work such as runbooks and cost tuning out of it"
+    },
+    {
+      "id": "u0003",
+      "text": "Choose between the Client SDK, the Agent SDK and Managed Agents at design time based on who operates the agent loop and its infrastructure"
+    },
+    {
+      "id": "u0004",
+      "text": "Use monitored signals and regression evals to decide whether to ship, fix or stop a live solution"
+    },
+    {
+      "id": "u0005",
+      "text": "Plan for retirement of your own solution and of the model it runs on"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Lifecycle ownership"
+    },
+    {
+      "id": "u0008",
+      "text": "An AI solution moves through discovery, design, handoff, monitoring, iteration and retirement, and each phase passes the next a concrete artifact. The architect owns the outcome across all of them: from whether the solution should exist, through how it behaves after launch, to the decision to retire it."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Six phases, each handing an artifact forward"
+    },
+    {
+      "id": "u0011",
+      "text": "Discovery hands design a definition of success"
+    },
+    {
+      "id": "u0012",
+      "text": "Design picks the build surface the constraints allow"
+    },
+    {
+      "id": "u0013",
+      "text": "Handoff gives engineering the tests, not just the design"
+    },
+    {
+      "id": "u0014",
+      "text": "Monitoring turns live behaviour into decision inputs"
+    },
+    {
+      "id": "u0015",
+      "text": "Iteration: ship it, fix it, or stop it"
+    },
+    {
+      "id": "u0016",
+      "text": "Retirement: your work, and the model beneath it"
+    },
+    {
+      "id": "u0017",
+      "text": "Six phases, each handing an artifact forward"
+    },
+    {
+      "id": "u0018",
+      "text": "An AI solution is never finished when its code runs. It goes through six phases, "
+    },
+    {
+      "id": "u0019",
+      "text": "discovery, design, handoff, monitoring, iteration and retirement"
+    },
+    {
+      "id": "u0020",
+      "text": ", and the useful way to think about each one is what it passes on. If a phase cannot name what it hands to the next, the next phase has to guess, and those guesses come back later as rework."
+    },
+    {
+      "id": "u0021",
+      "text": "What each lifecycle phase produces for the next one"
+    },
+    {
+      "id": "u0022",
+      "text": "Phase"
+    },
+    {
+      "id": "u0023",
+      "text": "Core question"
+    },
+    {
+      "id": "u0024",
+      "text": "Hands to the next phase"
+    },
+    {
+      "id": "u0025",
+      "text": "Discovery"
+    },
+    {
+      "id": "u0026",
+      "text": "What problem, for whom, and what counts as success?"
+    },
+    {
+      "id": "u0027",
+      "text": "Success criteria, acceptance tests and an evaluation set"
+    },
+    {
+      "id": "u0028",
+      "text": "Design"
+    },
+    {
+      "id": "u0029",
+      "text": "Which architecture and build surface meet those criteria?"
+    },
+    {
+      "id": "u0030",
+      "text": "A design whose behaviour the tests can check"
+    },
+    {
+      "id": "u0031",
+      "text": "Handoff"
+    },
+    {
+      "id": "u0032",
+      "text": "Can engineering build and change it safely?"
+    },
+    {
+      "id": "u0033",
+      "text": "Tests that define done, plus the design"
+    },
+    {
+      "id": "u0034",
+      "text": "Monitoring"
+    },
+    {
+      "id": "u0035",
+      "text": "Is it working for real users at acceptable cost?"
+    },
+    {
+      "id": "u0036",
+      "text": "Measured results set against the criteria"
+    },
+    {
+      "id": "u0037",
+      "text": "Iteration"
+    },
+    {
+      "id": "u0038",
+      "text": "Ship it, fix it, or stop it?"
+    },
+    {
+      "id": "u0039",
+      "text": "A new version, or a decision to retire"
+    },
+    {
+      "id": "u0040",
+      "text": "Retirement"
+    },
+    {
+      "id": "u0041",
+      "text": "How do we wind down our work or the model it runs on?"
+    },
+    {
+      "id": "u0042",
+      "text": "Migration to a replacement, with records kept"
+    },
+    {
+      "id": "u0043",
+      "text": "The phases form a loop rather than a line. Iteration sends you back through design and handoff for each new version. Monitoring keeps running for as long as the solution is live. Retirement can be triggered from outside the loop too, when the model your solution depends on reaches its retirement date. Shipping also brings its own vocabulary of migrations, versioning, rate limits and feature flags, and nobody raises those for you. Each one belongs to a specific phase, so plan for it there."
+    },
+    {
+      "id": "u0044",
+      "text": "Checkpoint 1 of 10"
+    },
+    {
+      "id": "u0045",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0046",
+      "text": "Each lifecycle phase hands a concrete artifact to the next one. Match each phase to the artifact it produces."
+    },
+    {
+      "id": "u0047",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0048",
+      "text": "Discovery"
+    },
+    {
+      "id": "u0049",
+      "text": "Design"
+    },
+    {
+      "id": "u0050",
+      "text": "Monitoring"
+    },
+    {
+      "id": "u0051",
+      "text": "Iteration"
+    },
+    {
+      "id": "u0052",
+      "text": "Retirement"
+    },
+    {
+      "id": "u0053",
+      "text": "Success criteria, acceptance tests and an evaluation set"
+    },
+    {
+      "id": "u0054",
+      "text": "Migration to a replacement, with records kept"
+    },
+    {
+      "id": "u0055",
+      "text": "An architecture and build surface whose behaviour the tests can check"
+    },
+    {
+      "id": "u0056",
+      "text": "A decision to ship a new version, fix it, or stop and retire it"
+    },
+    {
+      "id": "u0057",
+      "text": "Results measured with real users and compared against the success criteria"
+    },
+    {
+      "id": "u0058",
+      "text": "Sources"
+    },
+    {
+      "id": "u0059",
+      "text": "Discovery hands design a definition of success"
+    },
+    {
+      "id": "u0060",
+      "text": "Discovery decides what success means before anyone writes a prompt. The questions about users, needs, experience and constraints are covered in "
+    },
+    {
+      "id": "u0061",
+      "text": "The discovery brief: users, needs, experience, constraints"
+    },
+    {
+      "id": "u0062",
+      "text": ". In the lifecycle, the point is what discovery produces: a use case, success criteria that are specific and measurable, and an evaluation set that design and every later phase will be checked against."
+    },
+    {
+      "id": "u0063",
+      "text": "The criteria have to be stated as numbers. \"The model should classify sentiments well\" gives design nothing to aim at. \"F1 of at least 0.85 on a held-out set of 10,000 posts, 95% of responses under 200ms\" gives it a target and a test. The evaluation set should mirror the real-world task distribution, including edge cases such as empty input or very long input. Otherwise the numbers measured during design say nothing about production."
+    },
+    {
+      "id": "u0064",
+      "text": "An eval suite written in discovery also settles disagreements early. Two engineers reading the same spec can come away with different ideas of how the system should handle an edge case. A concrete test case removes that ambiguity before it turns into two incompatible implementations."
+    },
+    {
+      "id": "u0065",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0066",
+      "text": "Discovery activities are defining the use case, measurable success criteria and an evaluation set. Locking the production model and system prompt belongs to design, and only after requirements exist. Prompt caching and batch processing tune cost once a design exists. Writing a production runbook is handoff work. If an answer option puts any of these before requirements, it has the order wrong."
+    },
+    {
+      "id": "u0067",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0068",
+      "text": "Writing the production runbook or configuring prompt caching is a sensible early discovery activity because it shows progress to the client."
+    },
+    {
+      "id": "u0069",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0073",
+      "text": "Checkpoint 2 of 10"
+    },
+    {
+      "id": "u0074",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0075",
+      "text": "In the first week of an engagement, a client wants visible progress on a new ticket-triage assistant. Which deliverable belongs in the discovery phase?"
+    },
+    {
+      "id": "u0076",
+      "text": "A choice of production model and a final system prompt, so engineering can start building right away"
+    },
+    {
+      "id": "u0077",
+      "text": "Measurable success criteria, such as a routing accuracy target and a latency limit, plus an evaluation set that includes edge cases"
+    },
+    {
+      "id": "u0078",
+      "text": "A production runbook, so the client's operations team knows how the assistant will be run once it is live"
+    },
+    {
+      "id": "u0079",
+      "text": "A prompt caching and batch processing setup, so the projected per-ticket cost looks good from the start"
+    },
+    {
+      "id": "u0080",
+      "text": "Checkpoint 3 of 10"
+    },
+    {
+      "id": "u0081",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0082",
+      "text": "Before any prompts are written, a consulting team meets with a client to scope a document-classification assistant. Which activity most correctly belongs in the discovery phase of the engagement?"
+    },
+    {
+      "id": "u0083",
+      "text": "Defining the use case, measurable success criteria, and an evaluation set for later validation"
+    },
+    {
+      "id": "u0084",
+      "text": "Selecting the final production model and locking the system prompt before requirements exist"
+    },
+    {
+      "id": "u0085",
+      "text": "Configuring prompt caching and batch processing to minimize the client's token costs"
+    },
+    {
+      "id": "u0086",
+      "text": "Writing the production deployment runbook the client's support team will follow at launch"
+    },
+    {
+      "id": "u0087",
+      "text": "Sources"
+    },
+    {
+      "id": "u0088",
+      "text": "Design picks the build surface the constraints allow"
+    },
+    {
+      "id": "u0089",
+      "text": "Design turns the success criteria into an architecture. One of its earliest decisions is which Claude surface to build on, and discovery has usually decided it already through a constraint such as \"we will not run agent infrastructure\" or \"we need full control over every step\". The deciding question is who operates the agent loop and the runtime it executes in."
+    },
+    {
+      "id": "u0090",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0091",
+      "text": "A customer needs long, asynchronous multi-step investigations across several backend systems, and refuses to operate any agent-loop or sandbox infrastructure. Which surface fits?"
+    },
+    {
+      "id": "u0092",
+      "text": "The Client SDK with a custom tool loop, for maximum control"
+    },
+    {
+      "id": "u0093",
+      "text": "The Agent SDK, because it ships a ready-made agent loop"
+    },
+    {
+      "id": "u0094",
+      "text": "Claude Managed Agents, because Anthropic hosts the harness and sandbox"
+    },
+    {
+      "id": "u0095",
+      "text": "Build surfaces compared by who runs the loop and the infrastructure"
+    },
+    {
+      "id": "u0096",
+      "text": "Surface"
+    },
+    {
+      "id": "u0097",
+      "text": "What you get"
+    },
+    {
+      "id": "u0098",
+      "text": "Who operates the loop and runtime"
+    },
+    {
+      "id": "u0099",
+      "text": "Pick it when"
+    },
+    {
+      "id": "u0100",
+      "text": "Client SDK (Claude API / Messages API)"
+    },
+    {
+      "id": "u0101",
+      "text": "Direct access to the Claude API; you write the tool loop yourself"
+    },
+    {
+      "id": "u0102",
+      "text": "You write and run all of it"
+    },
+    {
+      "id": "u0103",
+      "text": "You want custom agent loops and fine-grained control"
+    },
+    {
+      "id": "u0104",
+      "text": "Agent SDK"
+    },
+    {
+      "id": "u0105",
+      "text": "A library that runs the Claude Code binary, with built-in tools, permissions, sessions and hooks"
+    },
+    {
+      "id": "u0106",
+      "text": "You, in a process you operate"
+    },
+    {
+      "id": "u0107",
+      "text": "Your agent needs built-in file, command and search tools without hand-writing a tool loop"
+    },
+    {
+      "id": "u0108",
+      "text": "Managed Agents"
+    },
+    {
+      "id": "u0109",
+      "text": "A hosted agent harness that runs the agent loop, in an Anthropic-managed cloud sandbox or a self-hosted sandbox"
+    },
+    {
+      "id": "u0110",
+      "text": "Anthropic hosts the harness; the sandbox can be Anthropic-managed"
+    },
+    {
+      "id": "u0111",
+      "text": "Long-running, asynchronous work where the customer will not run agent infrastructure"
+    },
+    {
+      "id": "u0112",
+      "text": "The middle row is where teams most often go wrong. If an internal coding agent has to read repository files, run shell commands and edit code, and the team does not want to write its own tool-execution loop, the Agent SDK fits. Its built-in tools read, write and edit files, run commands and search the web, and its sessions keep context across exchanges. The Client SDK would mean writing exactly the loop the team wants to avoid: check each response's stop reason, run the tool, send the result back. The Agent SDK still runs on your servers, though, so if \"no infrastructure\" is a hard constraint, it points to Managed Agents."
+    },
+    {
+      "id": "u0113",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0114",
+      "text": "A customer who will not operate any agent infrastructure should use the Agent SDK, since it provides the agent loop for them."
+    },
+    {
+      "id": "u0115",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0117",
+      "text": "Checkpoint 4 of 10"
+    },
+    {
+      "id": "u0118",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0119",
+      "text": "A bank's platform team doesn't want to build or run an agent loop for a long-running, asynchronous reconciliation agent. Compliance also requires that the inputs and outputs of tool runs stay on the bank's own infrastructure. Which design fits both constraints?"
+    },
+    {
+      "id": "u0120",
+      "text": "Managed Agents with an Anthropic-managed cloud sandbox, because Anthropic then runs both the harness and the runtime"
+    },
+    {
+      "id": "u0121",
+      "text": "Managed Agents with a self-hosted sandbox, so Anthropic hosts the harness while tools execute on the bank's infrastructure"
+    },
+    {
+      "id": "u0122",
+      "text": "The Agent SDK, deployed in the bank's own process, because it ships built-in tools and a ready-made agent loop"
+    },
+    {
+      "id": "u0123",
+      "text": "The Client SDK with a custom tool loop, because only the Messages API keeps tool data in-house"
+    },
+    {
+      "id": "u0124",
+      "text": "Checkpoint 5 of 10"
+    },
+    {
+      "id": "u0125",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0126",
+      "text": "A solutions team is scoping a new internal tool that must run long, asynchronous multi-step investigations across several backend systems, and the customer explicitly wants to avoid operating any agent-loop or sandbox infrastructure themselves. During the discovery phase, which approach should the team recommend?"
+    },
+    {
+      "id": "u0127",
+      "text": "Build directly on the Messages API and implement a custom tool-execution loop so the customer's engineers control every step of orchestration"
+    },
+    {
+      "id": "u0128",
+      "text": "Adopt Claude Managed Agents, since Anthropic operates the sandbox and session infrastructure needed for long-running asynchronous work"
+    },
+    {
+      "id": "u0129",
+      "text": "Embed the Claude Agent SDK inside the customer's own servers and have their operations team manage the process lifecycle"
+    },
+    {
+      "id": "u0130",
+      "text": "Rely on the Files API together with prompt caching so the customer never needs a dedicated orchestration layer"
+    },
+    {
+      "id": "u0131",
+      "text": "Checkpoint 6 of 10"
+    },
+    {
+      "id": "u0132",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0133",
+      "text": "A development team is designing an internal agent that must autonomously read repository files, run shell commands, and edit code without the team writing their own tool-execution loop. Which design choice fits this requirement?"
+    },
+    {
+      "id": "u0134",
+      "text": "Build on the Anthropic Client SDK and implement a loop that inspects each response's stop reason and executes tools manually"
+    },
+    {
+      "id": "u0135",
+      "text": "Build on the Claude Agent SDK, which provides the built-in tools, agent loop, and context management out of the box"
+    },
+    {
+      "id": "u0136",
+      "text": "Call the Messages API once per file and manually stitch together the results without any tool-execution loop"
+    },
+    {
+      "id": "u0137",
+      "text": "Use the Usage and Cost Admin API to orchestrate tool calls across the repository on the team's behalf"
+    },
+    {
+      "id": "u0138",
+      "text": "Sources"
+    },
+    {
+      "id": "u0139",
+      "text": "Handoff gives engineering the tests, not just the design"
+    },
+    {
+      "id": "u0140",
+      "text": "At handoff, the artifact engineering depends on most is the set of tests that define done. Writing them is covered in "
+    },
+    {
+      "id": "u0141",
+      "text": "Acceptance tests defined before code"
+    },
+    {
+      "id": "u0142",
+      "text": ". What matters at handoff is that each test is concrete enough for a stranger to judge pass or fail. \"A patient with a basic smartphone can find the current wait time in under 30 seconds without creating an account\" can be handed over. \"The system is easy to use\" cannot."
+    },
+    {
+      "id": "u0143",
+      "text": "The tests keep working after launch. Each later change gets checked against them, so they are what lets a team keep changing a live system with confidence. A design handed over without them leaves engineering to define done for itself, and each engineer's definition will differ."
+    },
+    {
+      "id": "u0144",
+      "text": "Handoff is also the last point before real users depend on the system, which makes it the place for a short readiness gate:"
+    },
+    {
+      "id": "u0145",
+      "text": "Understanding: can the team explain what the code does, not just what it should do?"
+    },
+    {
+      "id": "u0146",
+      "text": "Testing: do the acceptance tests still pass, including edge cases such as missing data or a zero value?"
+    },
+    {
+      "id": "u0147",
+      "text": "Access: who does this build not serve well?"
+    },
+    {
+      "id": "u0148",
+      "text": "Responsibility: could the output be misread or misused, and is the AI's role disclosed?"
+    },
+    {
+      "id": "u0149",
+      "text": "Feedback loop: how will anyone know it is working after it ships?"
+    },
+    {
+      "id": "u0150",
+      "text": "The last question connects handoff to monitoring. If nobody can answer it, monitoring has nothing to measure."
+    },
+    {
+      "id": "u0151",
+      "text": "Checkpoint 7 of 10"
+    },
+    {
+      "id": "u0152",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0153",
+      "text": "Engineering is taking over a clinic's appointment-reminder assistant next week. Which of these is ready to be handed over as a test that defines done?"
+    },
+    {
+      "id": "u0154",
+      "text": "A patient who books an appointment gets an SMS reminder 24 hours before it, and a booking with no phone number sends nothing and raises no error"
+    },
+    {
+      "id": "u0155",
+      "text": "Reminders should feel friendly and helpful to patients"
+    },
+    {
+      "id": "u0156",
+      "text": "No tests yet: engineering will agree on its own definition of done after the first sprint"
+    },
+    {
+      "id": "u0157",
+      "text": "The system is reliable and easy for front-desk staff to use"
+    },
+    {
+      "id": "u0158",
+      "text": "Sources"
+    },
+    {
+      "id": "u0159",
+      "text": "Monitoring turns live behaviour into decision inputs"
+    },
+    {
+      "id": "u0160",
+      "text": "Monitoring exists to give iteration evidence. That means measuring the success criteria from discovery against real use, along with cost and failures that a test set cannot predict. Instrumentation and dashboards at scale are the subject of "
+    },
+    {
+      "id": "u0161",
+      "text": "monitoring with logging and observability tools"
+    },
+    {
+      "id": "u0162",
+      "text": ". In the lifecycle, the question is which signals feed the ship, fix or stop decision."
+    },
+    {
+      "id": "u0163",
+      "text": "On Managed Agents, cost and effort per session show up as a cumulative usage object on the session. Read it once the session goes idle: by then the totals are final, and "
+    },
+    {
+      "id": "u0164",
+      "text": " puts consumption at public list rates in cents."
+    },
+    {
+      "id": "u0165",
+      "text": "A session's cumulative usage, read after it goes idle"
+    },
+    {
+      "id": "u0166",
+      "text": "json"
+    },
+    {
+      "id": "u0167",
+      "text": "Watching a number and cutting the session off yourself is the wrong way to enforce a limit. A session budget is a hard cap: the platform pauses each thread before its next model request once list cost reaches it. Every budget hit is still worth recording, because a solution that keeps hitting its cap is sending a signal that iteration has to deal with."
+    },
+    {
+      "id": "u0168",
+      "text": "Events that tell you a session needs attention"
+    },
+    {
+      "id": "u0169",
+      "text": "What to watch"
+    },
+    {
+      "id": "u0170",
+      "text": "Where to see it"
+    },
+    {
+      "id": "u0171",
+      "text": "Sessions that go idle, for example to wait for approval"
+    },
+    {
+      "id": "u0172",
+      "text": "The session.status_idled webhook"
+    },
+    {
+      "id": "u0173",
+      "text": "Sessions that reach a budget or terminate"
+    },
+    {
+      "id": "u0174",
+      "text": "The session.budget_reached and session.status_terminated webhooks"
+    },
+    {
+      "id": "u0175",
+      "text": "Scheduled runs that fail to start a session"
+    },
+    {
+      "id": "u0176",
+      "text": "The deployment_run.failed and deployment.paused webhooks"
+    },
+    {
+      "id": "u0177",
+      "text": "Behavior beyond what the agent was granted"
+    },
+    {
+      "id": "u0178",
+      "text": "An optional offline review job that reads each session's events"
+    },
+    {
+      "id": "u0179",
+      "text": "Webhook deliveries can be missed, so list sessions on a schedule as well and don't rely on push alone. A transcript review also has a limit to plan around: it finds problems only after the calls have run. Monitoring tells you what already happened. Preventing harm is the job of the limits set at design time."
+    },
+    {
+      "id": "u0180",
+      "text": "Checkpoint 8 of 10"
+    },
+    {
+      "id": "u0181",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0182",
+      "text": "Your monitoring job pulls each Managed Agents session's cumulative usage so iteration gets per-session cost figures it can trust. Which status should the fetched session show before you record these totals?"
+    },
+    {
+      "id": "u0183",
+      "text": "budget_reached"
+    },
+    {
+      "id": "u0184",
+      "text": "running"
+    },
+    {
+      "id": "u0185",
+      "text": "terminated"
+    },
+    {
+      "id": "u0186",
+      "text": "idle"
+    },
+    {
+      "id": "u0187",
+      "text": "Sources"
+    },
+    {
+      "id": "u0188",
+      "text": "Iteration: ship it, fix it, or stop it"
+    },
+    {
+      "id": "u0189",
+      "text": "Every pass through iteration ends in one of three calls. "
+    },
+    {
+      "id": "u0190",
+      "text": "Ship it"
+    },
+    {
+      "id": "u0191",
+      "text": " means the version meets its criteria and holds them in production, so it continues. "
+    },
+    {
+      "id": "u0192",
+      "text": "Fix it"
+    },
+    {
+      "id": "u0193",
+      "text": " means a specific, measured gap exists and a reworked version can close it. "
+    },
+    {
+      "id": "u0194",
+      "text": "Stop it"
+    },
+    {
+      "id": "u0195",
+      "text": " means the solution is not delivering value that justifies keeping it, so it goes to retirement. The rule underneath all three is to prototype freely and ship selectively: cheap code creates value only when paired with honest evaluation."
+    },
+    {
+      "id": "u0196",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0197",
+      "text": "A capability eval that started at a low pass rate now passes almost every task after several iterations. What should happen to it?"
+    },
+    {
+      "id": "u0198",
+      "text": "Move it into the regression suite and run it continuously"
+    },
+    {
+      "id": "u0199",
+      "text": "Retire it: it has nothing left to measure"
+    },
+    {
+      "id": "u0200",
+      "text": "Raise the grading threshold until it fails again"
+    },
+    {
+      "id": "u0201",
+      "text": "Two kinds of evals make the call evidence-based. Capability evals start with a low pass rate and give a team something to climb toward. Regression evals should pass nearly 100% of the time, and any drop means something broke. A version that improves on capability evals but slips on regression evals is a "
+    },
+    {
+      "id": "u0202",
+      "text": "fix it"
+    },
+    {
+      "id": "u0203",
+      "text": ", however good the demo looks. A version that holds regression and moves capability toward the discovery criteria is a "
+    },
+    {
+      "id": "u0204",
+      "text": "ship it"
+    },
+    {
+      "id": "u0205",
+      "text": "Iteration repeats for as long as the solution is live, and each round should carry less risk than the last. Pinning sessions to an explicit version and moving traffic gradually is covered in "
+    },
+    {
+      "id": "u0206",
+      "text": "Promote, canary and roll back by version"
+    },
+    {
+      "id": "u0207",
+      "text": ". In lifecycle terms, a rollback is a fast "
+    },
+    {
+      "id": "u0208",
+      "text": "fix it"
+    },
+    {
+      "id": "u0209",
+      "text": ": the previous version comes back while the new one is reworked."
+    },
+    {
+      "id": "u0210",
+      "text": "Without evals, iteration turns reactive. The team waits for complaints, reproduces the problem by hand, fixes it and hopes nothing else regressed. It cannot tell a real regression from noise, so every decision to ship, fix or stop is a guess. A useful exercise before each release: deploy, share the change with a few real users, make one iteration based on what they report, and add tests that verify the change."
+    },
+    {
+      "id": "u0211",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0212",
+      "text": "Think of a live system you know that nobody would vote to build today. What signal would have triggered a stop-it decision, and was anyone measuring it?"
+    },
+    {
+      "id": "u0213",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0214",
+      "text": "A capability eval that now passes nearly every task has served its purpose and can be dropped."
+    },
+    {
+      "id": "u0215",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0223",
+      "text": "Checkpoint 9 of 10"
+    },
+    {
+      "id": "u0224",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0225",
+      "text": "After its latest iteration, a support agent's capability evals rose from 40% to 72%, and the stakeholder demo went very well. Over the same run, its regression evals fell from 99% to 93%. What call should the architect make for this version?"
+    },
+    {
+      "id": "u0226",
+      "text": "Ship it, and reset the regression baseline to 93% because the new version has changed what the agent does"
+    },
+    {
+      "id": "u0227",
+      "text": "Fix it: the drop on regression evals means something that used to work is now broken, so rework the version before it ships"
+    },
+    {
+      "id": "u0228",
+      "text": "Ship it: the capability gain is much bigger than the regression drop, and the demo shows users will see the improvement"
+    },
+    {
+      "id": "u0229",
+      "text": "Stop it: an agent that loses ground on tasks it used to handle should go to retirement"
+    },
+    {
+      "id": "u0230",
+      "text": "Sources"
+    },
+    {
+      "id": "u0231",
+      "text": "Retirement: your work, and the model beneath it"
+    },
+    {
+      "id": "u0232",
+      "text": "Retirement comes in two forms. Retiring your own work is a "
+    },
+    {
+      "id": "u0233",
+      "text": "stop it"
+    },
+    {
+      "id": "u0234",
+      "text": " decision coming out of iteration, and the willingness to deprecate your own work is an undervalued skill. The other form is set by the model calendar. Each Claude model has a lifecycle state, and once a model is retired, every request to it returns an error, whether or not your solution is ready."
+    },
+    {
+      "id": "u0235",
+      "text": "Model lifecycle states and their replacements (as published)"
+    },
+    {
+      "id": "u0236",
+      "text": "API model name"
+    },
+    {
+      "id": "u0237",
+      "text": "State"
+    },
+    {
+      "id": "u0238",
+      "text": "Deprecated"
+    },
+    {
+      "id": "u0239",
+      "text": "Retirement date"
+    },
+    {
+      "id": "u0240",
+      "text": "Recommended replacement"
+    },
+    {
+      "id": "u0241",
+      "text": "claude-sonnet-4-5-20250929"
+    },
+    {
+      "id": "u0242",
+      "text": "Deprecated"
+    },
+    {
+      "id": "u0243",
+      "text": "September 30, 2026"
+    },
+    {
+      "id": "u0244",
+      "text": "November 30, 2026"
+    },
+    {
+      "id": "u0245",
+      "text": "claude-sonnet-5-5"
+    },
+    {
+      "id": "u0246",
+      "text": "claude-opus-4-1-20250805"
+    },
+    {
+      "id": "u0247",
+      "text": "Retired"
+    },
+    {
+      "id": "u0248",
+      "text": "June 5, 2026"
+    },
+    {
+      "id": "u0249",
+      "text": "August 5, 2026"
+    },
+    {
+      "id": "u0250",
+      "text": "claude-opus-4-8"
+    },
+    {
+      "id": "u0251",
+      "text": "claude-sonnet-4-20250514"
+    },
+    {
+      "id": "u0252",
+      "text": "Retired"
+    },
+    {
+      "id": "u0253",
+      "text": "April 14, 2026"
+    },
+    {
+      "id": "u0254",
+      "text": "June 15, 2026"
+    },
+    {
+      "id": "u0255",
+      "text": "claude-sonnet-5-5"
+    },
+    {
+      "id": "u0256",
+      "text": "A deprecation notice forces an iteration cycle with a deadline. Developers using Sonnet 4.5 were notified on September 30, 2026 that it retires on November 30, 2026. A team on claude-sonnet-4-5-20250929 has to move to claude-sonnet-5-5 inside that window: run the migration through the regression suite, adjust prompts, then ship. How fast that goes depends mostly on evals. Teams without them face weeks of testing when a new model arrives, while teams with them can find the model's strengths, tune prompts and upgrade in days."
+    },
+    {
+      "id": "u0257",
+      "text": "Retiring a Managed Agents solution means deciding what to keep before deleting anything. Session history stays until the session is deleted, and files a session produced are deleted along with it. Copy events to your own logs with the events API before deleting the session. Download any output files you need first. Delete uploaded files, memory stores and vaults separately, because removing a session does not remove them."
+    },
+    {
+      "id": "u0258",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0259",
+      "text": "After a model's retirement date, existing integrations keep working until you migrate them."
+    },
+    {
+      "id": "u0260",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0264",
+      "text": "Checkpoint 10 of 10"
+    },
+    {
+      "id": "u0265",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0266",
+      "text": "A client is shutting down a Managed Agents solution, and its sessions are about to be deleted. Match each kind of data to how deleting a session affects it and what you need to do about it."
+    },
+    {
+      "id": "u0267",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0268",
+      "text": "Session history (events)"
+    },
+    {
+      "id": "u0269",
+      "text": "Files the session produced"
+    },
+    {
+      "id": "u0270",
+      "text": "Uploaded files, memory stores and vaults"
+    },
+    {
+      "id": "u0271",
+      "text": "Deleted along with the session, so download the ones you need before deleting it"
+    },
+    {
+      "id": "u0272",
+      "text": "Not removed when the session is deleted, so delete them separately"
+    },
+    {
+      "id": "u0273",
+      "text": "Kept only until the session is deleted, so copy the events to your own logs with the events API first"
+    },
+    {
+      "id": "u0274",
+      "text": "Sources"
+    },
+    {
+      "id": "u0275",
+      "text": "Sources"
+    },
+    {
+      "id": "u0276",
+      "text": "Also cited"
+    },
+    {
+      "id": "u0277",
+      "text": "Official docs"
+    },
+    {
+      "id": "u0278",
+      "text": "Requests to a retired model fail."
+    },
+    {
+      "id": "u0279",
+      "text": "Exam trap 4"
+    }
+  ]
+}

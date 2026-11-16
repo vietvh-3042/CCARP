@@ -1,0 +1,38 @@
+---
+import { lessonUrl } from "../lib/lesson-routes.mjs";
+import pages from "../data/course-pages.json";
+import { type Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  lessonId: string;
+}
+const { locale, lessonId } = Astro.props;
+const index = pages.findIndex((page) => page.lessonId === lessonId);
+const previous = pages[index - 1],
+  next = pages[index + 1];
+const label = (page: (typeof pages)[number]) => (locale === "vi" ? page.titleVi : page.title);
+const linkClass =
+  "flex min-h-20 flex-1 flex-col rounded-lg border border-border p-4 text-right text-sm text-foreground hover:bg-muted/40";
+---
+
+<nav
+  class="mt-12 flex flex-wrap justify-between gap-3 border-t border-border pt-6"
+  aria-label={locale === "en" ? "Lesson navigation" : "Điều hướng bài học"}
+>
+  {
+    previous && (
+      <a class={linkClass + " text-left"} href={lessonUrl(locale, previous.lessonId)}>
+        <span class="mb-1 text-xs uppercase text-muted-foreground">← {locale === "en" ? "Previous" : "Trước"}</span>
+        {label(previous)}
+      </a>
+    )
+  }
+  {
+    next && (
+      <a class={linkClass} href={lessonUrl(locale, next.lessonId)}>
+        <span class="mb-1 text-xs uppercase text-muted-foreground">{locale === "en" ? "Next" : "Tiếp theo"} →</span>
+        {label(next)}
+      </a>
+    )
+  }
+</nav>

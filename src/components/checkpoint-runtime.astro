@@ -1,0 +1,19 @@
+---
+import { getLessonCheckpoints, getGroupRequirements } from "../lib/lesson-checkpoints";
+import type { Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  lessonId: string;
+}
+const { locale, lessonId } = Astro.props;
+const lesson = getLessonCheckpoints(lessonId);
+const data = { ...lesson, groupRequirements: getGroupRequirements(lesson.groupId) };
+---
+
+<div hidden data-lesson-checkpoints data-locale={locale}>
+  <script type="application/json" data-checkpoint-config set:html={JSON.stringify(data).replace(/</g, "\u003c")} />
+</div>
+<script>
+  import { initCheckpoints } from "../scripts/checkpoints";
+  document.querySelectorAll<HTMLElement>("[data-lesson-checkpoints]").forEach(initCheckpoints);
+</script>

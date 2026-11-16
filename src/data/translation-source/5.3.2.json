@@ -1,0 +1,479 @@
+{
+  "pageId": "5.3.2",
+  "title": "Managed Agents permission policies and tool confirmations",
+  "titleVi": "Chính sách phân quyền và xác nhận sử dụng công cụ trong Managed Agents",
+  "units": [
+    {
+      "id": "description",
+      "text": "Apply human-in-the-loop validation strategies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Set always_allow, always_ask or auto on a Managed Agents toolset or on a single tool"
+    },
+    {
+      "id": "u0002",
+      "text": "Predict the three outcomes of a call under the auto policy and read them from the event stream"
+    },
+    {
+      "id": "u0003",
+      "text": "Answer a paused session with user.tool_confirmation events"
+    },
+    {
+      "id": "u0004",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0005",
+      "text": "Three policies and their defaults"
+    },
+    {
+      "id": "u0006",
+      "text": "The auto policy: server-side judgement per call"
+    },
+    {
+      "id": "u0007",
+      "text": "Responding to a confirmation request"
+    },
+    {
+      "id": "u0008",
+      "text": "Three policies and their defaults"
+    },
+    {
+      "id": "u0009",
+      "text": "In Managed Agents, a permission policy decides whether a server-executed tool runs on its own, waits for a person or is judged by the server one call at a time. Policies cover the pre-built agent toolset and MCP toolsets. Custom tools are not covered, because your application executes them, so any approval step for a custom tool is yours to build."
+    },
+    {
+      "id": "u0010",
+      "text": "Managed Agents permission policies"
+    },
+    {
+      "id": "u0011",
+      "text": "Policy"
+    },
+    {
+      "id": "u0012",
+      "text": "Behaviour"
+    },
+    {
+      "id": "u0013",
+      "text": "always_allow"
+    },
+    {
+      "id": "u0014",
+      "text": "The tool executes automatically with no confirmation"
+    },
+    {
+      "id": "u0015",
+      "text": "always_ask"
+    },
+    {
+      "id": "u0016",
+      "text": "The session pauses and waits for your approval before executing"
+    },
+    {
+      "id": "u0017",
+      "text": "auto"
+    },
+    {
+      "id": "u0018",
+      "text": "The server evaluates each call and runs it, denies it, or pauses for your approval"
+    },
+    {
+      "id": "u0019",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0020",
+      "text": "You connect a new MCP server and add both the agent toolset and the MCP toolset without setting any permission_policy. Which tools run without asking?"
+    },
+    {
+      "id": "u0021",
+      "text": "Both run freely until you add always_ask"
+    },
+    {
+      "id": "u0022",
+      "text": "The agent toolset runs freely; MCP tools wait for approval"
+    },
+    {
+      "id": "u0023",
+      "text": "Neither: every server-executed tool defaults to always_ask"
+    },
+    {
+      "id": "u0024",
+      "text": "The MCP default is deliberate. Whoever runs an MCP server can add tools to it at any time, and the always_ask default means a newly added tool cannot run in your application until someone approves it. To trust a known server, set "
+    },
+    {
+      "id": "u0025",
+      "text": " on its "
+    },
+    {
+      "id": "u0026",
+      "text": " entry. No toolset uses "
+    },
+    {
+      "id": "u0027",
+      "text": " by default."
+    },
+    {
+      "id": "u0028",
+      "text": "To protect one dangerous tool, change that tool's policy and leave the rest of the toolset alone. The "
+    },
+    {
+      "id": "u0029",
+      "text": " array overrides the toolset default per tool. In this agent the whole toolset runs freely, but every bash command waits for a person:"
+    },
+    {
+      "id": "u0030",
+      "text": "Allow the agent toolset by default, but require confirmation for bash"
+    },
+    {
+      "id": "u0031",
+      "text": "yaml"
+    },
+    {
+      "id": "u0032",
+      "text": "Policy changes do not reach sessions that are already running. Running sessions keep the toolset configuration they were created with, so tightening a policy protects only sessions created after the update. A policy also controls only when an enabled tool runs. To remove a tool from the agent completely, disable it."
+    },
+    {
+      "id": "u0033",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0034",
+      "text": "Setting always_ask on a toolset also makes your application's custom tools wait for confirmation."
+    },
+    {
+      "id": "u0035",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0037",
+      "text": "Checkpoint 1 of 5"
+    },
+    {
+      "id": "u0038",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0039",
+      "text": "This agent should let the whole agent toolset run on its own but make every bash command wait for a person to approve it. Which policy completes the bash override?"
+    },
+    {
+      "id": "u0040",
+      "text": "auto"
+    },
+    {
+      "id": "u0041",
+      "text": "always_ask"
+    },
+    {
+      "id": "u0042",
+      "text": "always_allow"
+    },
+    {
+      "id": "u0043",
+      "text": "Checkpoint 2 of 5"
+    },
+    {
+      "id": "u0044",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0045",
+      "text": "A Managed Agent uses the agent toolset with default_config set to always_ask. It also has a custom refund_payment tool that your application executes. What happens when Claude calls refund_payment?"
+    },
+    {
+      "id": "u0046",
+      "text": "The call falls back to the MCP default of always_ask"
+    },
+    {
+      "id": "u0047",
+      "text": "The server evaluates the call under auto, because custom tools have no explicit policy"
+    },
+    {
+      "id": "u0048",
+      "text": "The session pauses for a user.tool_confirmation, the same as for the toolset's tools"
+    },
+    {
+      "id": "u0049",
+      "text": "No permission policy applies, so any approval step for refund_payment has to be built into your application"
+    },
+    {
+      "id": "u0050",
+      "text": "Sources"
+    },
+    {
+      "id": "u0051",
+      "text": "The auto policy: server-side judgement per call"
+    },
+    {
+      "id": "u0052",
+      "text": "Under "
+    },
+    {
+      "id": "u0053",
+      "text": ", the server looks at the tool, the call's input and the session's content so far, so two calls to the same tool can get different answers. Each call ends one of three ways. It runs if the server judges it safe. It is denied if the server judges it high-risk: the agent gets an error tool result and the session continues. It pauses for your approval, just as under always_ask, if the server cannot decide."
+    },
+    {
+      "id": "u0054",
+      "text": "A high-risk denial is final. Your client cannot override it, so "
+    },
+    {
+      "id": "u0055",
+      "text": " lets the server refuse a call before any person gets to approve it. Every "
+    },
+    {
+      "id": "u0056",
+      "text": " and "
+    },
+    {
+      "id": "u0057",
+      "text": " event records the outcome in "
+    },
+    {
+      "id": "u0058",
+      "text": ". Under auto, the event's "
+    },
+    {
+      "id": "u0059",
+      "text": " object also records the server's determination and, for ask or deny, a "
+    },
+    {
+      "id": "u0060",
+      "text": ". Use that code for branching and for audit records, not as a message to show end users."
+    },
+    {
+      "id": "u0061",
+      "text": "A bash call the auto policy denied as high-risk, as it appears on the event stream"
+    },
+    {
+      "id": "u0062",
+      "text": "json"
+    },
+    {
+      "id": "u0063",
+      "text": "The server decides partly by judging intent, and it takes intent from only one place. What you post in "
+    },
+    {
+      "id": "u0064",
+      "text": " events counts as your intent and can lead the server to allow a call it would otherwise deny. The server assesses tool results, fetched webpages, MCP responses and messages between threads, but it does not take instructions from them. That makes an injected instruction inside a webpage less dangerous. It also creates a gap: if your application relays an untrusted end user's text in "
+    },
+    {
+      "id": "u0065",
+      "text": " events, the server reads it as your intent. Put always_ask on any tool you would not let that end user run without review."
+    },
+    {
+      "id": "u0066",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0067",
+      "text": "When the auto policy denies a call as high-risk, a human can still approve it by sending a user.tool_confirmation with result allow."
+    },
+    {
+      "id": "u0068",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0071",
+      "text": "Checkpoint 3 of 5"
+    },
+    {
+      "id": "u0072",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0073",
+      "text": "Under auto, your client gets an agent.tool_use event for a bash call. The event has evaluated_permission \"deny\" and reason_code \"high_risk\". An operator looks at the command and thinks it is safe. What can they do about this call?"
+    },
+    {
+      "id": "u0074",
+      "text": "Switch bash to always_allow, so the running session retries the call under the new policy"
+    },
+    {
+      "id": "u0075",
+      "text": "Nothing: the tool does not run, the agent gets an error tool result and the session continues"
+    },
+    {
+      "id": "u0076",
+      "text": "Approve it from the client, the same way they would answer a call paused under always_ask"
+    },
+    {
+      "id": "u0077",
+      "text": "Wait, because the session pauses until a person approves or rejects the denied call"
+    },
+    {
+      "id": "u0078",
+      "text": "Checkpoint 4 of 5"
+    },
+    {
+      "id": "u0079",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0080",
+      "text": "A customer-support app passes customers' chat text straight into user.message events. The agent's toolset runs under auto. How should the team make sure a person still reviews bash calls?"
+    },
+    {
+      "id": "u0081",
+      "text": "Set always_ask on bash, because the server reads relayed customer text as your intent"
+    },
+    {
+      "id": "u0082",
+      "text": "Keep auto, because the server always denies dangerous bash calls whoever asks for them"
+    },
+    {
+      "id": "u0083",
+      "text": "Keep auto and show customers the reason_code whenever a call is denied"
+    },
+    {
+      "id": "u0084",
+      "text": "Keep auto, because the server assesses user.message content but does not take instructions from it"
+    },
+    {
+      "id": "u0085",
+      "text": "Sources"
+    },
+    {
+      "id": "u0086",
+      "text": "Responding to a confirmation request"
+    },
+    {
+      "id": "u0087",
+      "text": "A call evaluates to ask in two cases: under always_ask, or under auto when the server cannot decide. Either way, the session stops and your client has to answer it. The round trip has four steps:"
+    },
+    {
+      "id": "u0088",
+      "text": "The session emits an "
+    },
+    {
+      "id": "u0089",
+      "text": " or "
+    },
+    {
+      "id": "u0090",
+      "text": " event with "
+    },
+    {
+      "id": "u0091",
+      "text": " set to ask."
+    },
+    {
+      "id": "u0092",
+      "text": "The session emits "
+    },
+    {
+      "id": "u0093",
+      "text": " with "
+    },
+    {
+      "id": "u0094",
+      "text": " set to "
+    },
+    {
+      "id": "u0095",
+      "text": ". The IDs of the blocking events are in "
+    },
+    {
+      "id": "u0096",
+      "text": "Your client sends one "
+    },
+    {
+      "id": "u0097",
+      "text": " per blocking event, with the event ID in "
+    },
+    {
+      "id": "u0098",
+      "text": " and "
+    },
+    {
+      "id": "u0099",
+      "text": " set to allow or deny. A "
+    },
+    {
+      "id": "u0100",
+      "text": " explains the refusal. Several confirmations can go in one events request."
+    },
+    {
+      "id": "u0101",
+      "text": "Once every blocking event is resolved, the session runs again. Allowed tools execute. Denied tools return a rejection that includes your "
+    },
+    {
+      "id": "u0102",
+      "text": ", so the agent knows why it was refused."
+    },
+    {
+      "id": "u0103",
+      "text": "A bash call paused under always_ask, waiting for a user.tool_confirmation"
+    },
+    {
+      "id": "u0104",
+      "text": "json"
+    },
+    {
+      "id": "u0105",
+      "text": "A paused session waits indefinitely, so a confirmation nobody answers stalls the work silently. Subscribe to webhooks or watch the event stream so a person learns when a session needs them. For interactive use, "
+    },
+    {
+      "id": "u0106",
+      "text": " shows the waiting call and sends the confirmation when you allow or deny it."
+    },
+    {
+      "id": "u0107",
+      "text": "Confirmations work only on calls that are waiting. Sending "
+    },
+    {
+      "id": "u0108",
+      "text": " for an event whose "
+    },
+    {
+      "id": "u0109",
+      "text": " is not ask returns a 400 error. That includes calls the auto policy denied, which is how the API enforces that those denials cannot be overridden."
+    },
+    {
+      "id": "u0110",
+      "text": "Checkpoint 5 of 5"
+    },
+    {
+      "id": "u0111",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0112",
+      "text": "Put the round trip for a bash call that pauses under always_ask in order, from the pause to the point where the agent continues."
+    },
+    {
+      "id": "u0113",
+      "text": "Once every blocking event is resolved, the session runs again: an allowed call executes, and a denied call returns a rejection that includes the deny_message"
+    },
+    {
+      "id": "u0114",
+      "text": "The session emits an agent.tool_use event for the bash call with evaluated_permission set to ask"
+    },
+    {
+      "id": "u0115",
+      "text": "The session emits session.status_idle with stop_reason.type requires_action, and the blocking event IDs are in stop_reason.event_ids"
+    },
+    {
+      "id": "u0116",
+      "text": "Your client sends a user.tool_confirmation with that event ID in tool_use_id and result set to allow or deny, plus a deny_message if it refuses"
+    },
+    {
+      "id": "u0117",
+      "text": "Check order"
+    },
+    {
+      "id": "u0118",
+      "text": "Sources"
+    },
+    {
+      "id": "u0119",
+      "text": "Sources"
+    }
+  ]
+}

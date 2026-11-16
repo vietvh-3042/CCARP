@@ -1,0 +1,18 @@
+{
+  "exam-trap-2": {
+    "en": "Compare the bill for a finished task, including retries and reasoning. Higher token prices can still produce lower task costs when fewer steps are needed.",
+    "vi": "Hãy so sánh tổng tiền để hoàn thành tác vụ, kể cả thử lại và suy luận. Giá token cao hơn vẫn có thể cho chi phí tác vụ thấp hơn nếu cần ít bước hơn."
+  },
+  "exam-trap-3": {
+    "en": "Batch discounts require accepting delayed results. They suit work that can wait, so an efficiency plan must exclude tasks governed by interactive response commitments.",
+    "vi": "Giảm giá theo lô đòi hỏi chấp nhận kết quả chậm. Cách này phù hợp công việc có thể chờ, nên kế hoạch tăng hiệu quả phải loại những tác vụ có cam kết phản hồi tương tác."
+  },
+  "exam-trap-1": {
+    "en": "Premium inference speed raises the bill. For routine traffic with both budget and latency constraints, first evaluate the fastest economical model class.",
+    "vi": "Tốc độ suy luận cao cấp làm tăng hóa đơn. Với lưu lượng thường lệ bị ràng buộc cả ngân sách lẫn độ trễ, trước hết hãy đánh giá lớp mô hình nhanh và tiết kiệm."
+  },
+  "exam-trap-4": {
+    "en": "Faster delivery within an unchanged process is productivity improvement. Transformation changes the process itself or enables valuable work that previously could not be done.",
+    "vi": "Hoàn thành nhanh hơn trong quy trình không đổi là cải thiện năng suất. Chuyển đổi làm thay đổi chính quy trình hoặc mở ra công việc có giá trị trước đây chưa thể thực hiện."
+  }
+}

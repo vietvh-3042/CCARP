@@ -1,0 +1,2632 @@
+[
+  {
+    "lessonId": "1.1",
+    "groupId": "1.1",
+    "locale": "en",
+    "title": "Translating business problems into Claude solutions",
+    "description": "Translate business problems into Claude-based AI solutions",
+    "domain": 1,
+    "order": 1,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 1,
+    "sourceSlug": "from-business-problem-to-claude-solution-design",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/from-business-problem-to-claude-solution-design",
+    "sourceImage": "images/domain1/1.1.png",
+    "sourceHash": "b7d8366ac524d47326e7ea0369cc777f1d5b81ad1cbd0cda297b140b58c1e705",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.83,
+    "sourceCount": 9,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Map the business process before choosing a model"
+      },
+      {
+        "id": "section-2",
+        "title": "Decide which steps Claude should do"
+      },
+      {
+        "id": "section-3",
+        "title": "Pick the simplest solution shape"
+      },
+      {
+        "id": "section-4",
+        "title": "Match the shape to a build path"
+      },
+      {
+        "id": "section-5",
+        "title": "Fit the model tier to each workload"
+      },
+      {
+        "id": "section-6",
+        "title": "Tie success criteria to the business outcome"
+      }
+    ],
+    "titleVi": "Chuyển bài toán kinh doanh thành giải pháp dùng Claude",
+    "filename": "business-problems-to-claude-solutions",
+    "translated": true,
+    "wordCount": 3631,
+    "translationUnits": 197,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "1.2",
+    "groupId": "1.2",
+    "locale": "en",
+    "title": "End-to-end agent architecture: the loop, tool execution and feedback",
+    "description": "Design end-to-end architectures",
+    "domain": 1,
+    "order": 11,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 2,
+    "sourceSlug": "end-to-end-claude-architecture-input-processing-output-and-feedback-loops",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/end-to-end-claude-architecture-input-processing-output-and-feedback-loops",
+    "sourceImage": "images/domain1/1.2.png",
+    "sourceHash": "21d4766649dfcf00bf1db5dd5b5401b84d885c49eff2516bbfbcb910bbdc1711",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.83,
+    "sourceCount": 8,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "The agent loop from input to output"
+      },
+      {
+        "id": "section-2",
+        "title": "Who executes tools: client tools versus server tools"
+      },
+      {
+        "id": "section-3",
+        "title": "When a tool belongs in the design at all"
+      },
+      {
+        "id": "section-4",
+        "title": "Sizing the processing stage"
+      },
+      {
+        "id": "section-5",
+        "title": "Feedback loops that correct the run"
+      }
+    ],
+    "titleVi": "Kiến trúc tác tử từ đầu đến cuối: vòng lặp, thực thi công cụ và phản hồi",
+    "filename": "end-to-end-claude-architecture-input-processing-output-and-feedback-loops",
+    "translated": true,
+    "wordCount": 3212,
+    "translationUnits": 232,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "1.3",
+    "groupId": "1.3",
+    "locale": "en",
+    "title": "Workflow, agent and augmented LLM patterns for Claude",
+    "description": "Select appropriate architectural patterns",
+    "domain": 1,
+    "order": 21,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 3,
+    "sourceSlug": "augmented-llm-workflows-or-agents-choosing-the-base-pattern",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/augmented-llm-workflows-or-agents-choosing-the-base-pattern",
+    "sourceImage": "images/domain1/1.3.png",
+    "sourceHash": "ce0b8c91872b213a4be7291c2f6d0f5741a6ddacc66273ec40874e3d9b6aa0f0",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.83,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "The augmented LLM as the building block"
+      },
+      {
+        "id": "section-2",
+        "title": "Workflows versus agents: who decides the next step"
+      },
+      {
+        "id": "section-3",
+        "title": "Start simple and add complexity only when it pays"
+      },
+      {
+        "id": "section-4",
+        "title": "Prompt chaining and routing: fixed steps and distinct categories"
+      },
+      {
+        "id": "section-5",
+        "title": "Parallelization and orchestrator-workers: known versus emergent subtasks"
+      },
+      {
+        "id": "section-6",
+        "title": "The evaluator-optimizer loop"
+      }
+    ],
+    "titleVi": "Các mẫu quy trình, tác tử và LLM tăng cường cho Claude",
+    "filename": "augmented-llm-workflows-or-agents-choosing-the-base-pattern",
+    "translated": true,
+    "wordCount": 3332,
+    "translationUnits": 212,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "1.4",
+    "groupId": "1.4",
+    "locale": "en",
+    "title": "Multi-agent design: when to split and how to brief subagents",
+    "description": "Design multi-agent systems and orchestration strategies",
+    "domain": 1,
+    "order": 31,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 4,
+    "sourceSlug": "multi-agent-system-design-when-to-split-and-how-to-decompose",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/multi-agent-system-design-when-to-split-and-how-to-decompose",
+    "sourceImage": "images/domain1/1.4/1.4.1.png",
+    "sourceHash": "2d7036dd6f4049f6f59e846445f67561686906e19e330833b6c478bcafa72c86",
+    "status": "source-verified",
+    "readMinutes": 15,
+    "examWeight": 2.83,
+    "sourceCount": 5,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Start with one agent and split for a concrete reason"
+      },
+      {
+        "id": "section-2",
+        "title": "The coordinator pattern and isolated subagent context"
+      },
+      {
+        "id": "section-3",
+        "title": "Fanning out independent subagents in parallel"
+      },
+      {
+        "id": "section-4",
+        "title": "Briefing a subagent that cannot see your context"
+      }
+    ],
+    "titleVi": "Thiết kế hệ thống đa tác tử: khi nào nên chia việc và cách giao nhiệm vụ cho tác tử con",
+    "filename": "multi-agent-system-design-when-to-split-and-how-to-decompose",
+    "translated": true,
+    "wordCount": 2773,
+    "translationUnits": 151,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "1.4.2",
+    "groupId": "1.4",
+    "locale": "en",
+    "title": "Configuring coordinators and subagents in Managed Agents, the Agent SDK and Claude Code",
+    "description": "Design multi-agent systems and orchestration strategies",
+    "domain": 1,
+    "order": 32,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 4,
+    "sourceSlug": "multi-agent-orchestration-in-managed-agents-the-agent-sdk-and-claude-code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/multi-agent-orchestration-in-managed-agents-the-agent-sdk-and-claude-code",
+    "sourceImage": "images/domain1/1.4/1.4.2.png",
+    "sourceHash": "a128e6e8c287695ac7be0efbf702e2777904b1c67060c5dc13ca432fdf9ebb25",
+    "status": "source-verified",
+    "readMinutes": 13,
+    "examWeight": 2.83,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Managed Agents: the multiagent block"
+      },
+      {
+        "id": "section-2",
+        "title": "Predefined and inline agents, and the limits on them"
+      },
+      {
+        "id": "section-3",
+        "title": "Agent SDK: defining subagents with AgentDefinition"
+      },
+      {
+        "id": "section-4",
+        "title": "Claude Code: subagents, agent teams or a dynamic workflow"
+      },
+      {
+        "id": "section-5",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Cấu hình tác tử điều phối và tác tử con trong Managed Agents, Agent SDK và Claude Code",
+    "filename": "multi-agent-orchestration-in-managed-agents-the-agent-sdk-and-claude-code",
+    "translated": true,
+    "wordCount": 2195,
+    "translationUnits": 192,
+    "checkpointCount": 5
+  },
+  {
+    "lessonId": "1.5",
+    "groupId": "1.5",
+    "locale": "en",
+    "title": "Task decomposition patterns: chaining, routing, parallelization and orchestrator-workers",
+    "description": "Apply decomposition techniques for complex problem solving",
+    "domain": 1,
+    "order": 41,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 5,
+    "sourceSlug": "task-decomposition-with-workflow-patterns-chaining-routing-parallelization",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/task-decomposition-with-workflow-patterns-chaining-routing-parallelization",
+    "sourceImage": "images/domain1/1.5.png",
+    "sourceHash": "145e963426b6f893d11b14e13911aa8ca3032099b07a38b6de88445cc93fef26",
+    "status": "source-verified",
+    "readMinutes": 20,
+    "examWeight": 2.83,
+    "sourceCount": 11,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Why decomposition improves results"
+      },
+      {
+        "id": "section-2",
+        "title": "Prompt chaining: fixed steps with gates between them"
+      },
+      {
+        "id": "section-3",
+        "title": "Routing: split by input type, and match the model to the subtask"
+      },
+      {
+        "id": "section-4",
+        "title": "Parallelization: sectioning and voting"
+      },
+      {
+        "id": "section-5",
+        "title": "Orchestrator-workers: decomposition decided at run time"
+      },
+      {
+        "id": "section-6",
+        "title": "Decomposing into Agent SDK subagents"
+      },
+      {
+        "id": "section-7",
+        "title": "Moving a tight tool loop into code"
+      }
+    ],
+    "titleVi": "Các mẫu phân rã nhiệm vụ: nối chuỗi, định tuyến, xử lý song song và điều phối–thực thi",
+    "filename": "task-decomposition-with-workflow-patterns-chaining-routing-parallelization",
+    "translated": true,
+    "wordCount": 3380,
+    "translationUnits": 225,
+    "checkpointCount": 10
+  },
+  {
+    "lessonId": "1.6",
+    "groupId": "1.6",
+    "locale": "en",
+    "title": "Business value pillars for Claude solutions",
+    "description": "Align solutions to business value pillars",
+    "domain": 1,
+    "order": 51,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 6,
+    "sourceSlug": "business-value-pillars-for-claude-solutions-cost-and-efficiency",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/business-value-pillars-for-claude-solutions-cost-and-efficiency",
+    "sourceImage": "images/domain1/1.6.png",
+    "sourceHash": "f21158de4fc3362baf7d214bad6edb9e0ec98c7701319b20816afd7d2b89265f",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.83,
+    "sourceCount": 8,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Five pillars as the skeleton of a business case"
+      },
+      {
+        "id": "section-2",
+        "title": "Cost: price the outcome, and bank free savings first"
+      },
+      {
+        "id": "section-3",
+        "title": "Efficiency: caching is the main item"
+      },
+      {
+        "id": "section-4",
+        "title": "Performance SLAs: latency and availability the design must meet"
+      },
+      {
+        "id": "section-5",
+        "title": "Productivity: finished work per run"
+      },
+      {
+        "id": "section-6",
+        "title": "Transformation: work that was not feasible before"
+      }
+    ],
+    "titleVi": "Các trụ cột giá trị kinh doanh của giải pháp dùng Claude",
+    "filename": "business-value-pillars-for-claude-solutions-cost-and-efficiency",
+    "translated": true,
+    "wordCount": 3276,
+    "translationUnits": 198,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "2.1",
+    "groupId": "2.1",
+    "locale": "en",
+    "title": "Choosing a Claude model: lineup, starting point and cost per task",
+    "description": "Select appropriate Claude models based on trade-offs",
+    "domain": 2,
+    "order": 61,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 7,
+    "sourceSlug": "choosing-a-claude-model-lineup-trade-offs-and-starting-points",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-a-claude-model-lineup-trade-offs-and-starting-points",
+    "sourceImage": "images/domain2/2.1.png",
+    "sourceHash": "db7aa85b3a32f58e99e64b25098ce60b66bb010b7ec0ab1e46cb878056dddc7e",
+    "status": "source-verified",
+    "readMinutes": 17,
+    "examWeight": 2.6,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "The current lineup and what separates the models"
+      },
+      {
+        "id": "section-2",
+        "title": "Picking a starting model: step down or step up"
+      },
+      {
+        "id": "section-3",
+        "title": "Comparing models by cost per solved task"
+      },
+      {
+        "id": "section-4",
+        "title": "Tiering models inside one system"
+      }
+    ],
+    "titleVi": "Chọn mô hình Claude: các dòng mô hình, điểm khởi đầu và chi phí cho từng nhiệm vụ",
+    "filename": "choosing-a-claude-model-lineup-trade-offs-and-starting-points",
+    "translated": true,
+    "wordCount": 2967,
+    "translationUnits": 197,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "2.2",
+    "groupId": "2.2",
+    "locale": "en",
+    "title": "System Prompts and Reusable Prompt Templates for Claude",
+    "description": "Design system prompts, templates, and guardrails",
+    "domain": 2,
+    "order": 71,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 8,
+    "sourceSlug": "system-prompts-and-reusable-prompt-templates-for-claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/system-prompts-and-reusable-prompt-templates-for-claude",
+    "sourceImage": "images/domain2/2.2/2.2.1.png",
+    "sourceHash": "774c94c4876c148189631e7f56799eb4cdac45c2c4254a2248d4db083dccbf94",
+    "status": "source-verified",
+    "readMinutes": 9,
+    "examWeight": 2.6,
+    "sourceCount": 2,
+    "publishedAt": "4 Oct 2026",
+    "docsAsOf": "30 Sep 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Start the system prompt with a role"
+      },
+      {
+        "id": "section-2",
+        "title": "Write instructions that are specific and give the reason"
+      },
+      {
+        "id": "section-3",
+        "title": "Turn the prompt into a reusable template"
+      }
+    ],
+    "titleVi": "Chỉ dẫn hệ thống và mẫu câu lệnh tái sử dụng cho Claude",
+    "filename": "system-prompts-and-reusable-prompt-templates-for-claude",
+    "translated": true,
+    "wordCount": 1435,
+    "translationUnits": 105,
+    "checkpointCount": 4
+  },
+  {
+    "lessonId": "2.2.2",
+    "groupId": "2.2",
+    "locale": "en",
+    "title": "Guardrails for Claude Apps: Jailbreaks, Prompt Injection, Hallucinations and Prompt Leaks",
+    "description": "Design system prompts, templates, and guardrails",
+    "domain": 2,
+    "order": 72,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 8,
+    "sourceSlug": "guardrails-for-claude-apps-jailbreaks-prompt-injection-hallucinations-and-prompt-leaks",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/guardrails-for-claude-apps-jailbreaks-prompt-injection-hallucinations-and-prompt-leaks",
+    "sourceImage": "images/domain2/2.2/2.2.2.png",
+    "sourceHash": "eb717eb63f7643da6b6f802980946722d733518763f63cc3bff0fac414044ea3",
+    "status": "source-verified",
+    "readMinutes": 10,
+    "examWeight": 2.6,
+    "sourceCount": 3,
+    "publishedAt": "4 Oct 2026",
+    "docsAsOf": "30 Sep 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Guardrails when the user is the adversary"
+      },
+      {
+        "id": "section-2",
+        "title": "Guardrails for untrusted content Claude reads"
+      },
+      {
+        "id": "section-3",
+        "title": "Guardrails against hallucination"
+      },
+      {
+        "id": "section-4",
+        "title": "Guardrails against prompt leaks, and their cost"
+      }
+    ],
+    "titleVi": "Biện pháp bảo vệ ứng dụng Claude: vượt rào, chèn lệnh, ảo giác và rò rỉ câu lệnh",
+    "filename": "guardrails-for-claude-apps-jailbreaks-prompt-injection-hallucinations-and-prompt-leaks",
+    "translated": true,
+    "wordCount": 1790,
+    "translationUnits": 110,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "2.3",
+    "groupId": "2.3",
+    "locale": "en",
+    "title": "Few-shot and chain-of-thought prompting for Claude",
+    "description": "Apply prompt engineering techniques",
+    "domain": 2,
+    "order": 81,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 9,
+    "sourceSlug": "zero-shot-and-few-shot-prompting-with-claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/zero-shot-and-few-shot-prompting-with-claude",
+    "sourceImage": "images/domain2/2.3.png",
+    "sourceHash": "25b9b195b1e77a313f6741501239de3b23a70eaae73092f4812023803053c669",
+    "status": "source-verified",
+    "readMinutes": 17,
+    "examWeight": 2.6,
+    "sourceCount": 6,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Zero-shot, one-shot and few-shot prompting"
+      },
+      {
+        "id": "section-2",
+        "title": "Crafting examples Claude learns the right lesson from"
+      },
+      {
+        "id": "section-3",
+        "title": "Chain-of-thought prompting in three forms"
+      },
+      {
+        "id": "section-4",
+        "title": "Extended thinking versus manual chain of thought"
+      },
+      {
+        "id": "section-5",
+        "title": "Placing long documents, examples and the query"
+      }
+    ],
+    "titleVi": "Viết câu lệnh cho Claude bằng vài ví dụ và chuỗi suy luận",
+    "filename": "zero-shot-and-few-shot-prompting-with-claude",
+    "translated": true,
+    "wordCount": 2782,
+    "translationUnits": 165,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "2.4",
+    "groupId": "2.4",
+    "locale": "en",
+    "title": "Context window budgeting: what counts and how to measure it",
+    "description": "Optimize context windows and manage token usage",
+    "domain": 2,
+    "order": 91,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 10,
+    "sourceSlug": "context-window-budgeting-what-counts-and-how-to-measure-it",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/context-window-budgeting-what-counts-and-how-to-measure-it",
+    "sourceImage": "images/domain2/2.4/2.4.1.png",
+    "sourceHash": "4df8b830772d27b9d6b1c35ac02302768a7ff7d7423fe3a9e33ea5590f5c32e2",
+    "status": "source-verified",
+    "readMinutes": 13,
+    "examWeight": 2.6,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What fills the context window"
+      },
+      {
+        "id": "section-2",
+        "title": "What happens at the limit"
+      },
+      {
+        "id": "section-3",
+        "title": "Thinking tokens across turns"
+      },
+      {
+        "id": "section-4",
+        "title": "Measuring tokens before and after a request"
+      },
+      {
+        "id": "section-5",
+        "title": "Cutting what tools cost in context"
+      }
+    ],
+    "titleVi": "Phân bổ dung lượng cửa sổ ngữ cảnh: những gì được tính và cách đo",
+    "filename": "context-window-budgeting-what-counts-and-how-to-measure-it",
+    "translated": true,
+    "wordCount": 2517,
+    "translationUnits": 195,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "2.4.2",
+    "groupId": "2.4",
+    "locale": "en",
+    "title": "Compaction and context editing for long Claude sessions",
+    "description": "Optimize context windows and manage token usage",
+    "domain": 2,
+    "order": 92,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 10,
+    "sourceSlug": "managing-long-conversations-compaction-context-editing-and-cache-trade-offs",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/managing-long-conversations-compaction-context-editing-and-cache-trade-offs",
+    "sourceImage": "images/domain2/2.4/2.4.2.png",
+    "sourceHash": "58571be4b01bd924681a483382297d386be6061daff7126eb5bd2bac04127dcc",
+    "status": "source-verified",
+    "readMinutes": 11,
+    "examWeight": 2.6,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Compaction: replacing old turns with a summary"
+      },
+      {
+        "id": "section-2",
+        "title": "Context editing: clearing tool results and thinking by rule"
+      },
+      {
+        "id": "section-3",
+        "title": "Context management versus the prompt cache"
+      },
+      {
+        "id": "section-4",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Nén và chỉnh sửa ngữ cảnh cho các phiên làm việc dài với Claude",
+    "filename": "managing-long-conversations-compaction-context-editing-and-cache-trade-offs",
+    "translated": true,
+    "wordCount": 2126,
+    "translationUnits": 156,
+    "checkpointCount": 5
+  },
+  {
+    "lessonId": "2.5",
+    "groupId": "2.5",
+    "locale": "en",
+    "title": "Prompt reuse with caching, modular prompts and Agent Skills",
+    "description": "Implement prompt reuse strategies",
+    "domain": 2,
+    "order": 101,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 11,
+    "sourceSlug": "prompt-caching-and-modular-prompt-layout",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-caching-and-modular-prompt-layout",
+    "sourceImage": "images/domain2/2.5.png",
+    "sourceHash": "1c25a3c58bacc948dd150341dd5639f6c220bb604c6a2bb523ff17fe5999e6ff",
+    "status": "source-verified",
+    "readMinutes": 20,
+    "examWeight": 2.6,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What prompt caching reuses and what it costs"
+      },
+      {
+        "id": "section-2",
+        "title": "Automatic caching and explicit cache_control breakpoints"
+      },
+      {
+        "id": "section-3",
+        "title": "How the lookback finds earlier cache entries"
+      },
+      {
+        "id": "section-4",
+        "title": "Modular prompt layout: stable modules first, variables last"
+      },
+      {
+        "id": "section-5",
+        "title": "Agent Skills: packaging repeated instructions as SKILL.md"
+      },
+      {
+        "id": "section-6",
+        "title": "Progressive disclosure: the three loading levels of a Skill"
+      }
+    ],
+    "titleVi": "Tái sử dụng câu lệnh bằng bộ nhớ đệm, câu lệnh mô-đun và Agent Skills",
+    "filename": "prompt-caching-and-modular-prompt-layout",
+    "translated": true,
+    "wordCount": 3692,
+    "translationUnits": 266,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "3.1",
+    "groupId": "3.1",
+    "locale": "en",
+    "title": "Capability bloat in agent tool configurations",
+    "description": "Evaluate tool/agent configuration for capability bloat",
+    "domain": 3,
+    "order": 111,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 12,
+    "sourceSlug": "capability-bloat-why-too-many-tools-degrade-an-agent",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/capability-bloat-why-too-many-tools-degrade-an-agent",
+    "sourceImage": "images/domain3/3.1.png",
+    "sourceHash": "dac731a70bad7d882be3e924a6ba26f58913cc777fbe88bebffb7a8e816edc7d",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.38,
+    "sourceCount": 10,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What too many tools cost an agent"
+      },
+      {
+        "id": "section-2",
+        "title": "Diagnosing bloat in a configuration"
+      },
+      {
+        "id": "section-3",
+        "title": "Consolidating and namespacing tools"
+      },
+      {
+        "id": "section-4",
+        "title": "Scoping tools to each agent's role"
+      },
+      {
+        "id": "section-5",
+        "title": "Matching the remedy to the source of pressure"
+      }
+    ],
+    "titleVi": "Tình trạng dư thừa năng lực trong cấu hình công cụ của tác tử",
+    "filename": "capability-bloat-why-too-many-tools-degrade-an-agent",
+    "translated": true,
+    "wordCount": 3455,
+    "translationUnits": 259,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "3.2",
+    "groupId": "3.2",
+    "locale": "en",
+    "title": "MCP authorization: discovery, client registration and scoped tokens",
+    "description": "Analyze authentication and authorization requirements to identify security gaps",
+    "domain": 3,
+    "order": 121,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 13,
+    "sourceSlug": "mcp-authorization-requirements-discovery-registration-and-token-binding",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/mcp-authorization-requirements-discovery-registration-and-token-binding",
+    "sourceImage": "images/domain3/3.2/3.2.1.png",
+    "sourceHash": "67f96c6b6aa304b72790a55b544f9bbaa20bca409cd2af01d073b2e22f95df2f",
+    "status": "source-verified",
+    "readMinutes": 13,
+    "examWeight": 2.38,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "30 Sep 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "The transport decides how an MCP server authenticates"
+      },
+      {
+        "id": "section-2",
+        "title": "How a client discovers the authorization server"
+      },
+      {
+        "id": "section-3",
+        "title": "Registering a client the server has never seen"
+      },
+      {
+        "id": "section-4",
+        "title": "Binding tokens to one server, and never passing them on"
+      },
+      {
+        "id": "section-5",
+        "title": "401 versus 403, and asking for more scope only when needed"
+      }
+    ],
+    "titleVi": "Ủy quyền MCP: khám phá, đăng ký ứng dụng khách và token giới hạn phạm vi",
+    "filename": "mcp-authorization-requirements-discovery-registration-and-token-binding",
+    "translated": true,
+    "wordCount": 2331,
+    "translationUnits": 171,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "3.2.2",
+    "groupId": "3.2",
+    "locale": "en",
+    "title": "Who the agent acts as: per-user credentials and permission layers",
+    "description": "Analyze authentication and authorization requirements to identify security gaps",
+    "domain": 3,
+    "order": 122,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 13,
+    "sourceSlug": "finding-mcp-authorization-gaps-scopes-per-user-credentials-and-server-policy",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/finding-mcp-authorization-gaps-scopes-per-user-credentials-and-server-policy",
+    "sourceImage": "images/domain3/3.2/3.2.2.png",
+    "sourceHash": "b2b1ae5531c7834cd999ff1b71a4f85ad2a3752100daffaa3bc6752d4ab8cc8b",
+    "status": "source-verified",
+    "readMinutes": 12,
+    "examWeight": 2.38,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Shared service identity versus acting on behalf of each user"
+      },
+      {
+        "id": "section-2",
+        "title": "Keeping credentials outside the agent's boundary"
+      },
+      {
+        "id": "section-3",
+        "title": "Which permission layer actually decides a tool call"
+      }
+    ],
+    "titleVi": "Tác tử hành động dưới danh nghĩa ai: thông tin xác thực riêng cho từng người dùng và các lớp quyền",
+    "filename": "finding-mcp-authorization-gaps-scopes-per-user-credentials-and-server-policy",
+    "translated": true,
+    "wordCount": 2240,
+    "translationUnits": 151,
+    "checkpointCount": 7
+  },
+  {
+    "lessonId": "3.3",
+    "groupId": "3.3",
+    "locale": "en",
+    "title": "Accuracy-latency trade-offs: effort, fast mode, streaming and justified configs",
+    "description": "Evaluate accuracy-latency trade-offs and justify configuration decisions",
+    "domain": 3,
+    "order": 131,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 14,
+    "sourceSlug": "effort-and-model-choice-trading-accuracy-for-latency-and-cost",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/effort-and-model-choice-trading-accuracy-for-latency-and-cost",
+    "sourceImage": "images/domain3/3.3.png",
+    "sourceHash": "ab82e0d1cd25a68ec6a0aa9722cc3bb5414817009718d561d971c385d7a2e79c",
+    "status": "source-verified",
+    "readMinutes": 17,
+    "examWeight": 2.38,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Which latency clock each lever moves"
+      },
+      {
+        "id": "section-2",
+        "title": "Starting from the fastest tier that is accurate enough"
+      },
+      {
+        "id": "section-3",
+        "title": "Effort: the accuracy-latency dial inside one model"
+      },
+      {
+        "id": "section-4",
+        "title": "Streaming, fast mode and hidden thinking: speed without less reasoning"
+      },
+      {
+        "id": "section-5",
+        "title": "Justifying the setting with a sweep on cost per solved task"
+      }
+    ],
+    "titleVi": "Đánh đổi giữa độ chính xác và độ trễ: mức nỗ lực, chế độ nhanh, truyền luồng và cấu hình có cơ sở",
+    "filename": "effort-and-model-choice-trading-accuracy-for-latency-and-cost",
+    "translated": true,
+    "wordCount": 3078,
+    "translationUnits": 201,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "3.4",
+    "groupId": "3.4",
+    "locale": "en",
+    "title": "Run-level telemetry and tagging for Claude agent fleets",
+    "description": "Analyze observability challenges and select monitoring strategies at scale",
+    "domain": 3,
+    "order": 141,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 15,
+    "sourceSlug": "monitoring-strategy-for-claude-agents-privacy-collectors-and-reporting-apis",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/monitoring-strategy-for-claude-agents-privacy-collectors-and-reporting-apis",
+    "sourceImage": "images/domain3/3.4/3.4.1.png",
+    "sourceHash": "7530e252df1196a4f2d57eb5353e680e07b93134ff5ca59a494e0c848273e5db",
+    "status": "source-verified",
+    "readMinutes": 15,
+    "examWeight": 2.38,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Why agent runs resist ordinary debugging"
+      },
+      {
+        "id": "section-2",
+        "title": "Rolling the collector config out through managed settings"
+      },
+      {
+        "id": "section-3",
+        "title": "Tagging telemetry per tenant, team and deployment"
+      },
+      {
+        "id": "section-4",
+        "title": "Which content is worth collecting at scale"
+      }
+    ],
+    "titleVi": "Thu thập dữ liệu vận hành và gắn nhãn theo từng lần chạy cho các nhóm tác tử Claude",
+    "filename": "monitoring-strategy-for-claude-agents-privacy-collectors-and-reporting-apis",
+    "translated": true,
+    "wordCount": 2237,
+    "translationUnits": 191,
+    "checkpointCount": 7
+  },
+  {
+    "lessonId": "3.4.2",
+    "groupId": "3.4",
+    "locale": "en",
+    "title": "Choosing a Claude monitoring strategy: OpenTelemetry, usage reports or a gateway",
+    "description": "Analyze observability challenges and select monitoring strategies at scale",
+    "domain": 3,
+    "order": 142,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 15,
+    "sourceSlug": "choosing-a-claude-monitoring-strategy-opentelemetry-usage-reports-or-a-gateway",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-a-claude-monitoring-strategy-opentelemetry-usage-reports-or-a-gateway",
+    "sourceImage": "images/domain3/3.4/3.4.2.png",
+    "sourceHash": "fff39cd179a8c377ccfcce3a3d6bd7562ef60b159719307241d297c585474d38",
+    "status": "source-verified",
+    "readMinutes": 10,
+    "examWeight": 2.38,
+    "sourceCount": 8,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "When OpenTelemetry is more than you need"
+      },
+      {
+        "id": "section-2",
+        "title": "Attributing spend with the Usage & Cost API"
+      },
+      {
+        "id": "section-3",
+        "title": "Per-user attribution on Bedrock, Agent Platform and Foundry"
+      },
+      {
+        "id": "section-4",
+        "title": "Sizing TPM and RPM allocations by organization size"
+      }
+    ],
+    "titleVi": "Chọn chiến lược giám sát Claude: OpenTelemetry, báo cáo sử dụng hoặc cổng trung gian",
+    "filename": "choosing-a-claude-monitoring-strategy-opentelemetry-usage-reports-or-a-gateway",
+    "translated": true,
+    "wordCount": 1796,
+    "translationUnits": 130,
+    "checkpointCount": 5
+  },
+  {
+    "lessonId": "3.5",
+    "groupId": "3.5",
+    "locale": "en",
+    "title": "RAG ingestion: chunking, embeddings and contextual indexing",
+    "description": "Design a RAG pipeline with appropriate chunking and indexing strategies",
+    "domain": 3,
+    "order": 151,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 16,
+    "sourceSlug": "rag-pipeline-design-chunking-embeddings-and-hybrid-indexing",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/rag-pipeline-design-chunking-embeddings-and-hybrid-indexing",
+    "sourceImage": "images/domain3/3.5/3.5.1.png",
+    "sourceHash": "a7cba7af74d751510a8bc3f607f8f7526d2904895ab120059991ad3702d96e61",
+    "status": "source-verified",
+    "readMinutes": 12,
+    "examWeight": 2.38,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Chunk size, boundaries and the context a chunk loses"
+      },
+      {
+        "id": "section-2",
+        "title": "Choosing and calling the embedding model"
+      },
+      {
+        "id": "section-3",
+        "title": "Contextual embeddings and contextual BM25"
+      }
+    ],
+    "titleVi": "Nạp dữ liệu cho RAG: chia đoạn, tạo vector nhúng và lập chỉ mục theo ngữ cảnh",
+    "filename": "rag-pipeline-design-chunking-embeddings-and-hybrid-indexing",
+    "translated": true,
+    "wordCount": 2222,
+    "translationUnits": 146,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "3.5.2",
+    "groupId": "3.5",
+    "locale": "en",
+    "title": "RAG query time: reranking, top-k and citable search results",
+    "description": "Design a RAG pipeline with appropriate chunking and indexing strategies",
+    "domain": 3,
+    "order": 152,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 16,
+    "sourceSlug": "contextual-retrieval-reranking-and-citable-search-results",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/contextual-retrieval-reranking-and-citable-search-results",
+    "sourceImage": "images/domain3/3.5/3.5.2.png",
+    "sourceHash": "292c8bd9df6c1b73be1dab7176d3eb792f2f9a15ecdfa87184b6df5d1fd51666",
+    "status": "source-verified",
+    "readMinutes": 10,
+    "examWeight": 2.38,
+    "sourceCount": 5,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Retrieve broadly, fuse, rerank and pass the top-k"
+      },
+      {
+        "id": "section-2",
+        "title": "Passing chunks to Claude as citable search results"
+      },
+      {
+        "id": "section-3",
+        "title": "Caching retrieved context that repeats across queries"
+      }
+    ],
+    "titleVi": "Xử lý truy vấn RAG: xếp hạng lại, top-k và kết quả tìm kiếm có thể trích dẫn",
+    "filename": "contextual-retrieval-reranking-and-citable-search-results",
+    "translated": true,
+    "wordCount": 1630,
+    "translationUnits": 113,
+    "checkpointCount": 5
+  },
+  {
+    "lessonId": "3.6",
+    "groupId": "3.6",
+    "locale": "en",
+    "title": "Retrieval strategies matched to data shape and query pattern",
+    "description": "Apply retrieval strategies matched to data shape and query pattern",
+    "domain": 3,
+    "order": 161,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 17,
+    "sourceSlug": "retrieval-strategy-selection-full-context-embeddings-bm25-and-hybrid-search",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/retrieval-strategy-selection-full-context-embeddings-bm25-and-hybrid-search",
+    "sourceImage": "images/domain3/3.6.png",
+    "sourceHash": "556d7c245f48e3f67e4e26a913512543e1fc1cbbafc7202f544f80d25cb943ac",
+    "status": "source-verified",
+    "readMinutes": 18,
+    "examWeight": 2.38,
+    "sourceCount": 8,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "First ask whether the corpus fits in the prompt"
+      },
+      {
+        "id": "section-2",
+        "title": "Embeddings match meaning, BM25 matches exact terms"
+      },
+      {
+        "id": "section-3",
+        "title": "Hybrid search and tuning the blend to your data"
+      },
+      {
+        "id": "section-4",
+        "title": "Choosing the full stack by accuracy, latency and cost"
+      },
+      {
+        "id": "section-5",
+        "title": "Just-in-time retrieval: letting the agent search with tools"
+      },
+      {
+        "id": "section-6",
+        "title": "The same logic for tool catalogs and long sessions"
+      }
+    ],
+    "titleVi": "Chiến lược truy xuất phù hợp với cấu trúc dữ liệu và dạng truy vấn",
+    "filename": "retrieval-strategy-selection-full-context-embeddings-bm25-and-hybrid-search",
+    "translated": true,
+    "wordCount": 3142,
+    "translationUnits": 206,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "3.7",
+    "groupId": "3.7",
+    "locale": "en",
+    "title": "Choosing between MCP, direct tools and agent-to-agent integration",
+    "description": "Evaluate connection protocols and select the appropriate integration mechanism",
+    "domain": 3,
+    "order": 171,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 18,
+    "sourceSlug": "choosing-between-mcp-direct-tool-use-and-subagents",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/choosing-between-mcp-direct-tool-use-and-subagents",
+    "sourceImage": "images/domain3/3.7.png",
+    "sourceHash": "75f14a699262ff072a76fb5f74b7aacd43d8761e0bda79e28ed01f9c93f368fe",
+    "status": "source-verified",
+    "readMinutes": 22,
+    "examWeight": 2.38,
+    "sourceCount": 9,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Three ways to connect Claude to a system"
+      },
+      {
+        "id": "section-2",
+        "title": "What MCP standardises: primitives and transports"
+      },
+      {
+        "id": "section-3",
+        "title": "Attaching an MCP server in Claude Code"
+      },
+      {
+        "id": "section-4",
+        "title": "Choosing the surface: Claude Code CLI, Agent SDK, Client SDK or Managed Agents"
+      },
+      {
+        "id": "section-5",
+        "title": "The Messages API MCP connector: remote servers only"
+      },
+      {
+        "id": "section-6",
+        "title": "When the system is better reached as another agent"
+      },
+      {
+        "id": "section-7",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Lựa chọn giữa MCP, công cụ trực tiếp và tích hợp giữa các tác tử",
+    "filename": "choosing-between-mcp-direct-tool-use-and-subagents",
+    "translated": true,
+    "wordCount": 3666,
+    "translationUnits": 280,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "3.8",
+    "groupId": "3.8",
+    "locale": "en",
+    "title": "Progressive discovery vs. monolithic context: tool search and when to use it",
+    "description": "Evaluate progressive discovery vs. monolithic context strategy",
+    "domain": 3,
+    "order": 181,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 19,
+    "sourceSlug": "tool-search-vs-loading-every-tool-definition-up-front",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/tool-search-vs-loading-every-tool-definition-up-front",
+    "sourceImage": "images/domain3/3.8.png",
+    "sourceHash": "d707223709c8365fac99e88191689a184c1584bd9d901c2363d16aa12265525b",
+    "status": "source-verified",
+    "readMinutes": 17,
+    "examWeight": 2.38,
+    "sourceCount": 6,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What a monolithic tool set costs before any work starts"
+      },
+      {
+        "id": "section-2",
+        "title": "How tool search keeps deferred tools out of context"
+      },
+      {
+        "id": "section-3",
+        "title": "Turning tool search on in the Agent SDK with ENABLE_TOOL_SEARCH"
+      },
+      {
+        "id": "section-4",
+        "title": "Choosing progressive discovery or a fixed tool set"
+      },
+      {
+        "id": "section-5",
+        "title": "Skills and hybrid loading as other forms of progressive discovery"
+      }
+    ],
+    "titleVi": "Khám phá từng bước so với ngữ cảnh nguyên khối: tìm kiếm công cụ và khi nào nên dùng",
+    "filename": "tool-search-vs-loading-every-tool-definition-up-front",
+    "translated": true,
+    "wordCount": 3027,
+    "translationUnits": 198,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "4.1",
+    "groupId": "4.1",
+    "locale": "en",
+    "title": "Evaluation metrics for Claude systems: accuracy, latency, cost, safety and security",
+    "description": "Define evaluation metrics",
+    "domain": 4,
+    "order": 191,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 20,
+    "sourceSlug": "latency-cost-safety-and-security-metrics",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/latency-cost-safety-and-security-metrics",
+    "sourceImage": "images/domain4/4.1.png",
+    "sourceHash": "7a79119a2c0dd9f2ebdc4da1989741053257611c2112e241e7a944f29a722e80",
+    "status": "source-verified",
+    "readMinutes": 20,
+    "examWeight": 2.67,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Why one metric never certifies a Claude system"
+      },
+      {
+        "id": "section-2",
+        "title": "Matching the accuracy metric to the shape of the output"
+      },
+      {
+        "id": "section-3",
+        "title": "Latency: name the clock and the percentile"
+      },
+      {
+        "id": "section-4",
+        "title": "Cost per task as a pass/fail metric"
+      },
+      {
+        "id": "section-5",
+        "title": "Quantifying safety and security as checkable rates"
+      }
+    ],
+    "titleVi": "Chỉ số đánh giá hệ thống Claude: độ chính xác, độ trễ, chi phí, an toàn và bảo mật",
+    "filename": "latency-cost-safety-and-security-metrics",
+    "translated": true,
+    "wordCount": 3230,
+    "translationUnits": 201,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "4.2",
+    "groupId": "4.2",
+    "locale": "en",
+    "title": "Eval datasets and graders: designing a mixed-method test framework",
+    "description": "Design evaluation datasets and test frameworks using mixed methodologies",
+    "domain": 4,
+    "order": 201,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 21,
+    "sourceSlug": "evaluation-datasets-test-cases-edge-cases-and-volume",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/evaluation-datasets-test-cases-edge-cases-and-volume",
+    "sourceImage": "images/domain4/4.2.png",
+    "sourceHash": "31743d2c40762044e4dd27bcf0c52dce290638f758a872eba73329826ac4f050",
+    "status": "source-verified",
+    "readMinutes": 18,
+    "examWeight": 2.67,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Success criteria come before test cases"
+      },
+      {
+        "id": "section-2",
+        "title": "Test cases that mirror real traffic, then edge cases"
+      },
+      {
+        "id": "section-3",
+        "title": "Volume, automation and repeated trials"
+      },
+      {
+        "id": "section-4",
+        "title": "Code-graded, LLM-graded and human-graded evals"
+      },
+      {
+        "id": "section-5",
+        "title": "Combining graders in one framework"
+      }
+    ],
+    "titleVi": "Bộ dữ liệu đánh giá và bộ chấm điểm: thiết kế khung kiểm thử kết hợp nhiều phương pháp",
+    "filename": "evaluation-datasets-test-cases-edge-cases-and-volume",
+    "translated": true,
+    "wordCount": 2991,
+    "translationUnits": 194,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "4.3",
+    "groupId": "4.3",
+    "locale": "en",
+    "title": "A/B testing prompts: baselines, segments and versioned rollout",
+    "description": "Conduct A/B testing and iterative improvements",
+    "domain": 4,
+    "order": 211,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 22,
+    "sourceSlug": "a-b-testing-prompt-and-model-changes-against-a-baseline",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/a-b-testing-prompt-and-model-changes-against-a-baseline",
+    "sourceImage": "images/domain4/4.3.png",
+    "sourceHash": "b6a9395d5528997a634963048d7dc8eec443b247efb7cd6399c21b7d5e7fb3c9",
+    "status": "source-verified",
+    "readMinutes": 18,
+    "examWeight": 2.67,
+    "sourceCount": 6,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Baselines and targets come before the change"
+      },
+      {
+        "id": "section-2",
+        "title": "Offline comparisons on a held-out eval set"
+      },
+      {
+        "id": "section-3",
+        "title": "Keeping the comparison fair"
+      },
+      {
+        "id": "section-4",
+        "title": "When to run a live A/B test"
+      },
+      {
+        "id": "section-5",
+        "title": "Reading results per segment"
+      },
+      {
+        "id": "section-6",
+        "title": "Promote, canary and roll back by version"
+      }
+    ],
+    "titleVi": "Thử nghiệm A/B cho câu lệnh: mốc chuẩn, phân nhóm và triển khai theo phiên bản",
+    "filename": "a-b-testing-prompt-and-model-changes-against-a-baseline",
+    "translated": true,
+    "wordCount": 3438,
+    "translationUnits": 196,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "4.4",
+    "groupId": "4.4",
+    "locale": "en",
+    "title": "Diagnosing Claude system failures: hallucination, prompt, tool and model faults",
+    "description": "Diagnose system issues",
+    "domain": 4,
+    "order": 221,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 23,
+    "sourceSlug": "diagnosing-prompt-failures-tool-misuse-and-model-mismatch",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/diagnosing-prompt-failures-tool-misuse-and-model-mismatch",
+    "sourceImage": "images/domain4/4.4.png",
+    "sourceHash": "25f1c2c18159f8c80dd83c0f3f02598ba4efb1a6e66147d3d96266e8e098ea92",
+    "status": "source-verified",
+    "readMinutes": 17,
+    "examWeight": 2.67,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Four layers a failure can come from"
+      },
+      {
+        "id": "section-2",
+        "title": "Confirming a suspected hallucination"
+      },
+      {
+        "id": "section-3",
+        "title": "Prompt failure: Claude did what you said, not what you meant"
+      },
+      {
+        "id": "section-4",
+        "title": "Tool misuse: reading the symptom back to its cause"
+      },
+      {
+        "id": "section-5",
+        "title": "Model mismatch: when the model is the wrong size for the work"
+      }
+    ],
+    "titleVi": "Chẩn đoán lỗi hệ thống Claude: ảo giác và lỗi câu lệnh, công cụ, mô hình",
+    "filename": "diagnosing-prompt-failures-tool-misuse-and-model-mismatch",
+    "translated": true,
+    "wordCount": 3256,
+    "translationUnits": 231,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "4.5",
+    "groupId": "4.5",
+    "locale": "en",
+    "title": "Optimizing Claude cost and latency: free wins, batching and budgets",
+    "description": "Optimize token usage, latency, and cost-performance trade-offs",
+    "domain": 4,
+    "order": 231,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 24,
+    "sourceSlug": "prompt-caching-and-free-cost-wins-on-claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-caching-and-free-cost-wins-on-claude",
+    "sourceImage": "images/domain4/4.5.png",
+    "sourceHash": "9ad63c254f6d07cdfba22b2493b210aa94e70210282185a192091716f2396e97",
+    "status": "source-verified",
+    "readMinutes": 22,
+    "examWeight": 2.67,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Two kinds of cost levers"
+      },
+      {
+        "id": "section-2",
+        "title": "Why caching dominates agent-loop cost"
+      },
+      {
+        "id": "section-3",
+        "title": "Choosing the 5-minute or 1-hour cache from the pauses"
+      },
+      {
+        "id": "section-4",
+        "title": "Token hygiene: trimming what each call carries"
+      },
+      {
+        "id": "section-5",
+        "title": "Message Batches for work that can wait"
+      },
+      {
+        "id": "section-6",
+        "title": "Trade-off levers: effort and model tier"
+      },
+      {
+        "id": "section-7",
+        "title": "Bounding spend: max_tokens, budgets and re-running failures"
+      }
+    ],
+    "titleVi": "Tối ưu chi phí và độ trễ của Claude: cải thiện không tốn thêm phí, xử lý theo lô và ngân sách",
+    "filename": "prompt-caching-and-free-cost-wins-on-claude",
+    "translated": true,
+    "wordCount": 4105,
+    "translationUnits": 282,
+    "checkpointCount": 10
+  },
+  {
+    "lessonId": "4.6",
+    "groupId": "4.6",
+    "locale": "en",
+    "title": "OpenTelemetry for Claude Code and the Agent SDK: signals, traces and content gates",
+    "description": "Monitor system performance using logging and observability tools",
+    "domain": 4,
+    "order": 241,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 25,
+    "sourceSlug": "opentelemetry-metrics-logs-and-traces-for-claude-agents",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/opentelemetry-metrics-logs-and-traces-for-claude-agents",
+    "sourceImage": "images/domain4/4.6/4.6.1.png",
+    "sourceHash": "e3b046f850675524cdf35bc7ba6e93684e6934327d8c8b3b487e810f96391252",
+    "status": "source-verified",
+    "readMinutes": 13,
+    "examWeight": 2.67,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Metrics, log events and traces answer different questions"
+      },
+      {
+        "id": "section-2",
+        "title": "Controlling what metrics carry"
+      },
+      {
+        "id": "section-3",
+        "title": "Reading a trace: spans across a run and its subagents"
+      },
+      {
+        "id": "section-4",
+        "title": "Telemetry content gates: redacted by default"
+      }
+    ],
+    "titleVi": "OpenTelemetry cho Claude Code và Agent SDK: tín hiệu, dấu vết thực thi và kiểm soát nội dung",
+    "filename": "opentelemetry-metrics-logs-and-traces-for-claude-agents",
+    "translated": true,
+    "wordCount": 2316,
+    "translationUnits": 224,
+    "checkpointCount": 7
+  },
+  {
+    "lessonId": "4.6.2",
+    "groupId": "4.6",
+    "locale": "en",
+    "title": "Organisation-wide monitoring: API traces, usage and cost reports, audit events",
+    "description": "Monitor system performance using logging and observability tools",
+    "domain": 4,
+    "order": 242,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 25,
+    "sourceSlug": "telemetry-content-gates-audit-events-and-the-usage-cost-api",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/telemetry-content-gates-audit-events-and-the-usage-cost-api",
+    "sourceImage": "images/domain4/4.6/4.6.2.png",
+    "sourceHash": "36bea8b86e99f85eb0a83a9a111b44fb3553d613ba36c69df40085e94243bd07",
+    "status": "source-verified",
+    "readMinutes": 12,
+    "examWeight": 2.67,
+    "sourceCount": 9,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Tracing Messages API requests and Managed Agents sessions"
+      },
+      {
+        "id": "section-2",
+        "title": "Usage and cost of a Managed Agents session"
+      },
+      {
+        "id": "section-3",
+        "title": "Usage & Cost Admin API: organisation-wide trends"
+      },
+      {
+        "id": "section-4",
+        "title": "Adoption analytics, audit events and SIEM routing"
+      }
+    ],
+    "titleVi": "Giám sát toàn tổ chức: dấu vết API, báo cáo sử dụng và chi phí, sự kiện kiểm toán",
+    "filename": "telemetry-content-gates-audit-events-and-the-usage-cost-api",
+    "translated": true,
+    "wordCount": 1854,
+    "translationUnits": 120,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "5.1",
+    "groupId": "5.1",
+    "locale": "en",
+    "title": "Input and output guardrails for Claude applications",
+    "description": "Implement guardrails and safety controls",
+    "domain": 5,
+    "order": 251,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 26,
+    "sourceSlug": "prompt-level-guardrails-jailbreaks-prompt-injection-hallucinations-and-refusals",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompt-level-guardrails-jailbreaks-prompt-injection-hallucinations-and-refusals",
+    "sourceImage": "images/5.1.1.png",
+    "sourceHash": "39fb7af50ac75d39b92d2182fa955612fbac2ee9f4e2cb17fd30d88b3a042f2a",
+    "status": "source-verified",
+    "readMinutes": 18,
+    "examWeight": 2.8,
+    "sourceCount": 5,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Start guardrail design from the threat model"
+      },
+      {
+        "id": "section-2",
+        "title": "Guardrails against an adversarial user"
+      },
+      {
+        "id": "section-3",
+        "title": "Guardrails for untrusted content Claude reads"
+      },
+      {
+        "id": "section-4",
+        "title": "Output guardrails against hallucination"
+      },
+      {
+        "id": "section-5",
+        "title": "Built-in safety classifiers and refusal fallback"
+      }
+    ],
+    "titleVi": "Biện pháp bảo vệ đầu vào và đầu ra cho ứng dụng Claude",
+    "filename": "prompt-level-guardrails-jailbreaks-prompt-injection-hallucinations-and-refusals",
+    "translated": true,
+    "wordCount": 3250,
+    "translationUnits": 203,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "5.1.2",
+    "groupId": "5.1",
+    "locale": "en",
+    "title": "Least privilege and sandboxing for Claude agents",
+    "description": "Implement guardrails and safety controls",
+    "domain": 5,
+    "order": 252,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 26,
+    "sourceSlug": "access-controls-for-claude-agents-permissions-sandboxing-and-audit",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/access-controls-for-claude-agents-permissions-sandboxing-and-audit",
+    "sourceImage": "images/5.1.2.png",
+    "sourceHash": "57a98cf658cabfd71a3de430b0410f78b87a9ce60a95c8a76411ce6a521421a6",
+    "status": "source-verified",
+    "readMinutes": 11,
+    "examWeight": 2.8,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Least privilege: writing rules from deny"
+      },
+      {
+        "id": "section-2",
+        "title": "Where command-pattern rules stop protecting"
+      },
+      {
+        "id": "section-3",
+        "title": "Sandboxing the filesystem and network"
+      },
+      {
+        "id": "section-4",
+        "title": "Keeping secrets out of the agent's reach"
+      },
+      {
+        "id": "section-5",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Nguyên tắc quyền tối thiểu và môi trường cách ly cho tác tử Claude",
+    "filename": "access-controls-for-claude-agents-permissions-sandboxing-and-audit",
+    "translated": true,
+    "wordCount": 1586,
+    "translationUnits": 166,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "5.2",
+    "groupId": "5.2",
+    "locale": "en",
+    "title": "LLM failure modes: hallucination, knowledge limits, context rot and prompt injection",
+    "description": "Identify risks, limitations, and failure modes of LLM systems",
+    "domain": 5,
+    "order": 261,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 27,
+    "sourceSlug": "llm-limitations-hallucination-knowledge-gaps-context-limits-and-steerability",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/llm-limitations-hallucination-knowledge-gaps-context-limits-and-steerability",
+    "sourceImage": "images/5.2.png",
+    "sourceHash": "5b6473253137e8fd6bee82fe7bdc64047e13a2435ff888355ab4202913356792",
+    "status": "source-verified",
+    "readMinutes": 20,
+    "examWeight": 2.8,
+    "sourceCount": 8,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Where hallucination comes from and where it concentrates"
+      },
+      {
+        "id": "section-2",
+        "title": "Frozen, uneven knowledge and the training cutoff"
+      },
+      {
+        "id": "section-3",
+        "title": "Context limits and context rot"
+      },
+      {
+        "id": "section-4",
+        "title": "Sycophancy, partial steerability and misplaced trust"
+      },
+      {
+        "id": "section-5",
+        "title": "Two threat models: jailbreaks and indirect prompt injection"
+      },
+      {
+        "id": "section-6",
+        "title": "Indirect injection and the trust boundary"
+      },
+      {
+        "id": "section-7",
+        "title": "Assume some attacks succeed: red-teaming and designing for breach"
+      }
+    ],
+    "titleVi": "Các dạng lỗi của LLM: ảo giác, giới hạn kiến thức, suy giảm ngữ cảnh và chèn lệnh",
+    "filename": "llm-limitations-hallucination-knowledge-gaps-context-limits-and-steerability",
+    "translated": true,
+    "wordCount": 3840,
+    "translationUnits": 239,
+    "checkpointCount": 10
+  },
+  {
+    "lessonId": "5.3",
+    "groupId": "5.3",
+    "locale": "en",
+    "title": "Human approval checkpoints in Claude Code and the Agent SDK",
+    "description": "Apply human-in-the-loop validation strategies",
+    "domain": 5,
+    "order": 271,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 28,
+    "sourceSlug": "human-approval-checkpoints-in-claude-code",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/human-approval-checkpoints-in-claude-code",
+    "sourceImage": "images/5.3.1.png",
+    "sourceHash": "c27fbf772cfb93ffdd766ede2b8748d72178820e84a5516dff1e5d0d2a501475",
+    "status": "source-verified",
+    "readMinutes": 15,
+    "examWeight": 2.8,
+    "sourceCount": 5,
+    "publishedAt": "20 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Why an agent needs human approval checkpoints"
+      },
+      {
+        "id": "section-2",
+        "title": "Permission modes: how much the human reviews"
+      },
+      {
+        "id": "section-3",
+        "title": "Where the human sits in the permission order"
+      },
+      {
+        "id": "section-4",
+        "title": "canUseTool: routing tool calls to a person"
+      }
+    ],
+    "titleVi": "Các điểm phê duyệt của con người trong Claude Code và Agent SDK",
+    "filename": "human-approval-checkpoints-in-claude-code",
+    "translated": true,
+    "wordCount": 3026,
+    "translationUnits": 234,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "5.3.2",
+    "groupId": "5.3",
+    "locale": "en",
+    "title": "Managed Agents permission policies and tool confirmations",
+    "description": "Apply human-in-the-loop validation strategies",
+    "domain": 5,
+    "order": 272,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 28,
+    "sourceSlug": "programmatic-approval-flows-agent-sdk-and-managed-agents",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/programmatic-approval-flows-agent-sdk-and-managed-agents",
+    "sourceImage": "images/5.3.2.png",
+    "sourceHash": "625c3ba1595f36a58fcd59f745a5162c1b8bf0c7e1ffc894ffe295995c904ea0",
+    "status": "source-verified",
+    "readMinutes": 10,
+    "examWeight": 2.8,
+    "sourceCount": 4,
+    "publishedAt": "20 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Three policies and their defaults"
+      },
+      {
+        "id": "section-2",
+        "title": "The auto policy: server-side judgement per call"
+      },
+      {
+        "id": "section-3",
+        "title": "Responding to a confirmation request"
+      }
+    ],
+    "titleVi": "Chính sách phân quyền và xác nhận sử dụng công cụ trong Managed Agents",
+    "filename": "programmatic-approval-flows-agent-sdk-and-managed-agents",
+    "translated": true,
+    "wordCount": 1370,
+    "translationUnits": 118,
+    "checkpointCount": 5
+  },
+  {
+    "lessonId": "5.4",
+    "groupId": "5.4",
+    "locale": "en",
+    "title": "HIPAA, BAAs and zero data retention for Claude",
+    "description": "Ensure compliance with regulations",
+    "domain": 5,
+    "order": 281,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 29,
+    "sourceSlug": "hipaa-compliance-on-claude-baa-hipaa-readiness-and-zdr",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/hipaa-compliance-on-claude-baa-hipaa-readiness-and-zdr",
+    "sourceImage": "images/5.4.1.png",
+    "sourceHash": "9b735aa786045b553ac90afd73e8001274b0f840a3270dc949a0d071cc76344c",
+    "status": "source-verified",
+    "readMinutes": 15,
+    "examWeight": 2.8,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Who processes the data decides which controls apply"
+      },
+      {
+        "id": "section-2",
+        "title": "Zero data retention: its scope, and the requests it does not stop"
+      },
+      {
+        "id": "section-3",
+        "title": "HIPAA readiness: a BAA plus feature limits the API enforces"
+      },
+      {
+        "id": "section-4",
+        "title": "Where a BAA does and does not cover PHI"
+      },
+      {
+        "id": "section-5",
+        "title": "Using a Covered Model inside a ZDR organization"
+      }
+    ],
+    "titleVi": "HIPAA, BAA và chính sách không lưu giữ dữ liệu cho Claude",
+    "filename": "hipaa-compliance-on-claude-baa-hipaa-readiness-and-zdr",
+    "translated": true,
+    "wordCount": 2687,
+    "translationUnits": 171,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "5.4.2",
+    "groupId": "5.4",
+    "locale": "en",
+    "title": "GDPR, data residency and FedRAMP for Claude deployments",
+    "description": "Ensure compliance with regulations",
+    "domain": 5,
+    "order": 282,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 29,
+    "sourceSlug": "gdpr-fedramp-and-data-residency-controls-for-claude",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/gdpr-fedramp-and-data-residency-controls-for-claude",
+    "sourceImage": "images/5.4.2.png",
+    "sourceHash": "051135f7b9ede7e7f3c6bd514d7738497d7624e40bf6765c35edb3086b5fb1fc",
+    "status": "source-verified",
+    "readMinutes": 11,
+    "examWeight": 2.8,
+    "sourceCount": 8,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "GDPR comes from the DPA in your contract"
+      },
+      {
+        "id": "section-2",
+        "title": "Data residency: inference geo and workspace geo"
+      },
+      {
+        "id": "section-3",
+        "title": "FedRAMP: authorize the environment, not the model"
+      },
+      {
+        "id": "section-4",
+        "title": "Retention records a compliance reviewer will ask for"
+      },
+      {
+        "id": "section-5",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "GDPR, nơi lưu trữ dữ liệu và FedRAMP khi triển khai Claude",
+    "filename": "gdpr-fedramp-and-data-residency-controls-for-claude",
+    "translated": true,
+    "wordCount": 1989,
+    "translationUnits": 173,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "5.5",
+    "groupId": "5.5",
+    "locale": "en",
+    "title": "Bias, fairness and honest outputs in Claude builds",
+    "description": "Address ethical AI considerations",
+    "domain": 5,
+    "order": 291,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 30,
+    "sourceSlug": "ai-bias-and-fairness-where-bias-comes-from-and-how-to-measure-it",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-bias-and-fairness-where-bias-comes-from-and-how-to-measure-it",
+    "sourceImage": "images/5.5.1.png",
+    "sourceHash": "49a184a22b1e34362631baa3bf10e0c1f65a1fabeef761a1dfac6d195850e382",
+    "status": "source-verified",
+    "readMinutes": 12,
+    "examWeight": 2.8,
+    "sourceCount": 6,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Where bias enters a Claude-based system"
+      },
+      {
+        "id": "section-2",
+        "title": "Measuring fairness across groups and phrasings"
+      },
+      {
+        "id": "section-3",
+        "title": "Honest confidence and room for the user's own reasoning"
+      },
+      {
+        "id": "section-4",
+        "title": "Access as a design decision"
+      }
+    ],
+    "titleVi": "Thiên lệch, tính công bằng và đầu ra trung thực trong các giải pháp dùng Claude",
+    "filename": "ai-bias-and-fairness-where-bias-comes-from-and-how-to-measure-it",
+    "translated": true,
+    "wordCount": 2358,
+    "translationUnits": 133,
+    "checkpointCount": 7
+  },
+  {
+    "lessonId": "5.5.2",
+    "groupId": "5.5",
+    "locale": "en",
+    "title": "AI disclosure, watermarks and Content Credentials",
+    "description": "Address ethical AI considerations",
+    "domain": 5,
+    "order": 292,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 30,
+    "sourceSlug": "ai-transparency-disclosure-watermarks-and-content-credentials",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-transparency-disclosure-watermarks-and-content-credentials",
+    "sourceImage": "images/5.5.2.png",
+    "sourceHash": "56c8b2f00a7b1205515c6b1b2e76c17d71dcd7e2b7f00a5ded51c0618205282c",
+    "status": "source-verified",
+    "readMinutes": 6,
+    "examWeight": 2.8,
+    "sourceCount": 2,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Telling people when AI is involved"
+      },
+      {
+        "id": "section-2",
+        "title": "How Claude marks text and files"
+      },
+      {
+        "id": "section-3",
+        "title": "What a mark can and cannot prove"
+      }
+    ],
+    "titleVi": "Công khai việc sử dụng AI, dấu chìm và Content Credentials",
+    "filename": "ai-transparency-disclosure-watermarks-and-content-credentials",
+    "translated": true,
+    "wordCount": 1185,
+    "translationUnits": 85,
+    "checkpointCount": 3
+  },
+  {
+    "lessonId": "6.1",
+    "groupId": "6.1",
+    "locale": "en",
+    "title": "Structured discovery and requirement gathering for Claude solutions",
+    "description": "Conduct structured discovery and requirement gathering",
+    "domain": 6,
+    "order": 301,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 31,
+    "sourceSlug": "writing-measurable-requirements-and-acceptance-tests-for-ai-solutions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/writing-measurable-requirements-and-acceptance-tests-for-ai-solutions",
+    "sourceImage": "images/6.1.png",
+    "sourceHash": "4b2b55186c6e268af8a349412a5e87735d086a313a31961556d24df88bab6d9f",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.8,
+    "sourceCount": 9,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "The discovery brief: users, needs, experience, constraints"
+      },
+      {
+        "id": "section-2",
+        "title": "From discovery findings to a starting model"
+      },
+      {
+        "id": "section-3",
+        "title": "Writing measurable success criteria"
+      },
+      {
+        "id": "section-4",
+        "title": "Surfacing unknown requirements before implementation"
+      },
+      {
+        "id": "section-5",
+        "title": "Acceptance tests defined before code"
+      },
+      {
+        "id": "section-6",
+        "title": "The Description Chain: from the user's words to Claude's instruction"
+      }
+    ],
+    "titleVi": "Khảo sát và thu thập yêu cầu có hệ thống cho giải pháp dùng Claude",
+    "filename": "writing-measurable-requirements-and-acceptance-tests-for-ai-solutions",
+    "translated": true,
+    "wordCount": 3340,
+    "translationUnits": 250,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "6.2",
+    "groupId": "6.2",
+    "locale": "en",
+    "title": "Communicating architecture trade-offs to stakeholders",
+    "description": "Communicate architectural decisions and trade-offs",
+    "domain": 6,
+    "order": 311,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 32,
+    "sourceSlug": "explaining-claude-model-and-cost-trade-offs-to-stakeholders",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/explaining-claude-model-and-cost-trade-offs-to-stakeholders",
+    "sourceImage": "images/6.2.png",
+    "sourceHash": "72eb58eb6e32556f681c4bc259753750dc3297fb74ed8e99b872ee07eaa464a8",
+    "status": "source-verified",
+    "readMinutes": 21,
+    "examWeight": 2.8,
+    "sourceCount": 10,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Turning model trade-offs into a plain recommendation"
+      },
+      {
+        "id": "section-2",
+        "title": "Why per-token price misleads, and which savings are free"
+      },
+      {
+        "id": "section-3",
+        "title": "Putting a price on each extra layer of complexity"
+      },
+      {
+        "id": "section-4",
+        "title": "Backing the recommendation with your own evaluation"
+      },
+      {
+        "id": "section-5",
+        "title": "Making residual risk legible and bounded"
+      },
+      {
+        "id": "section-6",
+        "title": "Explaining a mechanism choice to the engineering team"
+      }
+    ],
+    "titleVi": "Trình bày những đánh đổi về kiến trúc với các bên liên quan",
+    "filename": "explaining-claude-model-and-cost-trade-offs-to-stakeholders",
+    "translated": true,
+    "wordCount": 3980,
+    "translationUnits": 203,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "6.3",
+    "groupId": "6.3",
+    "locale": "en",
+    "title": "Stakeholder expectations: SLAs, limits and pilot feedback",
+    "description": "Manage stakeholder feedback loops and expectation alignment",
+    "domain": 6,
+    "order": 321,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 33,
+    "sourceSlug": "stakeholder-expectations-and-slas-for-claude-solutions",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/stakeholder-expectations-and-slas-for-claude-solutions",
+    "sourceImage": "images/6.3.png",
+    "sourceHash": "0bd087c0861630cd61101642d4e90c757243fd4203f74f8507f7173e180c81ef",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.8,
+    "sourceCount": 13,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What standard and Priority Tier actually promise"
+      },
+      {
+        "id": "section-2",
+        "title": "Rate limits and spend caps are ceilings"
+      },
+      {
+        "id": "section-3",
+        "title": "Criteria stakeholders sign off before an SLA"
+      },
+      {
+        "id": "section-4",
+        "title": "How stakeholders hear about outages and model retirements"
+      },
+      {
+        "id": "section-5",
+        "title": "Building the feedback loop into the pilot"
+      },
+      {
+        "id": "section-6",
+        "title": "Separating real degradation from normal variation"
+      }
+    ],
+    "titleVi": "Kỳ vọng của các bên liên quan: SLA, giới hạn và phản hồi từ triển khai thử nghiệm",
+    "filename": "stakeholder-expectations-and-slas-for-claude-solutions",
+    "translated": true,
+    "wordCount": 3778,
+    "translationUnits": 246,
+    "checkpointCount": 9
+  },
+  {
+    "lessonId": "6.4",
+    "groupId": "6.4",
+    "locale": "en",
+    "title": "Architecture documentation for Claude solutions",
+    "description": "Document architectures and provide implementation guidance",
+    "domain": 6,
+    "order": 331,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 34,
+    "sourceSlug": "documenting-an-ai-solution-architecture-for-engineering-teams",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/documenting-an-ai-solution-architecture-for-engineering-teams",
+    "sourceImage": "images/6.4.1.png",
+    "sourceHash": "4f07ec2f0c03c2a1009fefa7b84210a34074b58f3c87066ae6eceb812a8afb3a",
+    "status": "source-verified",
+    "readMinutes": 14,
+    "examWeight": 2.8,
+    "sourceCount": 10,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What an architecture description must pin down"
+      },
+      {
+        "id": "section-2",
+        "title": "Where the agent loop runs"
+      },
+      {
+        "id": "section-3",
+        "title": "Documenting how tools connect"
+      },
+      {
+        "id": "section-4",
+        "title": "Recording the model choice"
+      },
+      {
+        "id": "section-5",
+        "title": "Recording why each layer exists"
+      },
+      {
+        "id": "section-6",
+        "title": "From prototype to deployable service"
+      }
+    ],
+    "titleVi": "Tài liệu kiến trúc cho giải pháp dùng Claude",
+    "filename": "documenting-an-ai-solution-architecture-for-engineering-teams",
+    "translated": true,
+    "wordCount": 2560,
+    "translationUnits": 180,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "6.4.2",
+    "groupId": "6.4",
+    "locale": "en",
+    "title": "CLAUDE.md as implementation guidance",
+    "description": "Document architectures and provide implementation guidance",
+    "domain": 6,
+    "order": 332,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 34,
+    "sourceSlug": "writing-implementation-guidance-with-claude-md",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/writing-implementation-guidance-with-claude-md",
+    "sourceImage": "images/6.4.2.png",
+    "sourceHash": "04941df17a2ee5ac72e5ccd7bcbee783b2e5c04cd1d907ce4362aa1021f489ef",
+    "status": "source-verified",
+    "readMinutes": 8,
+    "examWeight": 2.8,
+    "sourceCount": 5,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "What CLAUDE.md should contain"
+      },
+      {
+        "id": "section-2",
+        "title": "Choosing the scope for each instruction"
+      },
+      {
+        "id": "section-3",
+        "title": "Keeping CLAUDE.md accurate"
+      },
+      {
+        "id": "section-4",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Dùng CLAUDE.md để hướng dẫn triển khai",
+    "filename": "writing-implementation-guidance-with-claude-md",
+    "translated": true,
+    "wordCount": 1544,
+    "translationUnits": 143,
+    "checkpointCount": 3
+  },
+  {
+    "lessonId": "6.5",
+    "groupId": "6.5",
+    "locale": "en",
+    "title": "AI solution lifecycle phases: discovery to retirement",
+    "description": "Support lifecycle phases",
+    "domain": 6,
+    "order": 341,
+    "part": 1,
+    "partCount": 1,
+    "lessonNumber": 35,
+    "sourceSlug": "ai-solution-lifecycle-discovery-design-and-handoff",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/ai-solution-lifecycle-discovery-design-and-handoff",
+    "sourceImage": "images/6.5.png",
+    "sourceHash": "0809edcd5e97a95e9d6b9dc36eccf2e36dba0b3632c101eb41d954bc9b2c0f6c",
+    "status": "source-verified",
+    "readMinutes": 19,
+    "examWeight": 2.8,
+    "sourceCount": 10,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Six phases, each handing an artifact forward"
+      },
+      {
+        "id": "section-2",
+        "title": "Discovery hands design a definition of success"
+      },
+      {
+        "id": "section-3",
+        "title": "Design picks the build surface the constraints allow"
+      },
+      {
+        "id": "section-4",
+        "title": "Handoff gives engineering the tests, not just the design"
+      },
+      {
+        "id": "section-5",
+        "title": "Monitoring turns live behaviour into decision inputs"
+      },
+      {
+        "id": "section-6",
+        "title": "Iteration: ship it, fix it, or stop it"
+      },
+      {
+        "id": "section-7",
+        "title": "Retirement: your work, and the model beneath it"
+      }
+    ],
+    "titleVi": "Các giai đoạn vòng đời giải pháp AI: từ khảo sát đến ngừng vận hành",
+    "filename": "ai-solution-lifecycle-discovery-design-and-handoff",
+    "translated": true,
+    "wordCount": 3442,
+    "translationUnits": 267,
+    "checkpointCount": 10
+  },
+  {
+    "lessonId": "7.1",
+    "groupId": "7.1",
+    "locale": "en",
+    "title": "Claude Code settings scopes, precedence and permission rules",
+    "description": "Configure Claude tools and environments for teams",
+    "domain": 7,
+    "order": 351,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 36,
+    "sourceSlug": "claude-code-settings-scopes-and-managed-policy-delivery-for-teams",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/claude-code-settings-scopes-and-managed-policy-delivery-for-teams",
+    "sourceImage": "images/7.1.1.png",
+    "sourceHash": "894cba1830a9c4bfbec2f0c46e944da4afd98711612d5da855a70b3151a8b072",
+    "status": "source-verified",
+    "readMinutes": 12,
+    "examWeight": 2.33,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Four settings scopes and who each one reaches"
+      },
+      {
+        "id": "section-2",
+        "title": "Which value wins when scopes disagree"
+      },
+      {
+        "id": "section-3",
+        "title": "Writing allow, ask and deny rules"
+      },
+      {
+        "id": "section-4",
+        "title": "Shared instructions versus enforced settings"
+      }
+    ],
+    "titleVi": "Phạm vi cài đặt, thứ tự ưu tiên và quy tắc phân quyền trong Claude Code",
+    "filename": "claude-code-settings-scopes-and-managed-policy-delivery-for-teams",
+    "translated": true,
+    "wordCount": 2054,
+    "translationUnits": 170,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "7.1.2",
+    "groupId": "7.1",
+    "locale": "en",
+    "title": "Managed policy for Claude Code: delivery, locks and model pins",
+    "description": "Configure Claude tools and environments for teams",
+    "domain": 7,
+    "order": 352,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 36,
+    "sourceSlug": "claude-code-team-policy-permissions-mcp-servers-models-and-spend",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/claude-code-team-policy-permissions-mcp-servers-models-and-spend",
+    "sourceImage": "images/7.1.2.png",
+    "sourceHash": "6f690e4774ecbec5196ab39c3e3c76aec50f7c08a81b8450c0450a9cfbf2fda3",
+    "status": "source-verified",
+    "readMinutes": 12,
+    "examWeight": 2.33,
+    "sourceCount": 3,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Delivering managed settings to every machine"
+      },
+      {
+        "id": "section-2",
+        "title": "When several managed sources compete: first-wins, merge and /status"
+      },
+      {
+        "id": "section-3",
+        "title": "Locking permissions, MCP servers, plugins and hooks"
+      },
+      {
+        "id": "section-4",
+        "title": "Pinning provider, models and versions"
+      },
+      {
+        "id": "section-5",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Chính sách quản lý tập trung cho Claude Code: phân phối, khóa cài đặt và cố định mô hình",
+    "filename": "claude-code-team-policy-permissions-mcp-servers-models-and-spend",
+    "translated": true,
+    "wordCount": 2163,
+    "translationUnits": 194,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "7.2",
+    "groupId": "7.2",
+    "locale": "en",
+    "title": "Explore, plan, implement, commit: the Claude Code loop",
+    "description": "Improve developer workflows using AI-assisted tooling",
+    "domain": 7,
+    "order": 361,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 37,
+    "sourceSlug": "prompting-claude-code-verification-context-and-the-explore-plan-implement-loop",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/prompting-claude-code-verification-context-and-the-explore-plan-implement-loop",
+    "sourceImage": "images/7.2.1.png",
+    "sourceHash": "b446831cb500ee74cea7a3c7a23a800b927a1d9425c0ccfc11598652343e08f6",
+    "status": "source-verified",
+    "readMinutes": 13,
+    "examWeight": 2.33,
+    "sourceCount": 4,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Explore, plan, implement, commit"
+      },
+      {
+        "id": "section-2",
+        "title": "Matching the permission mode to the task"
+      },
+      {
+        "id": "section-3",
+        "title": "Pointing Claude at exact context"
+      },
+      {
+        "id": "section-4",
+        "title": "Redirecting, clearing and delegating"
+      },
+      {
+        "id": "section-5",
+        "title": "Giving Claude a way to check its own work"
+      }
+    ],
+    "titleVi": "Khám phá, lập kế hoạch, triển khai, commit: vòng lặp làm việc với Claude Code",
+    "filename": "prompting-claude-code-verification-context-and-the-explore-plan-implement-loop",
+    "translated": true,
+    "wordCount": 2308,
+    "translationUnits": 181,
+    "checkpointCount": 7
+  },
+  {
+    "lessonId": "7.2.2",
+    "groupId": "7.2",
+    "locale": "en",
+    "title": "Claude Code hooks, shared skills and CI automation",
+    "description": "Improve developer workflows using AI-assisted tooling",
+    "domain": 7,
+    "order": 362,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 37,
+    "sourceSlug": "sharing-claude-code-workflows-claude-md-skills-hooks-and-ci",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/sharing-claude-code-workflows-claude-md-skills-hooks-and-ci",
+    "sourceImage": "images/7.2.2.png",
+    "sourceHash": "4f537ed02eb6ec8ed22b7d17fd7b266d15b3700094c768f8e00c0ac36578857b",
+    "status": "source-verified",
+    "readMinutes": 15,
+    "examWeight": 2.33,
+    "sourceCount": 7,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Hooks: actions that run every time"
+      },
+      {
+        "id": "section-2",
+        "title": "Skills and MCP servers as shared team tooling"
+      },
+      {
+        "id": "section-3",
+        "title": "Running Claude Code in scripts and CI"
+      },
+      {
+        "id": "section-4",
+        "title": "Practise it for real"
+      }
+    ],
+    "titleVi": "Hook, kỹ năng dùng chung và tự động hóa CI trong Claude Code",
+    "filename": "sharing-claude-code-workflows-claude-md-skills-hooks-and-ci",
+    "translated": true,
+    "wordCount": 2028,
+    "translationUnits": 204,
+    "checkpointCount": 6
+  },
+  {
+    "lessonId": "7.3",
+    "groupId": "7.3",
+    "locale": "en",
+    "title": "Diagnose Claude Code configuration: what loaded and why",
+    "description": "Support debugging and operational issue resolution",
+    "domain": 7,
+    "order": 371,
+    "part": 1,
+    "partCount": 2,
+    "lessonNumber": 38,
+    "sourceSlug": "diagnosing-claude-code-configuration-mcp-and-hook-failures",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/diagnosing-claude-code-configuration-mcp-and-hook-failures",
+    "sourceImage": "images/7.3.1.png",
+    "sourceHash": "e04de5136939a0fb44df09a407c1e7f80e282051dc2b85c4e0ebf90aa20e945d",
+    "status": "source-verified",
+    "readMinutes": 13,
+    "examWeight": 2.33,
+    "sourceCount": 2,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Start from the symptom, then ask what loaded"
+      },
+      {
+        "id": "section-2",
+        "title": "Settings, memory files and permission rules that silently miss"
+      },
+      {
+        "id": "section-3",
+        "title": "Hooks that never fire"
+      },
+      {
+        "id": "section-4",
+        "title": "Three MCP failure states and their fixes"
+      },
+      {
+        "id": "section-5",
+        "title": "Isolate the cause with safe mode or a clean config directory"
+      }
+    ],
+    "titleVi": "Chẩn đoán cấu hình Claude Code: những gì đã được nạp và lý do",
+    "filename": "diagnosing-claude-code-configuration-mcp-and-hook-failures",
+    "translated": true,
+    "wordCount": 2471,
+    "translationUnits": 225,
+    "checkpointCount": 8
+  },
+  {
+    "lessonId": "7.3.2",
+    "groupId": "7.3",
+    "locale": "en",
+    "title": "Claude Code errors, automatic retries and session recovery",
+    "description": "Support debugging and operational issue resolution",
+    "domain": 7,
+    "order": 372,
+    "part": 2,
+    "partCount": 2,
+    "lessonNumber": 38,
+    "sourceSlug": "reading-claude-code-errors-retries-and-multiagent-session-traces",
+    "sourceUrl": "https://www.certsafari.com/anthropic/claude-architect-professional/learn/reading-claude-code-errors-retries-and-multiagent-session-traces",
+    "sourceImage": "images/7.3.2.png",
+    "sourceHash": "6f356c700df9309fc77590bfc9917e4480875b8d356caabcef09c7635b5fc1b3",
+    "status": "source-verified",
+    "readMinutes": 10,
+    "examWeight": 2.33,
+    "sourceCount": 5,
+    "publishedAt": "19 Oct 2026",
+    "docsAsOf": "14 Oct 2026",
+    "sections": [
+      {
+        "id": "section-1",
+        "title": "Sort the error into a category before acting"
+      },
+      {
+        "id": "section-2",
+        "title": "What Claude Code retries for you, and what it won't"
+      },
+      {
+        "id": "section-3",
+        "title": "Recovering from context pressure and autocompact thrashing"
+      },
+      {
+        "id": "section-4",
+        "title": "Recovering a session that stalled on a refusal"
+      },
+      {
+        "id": "section-5",
+        "title": "Finding the stuck or looping agent in a multi-agent session"
+      }
+    ],
+    "titleVi": "Lỗi Claude Code, tự động thử lại và khôi phục phiên làm việc",
+    "filename": "reading-claude-code-errors-retries-and-multiagent-session-traces",
+    "translated": true,
+    "wordCount": 1926,
+    "translationUnits": 159,
+    "checkpointCount": 6
+  }
+]

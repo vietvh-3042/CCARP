@@ -1,0 +1,10 @@
+{
+  "exam-trap-1": {
+    "en": "A watermark indicates possible Claude involvement, not original authorship. Editing, translation, or format conversion can mark content first created by someone else.",
+    "vi": "Dấu thủy ấn cho thấy Claude có thể đã tham gia xử lý, không chứng minh tác giả ban đầu. Biên tập, dịch hoặc chuyển định dạng có thể gắn dấu lên nội dung do người khác tạo trước đó."
+  },
+  "exam-trap-2": {
+    "en": "Content Credentials depend on Claude generating a file. A platform without that file-generation capability does not attach them to every ordinary text response.",
+    "vi": "Content Credentials phụ thuộc vào việc Claude tạo tệp. Nền tảng không có khả năng tạo tệp đó không gắn chúng vào mọi phản hồi văn bản thông thường."
+  }
+}

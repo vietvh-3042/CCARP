@@ -1,0 +1,22 @@
+{
+  "exam-trap-1": {
+    "en": "Similar answers can repeat the same error. Use cosine similarity to assess consistency, then compare against labelled references to measure correctness.",
+    "vi": "Các câu trả lời giống nhau có thể cùng lặp lại một lỗi. Dùng độ tương đồng cosin để đo tính nhất quán, rồi đối chiếu đáp án đã gán nhãn để đo độ đúng."
+  },
+  "exam-trap-2": {
+    "en": "The first token marks only the start of delivery. Measure the last token or completed task when assessing the user's full wait.",
+    "vi": "Token đầu tiên chỉ đánh dấu lúc bắt đầu trả kết quả. Muốn đo toàn bộ thời gian người dùng chờ, hãy tính đến token cuối hoặc lúc nhiệm vụ hoàn tất."
+  },
+  "exam-trap-3": {
+    "en": "Averages conceal slow outliers. A percentile objective specifies both the response-time limit and how much traffic may exceed it.",
+    "vi": "Giá trị trung bình che khuất những phản hồi chậm bất thường. Mục tiêu theo phân vị nêu cả giới hạn thời gian phản hồi lẫn tỷ lệ yêu cầu được phép vượt giới hạn."
+  },
+  "exam-trap-4": {
+    "en": "A low token rate can be offset by retries and extra turns. Compare completed-task costs while requiring the same accuracy.",
+    "vi": "Giá token thấp có thể bị bù trừ bởi những lần thử lại và lượt xử lý bổ sung. Hãy so chi phí mỗi nhiệm vụ hoàn tất với cùng yêu cầu độ chính xác."
+  },
+  "exam-trap-5": {
+    "en": "Define what detects unsafe output, how many cases are evaluated, and the maximum acceptable failure rate. Those choices make safety testable numerically.",
+    "vi": "Xác định cách phát hiện đầu ra không an toàn, số trường hợp đánh giá và tỷ lệ vi phạm tối đa chấp nhận được. Nhờ đó có thể kiểm tra an toàn bằng số liệu."
+  }
+}

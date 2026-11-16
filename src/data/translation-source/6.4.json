@@ -1,0 +1,727 @@
+{
+  "pageId": "6.4",
+  "title": "Architecture documentation for Claude solutions",
+  "titleVi": "Tài liệu kiến trúc cho giải pháp dùng Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Document architectures and provide implementation guidance"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "List the components, data flows, models, tools and boundaries an architecture description must pin down"
+    },
+    {
+      "id": "u0002",
+      "text": "Recommend where an agent runs (Agent SDK in your own process or Managed Agents) and how its tools connect"
+    },
+    {
+      "id": "u0003",
+      "text": "Record why each architectural layer exists so later teams neither strip it out nor duplicate it"
+    },
+    {
+      "id": "u0004",
+      "text": "Name the configuration, error-handling and deployment changes that turn a prototype into a service"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Architecture description"
+    },
+    {
+      "id": "u0007",
+      "text": "The document that tells engineers what the major pieces of a Claude solution are, how they communicate, which model and tools each piece uses, and where the boundaries sit. It also records why each piece exists, so engineers can build and run the system without reverse-engineering a prototype."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "What an architecture description must pin down"
+    },
+    {
+      "id": "u0010",
+      "text": "Where the agent loop runs"
+    },
+    {
+      "id": "u0011",
+      "text": "Documenting how tools connect"
+    },
+    {
+      "id": "u0012",
+      "text": "Recording the model choice"
+    },
+    {
+      "id": "u0013",
+      "text": "Recording why each layer exists"
+    },
+    {
+      "id": "u0014",
+      "text": "From prototype to deployable service"
+    },
+    {
+      "id": "u0015",
+      "text": "What an architecture description must pin down"
+    },
+    {
+      "id": "u0016",
+      "text": "An architecture description exists to answer the questions an engineer has before writing any code. Which components are there? How does a request travel between them? Which model handles each call? Which tools can that model use? Where are the boundaries between what runs in your process and what runs somewhere else? A diagram that shows boxes but leaves out the model per call, or the tool list per component, sends engineers back to the prototype to work it out for themselves."
+    },
+    {
+      "id": "u0017",
+      "text": "A customer support agent shows why each of these needs its own entry. As the bot grows, one design sends every query to an intent classifier first. The classifier routes the query to a specialised conversation, and each conversation has its own tools and system prompt. That one sentence holds a component (the classifier), a data flow (query to classifier to conversation), a model call per step, and a tool set per conversation. An engineer needs every one of them written down."
+    },
+    {
+      "id": "u0018",
+      "text": "The five things to pin down, using the support agent as the example"
+    },
+    {
+      "id": "u0019",
+      "text": "Element"
+    },
+    {
+      "id": "u0020",
+      "text": "What the document states"
+    },
+    {
+      "id": "u0021",
+      "text": "Support-agent example"
+    },
+    {
+      "id": "u0022",
+      "text": "Components"
+    },
+    {
+      "id": "u0023",
+      "text": "Each service and what it owns"
+    },
+    {
+      "id": "u0024",
+      "text": "Intent classifier, specialized conversations, API wrapper, web interface"
+    },
+    {
+      "id": "u0025",
+      "text": "Data flows"
+    },
+    {
+      "id": "u0026",
+      "text": "How a request moves end to end"
+    },
+    {
+      "id": "u0027",
+      "text": "Customer query → classifier → specialized conversation → streamed reply over Server-Sent Events"
+    },
+    {
+      "id": "u0028",
+      "text": "Models"
+    },
+    {
+      "id": "u0029",
+      "text": "Which call goes to Claude, and how many calls a request makes"
+    },
+    {
+      "id": "u0030",
+      "text": "The classifier adds an additional call to Claude before the conversation starts"
+    },
+    {
+      "id": "u0031",
+      "text": "Tools"
+    },
+    {
+      "id": "u0032",
+      "text": "Which tools each component may call"
+    },
+    {
+      "id": "u0033",
+      "text": "Each specialized conversation has its own set of tools and system prompts"
+    },
+    {
+      "id": "u0034",
+      "text": "Boundaries"
+    },
+    {
+      "id": "u0035",
+      "text": "What the team operates versus what an external API provides"
+    },
+    {
+      "id": "u0036",
+      "text": "The HTTP service the team runs versus the Claude API it calls"
+    },
+    {
+      "id": "u0037",
+      "text": "Checkpoint 1 of 8"
+    },
+    {
+      "id": "u0038",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0039",
+      "text": "An architecture description for the support agent with an intent classifier must cover five elements. Match each element to what the document records for this system."
+    },
+    {
+      "id": "u0040",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0041",
+      "text": "Components"
+    },
+    {
+      "id": "u0042",
+      "text": "Data flows"
+    },
+    {
+      "id": "u0043",
+      "text": "Models"
+    },
+    {
+      "id": "u0044",
+      "text": "Tools"
+    },
+    {
+      "id": "u0045",
+      "text": "Boundaries"
+    },
+    {
+      "id": "u0046",
+      "text": "Each specialized conversation has its own set of tools and its own system prompt"
+    },
+    {
+      "id": "u0047",
+      "text": "Intent classifier, specialized conversations, API wrapper, web interface"
+    },
+    {
+      "id": "u0048",
+      "text": "The HTTP service the team runs versus the Claude API it calls"
+    },
+    {
+      "id": "u0049",
+      "text": "The classifier adds an extra call to Claude before the conversation starts"
+    },
+    {
+      "id": "u0050",
+      "text": "Customer query → classifier → specialized conversation → reply streamed over Server-Sent Events"
+    },
+    {
+      "id": "u0051",
+      "text": "Sources"
+    },
+    {
+      "id": "u0052",
+      "text": "Where the agent loop runs"
+    },
+    {
+      "id": "u0053",
+      "text": "For an agent, the most important boundary is the process the agent loop runs in. The Claude Agent SDK and Managed Agents use the same concepts (agents, tools, sessions) but run them in different places. The SDK runs in a process you operate. Managed Agents runs in Anthropic's infrastructure. The document has to name one, because the choice decides who holds the filesystem, who executes the tools, and what the service exchanges over the network."
+    },
+    {
+      "id": "u0054",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0055",
+      "text": "An agent is built with the Agent SDK. When it uses a built-in tool to read a file, where does that read happen?"
+    },
+    {
+      "id": "u0056",
+      "text": "In a sandbox Anthropic operates, with the result sent back over REST"
+    },
+    {
+      "id": "u0057",
+      "text": "On a remote MCP server that the Messages API calls"
+    },
+    {
+      "id": "u0058",
+      "text": "In your own process, against your own filesystem"
+    },
+    {
+      "id": "u0059",
+      "text": "Take a platform team that needs an agent to run entirely on its own servers, work on git checkouts there, and call in-process functions as tools. That team should embed the Agent SDK as a library in its service. Functions decorated with "
+    },
+    {
+      "id": "u0060",
+      "text": " are dispatched by the SDK automatically, and built-in tools act on the local filesystem, so nothing about the team's requirements leaves its process. Managed Agents fails the first requirement, because Anthropic hosts the sandbox: custom tools become "
+    },
+    {
+      "id": "u0061",
+      "text": " events that the client answers. A hand-written tool loop on top of the Messages API would work, but it rebuilds dispatch the SDK already does."
+    },
+    {
+      "id": "u0062",
+      "text": "Agent SDK compared with Managed Agents, as an architecture document would record them"
+    },
+    {
+      "id": "u0063",
+      "text": "Concern"
+    },
+    {
+      "id": "u0064",
+      "text": "Agent SDK"
+    },
+    {
+      "id": "u0065",
+      "text": "Managed Agents"
+    },
+    {
+      "id": "u0066",
+      "text": "Where it runs"
+    },
+    {
+      "id": "u0067",
+      "text": "A process you operate"
+    },
+    {
+      "id": "u0068",
+      "text": "Anthropic's infrastructure"
+    },
+    {
+      "id": "u0069",
+      "text": "Agent configuration"
+    },
+    {
+      "id": "u0070",
+      "text": "ClaudeAgentOptions(...) constructed per run"
+    },
+    {
+      "id": "u0071",
+      "text": "client.beta.agents.create(...) once, persisted and versioned server-side"
+    },
+    {
+      "id": "u0072",
+      "text": "Custom tools"
+    },
+    {
+      "id": "u0073",
+      "text": "Functions defined with @tool, dispatched automatically by the SDK"
+    },
+    {
+      "id": "u0074",
+      "text": "Declared on the Agent; your client handles agent.custom_tool_use events"
+    },
+    {
+      "id": "u0075",
+      "text": "Built-in tools"
+    },
+    {
+      "id": "u0076",
+      "text": "Run in your process against your filesystem"
+    },
+    {
+      "id": "u0077",
+      "text": "Run in the sandbox Anthropic operates"
+    },
+    {
+      "id": "u0078",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0079",
+      "text": "Managed Agents counts as running the agent on your own infrastructure, because your service drives it."
+    },
+    {
+      "id": "u0080",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0082",
+      "text": "Checkpoint 2 of 8"
+    },
+    {
+      "id": "u0083",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0084",
+      "text": "A platform team is documenting the architecture for a new production agent that must run entirely on their own infrastructure, operate directly on files and git repositories checked out on their servers, and call custom in-process functions as tools. Which implementation approach should the architecture document recommend?"
+    },
+    {
+      "id": "u0085",
+      "text": "Use the Client SDK to send prompts directly to the Messages API and implement a custom tool-execution loop that reads files and calls git commands."
+    },
+    {
+      "id": "u0086",
+      "text": "Use the Agent SDK as a library embedded in the service so the agent loop, filesystem access, and custom tools all run inside the team's own process."
+    },
+    {
+      "id": "u0087",
+      "text": "Use Managed Agents so Anthropic operates the sandbox and session infrastructure while the service exchanges events over a REST interface."
+    },
+    {
+      "id": "u0088",
+      "text": "Use the MCP connector to expose git operations as a remote MCP server that the Messages API calls directly, with no local agent loop or filesystem access running."
+    },
+    {
+      "id": "u0089",
+      "text": "Sources"
+    },
+    {
+      "id": "u0090",
+      "text": "Documenting how tools connect"
+    },
+    {
+      "id": "u0091",
+      "text": "Implementation guidance also has to say how each external system reaches the agent. In Claude Code the usual answer is an MCP server, and the guidance should give the exact command that registers it. MCP servers are what let Claude Code act on issue trackers, monitoring tools and databases. The broader question of which integration mechanism to pick is covered in "
+    },
+    {
+      "id": "u0092",
+      "text": "connection protocols"
+    },
+    {
+      "id": "u0093",
+      "text": ". This page is about writing the chosen one down so engineers can reproduce it."
+    },
+    {
+      "id": "u0094",
+      "text": "Write down the transport, because it decides who runs the server. A hosted server is a URL, added with "
+    },
+    {
+      "id": "u0095",
+      "text": ". A local server is a program the agent launches on its own machine. It needs no transport flag, because local servers use stdio by default. So an existing open-source Confluence or Jira connector that the agent should start itself gets documented as a stdio MCP server. Re-implementing its API calls as custom tools inside the agent just throws that connector away."
+    },
+    {
+      "id": "u0096",
+      "text": "Registering a local stdio MCP server: everything after -- is the command Claude Code runs to start it"
+    },
+    {
+      "id": "u0097",
+      "text": "bash"
+    },
+    {
+      "id": "u0098",
+      "text": "Also state the scope you chose. "
+    },
+    {
+      "id": "u0099",
+      "text": " keeps the server to one person on one project, "
+    },
+    {
+      "id": "u0100",
+      "text": " gives it to one person across all projects, and "
+    },
+    {
+      "id": "u0101",
+      "text": " writes it to "
+    },
+    {
+      "id": "u0102",
+      "text": " in the repository root so everyone who clones the repo gets the same server. Guidance meant for a whole team usually needs the project scope."
+    },
+    {
+      "id": "u0103",
+      "text": "Checkpoint 3 of 8"
+    },
+    {
+      "id": "u0104",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0105",
+      "text": "A team's Claude Code agent needs to work with their Jira issue tracker, and an open-source Jira connector already exists. What should the implementation guidance tell engineers to do?"
+    },
+    {
+      "id": "u0106",
+      "text": "Write a custom tool loop on top of the Messages API that calls Jira directly"
+    },
+    {
+      "id": "u0107",
+      "text": "Register the existing connector as an MCP server and give the exact command that registers it"
+    },
+    {
+      "id": "u0108",
+      "text": "Declare Jira as a custom tool on a Managed Agent and have the client answer agent.custom_tool_use events"
+    },
+    {
+      "id": "u0109",
+      "text": "Rewrite the connector's Jira API calls as @tool functions inside the agent so the SDK dispatches them"
+    },
+    {
+      "id": "u0110",
+      "text": "Checkpoint 4 of 8"
+    },
+    {
+      "id": "u0111",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0112",
+      "text": "An implementation guide must describe how to let Claude Code browse a company's Confluence and Jira instances using an existing open-source connector, launched locally by the agent process rather than hosted as a network service. Which pattern should the guide document?"
+    },
+    {
+      "id": "u0113",
+      "text": "Deploy an MCP server that exposes Confluence and Jira operations as tools, and configure the agent to launch it locally over stdio."
+    },
+    {
+      "id": "u0114",
+      "text": "Embed Confluence and Jira API calls as client-side tools inside the agent process, bypassing the existing MCP server and its transport."
+    },
+    {
+      "id": "u0115",
+      "text": "Configure the Messages API to call Confluence and Jira REST endpoints directly through extended thinking blocks."
+    },
+    {
+      "id": "u0116",
+      "text": "Wrap Confluence and Jira behind a Files API upload step that refreshes the agent's context on a fixed schedule."
+    },
+    {
+      "id": "u0117",
+      "text": "Sources"
+    },
+    {
+      "id": "u0118",
+      "text": "Recording the model choice"
+    },
+    {
+      "id": "u0119",
+      "text": "Each model call in the architecture should name its model and the reason for it, because the reason is what later lets someone check whether the choice still holds. "
+    },
+    {
+      "id": "u0120",
+      "text": "Model trade-offs"
+    },
+    {
+      "id": "u0121",
+      "text": " teaches how to make the choice. The document records the result. Take a high-volume ticket-triage classifier with a tight latency and cost budget that still needs real reasoning. The recommendation is Claude Haiku 4.5, which Anthropic launched as ideal for real-time, high-volume, cost-sensitive work that needs strong reasoning. Haiku is the lowest-cost and fastest model class. Opus is the class for reasoning-intensive enterprise tasks, which is more than per-ticket classification needs."
+    },
+    {
+      "id": "u0122",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0123",
+      "text": "Raising the effort level is not a way to save money or time. Effort trades response thoroughness against efficiency, so a higher setting buys thoroughness. When a recommendation is meant to cut latency and cost, pick a smaller model class. Don't turn effort up."
+    },
+    {
+      "id": "u0124",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0125",
+      "text": "Turning up the effort level is the standard way to cut latency and cost for high-volume work."
+    },
+    {
+      "id": "u0126",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0130",
+      "text": "Checkpoint 5 of 8"
+    },
+    {
+      "id": "u0131",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0132",
+      "text": "Every customer query now goes through the intent classifier before it reaches a specialized conversation. The team wants this extra step to add as little latency and cost as possible, but the classifier still needs real reasoning. What should the architecture document record for the classifier's model call?"
+    },
+    {
+      "id": "u0133",
+      "text": "Claude Opus, because routing every query correctly is a reasoning-intensive enterprise task"
+    },
+    {
+      "id": "u0134",
+      "text": "The same model the specialized conversations use, with the effort level raised so routing is fast and accurate"
+    },
+    {
+      "id": "u0135",
+      "text": "Claude Opus with a lowered effort level, because Opus is the reasoning class and lowering effort brings its cost down"
+    },
+    {
+      "id": "u0136",
+      "text": "Claude Haiku 4.5, because it is the fastest, lowest-cost class and is meant for real-time, high-volume work that needs strong reasoning"
+    },
+    {
+      "id": "u0137",
+      "text": "Checkpoint 6 of 8"
+    },
+    {
+      "id": "u0138",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0139",
+      "text": "A support-tooling architect is writing implementation guidance for a high-volume ticket triage service that classifies incoming tickets, needs strong reasoning, and must stay within a tight latency and cost budget. Which model recommendation should the guidance document?"
+    },
+    {
+      "id": "u0140",
+      "text": "Recommend Claude Haiku 4.5, noting its near-frontier reasoning at the most economical price point suits high-volume, latency-sensitive classification."
+    },
+    {
+      "id": "u0141",
+      "text": "Recommend Claude Opus 4.8, noting its strength in complex agentic coding and enterprise engineering best matches large-scale ticket triage."
+    },
+    {
+      "id": "u0142",
+      "text": "Recommend Claude Sonnet 5 configured with the xhigh effort level, since raising effort is the standard way to cut latency and cost for high-volume tasks."
+    },
+    {
+      "id": "u0143",
+      "text": "Recommend Claude Opus 4.8 with fast mode enabled, since fast mode is generally available and removes the cost premium for production traffic."
+    },
+    {
+      "id": "u0144",
+      "text": "Sources"
+    },
+    {
+      "id": "u0145",
+      "text": "Recording why each layer exists"
+    },
+    {
+      "id": "u0146",
+      "text": "Every layer should go into the document with its reason and the cheaper options that were tried first. Without that record, the next team sees an intent classifier, a prompt chain and a set of tools, and can't tell which parts carry weight. They might remove the classifier as an apparent waste of a call and break routing for varied tasks. Or they might add a second router because they never knew the first one existed."
+    },
+    {
+      "id": "u0147",
+      "text": "The support-agent design shows what a good entry looks like. Before adding layers, the recommended order is to get the most out of the prompt first, then try more tools or prompt chains, and only then add a classifier. The classifier earns its place when the bot handles very varied tasks. It costs an extra call to Claude, which can add latency. Each of those facts belongs in the record."
+    },
+    {
+      "id": "u0148",
+      "text": "Write the record entry for the intent-classifier layer. What four things should it contain?"
+    },
+    {
+      "id": "u0149",
+      "text": "Checkpoint 7 of 8"
+    },
+    {
+      "id": "u0150",
+      "text": "Put it in order"
+    },
+    {
+      "id": "u0151",
+      "text": "Your design record must show that cheaper options were tried before the support bot got a new layer. Put the options in the order the guidance recommends trying them."
+    },
+    {
+      "id": "u0152",
+      "text": "Add more tools to the prompt, which can include prompt chains"
+    },
+    {
+      "id": "u0153",
+      "text": "Add a separate intent classifier that routes each query to specialized conversations with their own tools and system prompts"
+    },
+    {
+      "id": "u0154",
+      "text": "Get the most out of the existing prompt through prompt engineering"
+    },
+    {
+      "id": "u0155",
+      "text": "Check order"
+    },
+    {
+      "id": "u0156",
+      "text": "Sources"
+    },
+    {
+      "id": "u0157",
+      "text": "From prototype to deployable service"
+    },
+    {
+      "id": "u0158",
+      "text": "A prototype shows that the idea works. A service is something other engineers can deploy, configure and keep running. The support-agent example starts life as Python functions in Streamlit, and a real-time chatbot needs an API service instead. The guidance has to cover three changes: how the code is served, how it is configured, and how it handles failure."
+    },
+    {
+      "id": "u0159",
+      "text": "For serving, wrap the core function in an HTTP service such as Flask or FastAPI. Stream responses with Server-Sent Events, cache responses to avoid unnecessary API calls, and keep conversation context when a user leaves and comes back. For configuration, list every setup step a fresh checkout needs. An instruction like copying "
+    },
+    {
+      "id": "u0160",
+      "text": " to "
+    },
+    {
+      "id": "u0161",
+      "text": ", without which tests and the dev server fail, is exactly what a new engineer can't guess. Network routing is configuration too. "
+    },
+    {
+      "id": "u0162",
+      "text": " sends traffic through a corporate proxy, and the "
+    },
+    {
+      "id": "u0163",
+      "text": " family points at an LLM gateway for central usage tracking, rate limits or budgets."
+    },
+    {
+      "id": "u0164",
+      "text": "Error handling is where prototypes cut the most corners. Every response from the Messages API reports why generation stopped in its "
+    },
+    {
+      "id": "u0165",
+      "text": " field, and a tool loop reads it: "
+    },
+    {
+      "id": "u0166",
+      "text": " means the model finished normally. "
+    },
+    {
+      "id": "u0167",
+      "text": " is a different value, and a service must branch on it rather than assume every response is usable. It must also tell configuration errors apart from passing failures. On Claude Haiku 4.5, setting both "
+    },
+    {
+      "id": "u0168",
+      "text": " and "
+    },
+    {
+      "id": "u0169",
+      "text": " returns a 400 error, and retrying that request will never fix it. Deployment guidance closes with the rule to test in a development environment before production."
+    },
+    {
+      "id": "u0170",
+      "text": "Checkpoint 8 of 8"
+    },
+    {
+      "id": "u0171",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0172",
+      "text": "The support-agent service is ready to go to production. Finance wants Claude usage tracked across all teams, with custom rate limits and budgets enforced in one place. Which setting should the deployment guidance tell engineers to configure?"
+    },
+    {
+      "id": "u0173",
+      "text": "Set the ANTHROPIC_BASE_URL family of variables to point at an LLM gateway"
+    },
+    {
+      "id": "u0174",
+      "text": "Set HTTPS_PROXY so that all outbound traffic goes through the corporate proxy"
+    },
+    {
+      "id": "u0175",
+      "text": "Lower the effort level on every Claude call so each request uses less budget"
+    },
+    {
+      "id": "u0176",
+      "text": "Add response caching to the HTTP service so it makes fewer API calls"
+    },
+    {
+      "id": "u0177",
+      "text": "Sources"
+    },
+    {
+      "id": "u0178",
+      "text": "Sources"
+    },
+    {
+      "id": "u0179",
+      "text": "Also cited"
+    },
+    {
+      "id": "u0180",
+      "text": "Official docs"
+    },
+    {
+      "id": "u0181",
+      "text": "Tell Claude to pull context itself using Bash commands, MCP tools, or by reading files."
+    },
+    {
+      "id": "u0182",
+      "text": "Checkpoint"
+    }
+  ]
+}

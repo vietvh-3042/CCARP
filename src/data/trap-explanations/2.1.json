@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Fast mode changes the inference setup while retaining the model's weights and abilities. Its trade-off is a higher price for faster output, not reduced intelligence.",
+    "vi": "Chế độ nhanh đổi cách vận hành suy luận nhưng giữ nguyên trọng số và năng lực mô hình. Sự đánh đổi là trả giá cao hơn để có đầu ra nhanh hơn, không phải giảm trí tuệ."
+  },
+  "exam-trap-2": {
+    "en": "Try an effort sweep on the existing model and measure quality first. A model downgrade becomes a later option if that adjustment is insufficient.",
+    "vi": "Trước hết hãy thử các mức effort trên mô hình hiện tại và đo chất lượng. Chuyển xuống mô hình rẻ hơn là lựa chọn sau nếu điều chỉnh đó chưa đủ."
+  },
+  "exam-trap-3": {
+    "en": "Token rates omit how much work completion requires. Count reasoning, repeated turns and failed attempts when comparing the actual cost of solving a task.",
+    "vi": "Đơn giá token không cho biết cần bao nhiêu công sức để hoàn thành. Khi so chi phí giải quyết tác vụ thực tế, phải tính cả suy luận, các lượt trao đổi và lần thử thất bại."
+  },
+  "exam-trap-4": {
+    "en": "The batch discount is available across active models. Select for the workload's quality needs and completed-task cost rather than assuming batching requires a particular tier.",
+    "vi": "Giảm giá theo lô áp dụng trên các mô hình đang hoạt động. Hãy chọn theo yêu cầu chất lượng và chi phí mỗi tác vụ hoàn thành, đừng mặc định xử lý theo lô cần một bậc mô hình riêng."
+  }
+}

@@ -1,0 +1,699 @@
+{
+  "pageId": "5.4.2",
+  "title": "GDPR, data residency and FedRAMP for Claude deployments",
+  "titleVi": "GDPR, nơi lưu trữ dữ liệu và FedRAMP khi triển khai Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Ensure compliance with regulations"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Explain where GDPR coverage for Claude comes from and what governs Claude accessed through a third-party platform"
+    },
+    {
+      "id": "u0002",
+      "text": "Pin where inference runs and where data is stored with inference_geo, workspace restrictions and workspace geo"
+    },
+    {
+      "id": "u0003",
+      "text": "Choose a FedRAMP-authorized path to Claude by picking the hosting environment, not the model"
+    },
+    {
+      "id": "u0004",
+      "text": "List the audit records and retention periods a compliance reviewer will ask for"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "GDPR comes from the DPA in your contract"
+    },
+    {
+      "id": "u0007",
+      "text": "Data residency: inference geo and workspace geo"
+    },
+    {
+      "id": "u0008",
+      "text": "FedRAMP: authorize the environment, not the model"
+    },
+    {
+      "id": "u0009",
+      "text": "Retention records a compliance reviewer will ask for"
+    },
+    {
+      "id": "u0010",
+      "text": "GDPR comes from the DPA in your contract"
+    },
+    {
+      "id": "u0011",
+      "text": "Regulations reach Claude through different mechanisms, and GDPR's is a contract. Anthropic's Data Processing Addendum (DPA), which includes Standard Contractual Clauses (SCCs), is built into the Commercial Terms of Service. An organization that accepts those terms has also accepted the DPA. You do not sign anything else or enable a feature. HIPAA works differently: there, an admin has to accept a BAA on a card in the Console. Anthropic's privacy policy, the DPA and its help articles describe how Anthropic handles personal data when it acts as a processor for its customers."
+    },
+    {
+      "id": "u0012",
+      "text": "The contract follows the access path. The DPA described here covers commercial products such as the Claude API and Claude for Work, and consumer plans have their own terms. If you reach Claude through a third-party platform or service provider, that platform's terms of service govern your use. A GDPR review of a Bedrock deployment therefore starts with the AWS agreement, not with Anthropic's DPA."
+    },
+    {
+      "id": "u0013",
+      "text": "The DPA sets up the processor relationship. Where inference runs and where data is stored are separate questions that you answer with configuration."
+    },
+    {
+      "id": "u0014",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0015",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0016",
+      "text": "An EU company calls Claude through Amazon Bedrock and processes customers' personal data. Their compliance team starts a GDPR review of this deployment. Which agreement should the review start from?"
+    },
+    {
+      "id": "u0017",
+      "text": "A GDPR setting that an admin turns on in the Claude Console, similar to the HIPAA compliance card"
+    },
+    {
+      "id": "u0018",
+      "text": "Anthropic's Data Processing Addendum, because it is built into the Commercial Terms and covers every way of reaching Claude"
+    },
+    {
+      "id": "u0019",
+      "text": "A separate DPA that the company has to sign with Anthropic, because Bedrock usage is not covered by the Commercial Terms"
+    },
+    {
+      "id": "u0020",
+      "text": "AWS's agreement and compliance documentation, because on Bedrock the cloud provider processes the data and its terms govern the use"
+    },
+    {
+      "id": "u0021",
+      "text": "Sources"
+    },
+    {
+      "id": "u0022",
+      "text": "Data residency: inference geo and workspace geo"
+    },
+    {
+      "id": "u0023",
+      "text": "Two independent settings decide where Claude handles your data. "
+    },
+    {
+      "id": "u0024",
+      "text": "Inference geo"
+    },
+    {
+      "id": "u0025",
+      "text": " decides where model inference runs, and you set it per request or as a workspace default. "
+    },
+    {
+      "id": "u0026",
+      "text": "Workspace geo"
+    },
+    {
+      "id": "u0027",
+      "text": " decides where data is stored at rest and where endpoint processing, such as image transcoding and code execution, takes place. Only \"us\" and \"global\" exist as inference geos, and \"us\" is the only workspace geo available."
+    },
+    {
+      "id": "u0028",
+      "text": "Pinning one request to US inference and reading back where it actually ran"
+    },
+    {
+      "id": "u0029",
+      "text": "python"
+    },
+    {
+      "id": "u0030",
+      "text": "The default is \"global\", which lets inference run in any available geography. Each response's "
+    },
+    {
+      "id": "u0031",
+      "text": " field records where inference actually ran, so you can log it as evidence. The parameter works on Claude 4.6 and later models. Sending it to Claude Opus 4.5, Sonnet 4.5, Haiku 4.5 or anything older returns a 400 error. In the Batch API, each request can set its own value."
+    },
+    {
+      "id": "u0032",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0033",
+      "text": "A workspace has allowed_inference_geos set to [\"us\"]. A developer's request sets inference_geo to \"global\". What happens?"
+    },
+    {
+      "id": "u0034",
+      "text": "The API returns an error"
+    },
+    {
+      "id": "u0035",
+      "text": "The request runs globally, because a per-request value always overrides the workspace"
+    },
+    {
+      "id": "u0036",
+      "text": "The API quietly runs the request in the US instead"
+    },
+    {
+      "id": "u0037",
+      "text": "Workspace settings are how you turn a residency rule into something enforced. "
+    },
+    {
+      "id": "u0038",
+      "text": " rejects any geo not on the list. "
+    },
+    {
+      "id": "u0039",
+      "text": " fills in when a request leaves the parameter out. You set both through the Console or under the Admin API's "
+    },
+    {
+      "id": "u0040",
+      "text": " field, and they apply to every key in the workspace, so one developer's missing parameter cannot send traffic outside the allowed geos. Organizations that had opted out of global routing under the old setting were migrated automatically to "
+    },
+    {
+      "id": "u0041",
+      "text": " for both settings."
+    },
+    {
+      "id": "u0042",
+      "text": "Workspace geo is permanent. You choose it when you create the workspace, in the Workspace geo field on the Create workspace page, and you cannot change it afterwards. If the storage location is wrong, the fix is a new workspace. US-only inference costs 1.1x the standard rate on Claude 4.6 and later models. Rate limits are shared across all geos, so pinning to \"us\" does not give you extra capacity."
+    },
+    {
+      "id": "u0043",
+      "text": "The four residency controls and where each is set"
+    },
+    {
+      "id": "u0044",
+      "text": "Control"
+    },
+    {
+      "id": "u0045",
+      "text": "What it governs"
+    },
+    {
+      "id": "u0046",
+      "text": "Where it is set"
+    },
+    {
+      "id": "u0047",
+      "text": "Can it change later"
+    },
+    {
+      "id": "u0048",
+      "text": "inference_geo"
+    },
+    {
+      "id": "u0049",
+      "text": "Where inference runs for one request (\"us\" or \"global\")"
+    },
+    {
+      "id": "u0050",
+      "text": "POST /v1/messages request body"
+    },
+    {
+      "id": "u0051",
+      "text": "Per request"
+    },
+    {
+      "id": "u0052",
+      "text": "allowed_inference_geos"
+    },
+    {
+      "id": "u0053",
+      "text": "Which geos a workspace may use; others return an error"
+    },
+    {
+      "id": "u0054",
+      "text": "Console or Admin API data_residency field"
+    },
+    {
+      "id": "u0055",
+      "text": "Yes"
+    },
+    {
+      "id": "u0056",
+      "text": "default_inference_geo"
+    },
+    {
+      "id": "u0057",
+      "text": "Fallback geo when a request omits inference_geo"
+    },
+    {
+      "id": "u0058",
+      "text": "Console or Admin API data_residency field"
+    },
+    {
+      "id": "u0059",
+      "text": "Yes"
+    },
+    {
+      "id": "u0060",
+      "text": "Workspace geo"
+    },
+    {
+      "id": "u0061",
+      "text": "Storage at rest and endpoint processing"
+    },
+    {
+      "id": "u0062",
+      "text": "Create workspace page in the Console"
+    },
+    {
+      "id": "u0063",
+      "text": "No"
+    },
+    {
+      "id": "u0064",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0065",
+      "text": "A workspace created under the wrong storage geography can be reconfigured afterwards, just like its inference geo defaults."
+    },
+    {
+      "id": "u0066",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0072",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0073",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0074",
+      "text": "This request must run its inference only on US infrastructure, whatever the workspace default says. Which parameter completes the call?"
+    },
+    {
+      "id": "u0075",
+      "text": "default_inference_geo"
+    },
+    {
+      "id": "u0076",
+      "text": "inference_geo"
+    },
+    {
+      "id": "u0077",
+      "text": "allowed_inference_geos"
+    },
+    {
+      "id": "u0078",
+      "text": "workspace_geo"
+    },
+    {
+      "id": "u0079",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0080",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0081",
+      "text": "Your compliance team needs a different guarantee from each residency control. Match each control to what it does."
+    },
+    {
+      "id": "u0082",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0083",
+      "text": "inference_geo"
+    },
+    {
+      "id": "u0084",
+      "text": "allowed_inference_geos"
+    },
+    {
+      "id": "u0085",
+      "text": "default_inference_geo"
+    },
+    {
+      "id": "u0086",
+      "text": "Workspace geo"
+    },
+    {
+      "id": "u0087",
+      "text": "Sets where data is stored at rest and where endpoint processing happens. It is fixed once the workspace is created"
+    },
+    {
+      "id": "u0088",
+      "text": "Sets where inference runs for one request, as \"us\" or \"global\""
+    },
+    {
+      "id": "u0089",
+      "text": "Applies when a request leaves out the geo parameter. A request can still override it explicitly"
+    },
+    {
+      "id": "u0090",
+      "text": "Returns an error for any request that asks for a geo outside the workspace's list"
+    },
+    {
+      "id": "u0091",
+      "text": "Sources"
+    },
+    {
+      "id": "u0092",
+      "text": "FedRAMP: authorize the environment, not the model"
+    },
+    {
+      "id": "u0093",
+      "text": "FedRAMP and DoD Impact Levels certify cloud services, not models. A Claude model is a software component that runs inside an authorized environment, and the customer's compliance posture comes from that hosting platform. \"Is Claude FedRAMP High?\" is therefore the wrong question. The right one is which environment you run Claude in and what that environment is authorized for."
+    },
+    {
+      "id": "u0094",
+      "text": "Three FedRAMP High paths exist. Claude for Government is Anthropic's own FedRAMP High authorized application, with Anthropic as the contracting and billing party. Claude through Amazon Bedrock in AWS GovCloud (US) is approved for FedRAMP High and DoD IL4/5 workloads. Claude through Google Vertex with Assured Workloads is also FedRAMP High. Bedrock goes further: Claude is available in the AWS Secret region (IL6), and ITAR data can only be processed in Claude through Bedrock."
+    },
+    {
+      "id": "u0095",
+      "text": "For an agency already inside a GovCloud authorization boundary, Bedrock in GovCloud is the direct fit. It runs on AWS-controlled infrastructure the agency already has, and AWS is the data processor. The Claude Platform on AWS documentation itself sends FedRAMP High and IL4/IL5 workloads to Bedrock. The standard Claude API is not on the list of FedRAMP-authorized paths. Neither is Claude Enterprise bought through AWS Marketplace, which is not FedRAMP authorized. Consumer plans are not a government path at all."
+    },
+    {
+      "id": "u0096",
+      "text": "Claude options for U.S. government workloads"
+    },
+    {
+      "id": "u0097",
+      "text": "Option"
+    },
+    {
+      "id": "u0098",
+      "text": "Who operates it"
+    },
+    {
+      "id": "u0099",
+      "text": "FedRAMP status"
+    },
+    {
+      "id": "u0100",
+      "text": "Claude for Government (C4G)"
+    },
+    {
+      "id": "u0101",
+      "text": "Anthropic"
+    },
+    {
+      "id": "u0102",
+      "text": "FedRAMP High authorized"
+    },
+    {
+      "id": "u0103",
+      "text": "Claude via Amazon Bedrock in AWS GovCloud"
+    },
+    {
+      "id": "u0104",
+      "text": "AWS"
+    },
+    {
+      "id": "u0105",
+      "text": "FedRAMP High and DoD IL4/5"
+    },
+    {
+      "id": "u0106",
+      "text": "Google Vertex with Assured Workloads"
+    },
+    {
+      "id": "u0107",
+      "text": "Google Cloud"
+    },
+    {
+      "id": "u0108",
+      "text": "FedRAMP High"
+    },
+    {
+      "id": "u0109",
+      "text": "Claude Enterprise on AWS Marketplace"
+    },
+    {
+      "id": "u0110",
+      "text": "Anthropic"
+    },
+    {
+      "id": "u0111",
+      "text": "Not FedRAMP authorized"
+    },
+    {
+      "id": "u0112",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0113",
+      "text": "FedRAMP authorization belongs to a Claude model, so any way of calling that model inherits it."
+    },
+    {
+      "id": "u0114",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0116",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0117",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0118",
+      "text": "A federal agency already works inside an AWS GovCloud authorization boundary and needs Claude for a FedRAMP High workload. Its security lead asks which way of reaching Claude will hold up in the authorization package. What is the best answer?"
+    },
+    {
+      "id": "u0119",
+      "text": "Claude Enterprise bought through AWS Marketplace, because buying through AWS places it inside the agency's AWS authorization"
+    },
+    {
+      "id": "u0120",
+      "text": "Claude through Amazon Bedrock in AWS GovCloud, because the authorized hosting environment provides the compliance posture and AWS's compliance documentation applies"
+    },
+    {
+      "id": "u0121",
+      "text": "Any path works if it calls a current Claude model, such as the standard Claude API, because FedRAMP High status belongs to the model"
+    },
+    {
+      "id": "u0122",
+      "text": "Claude Platform on AWS, because it opens from the AWS Console and so inherits the GovCloud authorization"
+    },
+    {
+      "id": "u0123",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0124",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0125",
+      "text": "A U.S. federal agency already operating inside an AWS GovCloud (US) authorization boundary wants to deploy Claude for a sensitive workload without standing up new cloud infrastructure. Which option most directly matches this need given Anthropic's current government offerings?"
+    },
+    {
+      "id": "u0126",
+      "text": "Access Claude through Amazon Bedrock in AWS GovCloud (US), authorized for FedRAMP High and DoD IL4/5"
+    },
+    {
+      "id": "u0127",
+      "text": "Call the standard Claude API directly using a commercial key issued for public sector billing"
+    },
+    {
+      "id": "u0128",
+      "text": "Provision Claude Free accounts for each analyst since consumer plans carry fewer obligations"
+    },
+    {
+      "id": "u0129",
+      "text": "Use Claude Console Workbench under an Enterprise plan configured for HIPAA readiness instead"
+    },
+    {
+      "id": "u0130",
+      "text": "Sources"
+    },
+    {
+      "id": "u0131",
+      "text": "Retention records a compliance reviewer will ask for"
+    },
+    {
+      "id": "u0132",
+      "text": "Audits usually come down to two questions: what records exist, and for how long. The events themselves and how they reach your systems are covered in "
+    },
+    {
+      "id": "u0133",
+      "text": "Audit events and their routing"
+    },
+    {
+      "id": "u0134",
+      "text": ". The retention periods are separate from both ZDR and HIPAA readiness, and a reviewer will check them one by one:"
+    },
+    {
+      "id": "u0135",
+      "text": "Activity Feed:"
+    },
+    {
+      "id": "u0136",
+      "text": " 6 years."
+    },
+    {
+      "id": "u0137",
+      "text": "claude.ai chat, file and project content:"
+    },
+    {
+      "id": "u0138",
+      "text": " follows the organization's policy in Organization settings > Data and privacy, unless a user deletes it sooner."
+    },
+    {
+      "id": "u0139",
+      "text": "Local session transcripts (Claude Code, Cowork):"
+    },
+    {
+      "id": "u0140",
+      "text": " 6 years by default, or the organization's custom retention period when a finite one is set."
+    },
+    {
+      "id": "u0141",
+      "text": "Remote Cowork session transcripts:"
+    },
+    {
+      "id": "u0142",
+      "text": " 6 years unless a user deletes the session."
+    },
+    {
+      "id": "u0143",
+      "text": "Compliance API:"
+    },
+    {
+      "id": "u0144",
+      "text": " does not capture local sessions that run under ZDR. In HIPAA-ready organizations, it captures only Claude Code and Cowork local sessions and keeps those transcripts for 30 days."
+    },
+    {
+      "id": "u0145",
+      "text": "Copies on developer machines need their own answer. "
+    },
+    {
+      "id": "u0146",
+      "text": " in managed settings makes every computer delete old session data after the same number of days, which you set to match your records policy. In Claude for Government, a hash-chained audit log records every administrative action, and administrators can review it directly in the product."
+    },
+    {
+      "id": "u0147",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0148",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0149",
+      "text": "Your auditor wants transcripts of developers' local Claude Code sessions. The organization runs under zero data retention, and the auditor plans to pull the transcripts from the Compliance API. What will that export contain?"
+    },
+    {
+      "id": "u0150",
+      "text": "The local session transcripts, kept for 6 years like other session transcripts"
+    },
+    {
+      "id": "u0151",
+      "text": "None of those local sessions, because the Compliance API does not capture local sessions that run under ZDR"
+    },
+    {
+      "id": "u0152",
+      "text": "The local session transcripts, kept for 30 days and then purged"
+    },
+    {
+      "id": "u0153",
+      "text": "Session metadata only, with prompt and response content redacted to keep ZDR intact"
+    },
+    {
+      "id": "u0154",
+      "text": "Sources"
+    },
+    {
+      "id": "u0155",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0156",
+      "text": "Pin a workspace's inference to the US, then confirm from API responses that requests are enforced and actually run there."
+    },
+    {
+      "id": "u0157",
+      "text": "In the Console, set the workspace's allowed_inference_geos to [\"us\"] and default_inference_geo to \"us\"."
+    },
+    {
+      "id": "u0158",
+      "text": "Why: "
+    },
+    {
+      "id": "u0159",
+      "text": "Workspace settings enforce the policy for every key, so you are not relying on each request to set it."
+    },
+    {
+      "id": "u0160",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0161",
+      "text": "The workspace's data residency settings show \"us\" as the only allowed geo."
+    },
+    {
+      "id": "u0162",
+      "text": "Send a Messages request on a Claude 4.6 or later model with inference_geo=\"us\" and print response.usage.inference_geo."
+    },
+    {
+      "id": "u0163",
+      "text": "Why: "
+    },
+    {
+      "id": "u0164",
+      "text": "The usage field records where inference actually ran, and you can log it as evidence."
+    },
+    {
+      "id": "u0165",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0166",
+      "text": "The printed value is \"us\"."
+    },
+    {
+      "id": "u0167",
+      "text": "Send the same request with inference_geo=\"global\"."
+    },
+    {
+      "id": "u0168",
+      "text": "Why: "
+    },
+    {
+      "id": "u0169",
+      "text": "This checks that the allowlist blocks traffic a developer tries to send elsewhere."
+    },
+    {
+      "id": "u0170",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0171",
+      "text": "The API returns an error instead of running the request."
+    },
+    {
+      "id": "u0172",
+      "text": "Send a request with no inference_geo parameter."
+    },
+    {
+      "id": "u0173",
+      "text": "Why: "
+    },
+    {
+      "id": "u0174",
+      "text": "This checks that the workspace default fills in when a request leaves the parameter out."
+    },
+    {
+      "id": "u0175",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0176",
+      "text": "response.usage.inference_geo reads \"us\"."
+    },
+    {
+      "id": "u0177",
+      "text": "Sources"
+    }
+  ]
+}

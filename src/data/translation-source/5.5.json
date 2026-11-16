@@ -1,0 +1,539 @@
+{
+  "pageId": "5.5",
+  "title": "Bias, fairness and honest outputs in Claude builds",
+  "titleVi": "Thiên lệch, tính công bằng và đầu ra trung thực trong các giải pháp dùng Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Address ethical AI considerations"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Trace where bias can enter a Claude-based system: training data, prompts and examples, retrieval corpora and evaluation choices"
+    },
+    {
+      "id": "u0002",
+      "text": "Measure fairness by comparing outcome metrics across groups instead of assuming it"
+    },
+    {
+      "id": "u0003",
+      "text": "Fix explanations that change with the wording of a question by standardising decision factors and re-testing across phrasings"
+    },
+    {
+      "id": "u0004",
+      "text": "Tell calibrated, non-steering output apart from false confidence, favourable spin and nudging the user toward an answer"
+    },
+    {
+      "id": "u0005",
+      "text": "Treat language, accessibility and channel as design decisions that decide who a build excludes"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Inherited bias"
+    },
+    {
+      "id": "u0008",
+      "text": "A Claude-based system reproduces whatever its inputs treat as normal. That covers what the model was trained on, the examples in the prompt, the documents it retrieves and the cases it was tested against. Fairness only exists where someone measured it for each group a decision affects."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Where bias enters a Claude-based system"
+    },
+    {
+      "id": "u0011",
+      "text": "Measuring fairness across groups and phrasings"
+    },
+    {
+      "id": "u0012",
+      "text": "Honest confidence and room for the user's own reasoning"
+    },
+    {
+      "id": "u0013",
+      "text": "Access as a design decision"
+    },
+    {
+      "id": "u0014",
+      "text": "Where bias enters a Claude-based system"
+    },
+    {
+      "id": "u0015",
+      "text": "Ethical problems in an AI build rarely come from one bad decision. Usually something the system leaned on was skewed and nobody checked it. A shortlisting assistant, a loan-eligibility helper and an essay-feedback tool all turn inputs into judgements about people. If any of those inputs treats one kind of person as the default, the output will too. That is why bias, fairness and transparency are architecture concerns and not just policy text."
+    },
+    {
+      "id": "u0016",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0017",
+      "text": "A team builds a candidate-screening assistant on Claude and finds its rationales favour one group. Where should they look for the cause?"
+    },
+    {
+      "id": "u0018",
+      "text": "Only the model's training data, because the team cannot change it"
+    },
+    {
+      "id": "u0019",
+      "text": "Only the system prompt, because the model itself is neutral"
+    },
+    {
+      "id": "u0020",
+      "text": "Training data, the prompt and its examples, the retrieval corpus, and the evaluation set they tested with"
+    },
+    {
+      "id": "u0021",
+      "text": "Training data"
+    },
+    {
+      "id": "u0022",
+      "text": " is the first entry point. A model knows what it was exposed to during training and nothing else. Topics that appeared often and consistently are well covered. Rare, niche, local or contested topics sit at the edge. The practical question is how well represented a group or situation was in what the model read. Where coverage is thin, the model's sense of what is \"normal\" comes from whoever dominated its training data."
+    },
+    {
+      "id": "u0023",
+      "text": "Prompts and examples"
+    },
+    {
+      "id": "u0024",
+      "text": " are the second entry point, and this one is yours. Suppose every few-shot example of a strong candidate has the same kind of career path. The model learns that path as the template and treats other paths as weaker. Claude itself is cautious about content built on stereotypes, but a prompt can still teach a narrow default through what it chooses to show."
+    },
+    {
+      "id": "u0025",
+      "text": "Retrieval corpora"
+    },
+    {
+      "id": "u0026",
+      "text": " are the third. Retrieval, search and tools exist to fill gaps in the model's knowledge, but they also make your corpus part of what the model knows. A policy library that only covers head-office procedures gives confident, grounded answers to some employees and thin ones to everyone else. "
+    },
+    {
+      "id": "u0027",
+      "text": "Evaluation choices"
+    },
+    {
+      "id": "u0028",
+      "text": " are the last way in, and the easiest to miss. A test set built only from typical cases will pass a system that fails the people it never included."
+    },
+    {
+      "id": "u0029",
+      "text": "Four ways bias enters a Claude build, and where to catch each"
+    },
+    {
+      "id": "u0030",
+      "text": "Entry point"
+    },
+    {
+      "id": "u0031",
+      "text": "How it shows up"
+    },
+    {
+      "id": "u0032",
+      "text": "Where you catch it"
+    },
+    {
+      "id": "u0033",
+      "text": "Training data"
+    },
+    {
+      "id": "u0034",
+      "text": "Uneven coverage; a group or locale treated as outside the default"
+    },
+    {
+      "id": "u0035",
+      "text": "Test rare, local and contested cases, not only frequent ones"
+    },
+    {
+      "id": "u0036",
+      "text": "Prompts and few-shot examples"
+    },
+    {
+      "id": "u0037",
+      "text": "Examples teach one profile as the template for good"
+    },
+    {
+      "id": "u0038",
+      "text": "Review examples for who they leave out"
+    },
+    {
+      "id": "u0039",
+      "text": "Retrieval corpus"
+    },
+    {
+      "id": "u0040",
+      "text": "Grounded answers for well-documented groups, thin ones for others"
+    },
+    {
+      "id": "u0041",
+      "text": "Audit what the corpus actually covers"
+    },
+    {
+      "id": "u0042",
+      "text": "Evaluation set"
+    },
+    {
+      "id": "u0043",
+      "text": "Metrics look healthy because missing groups were never tested"
+    },
+    {
+      "id": "u0044",
+      "text": "Add cases and segments for every affected group"
+    },
+    {
+      "id": "u0045",
+      "text": "Checkpoint 1 of 7"
+    },
+    {
+      "id": "u0046",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0047",
+      "text": "A team's candidate-screening assistant on Claude treats some people unfairly. Match each place bias can enter the system to the symptom it would cause."
+    },
+    {
+      "id": "u0048",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0049",
+      "text": "Training data"
+    },
+    {
+      "id": "u0050",
+      "text": "Prompt and few-shot examples"
+    },
+    {
+      "id": "u0051",
+      "text": "Retrieval corpus"
+    },
+    {
+      "id": "u0052",
+      "text": "Evaluation set"
+    },
+    {
+      "id": "u0053",
+      "text": "Head-office staff get confident, grounded answers and regional staff get thin ones"
+    },
+    {
+      "id": "u0054",
+      "text": "A group or locale was rare in what the model read, so the model treats it as outside the default"
+    },
+    {
+      "id": "u0055",
+      "text": "Quality metrics look healthy because some affected groups were never among the test cases"
+    },
+    {
+      "id": "u0056",
+      "text": "Every example of a strong candidate has the same career path, so other paths are scored as weaker"
+    },
+    {
+      "id": "u0057",
+      "text": "Sources"
+    },
+    {
+      "id": "u0058",
+      "text": "Measuring fairness across groups and phrasings"
+    },
+    {
+      "id": "u0059",
+      "text": "Fairness is a measurement, not a property you can assume. Leaving group names out of a prompt does not make the outputs fair. The only evidence is outcome metrics, such as approval rates, shortlist rates and error rates, compared group by group. In practice this is "
+    },
+    {
+      "id": "u0060",
+      "text": "reading results per segment"
+    },
+    {
+      "id": "u0061",
+      "text": ", with demographic or user group as the segment. An overall accuracy figure can look fine while one group carries most of the errors."
+    },
+    {
+      "id": "u0062",
+      "text": "How a person phrases a question is a group dimension too. Take a loan-eligibility assistant that gives a detailed decline rationale to an applicant who writes formally and a vague one to an applicant who writes casually, when the facts are the same. Applicants who already know how to phrase things well get better treatment. Claude's own guidelines set the bar: it treats sincere questions as deserving substantive answers whatever their wording. A decision-support product should meet the same bar."
+    },
+    {
+      "id": "u0063",
+      "text": "The fix belongs in the design. Rewrite the explanation prompt so every decline rationale cites the same categories of decision factors, whatever the question looked like. Then re-test with a set of phrasing variants that ask for the same facts in different ways. Tests are what make that kind of change safe after launch, because they show whether the fix holds."
+    },
+    {
+      "id": "u0064",
+      "text": "Three tempting shortcuts fail this check:"
+    },
+    {
+      "id": "u0065",
+      "text": "Removing explanations altogether removes transparency along with the inconsistency, and declined applicants are left with nothing to understand or contest."
+    },
+    {
+      "id": "u0066",
+      "text": "Giving full detail only to people who explicitly ask for it builds the same unequal treatment into policy."
+    },
+    {
+      "id": "u0067",
+      "text": "A disclaimer that explanations \"may vary\" describes the problem and leaves the prompt behaviour that causes it in place."
+    },
+    {
+      "id": "u0068",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0069",
+      "text": "When an answer pairs \"standardise the prompt\" with \"re-test across variants\", it fixes the cause and verifies the fix. Answers that only disclose, suppress or ration the output leave the cause unchanged."
+    },
+    {
+      "id": "u0070",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0071",
+      "text": "Adding a disclaimer that AI explanations may vary between applicants deals with the fairness concern."
+    },
+    {
+      "id": "u0072",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0076",
+      "text": "Checkpoint 2 of 7"
+    },
+    {
+      "id": "u0077",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0078",
+      "text": "After launch, a loan-eligibility assistant built on Claude gives detailed decline rationales to applicants who write formally. Applicants who write casually get vague ones, even when the facts are the same. Which response fixes this fairness problem?"
+    },
+    {
+      "id": "u0079",
+      "text": "Give the full detailed rationale only to applicants who explicitly ask for it"
+    },
+    {
+      "id": "u0080",
+      "text": "Remove decline explanations altogether so no applicant gets a better rationale than another"
+    },
+    {
+      "id": "u0081",
+      "text": "Add a notice that AI-generated explanations may vary between applicants"
+    },
+    {
+      "id": "u0082",
+      "text": "Rewrite the explanation prompt so every decline rationale cites the same categories of decision factors, then re-test with phrasing variants that ask for the same facts"
+    },
+    {
+      "id": "u0083",
+      "text": "Checkpoint 3 of 7"
+    },
+    {
+      "id": "u0084",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0085",
+      "text": "During a red-team exercise on a Claude-based loan-eligibility assistant, testers find that the assistant's explanations for declining an application vary in specificity depending on how the applicant phrases their question, even when the underlying facts are identical. Which response best addresses the ethical concern this raises?"
+    },
+    {
+      "id": "u0086",
+      "text": "Standardize the explanation prompt so decline rationales cite the same categories of decision factors regardless of wording, then re-test across phrasing variants."
+    },
+    {
+      "id": "u0087",
+      "text": "Disable explanations for every declined application, since removing the rationale entirely also removes any risk of inconsistent wording between applicants."
+    },
+    {
+      "id": "u0088",
+      "text": "Give the most detailed explanation only to applicants who explicitly ask for one, leaving everyone else with a short generic decline message instead."
+    },
+    {
+      "id": "u0089",
+      "text": "Add a disclaimer stating explanations may vary by applicant, then leave the underlying prompt behavior that produced the inconsistency unchanged."
+    },
+    {
+      "id": "u0090",
+      "text": "Sources"
+    },
+    {
+      "id": "u0091",
+      "text": "Honest confidence and room for the user's own reasoning"
+    },
+    {
+      "id": "u0092",
+      "text": "Transparency also covers how sure the system says it is. Anthropic trains Claude to be calibrated, meaning the confidence it expresses should match the evidence it has. Calibration matters most where the evidence is mixed. One example is a shortlisting rationale for a candidate whose qualifications are ambiguous. A calibrated rationale says the evidence is mixed and explains why. It does not state a firm verdict, and it does not lean toward the most favourable reading."
+    },
+    {
+      "id": "u0093",
+      "text": "You can reinforce this in the prompt. Explicitly allowing Claude to say it does not have enough information to judge reduces confident false statements. That differs from returning a blank whenever a file is incomplete. A blank tells the recruiter nothing, while a stated uncertainty tells them where to look. Restricting rationales to direct résumé quotes doesn't produce calibration either. It just hides the judgement the recruiter needs to weigh."
+    },
+    {
+      "id": "u0094",
+      "text": "The other half of honesty is not steering. In an essay-feedback tool, the student is supposed to build their own argument. An assistant that keeps nudging every essay toward one side of a debate topic undermines the student's epistemic autonomy, which is their right to reach conclusions through their own reasoning. Claude's guidelines describe the intended behaviour. It is cautious about giving personal opinions on contested topics, can decline to share them to avoid influencing people, and offers alternative perspectives so people can work through the question for themselves. Asking for the strongest case on one side is a request for that case, not for Claude's own view."
+    },
+    {
+      "id": "u0095",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0096",
+      "text": "In a tool you have built or reviewed, where does the output express a judgement about a person? Would a reader be able to tell how confident that judgement is?"
+    },
+    {
+      "id": "u0097",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0098",
+      "text": "The safest behaviour for ambiguous cases is to return nothing, or to default to the most favourable interpretation."
+    },
+    {
+      "id": "u0099",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0101",
+      "text": "Checkpoint 4 of 7"
+    },
+    {
+      "id": "u0102",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0103",
+      "text": "A recruiter is reading shortlisting rationales from a Claude-based assistant. One candidate's qualifications are ambiguous: some evidence supports them and some does not. Which rationale gives the recruiter a judgement they can rely on without misreading how sure it is?"
+    },
+    {
+      "id": "u0104",
+      "text": "A rationale limited to direct résumé quotes, so Claude never puts forward a judgement of its own"
+    },
+    {
+      "id": "u0105",
+      "text": "A rationale that says the evidence is mixed, explains why, and says where there is not enough information to judge"
+    },
+    {
+      "id": "u0106",
+      "text": "An empty rationale whenever the file is incomplete, so Claude never says anything that might be wrong"
+    },
+    {
+      "id": "u0107",
+      "text": "A rationale that defaults to the most favourable reading of the evidence, so no candidate is unfairly held back"
+    },
+    {
+      "id": "u0108",
+      "text": "Checkpoint 5 of 7"
+    },
+    {
+      "id": "u0109",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0110",
+      "text": "A hiring-support tool built on Claude drafts shortlist rationales for recruiters. Legal asks the solution architect to explain how the underlying model's design reduces the chance the tool will misrepresent its own confidence when a candidate's qualifications are ambiguous. Which explanation best reflects Claude's documented approach to honesty?"
+    },
+    {
+      "id": "u0111",
+      "text": "Claude is trained to be calibrated, representing its own uncertainty accurately rather than asserting ambiguous judgments with unwarranted confidence."
+    },
+    {
+      "id": "u0112",
+      "text": "Claude is trained to default to the most favorable interpretation of qualifications so recruiters never receive a discouraging rationale from the tool."
+    },
+    {
+      "id": "u0113",
+      "text": "Claude is trained to withhold any rationale whenever a candidate's file has missing information, returning a blank response in its place instead."
+    },
+    {
+      "id": "u0114",
+      "text": "Claude is trained to phrase every rationale as a direct resume quotation so no independent judgment about ambiguous qualifications is ever expressed."
+    },
+    {
+      "id": "u0115",
+      "text": "Checkpoint 6 of 7"
+    },
+    {
+      "id": "u0116",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0117",
+      "text": "An education technology company embeds Claude to give students feedback on persuasive essays. A parent complains that the assistant seems to nudge students toward the assistant's own opinion on debate topics rather than helping students develop their own reasoning. Which principle from Claude's constitution is most relevant to correcting this behavior?"
+    },
+    {
+      "id": "u0118",
+      "text": "Epistemic autonomy: Claude should respect the student's right to reach their own conclusions through their own reasoning rather than steering toward an answer."
+    },
+    {
+      "id": "u0119",
+      "text": "Counterfactual impact: Claude should avoid an action only when withholding it would meaningfully change the ultimate outcome the student reaches."
+    },
+    {
+      "id": "u0120",
+      "text": "Operator compliance: Claude should follow the platform's system prompt wording exactly even when it conflicts with the student's stated learning goal."
+    },
+    {
+      "id": "u0121",
+      "text": "Broad helpfulness: Claude should maximize the count of essay revisions produced per session regardless of the student's independent development."
+    },
+    {
+      "id": "u0122",
+      "text": "Sources"
+    },
+    {
+      "id": "u0123",
+      "text": "Access as a design decision"
+    },
+    {
+      "id": "u0124",
+      "text": "Every build excludes someone, and the decisions behind that are usually made by default and never written down. Supporting only one language, building a chat interface that screen-reader users find hard to navigate, or offering a web-only channel to people who mostly use phones or the telephone: each of these decides who the system serves. Treat each one as a deliberate choice and write it down."
+    },
+    {
+      "id": "u0125",
+      "text": "Model coverage makes this sharper. Local topics and topics underrepresented in training data sit at the edge of what the model knows well, so users whose questions fall there get weaker answers even when the interface works for them. Before shipping, ask directly who the build does not serve well. Then set a feedback loop that will show you after launch whether those users are being failed."
+    },
+    {
+      "id": "u0126",
+      "text": "A clinic wait-time checker works well in testing. What should you check before calling it shipped?"
+    },
+    {
+      "id": "u0127",
+      "text": "Checkpoint 7 of 7"
+    },
+    {
+      "id": "u0128",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0129",
+      "text": "Before launch, a council's benefits-enquiry assistant built on Claude passes all its acceptance tests. It works only in English and only through a web chat, but many residents contact the council by telephone. What should happen before it is called shipped?"
+    },
+    {
+      "id": "u0130",
+      "text": "Write down who the English-only, web-only choices exclude, check how well the model handles their local questions, and set up a feedback loop that shows after launch whether those users are being failed"
+    },
+    {
+      "id": "u0131",
+      "text": "Ship it as it is, because the model was trained on broad data and will serve every resident equally well once they reach the interface"
+    },
+    {
+      "id": "u0132",
+      "text": "Ship it as it is, because passing acceptance tests shows the build works, and any access problems will show up in the overall satisfaction score"
+    },
+    {
+      "id": "u0133",
+      "text": "Add a notice that the service is meant for English-speaking web users, so the limits are clear to everyone"
+    },
+    {
+      "id": "u0134",
+      "text": "Sources"
+    },
+    {
+      "id": "u0135",
+      "text": "Sources"
+    }
+  ]
+}

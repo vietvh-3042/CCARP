@@ -1,0 +1,43 @@
+
+> ccarpp-study@0.1.0 test
+> playwright test tests/lesson-routes.spec.ts --grep numeric bookmarks
+
+[WebServer] (node:81338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:81385) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › tests/lesson-routes.spec.ts:38:1 › numeric bookmarks retain their reading position without JavaScript (5.1s)
+
+
+  1) [chromium] › tests/lesson-routes.spec.ts:38:1 › numeric bookmarks retain their reading position without JavaScript 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected: "http://127.0.0.1:48731/vi/lessons/1.4/?ref=bookmark#section-2"
+    Received: "http://127.0.0.1:48731/vi/lessons/multi-agent-system-design-when-to-split-and-how-to-decompose/"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        - waiting for "http://127.0.0.1:48731/vi/lessons/multi-agent-system-design-when-to-split-and-how-to-decompose/" navigation to finish...
+        - navigated to "http://127.0.0.1:48731/vi/lessons/multi-agent-system-design-when-to-split-and-how-to-decompose/"
+        13 × locator resolved to <html lang="vi" class="dark scroll-pt-[110px] bg-background text-foreground [color-scheme:dark]">…</html>
+           - unexpected value "http://127.0.0.1:48731/vi/lessons/multi-agent-system-design-when-to-split-and-how-to-decompose/"
+
+
+      40 |   const page = await context.newPage();
+      41 |   await page.goto("/vi/lessons/1.4/?ref=bookmark#section-2");
+    > 42 |   await expect(page).toHaveURL("/vi/lessons/1.4/?ref=bookmark#section-2");
+         |                      ^
+      43 |   await expect(page.locator("#section-2")).toBeInViewport();
+      44 |   await expect(page.locator(".prose [data-lesson-section]")).not.toHaveCount(0);
+      45 |   await context.close();
+        at /home/Workspaces/CCARPP/tests/lesson-routes.spec.ts:42:22
+
+    Error Context: test-results/lesson-routes-numeric-book-18b55-position-without-JavaScript-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/lesson-routes.spec.ts:38:1 › numeric bookmarks retain their reading position without JavaScript 

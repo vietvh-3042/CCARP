@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "Enabling telemetry does not configure delivery. Select exporters for each signal and supply the OTLP connection settings; traces also need their beta flag.",
+    "vi": "Bật đo lường từ xa chưa cấu hình việc gửi dữ liệu. Cần chọn bộ xuất cho từng loại tín hiệu và cung cấp thiết lập kết nối OTLP; dấu vết còn cần cờ beta."
+  },
+  "exam-trap-2": {
+    "en": "Export frequency does not change attribute combinations. Reduce cardinality by removing dimensions such as session.id, rather than merely spacing out metric exports.",
+    "vi": "Tần suất xuất không thay đổi các tổ hợp thuộc tính. Muốn giảm số chuỗi dữ liệu, hãy bỏ chiều như session.id thay vì chỉ giãn thời gian xuất chỉ số."
+  },
+  "exam-trap-3": {
+    "en": "When its setting is absent, response logging follows the prompt-logging flag. Explicitly disable OTEL_LOG_ASSISTANT_RESPONSES if prompts alone should be exported.",
+    "vi": "Khi chưa đặt riêng, việc ghi phản hồi tuân theo cờ ghi câu lệnh. Hãy tắt rõ OTEL_LOG_ASSISTANT_RESPONSES nếu chỉ muốn xuất câu lệnh."
+  }
+}

@@ -1,0 +1,775 @@
+{
+  "pageId": "1.4.2",
+  "title": "Configuring coordinators and subagents in Managed Agents, the Agent SDK and Claude Code",
+  "titleVi": "Cấu hình tác tử điều phối và tác tử con trong Managed Agents, Agent SDK và Claude Code",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design multi-agent systems and orchestration strategies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Configure a coordinator and predefined subagents in a Managed Agents multiagent block"
+    },
+    {
+      "id": "u0002",
+      "text": "Choose between subagents, dynamic workflows and an advisor in Managed Agents"
+    },
+    {
+      "id": "u0003",
+      "text": "Define specialised subagents with AgentDefinition in the Agent SDK"
+    },
+    {
+      "id": "u0004",
+      "text": "Choose between subagents, agent teams and dynamic workflows in Claude Code"
+    },
+    {
+      "id": "u0005",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0006",
+      "text": "Managed Agents: the multiagent block"
+    },
+    {
+      "id": "u0007",
+      "text": "Predefined and inline agents, and the limits on them"
+    },
+    {
+      "id": "u0008",
+      "text": "Agent SDK: defining subagents with AgentDefinition"
+    },
+    {
+      "id": "u0009",
+      "text": "Claude Code: subagents, agent teams or a dynamic workflow"
+    },
+    {
+      "id": "u0010",
+      "text": "Managed Agents: the multiagent block"
+    },
+    {
+      "id": "u0011",
+      "text": "A coordinator works the same way on every platform. It delegates to subagents, and each subagent runs in an isolated context and returns only a condensed result (see the companion page on designing multi-agent systems). What changes from platform to platform is where you declare the coordinator, its specialists and the alternatives to subagents. In Claude Managed Agents, you declare them in the "
+    },
+    {
+      "id": "u0012",
+      "text": " block of the agent definition. With type "
+    },
+    {
+      "id": "u0013",
+      "text": ", subagents and dynamic workflows are both on by default, and you can also give the session an advisor."
+    },
+    {
+      "id": "u0014",
+      "text": "The table below talks about threads, so one definition first. Each agent in a session runs in its own session thread: a context-isolated event stream with its own conversation history. The agent that the session runs reports in the primary thread, the session-level event stream, and every delegated agent gets an additional thread spawned at runtime. Whether a thread can be messaged again after its agent reports is what separates subagents from workflow runs."
+    },
+    {
+      "id": "u0015",
+      "text": "The three ways a Managed Agents session can involve other agents"
+    },
+    {
+      "id": "u0016",
+      "text": "Approach"
+    },
+    {
+      "id": "u0017",
+      "text": "Who directs the work"
+    },
+    {
+      "id": "u0018",
+      "text": "Choose it when"
+    },
+    {
+      "id": "u0019",
+      "text": "Watch for"
+    },
+    {
+      "id": "u0020",
+      "text": "Subagents"
+    },
+    {
+      "id": "u0021",
+      "text": "The agent delegates and reads each report. A subagent's thread persists, so the agent can send follow-ups"
+    },
+    {
+      "id": "u0022",
+      "text": "The agent needs to follow up with a subagent, or needs listed specialists with their own system prompts and tools"
+    },
+    {
+      "id": "u0023",
+      "text": "Delegation is one level deep, with at most 25 child threads per session, idle ones included"
+    },
+    {
+      "id": "u0024",
+      "text": "Dynamic workflows"
+    },
+    {
+      "id": "u0025",
+      "text": "A program the agent writes runs many agents in phases in the background and combines their results"
+    },
+    {
+      "id": "u0026",
+      "text": "Most work that needs several agents: audits, migrations, deep research, cross-checking"
+    },
+    {
+      "id": "u0027",
+      "text": "No follow-ups to a run's threads, and every agent uses tokens, so set a session budget"
+    },
+    {
+      "id": "u0028",
+      "text": "Advisor"
+    },
+    {
+      "id": "u0029",
+      "text": "One agent does the work and consults an advisor model mid-turn"
+    },
+    {
+      "id": "u0030",
+      "text": "One agent should do the work, with stronger judgment at planning or final review"
+    },
+    {
+      "id": "u0031",
+      "text": "Only the primary thread can consult it, and consultations are billed at the advisor model's rates"
+    },
+    {
+      "id": "u0032",
+      "text": "You decide which of these the agent may use, and the agent decides when to use them. Steer that decision in the system prompt, for example by telling the agent when to start a workflow run. The coordinator below is a lead that lists two specialists by ID. Its system prompt is a short routing brief: send review work to the reviewer and test writing to the test writer. The reviewer and test writer are separate agents running "
+    },
+    {
+      "id": "u0033",
+      "text": ", each with its own one-line system prompt."
+    },
+    {
+      "id": "u0034",
+      "text": "A coordinator agent definition that lists two predefined subagents and routes work to them"
+    },
+    {
+      "id": "u0035",
+      "text": "yaml"
+    },
+    {
+      "id": "u0036",
+      "text": "Checkpoint 1 of 5"
+    },
+    {
+      "id": "u0037",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0038",
+      "text": "The Engineering Lead must hand review and test writing to two specialists you have already created, each with its own system prompt, and must be able to send them follow-up questions after they report. Which key under the multiagent block completes this definition?"
+    },
+    {
+      "id": "u0039",
+      "text": "workflows"
+    },
+    {
+      "id": "u0040",
+      "text": "advisor"
+    },
+    {
+      "id": "u0041",
+      "text": "subagents"
+    },
+    {
+      "id": "u0042",
+      "text": "Sources"
+    },
+    {
+      "id": "u0043",
+      "text": "Predefined and inline agents, and the limits on them"
+    },
+    {
+      "id": "u0044",
+      "text": "Each subagent is either predefined or inline. A "
+    },
+    {
+      "id": "u0045",
+      "text": "predefined"
+    },
+    {
+      "id": "u0046",
+      "text": " agent is one you have already created and listed. It runs with its own model, system prompt, tools, MCP servers and skills. An "
+    },
+    {
+      "id": "u0047",
+      "text": "inline"
+    },
+    {
+      "id": "u0048",
+      "text": " agent isn't saved anywhere. The coordinator, or a workflow, defines it at the moment it hands out the work, and it uses the coordinator's model, tools, MCP servers and skills. Inline agents are on by default, so unless you turn them off, the coordinator can create helpers you never reviewed."
+    },
+    {
+      "id": "u0049",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0050",
+      "text": "An inline subagent needs access to the GitHub MCP server. Where do you declare that server so the inline agent can use it?"
+    },
+    {
+      "id": "u0051",
+      "text": "Inline agents have no definition of their own, so you can't use one to narrow their access. They take on the MCP servers and tools of the agent the session runs. To give a specialist tools the coordinator doesn't have, make it a predefined agent. In the GitHub example, only a predefined researcher declares the GitHub MCP server, so the coordinator never has access to it. To allow only the agents you list, set "
+    },
+    {
+      "id": "u0052",
+      "text": " to "
+    },
+    {
+      "id": "u0053",
+      "text": " under "
+    },
+    {
+      "id": "u0054",
+      "text": " and under "
+    },
+    {
+      "id": "u0055",
+      "text": ". Each setting with inline agents off needs at least one agent in its list, or the request fails with a 400 error."
+    },
+    {
+      "id": "u0056",
+      "text": "Inline agents turned off: the agent may delegate to one listed agent and to copies of itself, and a workflow may use version 2 of another agent"
+    },
+    {
+      "id": "u0057",
+      "text": "json"
+    },
+    {
+      "id": "u0058",
+      "text": "The two "
+    },
+    {
+      "id": "u0059",
+      "text": " lists are separate. Listing an agent under "
+    },
+    {
+      "id": "u0060",
+      "text": " does not make it available to "
+    },
+    {
+      "id": "u0061",
+      "text": ", and the reverse is also true. Four rules apply to both lists:"
+    },
+    {
+      "id": "u0062",
+      "text": "Pinning:"
+    },
+    {
+      "id": "u0063",
+      "text": " when you create or update the coordinator, each referenced agent is pinned to its version at that moment. Later edits to that agent don't reach the coordinator until you update the coordinator's list."
+    },
+    {
+      "id": "u0064",
+      "text": "One level:"
+    },
+    {
+      "id": "u0065",
+      "text": " listing an agent that has its own "
+    },
+    {
+      "id": "u0066",
+      "text": " block fails with a 400 validation error."
+    },
+    {
+      "id": "u0067",
+      "text": "Up to 20 agents per list:"
+    },
+    {
+      "id": "u0068",
+      "text": " the coordinator can still run several copies of each one, within the session's thread limit."
+    },
+    {
+      "id": "u0069",
+      "text": "Same inference geography:"
+    },
+    {
+      "id": "u0070",
+      "text": " every listed agent must pin the same "
+    },
+    {
+      "id": "u0071",
+      "text": " as the coordinator, or none of them may pin one."
+    },
+    {
+      "id": "u0072",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0073",
+      "text": "When you update a predefined subagent, coordinators that list it start using the new version automatically."
+    },
+    {
+      "id": "u0074",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0080",
+      "text": "A coordinator can list an agent that coordinates its own subagents, building a deeper hierarchy."
+    },
+    {
+      "id": "u0081",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0087",
+      "text": "Checkpoint 2 of 5"
+    },
+    {
+      "id": "u0088",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0089",
+      "text": "A helper needs to call the GitHub MCP server, but the coordinator must never get GitHub access itself. Which setup gives only the helper that access?"
+    },
+    {
+      "id": "u0090",
+      "text": "Create a predefined researcher agent whose definition declares the GitHub MCP server, and list it under the coordinator's subagents"
+    },
+    {
+      "id": "u0091",
+      "text": "Turn off inline agents, so the coordinator's MCP servers pass only to the agents it lists"
+    },
+    {
+      "id": "u0092",
+      "text": "Have the coordinator define an inline agent at delegation time and name the GitHub MCP server in its brief"
+    },
+    {
+      "id": "u0093",
+      "text": "Add the GitHub MCP server to the coordinator's definition, and let an inline agent inherit it"
+    },
+    {
+      "id": "u0094",
+      "text": "Checkpoint 3 of 5"
+    },
+    {
+      "id": "u0095",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0096",
+      "text": "After the Engineering Lead coordinator is created, you edit the reviewer agent it lists and save a new version. The coordinator itself is left unchanged. What happens when the lead next delegates review work?"
+    },
+    {
+      "id": "u0097",
+      "text": "The delegation fails with a 400 error, because the pinned version no longer matches"
+    },
+    {
+      "id": "u0098",
+      "text": "It uses the new reviewer version automatically, because the list references the agent by ID"
+    },
+    {
+      "id": "u0099",
+      "text": "It uses the new version only in sessions created after the edit"
+    },
+    {
+      "id": "u0100",
+      "text": "It keeps using the reviewer version pinned when the coordinator was created, until you update the coordinator's predefined_agents list"
+    },
+    {
+      "id": "u0101",
+      "text": "Sources"
+    },
+    {
+      "id": "u0102",
+      "text": "Agent SDK: defining subagents with AgentDefinition"
+    },
+    {
+      "id": "u0103",
+      "text": "In the Claude Agent SDK, the coordinator is the agent that "
+    },
+    {
+      "id": "u0104",
+      "text": " runs, and you declare its specialists in the "
+    },
+    {
+      "id": "u0105",
+      "text": " option. Each one is an "
+    },
+    {
+      "id": "u0106",
+      "text": " keyed by name. There are two other routes. You can write agents as markdown files in "
+    },
+    {
+      "id": "u0107",
+      "text": " directories. And Claude can call the built-in general-purpose subagent through the Agent tool without you defining anything. Include "
+    },
+    {
+      "id": "u0108",
+      "text": " in the coordinator's "
+    },
+    {
+      "id": "u0109",
+      "text": " so it can delegate without asking for approval."
+    },
+    {
+      "id": "u0110",
+      "text": "One specialist in the agents option: when to use it, its brief, a read-only tool list and a model override"
+    },
+    {
+      "id": "u0111",
+      "text": "python"
+    },
+    {
+      "id": "u0112",
+      "text": "AgentDefinition fields that carry the design decisions"
+    },
+    {
+      "id": "u0113",
+      "text": "Field"
+    },
+    {
+      "id": "u0114",
+      "text": "Required"
+    },
+    {
+      "id": "u0115",
+      "text": "Design role"
+    },
+    {
+      "id": "u0116",
+      "text": "description"
+    },
+    {
+      "id": "u0117",
+      "text": "Yes"
+    },
+    {
+      "id": "u0118",
+      "text": "Tells the coordinator when to use this subagent, which makes it the routing signal"
+    },
+    {
+      "id": "u0119",
+      "text": "prompt"
+    },
+    {
+      "id": "u0120",
+      "text": "Yes"
+    },
+    {
+      "id": "u0121",
+      "text": "The subagent's system prompt: its role, expertise and constraints"
+    },
+    {
+      "id": "u0122",
+      "text": "tools"
+    },
+    {
+      "id": "u0123",
+      "text": "No"
+    },
+    {
+      "id": "u0124",
+      "text": "Allowed tools. If omitted, the subagent inherits every tool available to subagents"
+    },
+    {
+      "id": "u0125",
+      "text": "disallowedTools"
+    },
+    {
+      "id": "u0126",
+      "text": "No"
+    },
+    {
+      "id": "u0127",
+      "text": "Removes named tools. mcp__server removes every tool from that MCP server"
+    },
+    {
+      "id": "u0128",
+      "text": "model"
+    },
+    {
+      "id": "u0129",
+      "text": "No"
+    },
+    {
+      "id": "u0130",
+      "text": "Per-agent model: an alias such as 'haiku', 'inherit', or a full model ID"
+    },
+    {
+      "id": "u0131",
+      "text": "maxTurns"
+    },
+    {
+      "id": "u0132",
+      "text": "No"
+    },
+    {
+      "id": "u0133",
+      "text": "Caps agentic turns. At the limit, the output comes back marked as partial"
+    },
+    {
+      "id": "u0134",
+      "text": "The same example defines a second specialist, "
+    },
+    {
+      "id": "u0135",
+      "text": ", with "
+    },
+    {
+      "id": "u0136",
+      "text": " and "
+    },
+    {
+      "id": "u0137",
+      "text": ". It gets "
+    },
+    {
+      "id": "u0138",
+      "text": " because running tests is its job. The reviewer stays read-only. Each specialist gets the tools its brief calls for, and no more."
+    },
+    {
+      "id": "u0139",
+      "text": "Checkpoint 4 of 5"
+    },
+    {
+      "id": "u0140",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0141",
+      "text": "This code-reviewer specialist must be able to inspect the codebase but never change it. Which tool name completes its tools list without breaking that guarantee?"
+    },
+    {
+      "id": "u0142",
+      "text": "Glob"
+    },
+    {
+      "id": "u0143",
+      "text": "Bash"
+    },
+    {
+      "id": "u0144",
+      "text": "Write"
+    },
+    {
+      "id": "u0145",
+      "text": "Edit"
+    },
+    {
+      "id": "u0146",
+      "text": "Sources"
+    },
+    {
+      "id": "u0147",
+      "text": "Claude Code: subagents, agent teams or a dynamic workflow"
+    },
+    {
+      "id": "u0148",
+      "text": "Claude Code offers several ways to run work in parallel. Three of them are coordination patterns, and each one fits a different kind of work."
+    },
+    {
+      "id": "u0149",
+      "text": "Choosing a coordination pattern in Claude Code"
+    },
+    {
+      "id": "u0150",
+      "text": "Pattern"
+    },
+    {
+      "id": "u0151",
+      "text": "What it is"
+    },
+    {
+      "id": "u0152",
+      "text": "Use it when"
+    },
+    {
+      "id": "u0153",
+      "text": "Subagents"
+    },
+    {
+      "id": "u0154",
+      "text": "Delegated workers inside one session that do a side task in their own context and return a summary"
+    },
+    {
+      "id": "u0155",
+      "text": "A side task would flood the main conversation with search results, logs or file contents you won't need again"
+    },
+    {
+      "id": "u0156",
+      "text": "Agent teams"
+    },
+    {
+      "id": "u0157",
+      "text": "Multiple coordinated sessions with a shared task list and inter-agent messaging, managed by a lead. Experimental and off by default"
+    },
+    {
+      "id": "u0158",
+      "text": "Claude should split a project into pieces, assign them, and keep the workers in sync"
+    },
+    {
+      "id": "u0159",
+      "text": "Dynamic workflows"
+    },
+    {
+      "id": "u0160",
+      "text": "A script that runs many subagents and cross-checks their results"
+    },
+    {
+      "id": "u0161",
+      "text": "The job outgrows a handful of subagents, or findings need to be verified against each other"
+    },
+    {
+      "id": "u0162",
+      "text": "The main difference is how the workers communicate. Subagents talk only to the session that started them, and each returns a single summary, so they suit isolated side tasks such as investigating one bug across dozens of files. Teammates in an agent team are peer sessions. They share a task list and message one another, which helps when pieces of a project depend on each other's progress. That shared state also brings back the coordination cost that subagents avoid. A dynamic workflow takes coordination out of the conversation entirely: a script runs the subagents and checks their results against each other, for jobs too big to manage one turn at a time. Agent teams are a Claude Code feature. They are experimental and must be turned on before use."
+    },
+    {
+      "id": "u0163",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0164",
+      "text": "Take a migration you might run across 200 files. Would you use a few subagents started from the conversation, an agent team, or a dynamic workflow? What about the job's size and its need for cross-checking decides it?"
+    },
+    {
+      "id": "u0165",
+      "text": "Checkpoint 5 of 5"
+    },
+    {
+      "id": "u0166",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0167",
+      "text": "In Claude Code, you want to find out why one test fails intermittently. That means reading CI logs and dozens of source files. You need only the root cause back, and the main conversation should stay focused on your feature work. Which coordination pattern fits?"
+    },
+    {
+      "id": "u0168",
+      "text": "A dynamic workflow, so a script runs the investigation and cross-checks the findings"
+    },
+    {
+      "id": "u0169",
+      "text": "An agent team, so a lead can assign the investigation to a teammate that shares a task list with the other sessions"
+    },
+    {
+      "id": "u0170",
+      "text": "Several subagents in a chain, each passing its findings to the next until one returns the root cause"
+    },
+    {
+      "id": "u0171",
+      "text": "A subagent, which investigates in its own context and returns a single summary to the session that started it"
+    },
+    {
+      "id": "u0172",
+      "text": "Sources"
+    },
+    {
+      "id": "u0173",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0174",
+      "text": "Create a Managed Agents coordinator that delegates code review and test writing to two predefined subagents. You write each agent as a markdown file, "
+    },
+    {
+      "id": "u0175",
+      "text": " creates the agents from those files, and "
+    },
+    {
+      "id": "u0176",
+      "text": " records the ID it assigned to each file under a "
+    },
+    {
+      "id": "u0177",
+      "text": " map keyed by file path."
+    },
+    {
+      "id": "u0178",
+      "text": "Write reviewer.md and test-writer.md, each with a name, model: claude-haiku-5-5 and a one-line system prompt. Run ant apply reviewer.md test-writer.md."
+    },
+    {
+      "id": "u0179",
+      "text": "Why: "
+    },
+    {
+      "id": "u0180",
+      "text": "Predefined subagents must exist before a coordinator can list them by ID, and "
+    },
+    {
+      "id": "u0181",
+      "text": " is the command that creates them from the files."
+    },
+    {
+      "id": "u0182",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0183",
+      "text": "claude-lock.json now holds an ID for each file under .resources."
+    },
+    {
+      "id": "u0184",
+      "text": "Read the IDs with jq -er '.resources[\"./reviewer.md\"].id' claude-lock.json, and do the same for test-writer.md."
+    },
+    {
+      "id": "u0185",
+      "text": "Why: "
+    },
+    {
+      "id": "u0186",
+      "text": "The coordinator's predefined_agents list references agents by ID, and the lock file is where those IDs are recorded."
+    },
+    {
+      "id": "u0187",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0188",
+      "text": "Two agent IDs in shell variables."
+    },
+    {
+      "id": "u0189",
+      "text": "Write engineering-lead.md with model claude-opus-5-5, a multiagent block of type multiagent_20261001 that lists both IDs under subagents.predefined_agents, and a routing system prompt. Run ant apply on all three files."
+    },
+    {
+      "id": "u0190",
+      "text": "Why: "
+    },
+    {
+      "id": "u0191",
+      "text": "The coordinator definition pins both subagents at their current versions and tells the lead when to use each."
+    },
+    {
+      "id": "u0192",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0193",
+      "text": "The lead agent is created. Listing an agent that has its own multiagent block would fail with a 400 instead."
+    },
+    {
+      "id": "u0194",
+      "text": "Create a session with client.beta.sessions.create(agent=lead_agent.id, environment_id=environment.id) and ask for a review and tests. Here client is your API client, lead_agent is the lead you just created, and environment is an existing environment for the session to run in; have these ready before this step."
+    },
+    {
+      "id": "u0195",
+      "text": "Why: "
+    },
+    {
+      "id": "u0196",
+      "text": "Delegation happens at runtime: the lead decides when to call each subagent."
+    },
+    {
+      "id": "u0197",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0198",
+      "text": "The lead reports in the primary thread, and each delegated subagent appears as its own session thread."
+    },
+    {
+      "id": "u0199",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0204",
+      "text": "Sources"
+    }
+  ]
+}

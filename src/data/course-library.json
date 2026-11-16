@@ -1,0 +1,268 @@
+[
+  {
+    "groupId": "1.1",
+    "domain": 1,
+    "examWeight": 17,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 1.1: Translate business problems into Claude-based AI solutions"
+  },
+  {
+    "groupId": "1.2",
+    "domain": 1,
+    "examWeight": 17,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 1.2: Design end-to-end architectures"
+  },
+  {
+    "groupId": "1.3",
+    "domain": 1,
+    "examWeight": 17,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 1.3: Select appropriate architectural patterns"
+  },
+  {
+    "groupId": "1.4",
+    "domain": 1,
+    "examWeight": 17,
+    "readMinutes": 28,
+    "subdomain": "Subdomain 1.4: Design multi-agent systems and orchestration strategies"
+  },
+  {
+    "groupId": "1.5",
+    "domain": 1,
+    "examWeight": 17,
+    "readMinutes": 20,
+    "subdomain": "Subdomain 1.5: Apply decomposition techniques for complex problem solving"
+  },
+  {
+    "groupId": "1.6",
+    "domain": 1,
+    "examWeight": 17,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 1.6: Align solutions to business value pillars"
+  },
+  {
+    "groupId": "2.1",
+    "domain": 2,
+    "examWeight": 13,
+    "readMinutes": 17,
+    "subdomain": "Subdomain 2.1: Select appropriate Claude models based on trade-offs"
+  },
+  {
+    "groupId": "2.2",
+    "domain": 2,
+    "examWeight": 13,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 2.2: Design system prompts, templates, and guardrails"
+  },
+  {
+    "groupId": "2.3",
+    "domain": 2,
+    "examWeight": 13,
+    "readMinutes": 17,
+    "subdomain": "Subdomain 2.3: Apply prompt engineering techniques"
+  },
+  {
+    "groupId": "2.4",
+    "domain": 2,
+    "examWeight": 13,
+    "readMinutes": 24,
+    "subdomain": "Subdomain 2.4: Optimize context windows and manage token usage"
+  },
+  {
+    "groupId": "2.5",
+    "domain": 2,
+    "examWeight": 13,
+    "readMinutes": 20,
+    "subdomain": "Subdomain 2.5: Implement prompt reuse strategies"
+  },
+  {
+    "groupId": "3.1",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 3.1: Evaluate tool/agent configuration for capability bloat"
+  },
+  {
+    "groupId": "3.2",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 25,
+    "subdomain": "Subdomain 3.2: Analyze authentication and authorization requirements to identify security gaps"
+  },
+  {
+    "groupId": "3.3",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 17,
+    "subdomain": "Subdomain 3.3: Evaluate accuracy-latency trade-offs and justify configuration decisions"
+  },
+  {
+    "groupId": "3.4",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 25,
+    "subdomain": "Subdomain 3.4: Analyze observability challenges and select monitoring strategies at scale"
+  },
+  {
+    "groupId": "3.5",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 22,
+    "subdomain": "Subdomain 3.5: Design a RAG pipeline with appropriate chunking and indexing strategies"
+  },
+  {
+    "groupId": "3.6",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 18,
+    "subdomain": "Subdomain 3.6: Apply retrieval strategies matched to data shape and query pattern"
+  },
+  {
+    "groupId": "3.7",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 22,
+    "subdomain": "Subdomain 3.7: Evaluate connection protocols and select the appropriate integration mechanism"
+  },
+  {
+    "groupId": "3.8",
+    "domain": 3,
+    "examWeight": 19,
+    "readMinutes": 17,
+    "subdomain": "Subdomain 3.8: Evaluate progressive discovery vs. monolithic context strategy"
+  },
+  {
+    "groupId": "4.1",
+    "domain": 4,
+    "examWeight": 16,
+    "readMinutes": 20,
+    "subdomain": "Subdomain 4.1: Define evaluation metrics"
+  },
+  {
+    "groupId": "4.2",
+    "domain": 4,
+    "examWeight": 16,
+    "readMinutes": 18,
+    "subdomain": "Subdomain 4.2: Design evaluation datasets and test frameworks using mixed methodologies"
+  },
+  {
+    "groupId": "4.3",
+    "domain": 4,
+    "examWeight": 16,
+    "readMinutes": 18,
+    "subdomain": "Subdomain 4.3: Conduct A/B testing and iterative improvements"
+  },
+  {
+    "groupId": "4.4",
+    "domain": 4,
+    "examWeight": 16,
+    "readMinutes": 17,
+    "subdomain": "Subdomain 4.4: Diagnose system issues"
+  },
+  {
+    "groupId": "4.5",
+    "domain": 4,
+    "examWeight": 16,
+    "readMinutes": 22,
+    "subdomain": "Subdomain 4.5: Optimize token usage, latency, and cost-performance trade-offs"
+  },
+  {
+    "groupId": "4.6",
+    "domain": 4,
+    "examWeight": 16,
+    "readMinutes": 25,
+    "subdomain": "Subdomain 4.6: Monitor system performance using logging and observability tools"
+  },
+  {
+    "groupId": "5.1",
+    "domain": 5,
+    "examWeight": 14,
+    "readMinutes": 29,
+    "subdomain": "Subdomain 5.1: Implement guardrails and safety controls"
+  },
+  {
+    "groupId": "5.2",
+    "domain": 5,
+    "examWeight": 14,
+    "readMinutes": 20,
+    "subdomain": "Subdomain 5.2: Identify risks, limitations, and failure modes of LLM systems"
+  },
+  {
+    "groupId": "5.3",
+    "domain": 5,
+    "examWeight": 14,
+    "readMinutes": 25,
+    "subdomain": "Subdomain 5.3: Apply human-in-the-loop validation strategies"
+  },
+  {
+    "groupId": "5.4",
+    "domain": 5,
+    "examWeight": 14,
+    "readMinutes": 26,
+    "subdomain": "Subdomain 5.4: Ensure compliance with regulations"
+  },
+  {
+    "groupId": "5.5",
+    "domain": 5,
+    "examWeight": 14,
+    "readMinutes": 18,
+    "subdomain": "Subdomain 5.5: Address ethical AI considerations"
+  },
+  {
+    "groupId": "6.1",
+    "domain": 6,
+    "examWeight": 14,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 6.1: Conduct structured discovery and requirement gathering"
+  },
+  {
+    "groupId": "6.2",
+    "domain": 6,
+    "examWeight": 14,
+    "readMinutes": 21,
+    "subdomain": "Subdomain 6.2: Communicate architectural decisions and trade-offs"
+  },
+  {
+    "groupId": "6.3",
+    "domain": 6,
+    "examWeight": 14,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 6.3: Manage stakeholder feedback loops and expectation alignment"
+  },
+  {
+    "groupId": "6.4",
+    "domain": 6,
+    "examWeight": 14,
+    "readMinutes": 22,
+    "subdomain": "Subdomain 6.4: Document architectures and provide implementation guidance"
+  },
+  {
+    "groupId": "6.5",
+    "domain": 6,
+    "examWeight": 14,
+    "readMinutes": 19,
+    "subdomain": "Subdomain 6.5: Support lifecycle phases"
+  },
+  {
+    "groupId": "7.1",
+    "domain": 7,
+    "examWeight": 7,
+    "readMinutes": 24,
+    "subdomain": "Subdomain 7.1: Configure Claude tools and environments for teams"
+  },
+  {
+    "groupId": "7.2",
+    "domain": 7,
+    "examWeight": 7,
+    "readMinutes": 28,
+    "subdomain": "Subdomain 7.2: Improve developer workflows using AI-assisted tooling"
+  },
+  {
+    "groupId": "7.3",
+    "domain": 7,
+    "examWeight": 7,
+    "readMinutes": 23,
+    "subdomain": "Subdomain 7.3: Support debugging and operational issue resolution"
+  }
+]

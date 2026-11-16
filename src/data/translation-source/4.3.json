@@ -1,0 +1,791 @@
+{
+  "pageId": "4.3",
+  "title": "A/B testing prompts: baselines, segments and versioned rollout",
+  "titleVi": "Thử nghiệm A/B cho câu lệnh: mốc chuẩn, phân nhóm và triển khai theo phiên bản",
+  "units": [
+    {
+      "id": "description",
+      "text": "Conduct A/B testing and iterative improvements"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Set a baseline and a numeric target before comparing a prompt or model change"
+    },
+    {
+      "id": "u0002",
+      "text": "Run a fair offline comparison on a held-out eval set, choosing a grader that fits the task"
+    },
+    {
+      "id": "u0003",
+      "text": "Decide when a live A/B test is worth running and what it can and cannot tell you"
+    },
+    {
+      "id": "u0004",
+      "text": "Break results down by segment to catch regressions an aggregate score hides"
+    },
+    {
+      "id": "u0005",
+      "text": "Use pinned versions to canary, promote and roll back prompt changes"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Baseline comparison"
+    },
+    {
+      "id": "u0008",
+      "text": "A change only counts as an improvement if it beats the current production version on the same measurement. Without that measurement, a prompt edit is a guess. The baseline is the version you would keep if the change failed, and the target is how far the change has to beat it."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "Baselines and targets come before the change"
+    },
+    {
+      "id": "u0011",
+      "text": "Offline comparisons on a held-out eval set"
+    },
+    {
+      "id": "u0012",
+      "text": "Keeping the comparison fair"
+    },
+    {
+      "id": "u0013",
+      "text": "When to run a live A/B test"
+    },
+    {
+      "id": "u0014",
+      "text": "Reading results per segment"
+    },
+    {
+      "id": "u0015",
+      "text": "Promote, canary and roll back by version"
+    },
+    {
+      "id": "u0016",
+      "text": "Baselines and targets come before the change"
+    },
+    {
+      "id": "u0017",
+      "text": "Iterative improvement is a loop: change one thing, measure it against what you already have, then keep the change or drop it. The \"what you already have\" is the "
+    },
+    {
+      "id": "u0018",
+      "text": "baseline"
+    },
+    {
+      "id": "u0019",
+      "text": ", which is usually the prompt, model or configuration serving production today. A candidate counts as better only when it beats that baseline on the criterion you set in advance. Feeling better to the person who wrote it doesn't count. Anthropic's guidance lists A/B testing among the quantitative methods for exactly this: comparing performance against a baseline model or an earlier version."
+    },
+    {
+      "id": "u0020",
+      "text": "A target turns the comparison into a decision. The sentiment-classification example in Anthropic's success-criteria guidance does not stop at \"F1 of at least 0.85\". It also says that this figure is a 5% improvement over the current baseline. Each target is anchored to something real: industry benchmarks, prior experiments, AI research or expert knowledge. A prior experiment is itself a baseline. Setting the bar before you run the comparison stops you from moving it once the numbers come in. Choosing which metrics to track is its own skill, covered under "
+    },
+    {
+      "id": "u0021",
+      "text": "defining evaluation metrics"
+    },
+    {
+      "id": "u0022",
+      "text": ". Here the point is that every metric you iterate on needs both a starting value and a finish line."
+    },
+    {
+      "id": "u0023",
+      "text": "Baselines get cheaper once you have them. An eval suite run against the production version records latency, token usage, cost per task and error rates on a fixed bank of tasks. Every later candidate is scored against that record. Teams without one end up in a reactive loop: they wait for complaints, fix one failure, and cannot tell a real regression from noise."
+    },
+    {
+      "id": "u0024",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0025",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0026",
+      "text": "A team revises its ticket-routing prompt. The author says the new wording reads much more clearly, and the revised prompt scores 88% accuracy on the team's eval set. What does the team still need before it can call the revision an improvement?"
+    },
+    {
+      "id": "u0027",
+      "text": "A second reviewer who agrees the new wording is clearer, to confirm the author's judgement"
+    },
+    {
+      "id": "u0028",
+      "text": "Nothing more. 88% accuracy is high enough on its own to count as an improvement"
+    },
+    {
+      "id": "u0029",
+      "text": "A new eval set built around the cases the revision was meant to fix, so the new prompt is measured where it should do best"
+    },
+    {
+      "id": "u0030",
+      "text": "The current production prompt's score on the same eval set, and a target margin over that score that was fixed before the run"
+    },
+    {
+      "id": "u0031",
+      "text": "Sources"
+    },
+    {
+      "id": "u0032",
+      "text": "Offline comparisons on a held-out eval set"
+    },
+    {
+      "id": "u0033",
+      "text": "The fastest fair comparison is offline. Run the baseline and the candidate over the "
+    },
+    {
+      "id": "u0034",
+      "text": "same held-out, labelled set"
+    },
+    {
+      "id": "u0035",
+      "text": " and score both with the same grader. Real users are never exposed to the candidate, the run can be repeated, and it finishes in minutes. Building that set belongs to "
+    },
+    {
+      "id": "u0036",
+      "text": "evaluation dataset design"
+    },
+    {
+      "id": "u0037",
+      "text": ". For the comparison, two things matter: which grader you use and how many cases you have."
+    },
+    {
+      "id": "u0038",
+      "text": "Pick the most objective grader the task allows. A ticket classifier that outputs urgent, normal or low has a clear-cut categorical answer, so "
+    },
+    {
+      "id": "u0039",
+      "text": "exact match"
+    },
+    {
+      "id": "u0040",
+      "text": " against human-labelled ground truth is the right score. It checks whether the output equals the predefined correct label, usually after normalising whitespace and case. Asking Claude to rate its own confidence in each label does not do this, because confidence is not correctness and nothing is checked against the labels. Having two colleagues read samples and vote on which version \"feels\" more accurate is slower and less objective than a score both versions earn on the same answers."
+    },
+    {
+      "id": "u0041",
+      "text": "Open-ended output needs a different score. When a summarisation prompt is compared against human-written reference summaries, exact string match fails almost every case, because two good summaries rarely share wording. "
+    },
+    {
+      "id": "u0042",
+      "text": "ROUGE-L"
+    },
+    {
+      "id": "u0043",
+      "text": " scores a candidate by the longest common subsequence it shares with the reference. A summary that keeps the reference's key information in a similar order scores high, and the F1 can be tracked across prompt variants at scale. Latency is a separate, operational criterion: a faster variant has not shown that its summaries are better."
+    },
+    {
+      "id": "u0044",
+      "text": "Matching the comparison score to the task"
+    },
+    {
+      "id": "u0045",
+      "text": "Task output"
+    },
+    {
+      "id": "u0046",
+      "text": "Score to compare variants on"
+    },
+    {
+      "id": "u0047",
+      "text": "Why"
+    },
+    {
+      "id": "u0048",
+      "text": "Categorical label (sentiment, ticket priority)"
+    },
+    {
+      "id": "u0049",
+      "text": "Exact match against human-labelled answers"
+    },
+    {
+      "id": "u0050",
+      "text": "Unambiguous and cheap to re-run on every candidate"
+    },
+    {
+      "id": "u0051",
+      "text": "Free-text summary with a reference summary"
+    },
+    {
+      "id": "u0052",
+      "text": "ROUGE-L F1 against the reference"
+    },
+    {
+      "id": "u0053",
+      "text": "Rewards keeping the reference's key information in order, which exact match cannot"
+    },
+    {
+      "id": "u0054",
+      "text": "Response speed"
+    },
+    {
+      "id": "u0055",
+      "text": "Response time (ms)"
+    },
+    {
+      "id": "u0056",
+      "text": "An operational criterion, tracked alongside quality rather than in place of it"
+    },
+    {
+      "id": "u0057",
+      "text": "Volume beats hand-polished quality. Anthropic's rule is that more questions with slightly lower-signal automated grading are better than fewer high-quality, hand-graded ones. The reason is economic. Writing questions is mostly a one-time cost, but grading is paid every time the eval is re-run, and iteration means re-running it constantly. Eighty carefully hand-labelled cases that someone must re-grade by hand after every prompt edit will slow you down. An automatically graded set of several hundred cases gives the same comparison every time you run it, at no extra effort."
+    },
+    {
+      "id": "u0058",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0059",
+      "text": "A prompt version whose outputs Claude rates with higher average confidence is the more accurate version."
+    },
+    {
+      "id": "u0060",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0066",
+      "text": "A small, carefully hand-labelled eval set gives a more trustworthy prompt comparison than a larger automatically graded one."
+    },
+    {
+      "id": "u0067",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0073",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0074",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0075",
+      "text": "Two versions of a support-ticket prompt each label every ticket urgent, normal or low. You have 400 tickets that humans have already labelled. Which offline score gives a fair comparison of the two versions?"
+    },
+    {
+      "id": "u0076",
+      "text": "Ask Claude to rate its confidence in each label it gives, and keep the version with the higher average confidence"
+    },
+    {
+      "id": "u0077",
+      "text": "Run both versions on the same 400 tickets and score each by exact match against the human labels"
+    },
+    {
+      "id": "u0078",
+      "text": "Have two colleagues read a sample of outputs from each version and vote on which one feels more accurate"
+    },
+    {
+      "id": "u0079",
+      "text": "Score each version's labels against the human labels with ROUGE-L F1, so near-misses still earn partial credit"
+    },
+    {
+      "id": "u0080",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0081",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0082",
+      "text": "A support-ticket triage team maintains a categorical labeling eval (urgent/normal/low, with human-labeled ground truth) used to compare successive versions of their Claude-based classification prompt. Before promoting a revised prompt candidate, they want the fastest, most objective way to confirm it outperforms the current production prompt on this task. Which approach should they use?"
+    },
+    {
+      "id": "u0083",
+      "text": "Run both prompt versions against the same held-out labeled set and compare exact-match accuracy against the ground-truth category labels"
+    },
+    {
+      "id": "u0084",
+      "text": "Have two support agents independently read a sample of outputs from each version and vote on which one feels more accurate"
+    },
+    {
+      "id": "u0085",
+      "text": "Ask Claude to rate its own confidence in each classification on a 1-5 scale and treat higher average confidence as the better version"
+    },
+    {
+      "id": "u0086",
+      "text": "Deploy the revised prompt to all traffic immediately and monitor ticket resolution time as a proxy for classification quality"
+    },
+    {
+      "id": "u0087",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0088",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0089",
+      "text": "A documentation team is iterating on a prompt that generates article summaries. They have 250 articles paired with human-written reference summaries and want an automated score that rewards a candidate summary for preserving the key information from the reference in a similar order, so they can compare prompt variants at scale during iteration. Which evaluation method best fits this need?"
+    },
+    {
+      "id": "u0090",
+      "text": "Score each candidate summary against its reference using ROUGE-L and track the F1 score across prompt variants"
+    },
+    {
+      "id": "u0091",
+      "text": "Compute exact string match between the candidate summary and the reference summary for each article"
+    },
+    {
+      "id": "u0092",
+      "text": "Ask a separate Claude call to output a single yes/no verdict on whether the summary mentions any protected health information"
+    },
+    {
+      "id": "u0093",
+      "text": "Measure the wall-clock latency of each prompt variant and prefer whichever version returns a response fastest"
+    },
+    {
+      "id": "u0094",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0095",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0096",
+      "text": "A data science lead is designing an eval suite to compare prompt candidates before an A/B test, and a colleague suggests spending the team's limited time hand-labeling 80 carefully reviewed examples rather than building an automated grader over a larger set. Following the recommended approach to eval volume versus grading quality, how should the lead respond?"
+    },
+    {
+      "id": "u0097",
+      "text": "Favor a larger automatically graded set even with somewhat lower per-item signal, since more questions with automated grading generally outweigh fewer high-quality hand-graded ones"
+    },
+    {
+      "id": "u0098",
+      "text": "Agree with the colleague, since hand-labeled examples always produce more trustworthy comparisons regardless of sample size"
+    },
+    {
+      "id": "u0099",
+      "text": "Reduce the eval to just 10 examples so the whole team can hand-review every case before each prompt change"
+    },
+    {
+      "id": "u0100",
+      "text": "Skip building a test set entirely and instead compare prompt versions based on team members' subjective impressions"
+    },
+    {
+      "id": "u0101",
+      "text": "Sources"
+    },
+    {
+      "id": "u0102",
+      "text": "Keeping the comparison fair"
+    },
+    {
+      "id": "u0103",
+      "text": "A comparison is fair when the variable you changed is the only one that differs. Anthropic's support-desk prompt audit shows the discipline. Six system prompts were each built by adding a single pattern, such as \"verify twice\" or \"be maximally thorough\", to the same clean prompt. All six ran on the same 44 tickets with deterministic grading. Because each prompt differed from the clean one by one pattern, each result could be attributed. Removing \"verify twice\" cut cost per ticket by a third. Removing contradictory rules and a hand-rolled scratchpad each restored 7 to 11 points of accuracy. If all six edits had shipped together, only their sum would be visible."
+    },
+    {
+      "id": "u0104",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0105",
+      "text": "You run the same prompt, model and 25-question set three times with exact-match grading and get 6, 7 and 7 correct. What does that tell you about a candidate that scores one question better than the baseline in a single run?"
+    },
+    {
+      "id": "u0106",
+      "text": "Repeated runs are part of being fair, because the same configuration does not give the same score every time. In a data-file benchmark, three identical Claude Sonnet 5 runs answered 6, 7 and 7 of 25 questions correctly. A one-question difference between two variants in a single run is inside that spread. The prompt audit reports its results with this in mind: the Opus 5 accuracy gain carried a 95% confidence interval of 3 to 8 points, while the Sonnet accuracy differences were described as within noise. Before you call a candidate better, check that its margin is bigger than the baseline's own variation."
+    },
+    {
+      "id": "u0107",
+      "text": "Pin everything except the variable under test. That means the same eval set, the same grader, the same model and effort setting, and an explicit version of each prompt. In Managed Agents, passing a bare agent ID gets whatever version is latest. Passing an object with a "
+    },
+    {
+      "id": "u0108",
+      "text": " pins the session to an exact version, which the prompt-versioning cookbook calls what you want for a controlled comparison. When the variable is the model itself, run your actual prompts and data through each candidate model rather than relying on general benchmarks."
+    },
+    {
+      "id": "u0109",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0110",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0111",
+      "text": "Your eval harness opens every Managed Agents session using only the bare agent ID. Colleagues publish new prompt versions throughout the day. You now want to compare the production prompt with one candidate. What should change in the harness first?"
+    },
+    {
+      "id": "u0112",
+      "text": "Keep the bare ID but fix the model and effort setting, since those are the variables that differ between runs"
+    },
+    {
+      "id": "u0113",
+      "text": "Pass the agent ID with an explicit version in each session, so every run uses the exact prompt it is meant to measure"
+    },
+    {
+      "id": "u0114",
+      "text": "Keep the bare ID but run each side three times and average the scores, so any version drift is absorbed as noise"
+    },
+    {
+      "id": "u0115",
+      "text": "Replace exact-match grading with an LLM grader, which copes with the output changing as new versions appear"
+    },
+    {
+      "id": "u0116",
+      "text": "Sources"
+    },
+    {
+      "id": "u0117",
+      "text": "When to run a live A/B test"
+    },
+    {
+      "id": "u0118",
+      "text": "A live A/B test splits real traffic between the baseline and the candidate and measures what users actually do. It can measure things an offline set cannot, such as retention and task completion, and the random split controls for confounds. Task completion rate is one of the implicit user-feedback measures in Anthropic's success-criteria guidance. The cost is time and exposure: reaching significance takes days or weeks, it needs enough traffic, and the candidate is already in front of users."
+    },
+    {
+      "id": "u0119",
+      "text": "Offline evals and live A/B tests answer different questions"
+    },
+    {
+      "id": "u0120",
+      "text": "Method"
+    },
+    {
+      "id": "u0121",
+      "text": "Strength"
+    },
+    {
+      "id": "u0122",
+      "text": "Limitation"
+    },
+    {
+      "id": "u0123",
+      "text": "Automated offline eval"
+    },
+    {
+      "id": "u0124",
+      "text": "Fast, fully reproducible, no user impact, can run on every commit"
+    },
+    {
+      "id": "u0125",
+      "text": "Can create false confidence if it doesn't match real usage patterns"
+    },
+    {
+      "id": "u0126",
+      "text": "Live A/B test"
+    },
+    {
+      "id": "u0127",
+      "text": "Measures actual user outcomes and controls for confounds"
+    },
+    {
+      "id": "u0128",
+      "text": "Slow to reach significance, needs traffic, only tests changes you deploy"
+    },
+    {
+      "id": "u0129",
+      "text": "Production monitoring"
+    },
+    {
+      "id": "u0130",
+      "text": "Catches issues synthetic evals miss"
+    },
+    {
+      "id": "u0131",
+      "text": "Reactive: problems reach users before you know about them"
+    },
+    {
+      "id": "u0132",
+      "text": "The order follows from that table. Automated evals are the first line of defence on every change and model upgrade. A/B testing is for validating significant changes once you have the traffic to support it. Neither is a reason to skip the other. Pushing a revised prompt to all traffic and watching a proxy such as ticket resolution time is not an A/B test either: with no control group, a change in the proxy cannot be attributed to the prompt. A/B results also carry less signal on *why* a metric moved, so pair them with transcript review when a variant wins or loses unexpectedly. Ongoing production monitoring is a separate discipline, covered in "
+    },
+    {
+      "id": "u0133",
+      "text": "monitoring with logging and observability"
+    },
+    {
+      "id": "u0134",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0135",
+      "text": "A live A/B test is the quickest way to find out whether a prompt revision is better."
+    },
+    {
+      "id": "u0136",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0138",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0139",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0140",
+      "text": "Match each way of judging a prompt revision to the role it plays, or its main flaw, in an iterative improvement loop."
+    },
+    {
+      "id": "u0141",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0142",
+      "text": "Automated offline eval on a held-out set"
+    },
+    {
+      "id": "u0143",
+      "text": "Live A/B test"
+    },
+    {
+      "id": "u0144",
+      "text": "Production monitoring"
+    },
+    {
+      "id": "u0145",
+      "text": "Shipping the revision to all traffic and watching ticket resolution time"
+    },
+    {
+      "id": "u0146",
+      "text": "Any change in the metric can't be credited to the prompt, because there is no control group"
+    },
+    {
+      "id": "u0147",
+      "text": "The first check on every change and model upgrade: fast, reproducible and invisible to users"
+    },
+    {
+      "id": "u0148",
+      "text": "Confirms a significant change against real user outcomes once there is enough traffic, but takes days or weeks"
+    },
+    {
+      "id": "u0149",
+      "text": "Catches failures that synthetic evals miss, but only after users have already hit them"
+    },
+    {
+      "id": "u0150",
+      "text": "Sources"
+    },
+    {
+      "id": "u0151",
+      "text": "Reading results per segment"
+    },
+    {
+      "id": "u0152",
+      "text": "An aggregate score is an average, and averages hide where the losses landed. A candidate can gain on the segment it was written for and lose on a neighbouring one, and the overall number may still go up. Real task distributions are mixed, and most use cases are judged on several criteria at once. Score every comparison per category, per input type or per team, as well as overall."
+    },
+    {
+      "id": "u0153",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0154",
+      "text": "A ticket-routing agent sends tickets to four teams: api-platform, auth, billing and dashboard. A new prompt version adds one rule: anything about API usage or rate limits belongs to the platform team. On a usage-billed API product, which team's routing accuracy is most likely to drop?"
+    },
+    {
+      "id": "u0155",
+      "text": "billing, because billing tickets also talk about API usage"
+    },
+    {
+      "id": "u0156",
+      "text": "api-platform, because it now receives more tickets than it can handle"
+    },
+    {
+      "id": "u0157",
+      "text": "None, because the rule only adds tickets to api-platform"
+    },
+    {
+      "id": "u0158",
+      "text": "The same labelled tickets scored per team, v1 against v2: three teams unchanged, billing halved"
+    },
+    {
+      "id": "u0159",
+      "text": "text"
+    },
+    {
+      "id": "u0160",
+      "text": "The change targeted API tickets, and the team that paid for it was billing. On this 20-ticket set the regression also shows in the total, which falls from 19 to 17. Now picture the same rule on a set where many API tickets had been misrouted before. The rule would fix those, the total would rise, and billing's drop would vanish into the improvement. The per-team view finds the problem either way. The support-desk audit used the same approach along a different axis: the averaged result said accuracy went up, and only the per-pattern breakdown showed which edits caused it."
+    },
+    {
+      "id": "u0161",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0162",
+      "text": "Take one prompt you have changed recently. Which segments of its input (customer type, language, ticket category, input length) would you break the next comparison down by, and which of them is closest to the case the change was aimed at?"
+    },
+    {
+      "id": "u0163",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0164",
+      "text": "If the new version's overall score is at least as good, it is safe to promote."
+    },
+    {
+      "id": "u0165",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0167",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0168",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0169",
+      "text": "Version 3 of a support-ticket router adds a rule aimed at refund requests. On the same 300 labelled tickets, overall accuracy rises from 82% to 86%, which clears the pre-set target. Broken down by category, refund tickets go from 36/60 to 57/60, but shipping tickets fall from 54/60 to 42/60. What should the team conclude?"
+    },
+    {
+      "id": "u0170",
+      "text": "Rerun the overall comparison two more times. If the total stays at 86%, the shipping figures can be ignored"
+    },
+    {
+      "id": "u0171",
+      "text": "Promote v3, because the overall score rose by more than the target margin, and that margin was the criterion fixed in advance"
+    },
+    {
+      "id": "u0172",
+      "text": "Don't promote yet. The refund gain hid a real regression on shipping, so the rule needs fixing and a fresh comparison scored per category"
+    },
+    {
+      "id": "u0173",
+      "text": "Promote v3, because the rule only targeted refund tickets, so the shipping drop must come from something else"
+    },
+    {
+      "id": "u0174",
+      "text": "Sources"
+    },
+    {
+      "id": "u0175",
+      "text": "Promote, canary and roll back by version"
+    },
+    {
+      "id": "u0176",
+      "text": "Comparing a candidate with the baseline is only safe when both can be referred to by version. Otherwise the baseline is overwritten the moment you ship the change. Managed Agents makes the prompt a server-side resource. Every "
+    },
+    {
+      "id": "u0177",
+      "text": " creates a new immutable version, and each session chooses which version to run by number. Version 1 still exists after version 2 is created, so the earlier version can always be compared against and returned to, and "
+    },
+    {
+      "id": "u0178",
+      "text": " lists every version."
+    },
+    {
+      "id": "u0179",
+      "text": "Three moves, all done by changing which version is referenced:"
+    },
+    {
+      "id": "u0180",
+      "text": "Canary:"
+    },
+    {
+      "id": "u0181",
+      "text": " route a fraction of traffic to the new version and compare before promoting fully, so the version works like a feature flag."
+    },
+    {
+      "id": "u0182",
+      "text": "Promote:"
+    },
+    {
+      "id": "u0183",
+      "text": " update the config that tells production callers which version to pass. That config change is what goes through review."
+    },
+    {
+      "id": "u0184",
+      "text": "Roll back:"
+    },
+    {
+      "id": "u0185",
+      "text": " callers go back to passing the old version number. No deploy is needed, and the regressed version stays on the server for further iteration."
+    },
+    {
+      "id": "u0186",
+      "text": "The safety of all three depends on production callers pinning to an explicit version. "
+    },
+    {
+      "id": "u0187",
+      "text": " has no built-in approval workflow, and any key in the workspace can call it. A caller passing the bare agent ID picks up the new prompt on its next session, so an unreviewed v2 is live straight away. With explicit pins, anyone can create v2, v3 or v10 as experiments that get no traffic. The pinned number becomes the change-control gate. In the routing example, the billing regression was fixed by re-pinning to version 1, which brought billing back to 4/5, while v2 stayed available to keep working on before a v3 goes through the same comparison."
+    },
+    {
+      "id": "u0188",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0189",
+      "text": "Creating a version is exploration. Changing the version production pins to is the release. If a scenario asks how to make a prompt change reversible without a redeploy, the answer is explicit version pinning plus a reviewed pin change, not editing the prompt in place."
+    },
+    {
+      "id": "u0190",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0191",
+      "text": "Production callers can safely reference the bare agent ID, because a prompt update is reviewed before it reaches them."
+    },
+    {
+      "id": "u0192",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0196",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0197",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0198",
+      "text": "A support team's routing agent runs on Managed Agents, and every production caller pins an explicit version. Match each action to what it actually does to production."
+    },
+    {
+      "id": "u0199",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0200",
+      "text": "Calling agents.update to create v3"
+    },
+    {
+      "id": "u0201",
+      "text": "Canary"
+    },
+    {
+      "id": "u0202",
+      "text": "Promote"
+    },
+    {
+      "id": "u0203",
+      "text": "Roll back"
+    },
+    {
+      "id": "u0204",
+      "text": "Callers go back to passing the earlier version number, with no deploy, and the newer version stays available for further work"
+    },
+    {
+      "id": "u0205",
+      "text": "Sends a fraction of traffic to the new version and compares it with the pinned one before full promotion"
+    },
+    {
+      "id": "u0206",
+      "text": "The release: a reviewed change to the config that tells production callers which version number to pass"
+    },
+    {
+      "id": "u0207",
+      "text": "Exploration: a new immutable version is stored on the server but gets no production traffic"
+    },
+    {
+      "id": "u0208",
+      "text": "Sources"
+    },
+    {
+      "id": "u0209",
+      "text": "Sources"
+    }
+  ]
+}

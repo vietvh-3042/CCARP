@@ -1,0 +1,931 @@
+{
+  "pageId": "4.4",
+  "title": "Diagnosing Claude system failures: hallucination, prompt, tool and model faults",
+  "titleVi": "Chẩn đoán lỗi hệ thống Claude: ảo giác và lỗi câu lệnh, công cụ, mô hình",
+  "units": [
+    {
+      "id": "description",
+      "text": "Diagnose system issues"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Confirm a suspected hallucination in a live system with source checks, cross-sample consistency and citation verification"
+    },
+    {
+      "id": "u0002",
+      "text": "Trace literal-but-unwanted behaviour back to the prompt instruction that caused it"
+    },
+    {
+      "id": "u0003",
+      "text": "Read a tool-use symptom (wrong tool, bad arguments, excess calls) back to a description, schema or prompt cause"
+    },
+    {
+      "id": "u0004",
+      "text": "Recognise a model mismatch in either direction and prove it with an eval before switching"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Symptom-to-layer diagnosis"
+    },
+    {
+      "id": "u0007",
+      "text": "A bad output is a symptom. Before you pick a fix, work out which layer produced it: grounding, the prompt, the tool definitions or the model's capability. A fix aimed at the wrong layer leaves the real cause in place."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Four layers a failure can come from"
+    },
+    {
+      "id": "u0010",
+      "text": "Confirming a suspected hallucination"
+    },
+    {
+      "id": "u0011",
+      "text": "Prompt failure: Claude did what you said, not what you meant"
+    },
+    {
+      "id": "u0012",
+      "text": "Tool misuse: reading the symptom back to its cause"
+    },
+    {
+      "id": "u0013",
+      "text": "Model mismatch: when the model is the wrong size for the work"
+    },
+    {
+      "id": "u0014",
+      "text": "Four layers a failure can come from"
+    },
+    {
+      "id": "u0015",
+      "text": "Once a Claude-based system is live, failures reach you as symptoms: a figure nobody can find in the source, JSON whose keys keep changing, a tool called when another was meant, replies that are slow and expensive. The same symptom can come from different layers, and each layer has its own fix. Diagnosis means naming the layer before you change anything."
+    },
+    {
+      "id": "u0016",
+      "text": "There are four layers to check:"
+    },
+    {
+      "id": "u0017",
+      "text": "Grounding"
+    },
+    {
+      "id": "u0018",
+      "text": ": the model states things its inputs do not support."
+    },
+    {
+      "id": "u0019",
+      "text": "Prompt"
+    },
+    {
+      "id": "u0020",
+      "text": ": the model did what the instructions said, and the instructions were not what you meant."
+    },
+    {
+      "id": "u0021",
+      "text": "Tools"
+    },
+    {
+      "id": "u0022",
+      "text": ": descriptions or schemas leave the model guessing about which tool to call or how to call it."
+    },
+    {
+      "id": "u0023",
+      "text": "Model"
+    },
+    {
+      "id": "u0024",
+      "text": ": the model is the wrong size for the work. Either it is too weak for the task, or it costs more than the task needs."
+    },
+    {
+      "id": "u0025",
+      "text": "A troubleshooting table is the most useful shape for this kind of diagnosis: an observed symptom, its likely cause, then the fix. Anthropic's tool-use troubleshooting guide is organised exactly that way, and the sections below apply the same shape to every layer. The discipline matters most when the fix that comes to mind first belongs to the wrong layer. Adding citations will not make a slow, over-sized model faster. Renaming a tool will not resolve two descriptions that overlap."
+    },
+    {
+      "id": "u0026",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0027",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0028",
+      "text": "A support assistant built on Claude keeps calling "
+    },
+    {
+      "id": "u0029",
+      "text": " when it should call "
+    },
+    {
+      "id": "u0030",
+      "text": ", and the two tools have descriptions that overlap. Which diagnosis and fix go together?"
+    },
+    {
+      "id": "u0031",
+      "text": "Model layer: the model is too weak to tell the tools apart, so move to a larger tier"
+    },
+    {
+      "id": "u0032",
+      "text": "Tools layer: the names are confusing, so rename "
+    },
+    {
+      "id": "u0033",
+      "text": " to something more distinctive"
+    },
+    {
+      "id": "u0034",
+      "text": "Tools layer: the descriptions leave Claude guessing, so sharpen them so each tool's description is clearly distinct"
+    },
+    {
+      "id": "u0035",
+      "text": "Grounding layer: Claude is inventing tool behaviour, so require it to cite quotes for each claim"
+    },
+    {
+      "id": "u0036",
+      "text": "Sources"
+    },
+    {
+      "id": "u0037",
+      "text": "Confirming a suspected hallucination"
+    },
+    {
+      "id": "u0038",
+      "text": "A hallucination is output that is factually wrong or inconsistent with the context the model was given. It is dangerous because it rarely looks wrong. Claude can display quotes that may look authoritative or sound convincing, but are not grounded in fact. Fluency tells you nothing, so a suspicion has to be confirmed with a check that does not depend on how the answer reads."
+    },
+    {
+      "id": "u0039",
+      "text": "Three checks confirm a hallucination in a running system."
+    },
+    {
+      "id": "u0040",
+      "text": "Check claims against the sources."
+    },
+    {
+      "id": "u0041",
+      "text": " Ask Claude to extract word-for-word quotes from the documents before it does its task. A claim with no quote behind it is suspect."
+    },
+    {
+      "id": "u0042",
+      "text": "Check consistency across samples."
+    },
+    {
+      "id": "u0043",
+      "text": " Run the same prompt several times and compare the outputs. Facts that change from run to run were probably generated, not retrieved."
+    },
+    {
+      "id": "u0044",
+      "text": "Verify citations."
+    },
+    {
+      "id": "u0045",
+      "text": " After Claude generates a response, have it find a supporting quote for each claim, and retract any claim it cannot support. A press-release prompt can tell it to delete unsupported claims and mark each gap with empty [] brackets, so a reviewer can see exactly where the gaps were."
+    },
+    {
+      "id": "u0046",
+      "text": "When one answer looks wrong and you want to know why, turn on thinking with "
+    },
+    {
+      "id": "u0047",
+      "text": " and read the summarized reasoning. It can show the faulty assumption the answer was built on."
+    },
+    {
+      "id": "u0048",
+      "text": "Once a hallucination is confirmed, ask why the model produced it. The diagnosed cause decides the fix, and "
+    },
+    {
+      "id": "u0049",
+      "text": "output guardrails against hallucination"
+    },
+    {
+      "id": "u0050",
+      "text": " has the full set of controls. Three causes are common:"
+    },
+    {
+      "id": "u0051",
+      "text": "Missing grounding."
+    },
+    {
+      "id": "u0052",
+      "text": " The answer is not tied to the text. Require quotes first and base the analysis only on those quotes, and tell Claude to use only the provided documents, not its general knowledge."
+    },
+    {
+      "id": "u0053",
+      "text": "A forced answer."
+    },
+    {
+      "id": "u0054",
+      "text": " The prompt leaves no room for \"I don't know\", so the model fills the gap. Explicitly give Claude permission to admit uncertainty."
+    },
+    {
+      "id": "u0055",
+      "text": "Unsupported claims mixed with supported ones."
+    },
+    {
+      "id": "u0056",
+      "text": " Add a cite-or-retract pass after drafting."
+    },
+    {
+      "id": "u0057",
+      "text": "Take a policy assistant that confidently quotes a vacation-accrual rate that appears nowhere in the uploaded PDFs. The cause is missing grounding plus a forced answer. Telling it to fill gaps from general HR knowledge, or to always give a number, makes the failure worse. Repeating the whole document in every reply adds tokens without tying any claim to a quote."
+    },
+    {
+      "id": "u0058",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0059",
+      "text": "When an answer contains a specific fact that is absent from its source documents, the fix is to quote first and allow uncertainty. Instructions that send the model to its general knowledge, or that demand a concrete answer every time, are causes of hallucination, not cures."
+    },
+    {
+      "id": "u0060",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0061",
+      "text": "When a RAG assistant invents a figure, let it supplement gaps in the documents with its general knowledge."
+    },
+    {
+      "id": "u0062",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0064",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0065",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0066",
+      "text": "You've confirmed a hallucination and diagnosed why it happened. Match each diagnosed cause to the fix that targets it."
+    },
+    {
+      "id": "u0067",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0068",
+      "text": "Missing grounding: the answer isn't tied to the document text"
+    },
+    {
+      "id": "u0069",
+      "text": "A forced answer: the prompt leaves no room to decline"
+    },
+    {
+      "id": "u0070",
+      "text": "Unsupported claims mixed in with supported ones"
+    },
+    {
+      "id": "u0071",
+      "text": "After drafting, find a supporting quote for each claim and retract any claim that has none"
+    },
+    {
+      "id": "u0072",
+      "text": "Have Claude extract word-for-word quotes first, base the analysis only on them, and use only the provided documents"
+    },
+    {
+      "id": "u0073",
+      "text": "Explicitly give Claude permission to say it doesn't have enough information"
+    },
+    {
+      "id": "u0074",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0075",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0076",
+      "text": "A retrieval-augmented HR assistant answers employee questions using uploaded policy PDFs. Reviewers find it confidently states a specific vacation-accrual percentage that does not appear anywhere in the source documents. Which change to the assistant's instructions best addresses the root cause of this failure?"
+    },
+    {
+      "id": "u0077",
+      "text": "Require the assistant to quote exact policy text before answering, admitting uncertainty when none exists."
+    },
+    {
+      "id": "u0078",
+      "text": "Have the assistant supplement any gaps in the documents using its general knowledge of typical HR policy."
+    },
+    {
+      "id": "u0079",
+      "text": "Require the assistant to always state a specific numeric figure so employees always get a concrete answer."
+    },
+    {
+      "id": "u0080",
+      "text": "Have the assistant restate the entire policy document at the start of every response for added context."
+    },
+    {
+      "id": "u0081",
+      "text": "Sources"
+    },
+    {
+      "id": "u0082",
+      "text": "Prompt failure: Claude did what you said, not what you meant"
+    },
+    {
+      "id": "u0083",
+      "text": "A prompt failure is easy to recognise: the output follows the instructions, and the result is still unwanted. Nothing was made up and no tool misfired. The model filled a gap the prompt left open, or followed an instruction more literally than its author intended. Treat Claude like a brilliant new employee who lacks context on your norms. A useful test is to show the prompt to a colleague with minimal context on the task and ask them to follow it. If they would get it wrong, so will Claude."
+    },
+    {
+      "id": "u0084",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0085",
+      "text": "An internal tool asks Claude to summarise each support ticket as JSON. The ticket data is clean and consistent, but on some tickets the field names and nesting change, and the downstream parser breaks. What is the most likely cause?"
+    },
+    {
+      "id": "u0086",
+      "text": "Claude is hallucinating ticket details"
+    },
+    {
+      "id": "u0087",
+      "text": "The API is rate-limiting some requests"
+    },
+    {
+      "id": "u0088",
+      "text": "The prompt never pins down the output structure"
+    },
+    {
+      "id": "u0089",
+      "text": "Structure that drifts while the input stays stable is a sign of an underspecified prompt. A hallucination changes facts, not key names. A rate limit causes failed requests, not differently shaped JSON. The fix is to anchor the format: list the exact fields and nesting, and include a sample response. A few well-crafted examples improve accuracy and consistency. Wrapping them in "
+    },
+    {
+      "id": "u0090",
+      "text": " tags keeps them separate from the instructions."
+    },
+    {
+      "id": "u0091",
+      "text": "The other common prompt cause is an instruction given without its reason, which the model then applies too widely. \"NEVER use ellipses\" is followed everywhere. \"Your response will be read aloud by a text-to-speech engine, so never use ellipses\" tells Claude what the rule protects, and it can generalise from that. When you trace a literal-but-wrong behaviour back to its source, look for the bare instruction that caused it. Then apply "
+    },
+    {
+      "id": "u0092",
+      "text": "specific instructions that give the reason"
+    },
+    {
+      "id": "u0093",
+      "text": " to that line."
+    },
+    {
+      "id": "u0094",
+      "text": "A support-desk prompt audited by Anthropic shows how these failures look in practice:"
+    },
+    {
+      "id": "u0095",
+      "text": "Contradictions."
+    },
+    {
+      "id": "u0096",
+      "text": " Line 15 said to confirm before every refund, and line 17 said to process every eligible refund immediately. Another line asked for a complete recap with a three-sentence maximum."
+    },
+    {
+      "id": "u0097",
+      "text": "Literal over-application."
+    },
+    {
+      "id": "u0098",
+      "text": " \"Investigate fully even when the ticket looks simple\" forced four tool calls on a simple package-status ticket."
+    },
+    {
+      "id": "u0099",
+      "text": "Cost from stale instructions."
+    },
+    {
+      "id": "u0100",
+      "text": " \"Verify twice\" raised the cost per ticket."
+    },
+    {
+      "id": "u0101",
+      "text": "The two kinds of stale text cost different things. Instructions the new model follows too literally cost money. Contradictory or outdated text costs accuracy. Removing the contradictory rules restored accuracy."
+    },
+    {
+      "id": "u0102",
+      "text": "An agent makes four tool calls to answer \"where's my package?\" Its tool descriptions are clear. Where is the fault?"
+    },
+    {
+      "id": "u0103",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0104",
+      "text": "JSON keys that change between similar, well-formed inputs mean the model is hallucinating."
+    },
+    {
+      "id": "u0105",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0107",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0108",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0109",
+      "text": "A team's prompt says \"Never give step-by-step instructions.\" They wrote it so customers would not be walked through account deletion without an agent. Claude now won't list the steps for resetting a password either. Nothing was made up and every tool call is correct. Which change fixes the cause?"
+    },
+    {
+      "id": "u0110",
+      "text": "Repeat the rule in capitals in several places so Claude cannot miss it"
+    },
+    {
+      "id": "u0111",
+      "text": "Have Claude quote the rule word for word before it answers each request"
+    },
+    {
+      "id": "u0112",
+      "text": "Add why the rule exists, so Claude can work out which requests it is meant to cover"
+    },
+    {
+      "id": "u0113",
+      "text": "Move to a larger model tier that understands what the author meant"
+    },
+    {
+      "id": "u0114",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0115",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0116",
+      "text": "An internal tool asks Claude to return a JSON object summarizing each support ticket. Across similar tickets, the field names and nesting occasionally change, breaking the downstream parser. Engineers confirm the underlying ticket data is well-formed and consistent. What is the most likely cause, and how should it be fixed?"
+    },
+    {
+      "id": "u0117",
+      "text": "The prompt never specifies a schema, so the fix is a fixed field list and a sample JSON response to anchor the format."
+    },
+    {
+      "id": "u0118",
+      "text": "The tickets contain conflicting information, so the fix is to have Claude flag inconsistent tickets instead of summarizing them."
+    },
+    {
+      "id": "u0119",
+      "text": "The model is hallucinating ticket details, so the fix is to require Claude to quote the original ticket text first."
+    },
+    {
+      "id": "u0120",
+      "text": "The account has hit a rate limit, so the fix is to add retry logic with exponential backoff around each API call."
+    },
+    {
+      "id": "u0121",
+      "text": "Sources"
+    },
+    {
+      "id": "u0122",
+      "text": "Tool misuse: reading the symptom back to its cause"
+    },
+    {
+      "id": "u0123",
+      "text": "Tool failures fall into a few patterns. Agents might call the wrong tools, call the right tools with the wrong parameters, call too few tools, or process tool responses incorrectly. Each pattern points to a specific part of the tool definition, so the symptom tells you where to look."
+    },
+    {
+      "id": "u0124",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0125",
+      "text": "Claude keeps calling search_orders when you wanted lookup_order. Which change is most likely to fix it?"
+    },
+    {
+      "id": "u0126",
+      "text": "Move the tool you prefer to the top of the tools array"
+    },
+    {
+      "id": "u0127",
+      "text": "Give the tools more distinctive names"
+    },
+    {
+      "id": "u0128",
+      "text": "Rewrite both descriptions to say when each one should be used"
+    },
+    {
+      "id": "u0129",
+      "text": "Tool-use symptoms and the definition fault behind each"
+    },
+    {
+      "id": "u0130",
+      "text": "Symptom"
+    },
+    {
+      "id": "u0131",
+      "text": "Likely cause"
+    },
+    {
+      "id": "u0132",
+      "text": "Fix"
+    },
+    {
+      "id": "u0133",
+      "text": "Calls tool A when you wanted tool B"
+    },
+    {
+      "id": "u0134",
+      "text": "Description ambiguity"
+    },
+    {
+      "id": "u0135",
+      "text": "Sharpen descriptions; differentiate by when to use each tool"
+    },
+    {
+      "id": "u0136",
+      "text": "Never calls your tool"
+    },
+    {
+      "id": "u0137",
+      "text": "Tool name collision or overly generic schema"
+    },
+    {
+      "id": "u0138",
+      "text": "Check for duplicate names; add input_examples"
+    },
+    {
+      "id": "u0139",
+      "text": "Wrong parameter types"
+    },
+    {
+      "id": "u0140",
+      "text": "Model guessing at an ambiguous schema"
+    },
+    {
+      "id": "u0141",
+      "text": "Add strict: true (supported subset) or input_examples"
+    },
+    {
+      "id": "u0142",
+      "text": "Parameter that does not exist in the schema"
+    },
+    {
+      "id": "u0143",
+      "text": "Over-generation without strict mode"
+    },
+    {
+      "id": "u0144",
+      "text": "Add strict: true"
+    },
+    {
+      "id": "u0145",
+      "text": "Values outside your enum"
+    },
+    {
+      "id": "u0146",
+      "text": "Missing strict mode or too-large enum"
+    },
+    {
+      "id": "u0147",
+      "text": "Shrink the enum or add input_examples"
+    },
+    {
+      "id": "u0148",
+      "text": "Refuses to act on a tool result, or asks the user to confirm its instructions"
+    },
+    {
+      "id": "u0149",
+      "text": "Your instructions are inside the tool_result content"
+    },
+    {
+      "id": "u0150",
+      "text": "Move instructions to a user turn after the tool_result; keep the result to data"
+    },
+    {
+      "id": "u0151",
+      "text": "Most wrong-tool problems come from overlapping tools. When tools overlap in function or have a vague purpose, agents get confused about which one to use. Prefixes that group tools by service, such as "
+    },
+    {
+      "id": "u0152",
+      "text": " and "
+    },
+    {
+      "id": "u0153",
+      "text": ", help separate them. Argument errors come from the schema instead: when a schema is ambiguous, the model guesses, and "
+    },
+    {
+      "id": "u0154",
+      "text": " or concrete "
+    },
+    {
+      "id": "u0155",
+      "text": " remove the need to guess. The last row of the table is often mistaken for a model fault. Claude is trained to treat instructions inside tool results as potentially untrusted third-party content, so a refusal there means the instructions are in the wrong place."
+    },
+    {
+      "id": "u0156",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0157",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0158",
+      "text": "Each symptom below comes from a live tool-use agent, and none of them is a wrong-tool choice. Match each symptom to the fix that targets its cause."
+    },
+    {
+      "id": "u0159",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0160",
+      "text": "Claude never calls your tool at all"
+    },
+    {
+      "id": "u0161",
+      "text": "Claude sends a parameter that does not exist in your schema"
+    },
+    {
+      "id": "u0162",
+      "text": "Claude passes values that are not in your enum"
+    },
+    {
+      "id": "u0163",
+      "text": "Claude refuses to act on a tool result, or asks the user to confirm instructions that came from it"
+    },
+    {
+      "id": "u0164",
+      "text": "Shrink the enum or add input_examples showing the valid choices"
+    },
+    {
+      "id": "u0165",
+      "text": "Move your instructions into a user turn after the tool_result and keep the result to data only"
+    },
+    {
+      "id": "u0166",
+      "text": "Add strict: true so the model cannot generate parameters outside the schema"
+    },
+    {
+      "id": "u0167",
+      "text": "Check the tool list for duplicate names and add input_examples that show the intended use"
+    },
+    {
+      "id": "u0168",
+      "text": "Sources"
+    },
+    {
+      "id": "u0169",
+      "text": "Model mismatch: when the model is the wrong size for the work"
+    },
+    {
+      "id": "u0170",
+      "text": "A model mismatch is a failure that rewording the prompt or the tools cannot fix, because the cause is the model's capability compared with the task. It runs in two directions, and they look nothing alike."
+    },
+    {
+      "id": "u0171",
+      "text": "An "
+    },
+    {
+      "id": "u0172",
+      "text": "over-provisioned"
+    },
+    {
+      "id": "u0173",
+      "text": " model gets the answers right but is slow and expensive for the work. Think of a high-volume chat widget answering short, templated questions about order status and store hours on a frontier model. Nothing is being made up, and short questions do not overflow a context window. The task simply does not need that much model. For high-volume, straightforward tasks and tight latency budgets, the recommended starting point is the fastest, cheapest tier: Claude Haiku 5.5 suits high-volume and latency-sensitive work with checkable outputs. Make the answer longer or the prompt more detailed and you add cost without fixing the mismatch."
+    },
+    {
+      "id": "u0174",
+      "text": "An "
+    },
+    {
+      "id": "u0175",
+      "text": "under-provisioned"
+    },
+    {
+      "id": "u0176",
+      "text": " model misses the quality bar even though the prompt is clear and the tools are well defined. Before you switch tiers, check effort. Several models trade intelligence for latency and cost within a single model, and tuning effort is often a better lever than switching models. If quality is not good enough and you lowered effort earlier, restore it. Otherwise, try the next tier up at its default effort. From cheapest to most capable, the current tiers are Claude Haiku 5.5, Claude Sonnet 5.5, Claude Opus 5.5 and Claude Fable 5.1."
+    },
+    {
+      "id": "u0177",
+      "text": "Anthropic-internal measurements: a larger model is not automatically the better fit"
+    },
+    {
+      "id": "u0178",
+      "text": "Benchmark"
+    },
+    {
+      "id": "u0179",
+      "text": "Model and effort"
+    },
+    {
+      "id": "u0180",
+      "text": "Score"
+    },
+    {
+      "id": "u0181",
+      "text": "Cost"
+    },
+    {
+      "id": "u0182",
+      "text": "SWE-bench Pro subset"
+    },
+    {
+      "id": "u0183",
+      "text": "Claude Sonnet 5.5, high (default)"
+    },
+    {
+      "id": "u0184",
+      "text": "87.6% solved"
+    },
+    {
+      "id": "u0185",
+      "text": "$0.11 USD per solved task"
+    },
+    {
+      "id": "u0186",
+      "text": "SWE-bench Pro subset"
+    },
+    {
+      "id": "u0187",
+      "text": "Claude Opus 5.5, medium (default)"
+    },
+    {
+      "id": "u0188",
+      "text": "92.8% solved"
+    },
+    {
+      "id": "u0189",
+      "text": "$0.22 USD per solved task"
+    },
+    {
+      "id": "u0190",
+      "text": "SWE-bench Pro subset"
+    },
+    {
+      "id": "u0191",
+      "text": "Claude Fable 5.1, high (default)"
+    },
+    {
+      "id": "u0192",
+      "text": "92.3% solved (single run)"
+    },
+    {
+      "id": "u0193",
+      "text": "$1.19 USD per solved task"
+    },
+    {
+      "id": "u0194",
+      "text": "GPQA Diamond"
+    },
+    {
+      "id": "u0195",
+      "text": "Claude Haiku 5.5, medium (default)"
+    },
+    {
+      "id": "u0196",
+      "text": "85% vs 91% for Opus 5.5 and Sonnet 5.5"
+    },
+    {
+      "id": "u0197",
+      "text": "About a twentieth of Opus 5.5's cost per correct answer"
+    },
+    {
+      "id": "u0198",
+      "text": "The table shows why models should be compared on cost per completed task, not cost per token. On that benchmark subset, Fable 5.1 matched Opus 5.5 within run-to-run noise at about five times the cost per solved task. A suspected mismatch is still a hypothesis until you test it. Build benchmark tests on your own prompts and data, then compare the candidate models on accuracy, response quality and edge-case handling. Run the comparison as a head-to-head eval against your current baseline before switching, using "
+    },
+    {
+      "id": "u0199",
+      "text": "baselines, offline comparisons and live A/B tests"
+    },
+    {
+      "id": "u0200",
+      "text": "A mismatch can also come from a model change rather than a capability gap. Prompts written for an older model can fail on a newer one. In the audit above, a "
+    },
+    {
+      "id": "u0201",
+      "text": " setting returned a 400 error on Opus 5, and stale instructions raised costs after the migration. When failures begin right after a model switch, audit the prompts and request code against the new model before you conclude that the model is too weak."
+    },
+    {
+      "id": "u0202",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0203",
+      "text": "Pick one workload you run today. Would you describe it as high-volume and checkable, or as demanding reasoning? Which tier and effort level would your evals need to show before you moved it?"
+    },
+    {
+      "id": "u0204",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0205",
+      "text": "If quality is not good enough, move straight to a bigger model."
+    },
+    {
+      "id": "u0206",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0208",
+      "text": "Slow, expensive replies on simple templated questions call for more guardrails or a longer prompt."
+    },
+    {
+      "id": "u0209",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0211",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0212",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0213",
+      "text": "To cut costs, a team lowered effort on their Claude Sonnet 5.5 contract-review assistant from its default of high to low. The prompt is clear and the tools are well defined, but answer quality now falls short. What should they try first?"
+    },
+    {
+      "id": "u0214",
+      "text": "Switch to Claude Opus 5.5, since a weaker model is the likely cause"
+    },
+    {
+      "id": "u0215",
+      "text": "Go straight to Claude Fable 5.1, the most capable tier, so quality is no longer a concern"
+    },
+    {
+      "id": "u0216",
+      "text": "Restore effort to its default on Claude Sonnet 5.5 and re-run their evals"
+    },
+    {
+      "id": "u0217",
+      "text": "Add a cite-or-retract pass so that weak answers get removed"
+    },
+    {
+      "id": "u0218",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0219",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0220",
+      "text": "Thousands of shoppers an hour use a store's chat widget, which runs on Claude Opus 5.5 and answers short, templated questions about order status and opening hours. The answers are correct, but replies are slow and the monthly bill is high. Which diagnosis and next step fit?"
+    },
+    {
+      "id": "u0221",
+      "text": "Model layer: the model is struggling, so move up to Claude Fable 5.1"
+    },
+    {
+      "id": "u0222",
+      "text": "Prompt layer: add more detailed instructions and guardrails so each answer is more complete"
+    },
+    {
+      "id": "u0223",
+      "text": "Model layer: the model is larger than the task needs, so evaluate Claude Haiku 5.5 against the current baseline"
+    },
+    {
+      "id": "u0224",
+      "text": "Grounding layer: require quotes first, because confident answers may not be grounded"
+    },
+    {
+      "id": "u0225",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0226",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0227",
+      "text": "A team deployed Claude Opus 4.8 behind a high-volume customer-facing chat widget that only answers short, templated questions such as order status and store hours. Users complain about slow replies, and the monthly API bill is far higher than projected. What is the most likely diagnosis?"
+    },
+    {
+      "id": "u0228",
+      "text": "The workload is a model mismatch: a lighter model like Claude Haiku 4.5 would meet the accuracy bar at lower cost."
+    },
+    {
+      "id": "u0229",
+      "text": "The workload is exposing a hallucination problem, so citation verification should be added to every templated reply."
+    },
+    {
+      "id": "u0230",
+      "text": "The workload is exceeding the context window, so responses are being silently truncated before reaching the user."
+    },
+    {
+      "id": "u0231",
+      "text": "The workload needs a longer, more detailed system prompt so Claude has enough detail for each short templated reply."
+    },
+    {
+      "id": "u0232",
+      "text": "Sources"
+    },
+    {
+      "id": "u0233",
+      "text": "Sources"
+    }
+  ]
+}

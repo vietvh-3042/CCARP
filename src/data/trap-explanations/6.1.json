@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "Discovery may reveal that speed and budget dominate. Evaluate an economical model first, escalating capability only when measured task performance shows a specific shortfall.",
+    "vi": "Giai đoạn khám phá có thể cho thấy tốc độ và ngân sách mới là ưu tiên. Hãy đánh giá mô hình tiết kiệm trước, chỉ tăng năng lực khi kết quả đo cho thấy thiếu hụt cụ thể."
+  },
+  "exam-trap-2": {
+    "en": "Accuracy captures only one requirement. Define separate measurable limits for the other outcomes that matter, including safety, response time, and operating cost.",
+    "vi": "Độ chính xác chỉ phản ánh một yêu cầu. Cần đặt giới hạn đo được riêng cho những kết quả quan trọng khác, gồm an toàn, thời gian phản hồi và chi phí vận hành."
+  },
+  "exam-trap-3": {
+    "en": "Agree on acceptance criteria before implementation. Writing tests afterward risks validating the delivered behavior instead of the outcome stakeholders actually requested.",
+    "vi": "Cần thống nhất tiêu chí nghiệm thu trước khi triển khai. Viết kiểm thử sau có nguy cơ chỉ xác nhận hành vi đã làm ra thay vì kết quả các bên thực sự yêu cầu."
+  },
+  "exam-trap-4": {
+    "en": "Tests can faithfully encode the wrong goal. If users remain dissatisfied, revisit requirements and acceptance criteria instead of assuming passing assertions prove success.",
+    "vi": "Kiểm thử có thể phản ánh chính xác một mục tiêu sai. Nếu người dùng vẫn không hài lòng, hãy xem lại yêu cầu và tiêu chí nghiệm thu thay vì coi mọi khẳng định đạt là thành công."
+  }
+}

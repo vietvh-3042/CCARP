@@ -1,0 +1,591 @@
+{
+  "pageId": "3.5",
+  "title": "RAG ingestion: chunking, embeddings and contextual indexing",
+  "titleVi": "Nạp dữ liệu cho RAG: chia đoạn, tạo vector nhúng và lập chỉ mục theo ngữ cảnh",
+  "units": [
+    {
+      "id": "description",
+      "text": "Design a RAG pipeline with appropriate chunking and indexing strategies"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide whether a knowledge base needs a RAG pipeline or can go into the prompt whole"
+    },
+    {
+      "id": "u0002",
+      "text": "Explain how chunk size, boundaries and overlap affect retrieval, and why a split-off chunk loses its document context"
+    },
+    {
+      "id": "u0003",
+      "text": "Choose a Voyage embedding model and call it with the correct input_type for documents and for queries"
+    },
+    {
+      "id": "u0004",
+      "text": "Build contextual embeddings and a contextual BM25 index from the same generated chunk context, using prompt caching to keep the cost low"
+    },
+    {
+      "id": "u0005",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0006",
+      "text": "Contextual retrieval"
+    },
+    {
+      "id": "u0007",
+      "text": "Before indexing, Claude writes a short context for each chunk that places it within its source document. That context is prepended to the chunk before it is embedded and before it is added to the BM25 index, so both indexes can find chunks that make no sense on their own."
+    },
+    {
+      "id": "u0008",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0009",
+      "text": "Chunk size, boundaries and the context a chunk loses"
+    },
+    {
+      "id": "u0010",
+      "text": "Choosing and calling the embedding model"
+    },
+    {
+      "id": "u0011",
+      "text": "Contextual embeddings and contextual BM25"
+    },
+    {
+      "id": "u0012",
+      "text": "Chunk size, boundaries and the context a chunk loses"
+    },
+    {
+      "id": "u0013",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0014",
+      "text": "Your team's product knowledge base is about 150,000 tokens and changes once a month. What is the simplest design that works?"
+    },
+    {
+      "id": "u0015",
+      "text": "Put the whole knowledge base in the prompt and use prompt caching"
+    },
+    {
+      "id": "u0016",
+      "text": "Chunk it, embed the chunks and store them in a vector database"
+    },
+    {
+      "id": "u0017",
+      "text": "Fine-tune an embedding model on it before indexing"
+    },
+    {
+      "id": "u0018",
+      "text": "Retrieval-augmented generation (RAG) finds relevant passages in a knowledge base and adds them to the prompt. The first design question is whether you need it at all. A knowledge base under about 200,000 tokens, roughly 500 pages, can go into the prompt whole, and prompt caching keeps repeated requests fast and cheap. RAG is worth its extra moving parts once the corpus no longer fits in the context window."
+    },
+    {
+      "id": "u0019",
+      "text": "Most of a RAG pipeline's work happens at ingestion. The corpus is split into chunks, usually no more than a few hundred tokens each. An embedding model turns each chunk into a vector, and a vector database stores those vectors so they can be searched by semantic similarity. At query time, the closest chunks are added to the prompt sent to Claude."
+    },
+    {
+      "id": "u0020",
+      "text": "Chunk size, chunk boundary and chunk overlap are three settings you tune, and each one can change retrieval performance. Splitting on headings keeps each subsection's content together. A basic character splitter cuts wherever the character count runs out, whatever the text says at that point. Overlap belongs in the same list. Removing it to speed up indexing changes retrieval, so measure the effect like any other retrieval change."
+    },
+    {
+      "id": "u0021",
+      "text": "Every chunk size has the same cost: once split off, a chunk loses the document around it. Take a set of SEC filings and the chunk 'The company's revenue grew by 3% over the previous quarter.' It answers a question about ACME Corp's revenue growth in Q2 2023, but it names neither the company nor the quarter. A query about ACME in Q2 2023 has little in that chunk to match. Even if the chunk is retrieved, Claude can't tell which company it describes."
+    },
+    {
+      "id": "u0022",
+      "text": "There are two ways to put that context back. One is to write it into each chunk before indexing; this is contextual retrieval, covered below. The other is a contextualized chunk embedding model such as "
+    },
+    {
+      "id": "u0023",
+      "text": ". It produces chunk-level vectors that carry the whole document's context without you adding metadata by hand. You call it with "
+    },
+    {
+      "id": "u0024",
+      "text": " instead of "
+    },
+    {
+      "id": "u0025",
+      "text": "Checkpoint 1 of 6"
+    },
+    {
+      "id": "u0026",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0027",
+      "text": "Your RAG pipeline indexes an HR policy library. One chunk reads: 'Employees in this region receive 25 days of paid leave per year.' The region is only named in the document's title. The query 'How many vacation days do employees in the Netherlands get?' does not return this chunk. What is the cause, and what fixes it?"
+    },
+    {
+      "id": "u0028",
+      "text": "The chunk overlap is creating near-duplicate vectors. Remove the overlap so each chunk is distinct and ranks higher."
+    },
+    {
+      "id": "u0029",
+      "text": "The chunks are too large. Re-split the corpus into smaller chunks with a basic character splitter so each vector focuses on a single fact."
+    },
+    {
+      "id": "u0030",
+      "text": "The chunk has lost the document around it, so nothing in it says which region it covers. Put that context back by writing chunk-specific context into each chunk before indexing, or by using a contextualized chunk embedding model such as voyage-context-4."
+    },
+    {
+      "id": "u0031",
+      "text": "The embedding model cannot match 'vacation days' to 'paid leave'. Fine-tune the embedding model on the HR vocabulary before re-indexing."
+    },
+    {
+      "id": "u0032",
+      "text": "Sources"
+    },
+    {
+      "id": "u0033",
+      "text": "Choosing and calling the embedding model"
+    },
+    {
+      "id": "u0034",
+      "text": "Anthropic doesn't make an embedding model, so this step uses a third-party provider. Claude's documentation uses Voyage AI as its example and still advises comparing several vendors. Three factors separate providers. The first is how large and how domain-relevant the model's training data is. The second is inference performance, meaning lookup speed and end-to-end latency, which matters most in large production deployments. The third is customization: whether you can keep training the model on private data so it handles an unusual vocabulary."
+    },
+    {
+      "id": "u0035",
+      "text": "Voyage AI embedding models: how to call each one and when to pick it"
+    },
+    {
+      "id": "u0036",
+      "text": "Model"
+    },
+    {
+      "id": "u0037",
+      "text": "Call with"
+    },
+    {
+      "id": "u0038",
+      "text": "Context length"
+    },
+    {
+      "id": "u0039",
+      "text": "Pick it when"
+    },
+    {
+      "id": "u0040",
+      "text": "voyage-4-large"
+    },
+    {
+      "id": "u0041",
+      "text": "embed()"
+    },
+    {
+      "id": "u0042",
+      "text": "You want the best general-purpose and multilingual retrieval quality"
+    },
+    {
+      "id": "u0043",
+      "text": "voyage-4"
+    },
+    {
+      "id": "u0044",
+      "text": "embed()"
+    },
+    {
+      "id": "u0045",
+      "text": "You want to balance quality and efficiency"
+    },
+    {
+      "id": "u0046",
+      "text": "voyage-4-lite"
+    },
+    {
+      "id": "u0047",
+      "text": "embed()"
+    },
+    {
+      "id": "u0048",
+      "text": "Latency and cost come first"
+    },
+    {
+      "id": "u0049",
+      "text": "voyage-code-4"
+    },
+    {
+      "id": "u0050",
+      "text": "embed()"
+    },
+    {
+      "id": "u0051",
+      "text": "The corpus is code, or the use is agentic coding"
+    },
+    {
+      "id": "u0052",
+      "text": "voyage-law-2"
+    },
+    {
+      "id": "u0053",
+      "text": "embed()"
+    },
+    {
+      "id": "u0054",
+      "text": "You're doing legal retrieval and RAG"
+    },
+    {
+      "id": "u0055",
+      "text": "voyage-finance-2"
+    },
+    {
+      "id": "u0056",
+      "text": "embed()"
+    },
+    {
+      "id": "u0057",
+      "text": "You're doing finance retrieval and RAG"
+    },
+    {
+      "id": "u0058",
+      "text": "voyage-context-4"
+    },
+    {
+      "id": "u0059",
+      "text": "contextualized_embed()"
+    },
+    {
+      "id": "u0060",
+      "text": "120,000 with enable_auto_chunking"
+    },
+    {
+      "id": "u0061",
+      "text": "You want chunk-level vectors that carry the whole document's context"
+    },
+    {
+      "id": "u0062",
+      "text": "voyage-multimodal-3.5"
+    },
+    {
+      "id": "u0063",
+      "text": "multimodal_embed()"
+    },
+    {
+      "id": "u0064",
+      "text": "You need to embed text, images and video together"
+    },
+    {
+      "id": "u0065",
+      "text": "Context length matters more once you add context to chunks. Some embedding models have a fixed input token limit. If contextualized chunks retrieve worse than plain ones, the added text may be pushing them past that limit so they get truncated. The fix is a model with a larger context window. "
+    },
+    {
+      "id": "u0066",
+      "text": ", for example, accepts half the input of the general-purpose models."
+    },
+    {
+      "id": "u0067",
+      "text": "Embed documents and queries differently. Set "
+    },
+    {
+      "id": "u0068",
+      "text": " when you embed chunks and "
+    },
+    {
+      "id": "u0069",
+      "text": " when you embed the user's question. Don't omit the parameter or set it to "
+    },
+    {
+      "id": "u0070",
+      "text": ". Voyage prepends a different instruction to each kind of input: 'Represent the document for retrieval: ' for chunks and 'Represent the query for retrieving supporting documents: ' for questions. This gives better vectors for retrieval, which in turn improves retrieval quality."
+    },
+    {
+      "id": "u0071",
+      "text": "Voyage vectors are normalized to length 1. That makes cosine similarity equal to dot product, and dot product is quicker to compute. Euclidean distance gives the same ranking too, so the similarity metric you choose won't change which chunks come back."
+    },
+    {
+      "id": "u0072",
+      "text": "Two output settings make the index smaller without making retrieval more accurate. "
+    },
+    {
+      "id": "u0073",
+      "text": " quantizes each vector. With "
+    },
+    {
+      "id": "u0074",
+      "text": " or "
+    },
+    {
+      "id": "u0075",
+      "text": ", storage, memory and cost drop by 4x; with "
+    },
+    {
+      "id": "u0076",
+      "text": " or "
+    },
+    {
+      "id": "u0077",
+      "text": ", they drop by 32x. The default, "
+    },
+    {
+      "id": "u0078",
+      "text": ", keeps the highest precision and retrieval accuracy. "
+    },
+    {
+      "id": "u0079",
+      "text": " (for example 256 instead of the default 1024) returns shorter Matryoshka vectors, and vectors you've already stored can be cut down to their leading dimensions and normalized again. Use these settings when index size or cost is the problem. They won't help when relevant chunks are going missing."
+    },
+    {
+      "id": "u0080",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0081",
+      "text": "You can leave input_type out and embed queries and chunks the same way, because the model handles both."
+    },
+    {
+      "id": "u0082",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0084",
+      "text": "Checkpoint 2 of 6"
+    },
+    {
+      "id": "u0085",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0086",
+      "text": "Match each Voyage AI embedding model to the situation where you would pick it."
+    },
+    {
+      "id": "u0087",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0088",
+      "text": "voyage-4-lite"
+    },
+    {
+      "id": "u0089",
+      "text": "voyage-law-2"
+    },
+    {
+      "id": "u0090",
+      "text": "voyage-code-4"
+    },
+    {
+      "id": "u0091",
+      "text": "voyage-context-4"
+    },
+    {
+      "id": "u0092",
+      "text": "voyage-multimodal-3.5"
+    },
+    {
+      "id": "u0093",
+      "text": "Latency and cost matter more than anything else"
+    },
+    {
+      "id": "u0094",
+      "text": "Text, images and video embedded together, called with multimodal_embed()"
+    },
+    {
+      "id": "u0095",
+      "text": "Legal retrieval and RAG, with half the input limit of the general-purpose models"
+    },
+    {
+      "id": "u0096",
+      "text": "Chunk-level vectors that carry the whole document's context, called with contextualized_embed()"
+    },
+    {
+      "id": "u0097",
+      "text": "The corpus is source code, or the use is agentic coding"
+    },
+    {
+      "id": "u0098",
+      "text": "Checkpoint 3 of 6"
+    },
+    {
+      "id": "u0099",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0100",
+      "text": "A colleague reviewing your ingestion code removes input_type from every Voyage embed() call. They say one model embeds queries and chunks into the same vector space, so the label adds nothing. What should you do?"
+    },
+    {
+      "id": "u0101",
+      "text": "Leave input_type out, but switch the similarity metric from dot product to cosine similarity to make up for the unlabelled inputs."
+    },
+    {
+      "id": "u0102",
+      "text": "Set input_type=\"query\" on both chunks and questions, so the two kinds of input get the same instruction and match more closely."
+    },
+    {
+      "id": "u0103",
+      "text": "Keep it: embed chunks with input_type=\"document\" and user questions with input_type=\"query\", because Voyage prepends a different retrieval instruction to each and that gives better vectors."
+    },
+    {
+      "id": "u0104",
+      "text": "Agree: leaving input_type out keeps queries and chunks directly comparable, and labelling them differently would put them in incompatible spaces."
+    },
+    {
+      "id": "u0105",
+      "text": "Sources"
+    },
+    {
+      "id": "u0106",
+      "text": "Contextual embeddings and contextual BM25"
+    },
+    {
+      "id": "u0107",
+      "text": "Contextual retrieval writes the missing document context back into each chunk before indexing. For each chunk, Claude receives the whole document and the chunk and returns a short context, usually 50 to 100 tokens, that places the chunk within the document. That context is prepended to the chunk. The ACME chunk becomes 'This chunk is from an SEC filing on ACME corp's performance in Q2 2023; the previous quarter's revenue was $314 million.' followed by the original sentence."
+    },
+    {
+      "id": "u0108",
+      "text": "The contextualizer prompt Anthropic used with Claude 3 Haiku to generate per-chunk context"
+    },
+    {
+      "id": "u0109",
+      "text": "text"
+    },
+    {
+      "id": "u0110",
+      "text": "The same contextualized chunk goes into both indexes. Pipelines keep a lexical index next to the vector index because embeddings can miss exact strings, such as error code TS-999, that BM25 matches ("
+    },
+    {
+      "id": "u0111",
+      "text": "Semantic embeddings vs BM25, and hybrid search"
+    },
+    {
+      "id": "u0112",
+      "text": "). Prepend the generated context before embedding the chunk; this is contextual embeddings. Prepend the same text before tokenizing the chunk for the BM25 index; this is contextual BM25. The original chunk text is still there, so BM25 still matches product codes and error strings exactly. It now also matches the company names, periods and file names that appeared only elsewhere in the document."
+    },
+    {
+      "id": "u0113",
+      "text": "Each index improves measurably. Across codebases, fiction, ArXiv papers and science papers, contextual embeddings alone cut the top-20 retrieval failure rate by 35%, from 5.7% to 3.7%. Adding contextual BM25 raised the cut to 49%, bringing the failure rate to 2.9%. Contextualizing helped with every embedding model tested, and Gemini and Voyage embeddings gained the most."
+    },
+    {
+      "id": "u0114",
+      "text": "The context has to be about the specific chunk. Attaching a generic document summary to every chunk gave very limited gains, and summary-based indexing performed poorly. The generic prompt above works well. A prompt tailored to your domain can work better, for example one that includes a glossary of terms defined only in other documents."
+    },
+    {
+      "id": "u0115",
+      "text": "Prompt caching keeps the cost down. Each chunk's request repeats the whole document, so put the document first and mark the end of it with "
+    },
+    {
+      "id": "u0116",
+      "text": ". The first chunk writes the document to the cache, and the following chunks read it at a 90% discount. The cache lasts five minutes, so process each document's chunks one after another instead of mixing chunks from different documents. With 800-token chunks, 8k-token documents and 100 tokens of context per chunk, generating the context costs $1.02 per million document tokens. That cost is paid once, at ingestion, not on every query. On a 737-chunk codebase dataset, caching cut input cost from about $9.20 to about $2.85."
+    },
+    {
+      "id": "u0117",
+      "text": "A pipeline adds context to chunks and processes them in random order across 9 source files. Its cache hit rate is close to zero. Why?"
+    },
+    {
+      "id": "u0118",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0119",
+      "text": "Add the generated context only to the embeddings and keep the BM25 index on raw chunk text so it still matches exactly."
+    },
+    {
+      "id": "u0120",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0122",
+      "text": "Attaching the same document summary to every chunk gives the same improvement as contextual retrieval."
+    },
+    {
+      "id": "u0123",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0125",
+      "text": "Checkpoint 4 of 6"
+    },
+    {
+      "id": "u0126",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0127",
+      "text": "An engineer wants BM25 to keep matching product codes like TS-999 exactly. They propose prepending Claude's generated context only to the text sent to the embedding model, and indexing the raw chunks in BM25. What is the right design?"
+    },
+    {
+      "id": "u0128",
+      "text": "Accept it: the context only helps semantic search, and adding it to BM25 would stop exact codes from matching."
+    },
+    {
+      "id": "u0129",
+      "text": "Prepend the same generated context before embedding and before BM25 indexing. The original chunk text is still there, so exact codes still match, and BM25 can now also match names and periods that appeared only elsewhere in the document."
+    },
+    {
+      "id": "u0130",
+      "text": "Keep both indexes on raw chunks and pass the generated context to Claude at query time instead."
+    },
+    {
+      "id": "u0131",
+      "text": "Prepend the context only in BM25 and embed the raw chunks, because embeddings already capture the document's meaning."
+    },
+    {
+      "id": "u0132",
+      "text": "Checkpoint 5 of 6"
+    },
+    {
+      "id": "u0133",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0134",
+      "text": "Anthropic used this contextualizer prompt to generate each chunk's context. What goes in the blank?"
+    },
+    {
+      "id": "u0135",
+      "text": "{{USER_QUERY}}"
+    },
+    {
+      "id": "u0136",
+      "text": "{{WHOLE_DOCUMENT}}"
+    },
+    {
+      "id": "u0137",
+      "text": "{{PREVIOUS_CHUNK}}"
+    },
+    {
+      "id": "u0138",
+      "text": "{{DOCUMENT_SUMMARY}}"
+    },
+    {
+      "id": "u0139",
+      "text": "Checkpoint 6 of 6"
+    },
+    {
+      "id": "u0140",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0141",
+      "text": "A search team wants their lexical index to keep matching exact product codes and error strings verbatim, while also benefiting from the same document-level grounding they just added to their semantic embeddings. They plan to keep both a BM25 index and a vector index in the pipeline. What should they do to align the two indexes?"
+    },
+    {
+      "id": "u0142",
+      "text": "Prepend the same chunk-specific contextual text used for embeddings to each chunk before it is tokenized for the BM25 index."
+    },
+    {
+      "id": "u0143",
+      "text": "Replace the BM25 index entirely with a second embedding-based index using a different Voyage model for redundancy."
+    },
+    {
+      "id": "u0144",
+      "text": "Lower the BM25 term-frequency weighting so lexical matches contribute less to the final ranked results."
+    },
+    {
+      "id": "u0145",
+      "text": "Rebuild the BM25 index only from document titles and section headings instead of full chunk text."
+    },
+    {
+      "id": "u0146",
+      "text": "Sources"
+    },
+    {
+      "id": "u0147",
+      "text": "Sources"
+    }
+  ]
+}

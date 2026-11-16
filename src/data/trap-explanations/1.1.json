@@ -1,0 +1,18 @@
+{
+  "exam-trap-4": {
+    "en": "A support conversation combines distinct jobs. Define prompts and quality checks for each job so an aggregate score cannot conceal a weak step.",
+    "vi": "Một cuộc hỗ trợ gồm nhiều việc riêng. Cần xác định câu lệnh và cách đánh giá cho từng việc để điểm tổng không che khuất bước yếu."
+  },
+  "exam-trap-1": {
+    "en": "The number of connected systems does not determine autonomy. Use fixed code paths for predictable steps; reserve agents for decisions that depend on incoming information.",
+    "vi": "Số hệ thống kết nối không quyết định mức tự chủ. Dùng các nhánh mã định sẵn cho bước dễ dự đoán; chỉ cần tác tử khi quyết định phụ thuộc thông tin đầu vào."
+  },
+  "exam-trap-3": {
+    "en": "The operational boundary changes: your team hosts an Agent SDK process, whereas Managed Agents supplies hosted execution. That difference determines infrastructure responsibilities.",
+    "vi": "Ranh giới vận hành khác nhau: nhóm bạn chạy tiến trình Agent SDK, còn Managed Agents cung cấp môi trường thực thi được lưu trữ sẵn. Khác biệt đó quyết định trách nhiệm hạ tầng."
+  },
+  "exam-trap-2": {
+    "en": "Troubleshooting across turns does not automatically require a larger model. Test Haiku against the workload's quality bar before accepting higher latency or cost.",
+    "vi": "Khắc phục sự cố qua nhiều lượt không mặc nhiên cần mô hình lớn hơn. Hãy kiểm thử Haiku theo ngưỡng chất lượng của công việc trước khi chấp nhận độ trễ hoặc chi phí cao hơn."
+  }
+}

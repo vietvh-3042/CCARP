@@ -1,0 +1,18 @@
+{
+  "exam-trap-1": {
+    "en": "General knowledge introduces unsupported claims into document-grounded answers. Require relevant quotations, restrict evidence to supplied documents, and permit an explicit lack-of-information response.",
+    "vi": "Kiến thức tổng quát có thể đưa khẳng định thiếu căn cứ vào câu trả lời dựa trên tài liệu. Hãy yêu cầu trích dẫn liên quan, chỉ dùng tài liệu được cung cấp và cho phép trả lời rõ rằng thiếu thông tin."
+  },
+  "exam-trap-2": {
+    "en": "Changing JSON field names usually signals an unclear output contract. Define the required keys and illustrate the expected response structure with an example.",
+    "vi": "Tên trường JSON thay đổi thường cho thấy yêu cầu đầu ra chưa rõ. Hãy quy định các khóa bắt buộc và minh họa cấu trúc phản hồi mong muốn bằng ví dụ."
+  },
+  "exam-trap-3": {
+    "en": "Check whether reduced effort caused the quality loss. Restore that setting before evaluating a stronger model at its own default effort.",
+    "vi": "Hãy kiểm tra xem việc giảm effort có làm chất lượng giảm hay không. Khôi phục thiết lập đó trước khi đánh giá mô hình mạnh hơn ở effort mặc định của nó."
+  },
+  "exam-trap-4": {
+    "en": "Correct answers with excessive latency suggest overprovisioned capability. Test a smaller, faster model instead of adding instructions that do not address the bottleneck.",
+    "vi": "Câu trả lời đúng nhưng quá chậm cho thấy năng lực mô hình có thể dư so với nhu cầu. Hãy thử mô hình nhỏ, nhanh hơn thay vì thêm hướng dẫn không giải quyết điểm nghẽn."
+  }
+}

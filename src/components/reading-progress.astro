@@ -1,0 +1,34 @@
+---
+import { ui, type Locale } from "../i18n";
+interface Props {
+  locale: Locale;
+  lessonId: string;
+}
+const { locale, lessonId } = Astro.props;
+const t = ui[locale];
+---
+
+<section
+  id="lesson-completion"
+  class="reading-progress mt-7 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-5 [&_[role=status]]:max-w-[380px] [&_[role=status]]:text-xs [&_[role=status]]:leading-5 [&_[role=status]]:text-muted-foreground [&_noscript]:basis-full [&_noscript]:text-xs"
+  data-progress
+  data-lesson-id={lessonId}
+>
+  <div>
+    <p class="eyebrow mb-1.5 text-xs font-semibold">{t.progress}</p><p data-completion-hint role="status"></p><p
+      data-storage-status
+      role="status"
+      aria-live="polite"
+    >
+    </p>
+  </div>
+  <button
+    type="button"
+    class="primary-button inline-flex min-h-11 w-full items-center justify-between gap-6 rounded-md border border-primary bg-primary px-4 py-2.5 font-semibold text-primary-foreground disabled:cursor-not-allowed disabled:border-border disabled:bg-muted disabled:text-muted-foreground disabled:opacity-55 aria-pressed:bg-muted aria-pressed:text-primary sm:w-auto"
+    data-complete
+    hidden
+    disabled
+    aria-pressed="false">{t.read}<span aria-hidden="true">✓</span></button
+  >
+  <noscript><p>{t.js}</p></noscript>
+</section>

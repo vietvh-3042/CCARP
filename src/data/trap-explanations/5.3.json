@@ -1,0 +1,14 @@
+{
+  "exam-trap-1": {
+    "en": "The bypass mode acts after earlier checks. Hooks and matching deny or ask rules still take effect before a call can receive automatic approval.",
+    "vi": "Chế độ bỏ qua quyền có tác dụng sau các bước kiểm tra trước đó. Hook cùng quy tắc deny hoặc ask khớp vẫn được áp dụng trước khi lệnh gọi có thể được tự động chấp thuận."
+  },
+  "exam-trap-2": {
+    "en": "Allow-list approval happens before canUseTool. A bare tool entry therefore removes the callback's opportunity to inspect individual calls to that tool.",
+    "vi": "Chấp thuận theo danh sách cho phép diễn ra trước canUseTool. Vì vậy, mục chỉ ghi tên công cụ sẽ khiến hàm gọi lại không còn cơ hội kiểm tra từng lệnh gọi công cụ đó."
+  },
+  "exam-trap-3": {
+    "en": "dontAsk rejects calls that would otherwise require a prompt. It neither waits for human input nor delegates those calls to canUseTool.",
+    "vi": "dontAsk từ chối những lệnh gọi vốn cần hiện yêu cầu xác nhận. Nó không chờ người dùng trả lời và cũng không chuyển các lệnh gọi đó cho canUseTool."
+  }
+}

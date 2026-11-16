@@ -1,0 +1,579 @@
+{
+  "pageId": "6.4.2",
+  "title": "CLAUDE.md as implementation guidance",
+  "titleVi": "Dùng CLAUDE.md để hướng dẫn triển khai",
+  "units": [
+    {
+      "id": "description",
+      "text": "Document architectures and provide implementation guidance"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Decide what belongs in a CLAUDE.md and what to leave out"
+    },
+    {
+      "id": "u0002",
+      "text": "Place guidance at the right scope: managed, user, project, local, subdirectory or path-scoped rule"
+    },
+    {
+      "id": "u0003",
+      "text": "Keep CLAUDE.md accurate as the code, conventions and models change"
+    },
+    {
+      "id": "u0004",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0005",
+      "text": "What CLAUDE.md should contain"
+    },
+    {
+      "id": "u0006",
+      "text": "Choosing the scope for each instruction"
+    },
+    {
+      "id": "u0007",
+      "text": "Keeping CLAUDE.md accurate"
+    },
+    {
+      "id": "u0008",
+      "text": "What CLAUDE.md should contain"
+    },
+    {
+      "id": "u0009",
+      "text": "CLAUDE.md is the implementation guidance Claude Code reads for itself. It is a plain markdown file that Claude reads automatically at the start of every session in that directory. You never attach it or mention it in a prompt. Think of it as the briefing you would give a capable new teammate on their first morning: how the team works, what to avoid, and where the important pieces live."
+    },
+    {
+      "id": "u0010",
+      "text": "The test for every line is whether Claude could work it out from the code alone. Bash commands it can't guess, style rules that differ from the defaults, and architectural decisions specific to the project all earn a place. File-by-file descriptions and standard conventions do not. Instructions should also be concrete enough to check. \"Use 2-space indentation\" can be followed, and \"Format code properly\" cannot."
+    },
+    {
+      "id": "u0011",
+      "text": "What to include in CLAUDE.md and what to leave out"
+    },
+    {
+      "id": "u0012",
+      "text": "Include"
+    },
+    {
+      "id": "u0013",
+      "text": "Leave out"
+    },
+    {
+      "id": "u0014",
+      "text": "Bash commands Claude can't guess"
+    },
+    {
+      "id": "u0015",
+      "text": "Anything Claude can figure out by reading code"
+    },
+    {
+      "id": "u0016",
+      "text": "Code style rules that differ from defaults"
+    },
+    {
+      "id": "u0017",
+      "text": "Standard language conventions Claude already knows"
+    },
+    {
+      "id": "u0018",
+      "text": "Testing instructions and preferred test runners"
+    },
+    {
+      "id": "u0019",
+      "text": "Detailed API documentation (link to docs instead)"
+    },
+    {
+      "id": "u0020",
+      "text": "Architectural decisions specific to your project"
+    },
+    {
+      "id": "u0021",
+      "text": "Information that changes frequently"
+    },
+    {
+      "id": "u0022",
+      "text": "Developer environment quirks (required env vars)"
+    },
+    {
+      "id": "u0023",
+      "text": "File-by-file descriptions of the codebase"
+    },
+    {
+      "id": "u0024",
+      "text": "Common gotchas or behaviors that aren't self-evident"
+    },
+    {
+      "id": "u0025",
+      "text": "Self-evident practices like \"write clean code\""
+    },
+    {
+      "id": "u0026",
+      "text": "A compact CLAUDE.md: related instructions grouped under headers"
+    },
+    {
+      "id": "u0027",
+      "text": "markdown"
+    },
+    {
+      "id": "u0028",
+      "text": "Two more items are easy to get wrong. Hard constraints, such as never writing to the production database from tests, belong in the file. Aspirational rules the team does not actually follow do not, because Claude will follow them even though the team doesn't."
+    },
+    {
+      "id": "u0029",
+      "text": "Checkpoint 1 of 3"
+    },
+    {
+      "id": "u0030",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0031",
+      "text": "A team is drafting the project CLAUDE.md for a new repository. Which of these candidate lines belongs in the file?"
+    },
+    {
+      "id": "u0032",
+      "text": "\"Copy "
+    },
+    {
+      "id": "u0033",
+      "text": " to "
+    },
+    {
+      "id": "u0034",
+      "text": " before running anything. Tests and the dev server fail without it.\""
+    },
+    {
+      "id": "u0035",
+      "text": "\"Follow standard TypeScript naming conventions: camelCase for variables, PascalCase for classes.\""
+    },
+    {
+      "id": "u0036",
+      "text": "\"src/utils/date.ts holds the date helpers; src/utils/strings.ts holds the string helpers; src/api/ holds the route handlers.\""
+    },
+    {
+      "id": "u0037",
+      "text": "\"Write clean, well-structured, readable code.\""
+    },
+    {
+      "id": "u0038",
+      "text": "Sources"
+    },
+    {
+      "id": "u0039",
+      "text": "Choosing the scope for each instruction"
+    },
+    {
+      "id": "u0040",
+      "text": "CLAUDE.md files exist at several scopes, and Claude merges them from broad to specific. Put each instruction at the narrowest scope that still reaches everyone who needs it. Team conventions go in the project file, committed to source control. Personal habits go in the user file, and sandbox URLs go in "
+    },
+    {
+      "id": "u0041",
+      "text": "CLAUDE.md scopes and what each is for"
+    },
+    {
+      "id": "u0042",
+      "text": "Scope"
+    },
+    {
+      "id": "u0043",
+      "text": "Location"
+    },
+    {
+      "id": "u0044",
+      "text": "Use for"
+    },
+    {
+      "id": "u0045",
+      "text": "Shared with"
+    },
+    {
+      "id": "u0046",
+      "text": "Managed policy"
+    },
+    {
+      "id": "u0047",
+      "text": "/etc/claude-code/CLAUDE.md (Linux and WSL)"
+    },
+    {
+      "id": "u0048",
+      "text": "Company coding standards, security policies, compliance requirements"
+    },
+    {
+      "id": "u0049",
+      "text": "All users in organization"
+    },
+    {
+      "id": "u0050",
+      "text": "User instructions"
+    },
+    {
+      "id": "u0051",
+      "text": "~/.claude/CLAUDE.md"
+    },
+    {
+      "id": "u0052",
+      "text": "Code styling preferences, personal tooling shortcuts"
+    },
+    {
+      "id": "u0053",
+      "text": "Only you (all projects)"
+    },
+    {
+      "id": "u0054",
+      "text": "Project instructions"
+    },
+    {
+      "id": "u0055",
+      "text": "./CLAUDE.md or ./.claude/CLAUDE.md"
+    },
+    {
+      "id": "u0056",
+      "text": "Project architecture, coding standards, common workflows"
+    },
+    {
+      "id": "u0057",
+      "text": "Team members via source control"
+    },
+    {
+      "id": "u0058",
+      "text": "Local instructions"
+    },
+    {
+      "id": "u0059",
+      "text": "./CLAUDE.local.md"
+    },
+    {
+      "id": "u0060",
+      "text": "Your sandbox URLs, preferred test data"
+    },
+    {
+      "id": "u0061",
+      "text": "Only you (current project)"
+    },
+    {
+      "id": "u0062",
+      "text": "Timing matters as much as location. Files at and above the working directory load when the session starts. A subdirectory's CLAUDE.md loads only later, when Claude reads files in that subdirectory. In a monorepo, that makes the root file the place for rules that apply everywhere, such as commit conventions, and each package's own file the place for its stack."
+    },
+    {
+      "id": "u0063",
+      "text": "Conventions for one area can live in two places. A per-directory CLAUDE.md sits next to the code, so its owners maintain it and it is versioned with that code. A path-scoped rule lives in "
+    },
+    {
+      "id": "u0064",
+      "text": " at the root, with a "
+    },
+    {
+      "id": "u0065",
+      "text": " glob, and loads only when Claude works with a matching file. It is the better choice when you want every convention in one place, or when one rule covers many scattered paths. To keep another team's files out of a session, use "
+    },
+    {
+      "id": "u0066",
+      "text": "Excluding one package's CLAUDE.md and rules from loading"
+    },
+    {
+      "id": "u0067",
+      "text": "json"
+    },
+    {
+      "id": "u0068",
+      "text": "A CLAUDE.md can also import other files. Writing "
+    },
+    {
+      "id": "u0069",
+      "text": " followed by a path, as in "
+    },
+    {
+      "id": "u0070",
+      "text": ", makes Claude load that file at launch along with the main one. Imports are a way to split a long file into pieces, which raises the question of whether the pieces cost less."
+    },
+    {
+      "id": "u0071",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0072",
+      "text": "A team's CLAUDE.md has grown to 400 lines. They split it into several files pulled in with @ imports. What happens to its context cost?"
+    },
+    {
+      "id": "u0073",
+      "text": "It drops to zero for any file outside the repository"
+    },
+    {
+      "id": "u0074",
+      "text": "It stays the same, because imported files also load at launch"
+    },
+    {
+      "id": "u0075",
+      "text": "It drops, because imported files load only when referenced"
+    },
+    {
+      "id": "u0076",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0077",
+      "text": "Splitting a long CLAUDE.md into @ imports reduces how much context it uses."
+    },
+    {
+      "id": "u0078",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0080",
+      "text": "Every CLAUDE.md in the repository is loaded when the session starts."
+    },
+    {
+      "id": "u0081",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0083",
+      "text": "Checkpoint 2 of 3"
+    },
+    {
+      "id": "u0084",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0085",
+      "text": "An architect is deciding where each of these instructions should live. Match each CLAUDE.md location to the instruction that belongs there."
+    },
+    {
+      "id": "u0086",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0087",
+      "text": "Managed policy file (/etc/claude-code/CLAUDE.md)"
+    },
+    {
+      "id": "u0088",
+      "text": "~/.claude/CLAUDE.md"
+    },
+    {
+      "id": "u0089",
+      "text": "./CLAUDE.md committed to the repository"
+    },
+    {
+      "id": "u0090",
+      "text": "./CLAUDE.local.md"
+    },
+    {
+      "id": "u0091",
+      "text": "One developer's sandbox URLs and preferred test data for this project only"
+    },
+    {
+      "id": "u0092",
+      "text": "One developer's personal tooling shortcuts, wanted in every project they open"
+    },
+    {
+      "id": "u0093",
+      "text": "The project's architecture and common workflows, shared with the whole team"
+    },
+    {
+      "id": "u0094",
+      "text": "A security and compliance policy that every developer in the organization must get"
+    },
+    {
+      "id": "u0095",
+      "text": "Sources"
+    },
+    {
+      "id": "u0096",
+      "text": "Keeping CLAUDE.md accurate"
+    },
+    {
+      "id": "u0097",
+      "text": "A stale CLAUDE.md does more harm than having none, because Claude follows it with confidence. Running "
+    },
+    {
+      "id": "u0098",
+      "text": " gives you a first draft: Claude explores the codebase and writes up build commands, test commands, a structure overview and the conventions it detects. Someone still has to review that draft, delete anything inaccurate and commit it. Keep the file under about 200 lines. Longer files use more context and Claude follows them less reliably."
+    },
+    {
+      "id": "u0099",
+      "text": "Several triggers should prompt an edit:"
+    },
+    {
+      "id": "u0100",
+      "text": "Claude gets the same thing wrong twice, which means a rule is missing, so add one line."
+    },
+    {
+      "id": "u0101",
+      "text": "Conventions change, for example a new framework, test runner or set of lint rules."
+    },
+    {
+      "id": "u0102",
+      "text": "A major model release lands, because rules that worked around an older model's limitation may now be overhead."
+    },
+    {
+      "id": "u0103",
+      "text": "A quarterly skim turns up stale lines, which should be deleted."
+    },
+    {
+      "id": "u0104",
+      "text": "Contradictions are the quiet failure. When two instructions conflict, Claude may pick either one, so periodically review the root file, nested CLAUDE.md files and "
+    },
+    {
+      "id": "u0105",
+      "text": " together. Treat CLAUDE.md edits like any other documentation change and review them in pull requests, so conventions keep up with the code. A Stop hook receives the session transcript path when Claude finishes responding, so a script can propose updates while the gap is still fresh."
+    },
+    {
+      "id": "u0106",
+      "text": "An edit made mid-session does not take effect straight away. Claude doesn't re-read the file from disk each turn, so a change is picked up only after "
+    },
+    {
+      "id": "u0107",
+      "text": ", after opening the file through "
+    },
+    {
+      "id": "u0108",
+      "text": ", or in the next session."
+    },
+    {
+      "id": "u0109",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0110",
+      "text": "Saving an edit to CLAUDE.md changes Claude's behaviour on the next turn of the same session."
+    },
+    {
+      "id": "u0111",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0114",
+      "text": "Checkpoint 3 of 3"
+    },
+    {
+      "id": "u0115",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0116",
+      "text": "Partway through a Claude Code session, a developer adds the line \"Never edit a migration after it has merged\" to the project CLAUDE.md and saves the file. On the next turn, Claude edits a merged migration anyway. What explains this, and what will make the new rule apply?"
+    },
+    {
+      "id": "u0117",
+      "text": "Claude does not re-read CLAUDE.md from disk each turn. The rule is picked up after running /compact, after opening the file through /memory, or in the next session."
+    },
+    {
+      "id": "u0118",
+      "text": "The root CLAUDE.md reloads only when Claude reads files in the root directory. Asking Claude to open a root file will apply the rule."
+    },
+    {
+      "id": "u0119",
+      "text": "CLAUDE.md changes only load after they are committed and reviewed in a pull request. Merging the edit will make the rule apply."
+    },
+    {
+      "id": "u0120",
+      "text": "The edit pushed the file past about 200 lines, so Claude cut off the newest lines. Removing older lines will make the rule load on the next turn."
+    },
+    {
+      "id": "u0121",
+      "text": "Sources"
+    },
+    {
+      "id": "u0122",
+      "text": "Practise it for real"
+    },
+    {
+      "id": "u0123",
+      "text": "Create a reviewed project CLAUDE.md and scope one area's conventions so they load only where needed."
+    },
+    {
+      "id": "u0124",
+      "text": "In a repository, run /init."
+    },
+    {
+      "id": "u0125",
+      "text": "Why: "
+    },
+    {
+      "id": "u0126",
+      "text": "Claude explores the codebase and drafts build commands, test commands, a structure overview and the conventions it detects."
+    },
+    {
+      "id": "u0127",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0128",
+      "text": "A draft CLAUDE.md at the project root."
+    },
+    {
+      "id": "u0129",
+      "text": "Review the draft. Delete anything Claude could infer from the code, any file-by-file descriptions, and anything inaccurate."
+    },
+    {
+      "id": "u0130",
+      "text": "Why: "
+    },
+    {
+      "id": "u0131",
+      "text": "Every line costs context, and inaccurate or obvious lines lower adherence."
+    },
+    {
+      "id": "u0132",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0133",
+      "text": "A file well under 200 lines, grouped under markdown headers."
+    },
+    {
+      "id": "u0134",
+      "text": "Move instructions that only apply to one area (for example API handlers) into a file under .claude/rules/ with a paths: glob."
+    },
+    {
+      "id": "u0135",
+      "text": "Why: "
+    },
+    {
+      "id": "u0136",
+      "text": "Path-scoped rules load only when Claude works with matching files."
+    },
+    {
+      "id": "u0137",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0138",
+      "text": "The root file gets shorter, and the rule applies only when Claude touches files that match the glob."
+    },
+    {
+      "id": "u0139",
+      "text": "Commit CLAUDE.md and .claude/rules/ so changes go through pull-request review."
+    },
+    {
+      "id": "u0140",
+      "text": "Why: "
+    },
+    {
+      "id": "u0141",
+      "text": "Reviewing edits like any other documentation keeps conventions in step with the code."
+    },
+    {
+      "id": "u0142",
+      "text": "You should see: "
+    },
+    {
+      "id": "u0143",
+      "text": "Teammates who clone the repository get the same guidance."
+    },
+    {
+      "id": "u0144",
+      "text": "Stuck? Get a nudge"
+    },
+    {
+      "id": "u0146",
+      "text": "Sources"
+    }
+  ]
+}

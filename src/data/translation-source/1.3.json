@@ -1,0 +1,855 @@
+{
+  "pageId": "1.3",
+  "title": "Workflow, agent and augmented LLM patterns for Claude",
+  "titleVi": "Các mẫu quy trình, tác tử và LLM tăng cường cho Claude",
+  "units": [
+    {
+      "id": "description",
+      "text": "Select appropriate architectural patterns"
+    },
+    {
+      "id": "u0000",
+      "text": "What you will be able to do"
+    },
+    {
+      "id": "u0001",
+      "text": "Describe the augmented LLM and explain why every workflow and agent pattern is built from it"
+    },
+    {
+      "id": "u0002",
+      "text": "Tell a workflow from an agent by asking who decides the next step, and weigh what each choice costs"
+    },
+    {
+      "id": "u0003",
+      "text": "Justify starting with a single optimized call and adding complexity only when it measurably falls short"
+    },
+    {
+      "id": "u0004",
+      "text": "Pick the right workflow for a task: prompt chaining, routing, parallelization (sectioning or voting) or orchestrator-workers"
+    },
+    {
+      "id": "u0005",
+      "text": "Recognise when an evaluator-optimizer loop fits and when a programmatic check is the better tool"
+    },
+    {
+      "id": "u0006",
+      "text": "Key concept"
+    },
+    {
+      "id": "u0007",
+      "text": "Who controls the next step"
+    },
+    {
+      "id": "u0008",
+      "text": "Every pattern in this lesson is made of augmented LLM calls. What separates them is whether your code fixes the path those calls take (a workflow) or the model chooses its next action at run time (an agent)."
+    },
+    {
+      "id": "u0009",
+      "text": "In this lesson"
+    },
+    {
+      "id": "u0010",
+      "text": "The augmented LLM as the building block"
+    },
+    {
+      "id": "u0011",
+      "text": "Workflows versus agents: who decides the next step"
+    },
+    {
+      "id": "u0012",
+      "text": "Start simple and add complexity only when it pays"
+    },
+    {
+      "id": "u0013",
+      "text": "Prompt chaining and routing: fixed steps and distinct categories"
+    },
+    {
+      "id": "u0014",
+      "text": "Parallelization and orchestrator-workers: known versus emergent subtasks"
+    },
+    {
+      "id": "u0015",
+      "text": "The evaluator-optimizer loop"
+    },
+    {
+      "id": "u0016",
+      "text": "The augmented LLM as the building block"
+    },
+    {
+      "id": "u0017",
+      "text": "Every architecture in this lesson, from a two-step pipeline to an autonomous coding agent, is made from one unit: the "
+    },
+    {
+      "id": "u0018",
+      "text": "augmented LLM"
+    },
+    {
+      "id": "u0019",
+      "text": ". This is a model call extended with retrieval, tools and memory. Claude does not just receive these capabilities passively. It writes its own search queries, chooses which tool to call, and decides what information to keep. A pattern describes how several of these units are wired together. It never replaces the unit."
+    },
+    {
+      "id": "u0020",
+      "text": "In practice a single call carries more than the user's text. Claude receives the prompt along with the system prompt, the tool definitions and the conversation history, and it may answer in text, request tool calls, or do both. So even before you choose a pattern, one call can search, look things up and act."
+    },
+    {
+      "id": "u0021",
+      "text": "Two parts of the implementation matter most. First, the capabilities should fit your use case: a support assistant needs order lookup, not a general web crawler. Second, each capability needs a clear, well-documented interface the model can understand. The Model Context Protocol is one way to connect third-party tools through a simple client; choosing among integration mechanisms is covered in "
+    },
+    {
+      "id": "u0022",
+      "text": "connection protocols"
+    },
+    {
+      "id": "u0023",
+      "text": ". Once each call has the right augmentations, the architectural question becomes how those calls are arranged."
+    },
+    {
+      "id": "u0024",
+      "text": "Checkpoint 1 of 9"
+    },
+    {
+      "id": "u0025",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0026",
+      "text": "A team is building an internal assistant that answers employees' questions about HR policy. Before choosing any workflow or agent pattern, how should they set up the single model call?"
+    },
+    {
+      "id": "u0027",
+      "text": "Skip augmentations for now and choose an agent pattern, because the pattern provides retrieval and tools"
+    },
+    {
+      "id": "u0028",
+      "text": "Give the call a policy-document retrieval tool with a clear, well-documented interface that the model can query itself"
+    },
+    {
+      "id": "u0029",
+      "text": "Run the document search in their own code and paste the results into the prompt, because the model cannot write its own search queries"
+    },
+    {
+      "id": "u0030",
+      "text": "Connect every tool they have, such as a web crawler, code execution and the CRM, so the call can handle any question that comes up"
+    },
+    {
+      "id": "u0031",
+      "text": "Sources"
+    },
+    {
+      "id": "u0032",
+      "text": "Workflows versus agents: who decides the next step"
+    },
+    {
+      "id": "u0033",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0034",
+      "text": "A system calls Claude three times, and each call can use a search tool. What makes it an agent rather than a workflow?"
+    },
+    {
+      "id": "u0035",
+      "text": "Claude decides at run time what to do next and when it is finished"
+    },
+    {
+      "id": "u0036",
+      "text": "It makes more than one LLM call per request"
+    },
+    {
+      "id": "u0037",
+      "text": "Claude has access to tools"
+    },
+    {
+      "id": "u0038",
+      "text": "Workflows and agents are both agentic systems, and they differ in one thing: who controls the sequence. In a "
+    },
+    {
+      "id": "u0039",
+      "text": "workflow"
+    },
+    {
+      "id": "u0040",
+      "text": ", your code decides the order of calls: classify, then draft, then translate. In an "
+    },
+    {
+      "id": "u0041",
+      "text": "agent"
+    },
+    {
+      "id": "u0042",
+      "text": ", the model directs its own process and tool use. Using tools, or making many calls, does not by itself make something an agent."
+    },
+    {
+      "id": "u0043",
+      "text": "The agent's mechanics are simple. It is a model using tools in a loop and acting on what comes back. The Claude Agent SDK runs this cycle: Claude evaluates the current state and requests tool calls, the SDK runs them, and each set of results goes back to Claude for its next decision. The loop stops when Claude gives a response with no tool calls. In a bug-fix run, Claude might run the tests, read the failing files, edit one, and run the tests again before it reports that all three pass. Because the model judges its progress from these real results, agents usually also get "
+    },
+    {
+      "id": "u0044",
+      "text": "stopping conditions"
+    },
+    {
+      "id": "u0045",
+      "text": ", such as a maximum number of iterations, so they stay under control."
+    },
+    {
+      "id": "u0046",
+      "text": "Agents fit open-ended problems where you cannot predict how many steps are needed or hardcode a path, such as resolving a SWE-bench task that touches many files. That autonomy has a price: higher cost and the risk of compounding errors, where one bad decision feeds the next. Agents call for extensive testing in sandboxed environments, guardrails, and enough trust in the model's decision-making to let it run for many turns."
+    },
+    {
+      "id": "u0047",
+      "text": "Workflow and agent compared on the properties that drive the choice"
+    },
+    {
+      "id": "u0048",
+      "text": "Property"
+    },
+    {
+      "id": "u0049",
+      "text": "Workflow"
+    },
+    {
+      "id": "u0050",
+      "text": "Agent"
+    },
+    {
+      "id": "u0051",
+      "text": "Who decides the next step"
+    },
+    {
+      "id": "u0052",
+      "text": "Predefined code paths"
+    },
+    {
+      "id": "u0053",
+      "text": "The model, at run time, based on tool results"
+    },
+    {
+      "id": "u0054",
+      "text": "Predictability"
+    },
+    {
+      "id": "u0055",
+      "text": "High: same path every time for well-defined tasks"
+    },
+    {
+      "id": "u0056",
+      "text": "Lower: the number of turns varies by task"
+    },
+    {
+      "id": "u0057",
+      "text": "Cost and risk"
+    },
+    {
+      "id": "u0058",
+      "text": "Bounded by the calls you wrote"
+    },
+    {
+      "id": "u0059",
+      "text": "Higher costs and potential for compounding errors"
+    },
+    {
+      "id": "u0060",
+      "text": "Wins when"
+    },
+    {
+      "id": "u0061",
+      "text": "Steps are known in advance"
+    },
+    {
+      "id": "u0062",
+      "text": "Open-ended problems where the steps cannot be predicted"
+    },
+    {
+      "id": "u0063",
+      "text": "Checkpoint 2 of 9"
+    },
+    {
+      "id": "u0064",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0065",
+      "text": "Every incoming invoice goes through the same three steps: extract the fields, check them against the purchase order with a lookup tool, then draft an approval email. Which design fits best, and why?"
+    },
+    {
+      "id": "u0066",
+      "text": "A workflow, because it makes only three LLM calls, and systems with more calls than that have to be agents"
+    },
+    {
+      "id": "u0067",
+      "text": "A workflow in which code fixes the order extract → check → draft, because the steps are known in advance and the path stays predictable"
+    },
+    {
+      "id": "u0068",
+      "text": "An agent, because the steps use a tool, and tool use is what makes the model decide the order at run time"
+    },
+    {
+      "id": "u0069",
+      "text": "An agent with a maximum-iteration stopping condition, because the cap makes it as predictable as a workflow"
+    },
+    {
+      "id": "u0070",
+      "text": "Sources"
+    },
+    {
+      "id": "u0071",
+      "text": "Start simple and add complexity only when it pays"
+    },
+    {
+      "id": "u0072",
+      "text": "The default is the simplest design that works, and that is often not an agentic system at all. For many applications, a single LLM call improved with retrieval and in-context examples is enough. Current Claude models handle most multistep reasoning inside one call, so a pipeline you build to imitate that reasoning may add nothing."
+    },
+    {
+      "id": "u0073",
+      "text": "Every layer you add costs something. Agentic systems usually trade latency and cost for better task performance, so the real question is whether that gain is worth paying for in this application. Each extra call adds a round trip and more tokens, and each handoff is another place the system can fail. Add a workflow when a single call measurably falls short. Add an agent only when you also need the flexibility of model-driven decisions."
+    },
+    {
+      "id": "u0074",
+      "text": "Frameworks deserve the same caution. Tools such as the Claude Agent SDK make it easy to start by handling model calls, tool parsing and chaining. They can also hide the underlying prompts and responses, which makes debugging harder, and they make it tempting to add complexity a simpler setup would not need. Many patterns take only a few lines of code against the API directly. If you do use a framework, understand what it does underneath, because wrong assumptions about it are a common source of errors."
+    },
+    {
+      "id": "u0075",
+      "text": "Apply it to your own work"
+    },
+    {
+      "id": "u0076",
+      "text": "Think of an LLM feature you have seen built as a multi-step pipeline. What measurement would have shown whether one well-prompted call with retrieval was already good enough?"
+    },
+    {
+      "id": "u0077",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0078",
+      "text": "Agents outperform workflows, so a production design should default to an agent."
+    },
+    {
+      "id": "u0079",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0081",
+      "text": "Checkpoint 3 of 9"
+    },
+    {
+      "id": "u0082",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0083",
+      "text": "Match each design to the situation that justifies choosing it, following the rule of starting simple and adding complexity only when it pays."
+    },
+    {
+      "id": "u0084",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0085",
+      "text": "A single LLM call optimized with retrieval and in-context examples"
+    },
+    {
+      "id": "u0086",
+      "text": "A workflow with code-fixed steps"
+    },
+    {
+      "id": "u0087",
+      "text": "An agent that directs its own process"
+    },
+    {
+      "id": "u0088",
+      "text": "A well-defined task where one call measurably falls short and predictability and consistency matter"
+    },
+    {
+      "id": "u0089",
+      "text": "A task that also needs flexibility and model-driven decisions, worth the extra latency and cost"
+    },
+    {
+      "id": "u0090",
+      "text": "The default starting point, and for many applications already good enough"
+    },
+    {
+      "id": "u0091",
+      "text": "Sources"
+    },
+    {
+      "id": "u0092",
+      "text": "Prompt chaining and routing: fixed steps and distinct categories"
+    },
+    {
+      "id": "u0093",
+      "text": "Picking a workflow comes down to a few questions about the task. Are the steps fixed? Do inputs fall into distinct categories? Can the work run in parallel? Can you predict the subtasks before seeing the input? Is there a clear test for quality? Each answer points to a different pattern, and the wrong options in a design review usually answer a question the scenario never asked."
+    },
+    {
+      "id": "u0094",
+      "text": "The question each workflow pattern answers"
+    },
+    {
+      "id": "u0095",
+      "text": "If the task…"
+    },
+    {
+      "id": "u0096",
+      "text": "Use"
+    },
+    {
+      "id": "u0097",
+      "text": "Why"
+    },
+    {
+      "id": "u0098",
+      "text": "Breaks cleanly into fixed sequential subtasks"
+    },
+    {
+      "id": "u0099",
+      "text": "Prompt chaining"
+    },
+    {
+      "id": "u0100",
+      "text": "Each call does an easier task; gates check intermediate output"
+    },
+    {
+      "id": "u0101",
+      "text": "Has distinct input categories that are better handled separately"
+    },
+    {
+      "id": "u0102",
+      "text": "Routing"
+    },
+    {
+      "id": "u0103",
+      "text": "Specialized prompts without one input type hurting another"
+    },
+    {
+      "id": "u0104",
+      "text": "Has independent pieces, or needs several attempts for confidence"
+    },
+    {
+      "id": "u0105",
+      "text": "Parallelization (sectioning or voting)"
+    },
+    {
+      "id": "u0106",
+      "text": "Speed, or focused attention per aspect, or diverse outputs"
+    },
+    {
+      "id": "u0107",
+      "text": "Needs subtasks that depend on the specific input"
+    },
+    {
+      "id": "u0108",
+      "text": "Orchestrator-workers"
+    },
+    {
+      "id": "u0109",
+      "text": "A central LLM decides the subtasks at run time"
+    },
+    {
+      "id": "u0110",
+      "text": "Has clear evaluation criteria and improves with feedback"
+    },
+    {
+      "id": "u0111",
+      "text": "Evaluator-optimizer"
+    },
+    {
+      "id": "u0112",
+      "text": "Generate, critique and refine in a loop"
+    },
+    {
+      "id": "u0113",
+      "text": "Prompt chaining"
+    },
+    {
+      "id": "u0114",
+      "text": " splits a task into a fixed sequence, and each call processes the output of the one before it. It fits when the task decomposes cleanly into known subtasks. It deliberately trades latency for accuracy, because each call has an easier job. Between steps you can add "
+    },
+    {
+      "id": "u0115",
+      "text": "gates"
+    },
+    {
+      "id": "u0116",
+      "text": ", which are programmatic checks that confirm the process is still on track. A gate is ordinary code: a length limit, a schema check, a required field. Writing marketing copy and then translating it is the standard example. A content team that translates copy into three languages and must keep each string within a UI character limit has a fixed sequence plus a deterministic check, so it is a chain with a gate. It does not need another LLM to judge length, and it does not need an orchestrator to decide which languages to produce, because the languages are already known."
+    },
+    {
+      "id": "u0117",
+      "text": "Chaining also helps you run the system. Explicit chains are still worth using when you need to inspect intermediate outputs or enforce a specific pipeline structure, because each step is a separate API call you can log, evaluate or branch on. Smaller, consistent subtasks also reduce inconsistency at scale, since each one gets Claude's full attention."
+    },
+    {
+      "id": "u0118",
+      "text": "Routing"
+    },
+    {
+      "id": "u0119",
+      "text": " classifies an input first and then sends it to a specialized follow-up: a different prompt, tool set or process. The reason is separation of concerns. Without routing, tuning one prompt for one kind of input can hurt performance on the others. Routing fits when the categories are distinct and classification is accurate, whether an LLM or a traditional classifier does it. A support queue with billing questions, technical bugs and cancellations, each needing its own tuned prompt, is a routing problem. Running every ticket through all three prompts in a chain wastes calls on the two that don't apply. Running them in parallel and keeping whichever finishes first throws away the reason for having specialists. Routing can also send easy questions to a smaller, cheaper model and hard ones to a more capable model; choosing those models is covered in "
+    },
+    {
+      "id": "u0120",
+      "text": "model selection"
+    },
+    {
+      "id": "u0121",
+      "text": "On the exam"
+    },
+    {
+      "id": "u0122",
+      "text": "Routing is only as good as its categories. If the categories are vague, tickets get misrouted and the specialized prompts never see the inputs they were built for. Before you choose routing, check that the categories are well defined and the classification step is reliable."
+    },
+    {
+      "id": "u0123",
+      "text": "Exam trap"
+    },
+    {
+      "id": "u0124",
+      "text": "Any quality check in a pipeline means an evaluator-optimizer loop."
+    },
+    {
+      "id": "u0125",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0127",
+      "text": "Checkpoint 4 of 9"
+    },
+    {
+      "id": "u0128",
+      "text": "Match them up"
+    },
+    {
+      "id": "u0129",
+      "text": "A design review lists four features. For each scenario, pick the workflow pattern it calls for."
+    },
+    {
+      "id": "u0130",
+      "text": "Tap a term, then the definition that fits it."
+    },
+    {
+      "id": "u0131",
+      "text": "Draft product copy, translate it into three fixed languages, and reject any string over the UI character limit"
+    },
+    {
+      "id": "u0132",
+      "text": "Support tickets that fall into billing, bug or cancellation, each handled best by its own tuned prompt"
+    },
+    {
+      "id": "u0133",
+      "text": "A code change where which files to edit, and how, depends on the specific request"
+    },
+    {
+      "id": "u0134",
+      "text": "Literary translation whose nuance improves when another LLM critiques each draft"
+    },
+    {
+      "id": "u0135",
+      "text": "Prompt chaining, with a programmatic gate between steps"
+    },
+    {
+      "id": "u0136",
+      "text": "Evaluator-optimizer: generate, critique and refine in a loop"
+    },
+    {
+      "id": "u0137",
+      "text": "Routing: classify the input first, then send it to a specialized follow-up"
+    },
+    {
+      "id": "u0138",
+      "text": "Orchestrator-workers: a central LLM decides the subtasks at run time"
+    },
+    {
+      "id": "u0139",
+      "text": "Checkpoint 5 of 9"
+    },
+    {
+      "id": "u0140",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0141",
+      "text": "A content team needs marketing copy generated and then translated into three languages, with a programmatic check confirming each translated string stays within a fixed UI character limit before it is published. Which architectural pattern best fits this requirement?"
+    },
+    {
+      "id": "u0142",
+      "text": "Prompt chaining, using sequential LLM calls with a programmatic gate that checks translated text length before publishing"
+    },
+    {
+      "id": "u0143",
+      "text": "Routing, so that each language request is classified and sent to a specialized translation prompt tuned to that locale's conventions"
+    },
+    {
+      "id": "u0144",
+      "text": "Orchestrator-workers, letting a central LLM decide which languages need translation based on real-time traffic analysis"
+    },
+    {
+      "id": "u0145",
+      "text": "Evaluator-optimizer, where a second LLM scores each translation and loops until translation quality passes a threshold"
+    },
+    {
+      "id": "u0146",
+      "text": "Checkpoint 6 of 9"
+    },
+    {
+      "id": "u0147",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0148",
+      "text": "A customer support system receives billing questions, technical bugs, and account cancellations. Each category needs a differently tuned prompt, and an initial step must first determine which category a given ticket belongs to before further processing. Which pattern should the team implement?"
+    },
+    {
+      "id": "u0149",
+      "text": "Parallelization, running the billing, technical, and cancellation prompts simultaneously and merging whichever completes first"
+    },
+    {
+      "id": "u0150",
+      "text": "Routing, where an initial LLM call classifies the ticket and directs it to the specialized prompt for that category"
+    },
+    {
+      "id": "u0151",
+      "text": "Prompt chaining, where each ticket is chained through billing, then technical, then cancellation prompts in sequence"
+    },
+    {
+      "id": "u0152",
+      "text": "Orchestrator-workers, where a central LLM decides at runtime which subtasks the ticket requires and assigns them to worker LLMs"
+    },
+    {
+      "id": "u0153",
+      "text": "Sources"
+    },
+    {
+      "id": "u0154",
+      "text": "Parallelization and orchestrator-workers: known versus emergent subtasks"
+    },
+    {
+      "id": "u0155",
+      "text": "Parallelization"
+    },
+    {
+      "id": "u0156",
+      "text": " runs several LLM calls at the same time and combines their outputs in code. It has two forms. Learn to tell them apart by asking whether the calls do different work or the same work. "
+    },
+    {
+      "id": "u0157",
+      "text": "Sectioning"
+    },
+    {
+      "id": "u0158",
+      "text": " splits a task into independent subtasks that run in parallel: one call checks generated code for vulnerabilities while another checks the same code for licensing problems, and code merges both into one report. "
+    },
+    {
+      "id": "u0159",
+      "text": "Voting"
+    },
+    {
+      "id": "u0160",
+      "text": " runs the same task several times to get different outputs, for example several prompts reviewing code for vulnerabilities, with the code flagged if any of them finds a problem."
+    },
+    {
+      "id": "u0161",
+      "text": "Sectioning often helps quality as well as speed. When a task involves several considerations, LLMs usually do better if each one gets its own call with focused attention. Guardrails are the standard case: one instance answers the user while another screens the query for inappropriate content, which works better than one call doing both. Chaining these checks would be wrong, because neither depends on the other's output. An evaluator-optimizer setup would be wrong too, because neither check is critiquing the other."
+    },
+    {
+      "id": "u0162",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0163",
+      "text": "A pipeline always runs the same five review prompts in parallel on every input. Is that orchestrator-workers?"
+    },
+    {
+      "id": "u0164",
+      "text": "Orchestrator-workers"
+    },
+    {
+      "id": "u0165",
+      "text": " looks like parallelization: a central LLM breaks the work down, hands pieces to worker LLMs, and combines their results. The difference is that the subtasks are not fixed in advance. The orchestrator decides them at run time from the specific input. In a coding change, the number of files to edit and what changes in each depend on the request, so nobody can write the fan-out beforehand. A fixed set of five prompts is therefore sectioning. Orchestrator-workers is the wrong choice for simple single-output tasks, when latency is critical, or when the subtasks are predictable enough to define ahead of time. In that last case, use the simpler parallel workflow."
+    },
+    {
+      "id": "u0166",
+      "text": "The orchestrator shape: decompose the input at run time, fan out to workers, then synthesize"
+    },
+    {
+      "id": "u0167",
+      "text": "python"
+    },
+    {
+      "id": "u0168",
+      "text": "In this code the list of facets comes from "
+    },
+    {
+      "id": "u0169",
+      "text": ", so it differs for each query. That one line is what makes it orchestrator-workers and not sectioning. When workers become full agents with their own context windows, you are designing a multi-agent system, and its token cost and context isolation are covered in "
+    },
+    {
+      "id": "u0170",
+      "text": "multi-agent orchestration"
+    },
+    {
+      "id": "u0171",
+      "text": "Exam traps"
+    },
+    {
+      "id": "u0172",
+      "text": "A task with several subtasks needs orchestrator-workers."
+    },
+    {
+      "id": "u0173",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0180",
+      "text": "Running two different checks on the same code at the same time is voting."
+    },
+    {
+      "id": "u0181",
+      "text": "Why is that wrong?"
+    },
+    {
+      "id": "u0188",
+      "text": "Checkpoint 7 of 9"
+    },
+    {
+      "id": "u0189",
+      "text": "Fill the gap"
+    },
+    {
+      "id": "u0190",
+      "text": "The blank marks the one call that makes this code orchestrator-workers rather than sectioning, because it produces a different list of subtasks for each query. Which lead-agent method belongs there?"
+    },
+    {
+      "id": "u0191",
+      "text": "research_subagent"
+    },
+    {
+      "id": "u0192",
+      "text": "synthesize"
+    },
+    {
+      "id": "u0193",
+      "text": "decompose_query"
+    },
+    {
+      "id": "u0194",
+      "text": "gather"
+    },
+    {
+      "id": "u0195",
+      "text": "Checkpoint 8 of 9"
+    },
+    {
+      "id": "u0196",
+      "text": "Exam question"
+    },
+    {
+      "id": "u0197",
+      "text": "A security team wants one LLM call to check generated code for vulnerabilities while a second, independent LLM call simultaneously checks the same code for licensing issues, with both outputs combined into a single report. Which pattern does this describe?"
+    },
+    {
+      "id": "u0198",
+      "text": "Parallelization by sectioning, running the vulnerability and licensing checks as independent, simultaneous LLM calls"
+    },
+    {
+      "id": "u0199",
+      "text": "Parallelization by voting, running the same vulnerability prompt three times and keeping the majority verdict"
+    },
+    {
+      "id": "u0200",
+      "text": "Evaluator-optimizer, where the licensing checker scores the vulnerability checker's output and requests revisions until both agree"
+    },
+    {
+      "id": "u0201",
+      "text": "Prompt chaining, where the vulnerability check output is fed into the licensing check as additional context"
+    },
+    {
+      "id": "u0202",
+      "text": "Sources"
+    },
+    {
+      "id": "u0203",
+      "text": "The evaluator-optimizer loop"
+    },
+    {
+      "id": "u0204",
+      "text": "In an "
+    },
+    {
+      "id": "u0205",
+      "text": "evaluator-optimizer"
+    },
+    {
+      "id": "u0206",
+      "text": " loop, one call produces a response, a second call critiques it against criteria, and the loop repeats until the response passes. It is the same draft, review and revise cycle a human writer goes through. With Claude it is the most common chaining pattern: generate a draft, review it against criteria, then refine based on the review."
+    },
+    {
+      "id": "u0207",
+      "text": "The pattern needs two conditions: clear evaluation criteria, and refinement that measurably improves the result. There are two signs it fits. First, the responses clearly get better when a human states their feedback. Second, an LLM can give that feedback itself. Literary translation passes both tests, because an evaluator can spot nuances the first translation missed. Complex search also fits: the evaluator decides whether another round of searching is needed."
+    },
+    {
+      "id": "u0208",
+      "text": "Predict first"
+    },
+    {
+      "id": "u0209",
+      "text": "A generated product title must be valid JSON and no longer than 60 characters. Should a second LLM evaluate it in a loop?"
+    },
+    {
+      "id": "u0210",
+      "text": "No, because a deterministic programmatic check does this more cheaply and reliably"
+    },
+    {
+      "id": "u0211",
+      "text": "Yes, but only with voting across three evaluators"
+    },
+    {
+      "id": "u0212",
+      "text": "Yes, because evaluator-optimizer is the pattern for any quality check"
+    },
+    {
+      "id": "u0213",
+      "text": "That contrast is the key decision. Use an LLM evaluator when quality is a judgment, such as tone, nuance or completeness, that a model can put into words and the generator can act on. Use a programmatic gate when the test is a rule code can check. Every loop adds at least one more call per round, so stop it with a pass condition rather than letting it run open-ended. Defining the metrics an evaluator scores against is covered in "
+    },
+    {
+      "id": "u0214",
+      "text": "evaluation metrics"
+    },
+    {
+      "id": "u0215",
+      "text": "A literary translation loop runs four rounds and the evaluator's score stops rising after round two. What does that tell you about fit?"
+    },
+    {
+      "id": "u0216",
+      "text": "Checkpoint 9 of 9"
+    },
+    {
+      "id": "u0217",
+      "text": "Check yourself"
+    },
+    {
+      "id": "u0218",
+      "text": "Before building a generate-and-critique loop for contract summaries, a team runs a pilot. Which pilot result shows that an evaluator-optimizer loop is a poor fit for this task?"
+    },
+    {
+      "id": "u0219",
+      "text": "Even when reviewers state their feedback in detail, the revised summaries are no better than the first drafts"
+    },
+    {
+      "id": "u0220",
+      "text": "Reviewers' complaints about draft summaries are about completeness and nuance, and an LLM can put them into words"
+    },
+    {
+      "id": "u0221",
+      "text": "The team can write down clear criteria for a good summary, such as which clauses must appear"
+    },
+    {
+      "id": "u0222",
+      "text": "An LLM given the criteria produces critiques that match the points reviewers raise"
+    },
+    {
+      "id": "u0223",
+      "text": "Sources"
+    },
+    {
+      "id": "u0224",
+      "text": "Sources"
+    }
+  ]
+}
